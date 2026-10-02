@@ -1,0 +1,12 @@
+{
+  "id": "shock-breach5",
+  "changes": {
+    "bruiser_breacher": {
+      "health": 5
+    }
+  },
+  "deckChange": "none",
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

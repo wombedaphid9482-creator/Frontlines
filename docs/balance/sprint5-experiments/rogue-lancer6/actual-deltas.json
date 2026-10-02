@@ -1,0 +1,20 @@
+{
+  "experiment": "rogue-lancer6",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "rogue_lancer": {
+      "health": {
+        "before": 4,
+        "after": 6
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-rogue-lancer6-v1",
+  "compiledFromActualSource": true
+}

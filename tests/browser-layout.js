@@ -4,7 +4,7 @@ const {chromium}=require(process.argv[2]||'playwright');
 (async()=>{
  const browser=await chromium.launch({headless:true,channel:'msedge'});
  const page=await browser.newPage({viewport:{width:1366,height:768}});
- await page.goto('http://127.0.0.1:4173');await page.waitForSelector('[data-action="start"]');
+ await page.goto('http://127.0.0.1:4173/index.html?screen=play');await page.waitForSelector('[data-action="start"]');
  const stacks=await page.evaluate(()=>{
   FrontlinesApp.startMatch({factions:['stonewall','stonewall'],seed:41001,mode:'hotseat',developer:true,bothHands:true,config:{startingCommand:80,commandCap:80,commandGrowth:0,startingHand:15,actionLimit:8,captureThreshold:1000}});
   for(let player=0;player<2;player++){
@@ -19,11 +19,17 @@ const {chromium}=require(process.argv[2]||'playwright');
   FrontlinesEffects.clear();
   return [...document.querySelectorAll('.zone-roster')].filter(n=>n.querySelectorAll('.unit').length===5).map(n=>{
    const bounds=n.getBoundingClientRect();
-   return {top:bounds.top,bottom:bounds.bottom,cards:[...n.querySelectorAll('.unit')].map(u=>{const r=u.getBoundingClientRect();return {top:r.top,bottom:r.bottom};})};
+   return {top:bounds.top,bottom:bounds.bottom,scrollHeight:n.scrollHeight,clientHeight:n.clientHeight,overflow:getComputedStyle(n).overflowY,cards:[...n.querySelectorAll('.unit')].map(u=>{const r=u.getBoundingClientRect();return {uid:u.dataset.uid,top:r.top,bottom:r.bottom};})};
   });
  });
  assert.equal(stacks.length,2);
- for(const stack of stacks)for(const card of stack.cards){assert.ok(card.top>=stack.top-1);assert.ok(card.bottom<=stack.bottom+1);}
+ for(const stack of stacks)for(const card of stack.cards){
+  // Five-unit armies remain reachable in a bounded roster at smaller windows.
+  if(card.top<stack.top-1||card.bottom>stack.bottom+1){assert.ok(stack.scrollHeight>stack.clientHeight);assert.ok(['auto','scroll'].includes(stack.overflow));}
+  await page.locator('.zone-roster .unit[data-uid="'+card.uid+'"]').scrollIntoViewIfNeeded();
+  const visible=await page.locator('.zone-roster .unit[data-uid="'+card.uid+'"]').evaluate(unit=>{const bounds=unit.getBoundingClientRect(),roster=unit.closest('.zone-roster').getBoundingClientRect();return {top:bounds.top,bottom:bounds.bottom,rosterTop:roster.top,rosterBottom:roster.bottom};});
+  assert.ok(visible.top>=visible.rosterTop-1);assert.ok(visible.bottom<=visible.rosterBottom+1,'Every stacked unit can be reached inside its roster');
+ }
  const view=await page.evaluate(()=>({end:document.querySelector('[data-action="end-turn"]').getBoundingClientRect().bottom,hand:document.querySelector('.hand-area').getBoundingClientRect().top,height:innerHeight,width:innerWidth,doc:document.documentElement.scrollWidth}));
  assert.ok(view.end<=view.height,'End Turn off screen');assert.ok(view.hand<view.height/2,'Hand dock off screen');assert.ok(view.doc<=view.width+1);
  const marks=await page.evaluate(()=>[...document.querySelectorAll('.unit-allegiance')].map(n=>({text:n.textContent,color:getComputedStyle(n).color})));
@@ -41,7 +47,7 @@ const {chromium}=require(process.argv[2]||'playwright');
  await page.waitForTimeout(3500);
  await page.locator('.territory.contested .unit.p2').first().hover();
  const shots=path.resolve(__dirname,'../docs/screenshots');fs.mkdirSync(shots,{recursive:true});
- await page.screenshot({path:path.join(shots,'frontlines-sprint-2.png')});
+ await page.screenshot({path:path.join(shots,'frontlines-sprint-5-fixture.png')});
  console.log(JSON.stringify({fullStacks:true,mirrorOwnership:true,laptopDock:true,endTurnVisible:true,view},null,2));
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1);});

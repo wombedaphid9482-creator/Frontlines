@@ -1,0 +1,191 @@
+{
+  "compatible": true,
+  "controlledBalanceComparison": true,
+  "notes": [],
+  "paired": {
+    "matched": 10000,
+    "decisivePairs": 10000,
+    "changedWinners": 332,
+    "beforeFirstPlayerWins": 5447,
+    "afterFirstPlayerWins": 5465,
+    "factions": {
+      "stonewall": {
+        "beforeWins": 2045,
+        "afterWins": 2070
+      },
+      "bruiser": {
+        "beforeWins": 2073,
+        "afterWins": 1904
+      },
+      "syndicate": {
+        "beforeWins": 1928,
+        "afterWins": 1973
+      },
+      "nightwalker": {
+        "beforeWins": 2569,
+        "afterWins": 2621
+      },
+      "rogue": {
+        "beforeWins": 1385,
+        "afterWins": 1432
+      }
+    }
+  },
+  "factions": [
+    {
+      "faction": "stonewall",
+      "name": "Stonewall",
+      "before": 0.5102295409181636,
+      "after": 0.5164670658682635,
+      "delta": 0.006237524950099882,
+      "beforeGames": 4008,
+      "afterGames": 4008
+    },
+    {
+      "faction": "bruiser",
+      "name": "Bruiser",
+      "before": 0.51825,
+      "after": 0.476,
+      "delta": -0.04225000000000001,
+      "beforeGames": 4000,
+      "afterGames": 4000
+    },
+    {
+      "faction": "syndicate",
+      "name": "Syndicate",
+      "before": 0.482,
+      "after": 0.49325,
+      "delta": 0.011250000000000038,
+      "beforeGames": 4000,
+      "afterGames": 4000
+    },
+    {
+      "faction": "nightwalker",
+      "name": "Nightwalker",
+      "before": 0.6428928928928929,
+      "after": 0.6559059059059059,
+      "delta": 0.013013013013013053,
+      "beforeGames": 3996,
+      "afterGames": 3996
+    },
+    {
+      "faction": "rogue",
+      "name": "Rogue",
+      "before": 0.3465965965965966,
+      "after": 0.35835835835835833,
+      "delta": 0.011761761761761746,
+      "beforeGames": 3996,
+      "afterGames": 3996
+    }
+  ],
+  "decks": [
+    {
+      "id": "stonewall-bastion",
+      "name": "Stonewall — Bastion",
+      "before": 0.45617529880478086,
+      "after": 0.4631474103585657,
+      "delta": 0.006972111553784854,
+      "beforeGames": 2008,
+      "afterGames": 2008
+    },
+    {
+      "id": "stonewall-counteroffensive",
+      "name": "Stonewall — Counteroffensive",
+      "before": 0.5645,
+      "after": 0.57,
+      "delta": 0.005499999999999949,
+      "beforeGames": 2000,
+      "afterGames": 2000
+    },
+    {
+      "id": "bruiser-shock-assault",
+      "name": "Bruiser — Shock Assault",
+      "before": 0.2605,
+      "after": 0.263,
+      "delta": 0.0025000000000000022,
+      "beforeGames": 2000,
+      "afterGames": 2000
+    },
+    {
+      "id": "bruiser-heavy-breakthrough",
+      "name": "Bruiser — Heavy Breakthrough",
+      "before": 0.776,
+      "after": 0.689,
+      "delta": -0.08700000000000008,
+      "beforeGames": 2000,
+      "afterGames": 2000
+    },
+    {
+      "id": "syndicate-combined-arms",
+      "name": "Syndicate — Combined Arms",
+      "before": 0.624,
+      "after": 0.6375,
+      "delta": 0.013499999999999956,
+      "beforeGames": 2000,
+      "afterGames": 2000
+    },
+    {
+      "id": "syndicate-precision-operations",
+      "name": "Syndicate — Precision Operations",
+      "before": 0.34,
+      "after": 0.349,
+      "delta": 0.008999999999999952,
+      "beforeGames": 2000,
+      "afterGames": 2000
+    },
+    {
+      "id": "nightwalker-sabotage",
+      "name": "Nightwalker — Sabotage",
+      "before": 0.5970970970970971,
+      "after": 0.6151151151151151,
+      "delta": 0.018018018018017945,
+      "beforeGames": 1998,
+      "afterGames": 1998
+    },
+    {
+      "id": "nightwalker-assassination",
+      "name": "Nightwalker — Assassination",
+      "before": 0.6886886886886887,
+      "after": 0.6966966966966966,
+      "delta": 0.008008008008007939,
+      "beforeGames": 1998,
+      "afterGames": 1998
+    },
+    {
+      "id": "rogue-scavenger",
+      "name": "Rogue — Scavenger",
+      "before": 0.34884884884884887,
+      "after": 0.36036036036036034,
+      "delta": 0.011511511511511474,
+      "beforeGames": 1998,
+      "afterGames": 1998
+    },
+    {
+      "id": "rogue-wildcard",
+      "name": "Rogue — Wildcard",
+      "before": 0.34434434434434436,
+      "after": 0.3563563563563564,
+      "delta": 0.012012012012012019,
+      "beforeGames": 1998,
+      "afterGames": 1998
+    }
+  ],
+  "firstPlayerDelta": 0.0018000000000000238,
+  "meanTurnsDelta": 0.34939999999999927,
+  "before": {
+    "balance": "arsenal",
+    "ai": [
+      "deck",
+      "deck"
+    ],
+    "completed": 10000
+  },
+  "after": {
+    "balance": "overrun-damage4",
+    "ai": [
+      "deck",
+      "deck"
+    ],
+    "completed": 10000
+  }
+}

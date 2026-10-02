@@ -1,0 +1,14 @@
+{
+  "id": "candidate04-blade3",
+  "parent": "candidate04",
+  "requestedChanges": {
+    "cards": {
+      "nightwalker_blade": {
+        "health": 3
+      }
+    }
+  },
+  "compiledDataDiffVerified": true,
+  "seed": 20261007,
+  "count": 10000
+}

@@ -4,7 +4,7 @@
   const D = window.FrontlinesData;
   const E = window.FrontlinesEngine;
   const Decks = window.FrontlinesDecks?.forData(D);
-  const Runtime = window.FrontlinesRuntime || {version:'0.5.0',balanceProfile:'baseline',balanceName:'Baseline',aiProfile:'baseline'};
+  const Runtime = window.FrontlinesRuntime || {version:'0.6.0',balanceProfile:'baseline',balanceName:'Baseline',aiProfile:'baseline'};
   const app = document.getElementById('app');
   const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   if (!D || !E) { app.innerHTML = '<main class="boot-screen"><h1>FRONTLINES</h1><p>Game files could not be loaded. Keep index.html, styles.css, data.js, engine.js, ai.js and app.js together in the same folder, then reopen index.html.</p></main>'; return; }
@@ -32,6 +32,7 @@
       settings.reducedEffects = !!saved.reducedEffects;
       settings.reducedShake = !!saved.reducedShake;
       settings.sound = !!saved.sound;
+      settings.masterVolume = Number.isFinite(saved.masterVolume) ? Math.max(0, Math.min(1, saved.masterVolume)) : .7;
       for (const [key,,min,max] of configFields) if (saved.config && Number.isFinite(saved.config[key])) settings.config[key] = Math.max(min,Math.min(max,Math.round(saved.config[key])));
       settings.config.commandCap = Math.max(settings.config.commandCap,settings.config.startingCommand);
     }
@@ -40,6 +41,8 @@
   if(D.FACTIONS[setupParams.get('faction')])settings.factions[0]=setupParams.get('faction');
   if(Decks){const requestedDeck=Decks.getDecks().find(d=>d.id===setupParams.get('deck'));if(requestedDeck){settings.factions[0]=requestedDeck.faction;settings.deckIds[0]=requestedDeck.id;}}
   let state = null;
+  let currentScreen = setupParams.get('screen') === 'play' || setupParams.has('deck') || setupParams.has('faction') ? 'play' : 'home';
+  let shellSettingsOpen = false;
   let legal = [];
   let selection = null;
   let inspected = null;
@@ -100,7 +103,7 @@
   function actor() { return E.getActor(state); }
   function isAI() { return state && settings.mode === 'ai' && actor() === 1 && state.winner == null; }
   function handsPublic() { return settings.developer && settings.bothHands; }
-  function controllable() { return state && !privacy && !isAI() && state.winner == null; }
+  function controllable() { return currentScreen === 'match' && !shellSettingsOpen && state && !privacy && !isAI() && state.winner == null; }
   function findUnit(uid) { return state.units.find(unit => unit.uid === uid); }
   function handItem(uid) { for (const p of state.players) { const h = p.hand.find(card => card.uid === uid); if (h) return h; } return null; }
   function cardDef(item) { return E.card(item); }
@@ -115,6 +118,10 @@
     return '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">'+(paths[factionId] || paths.stonewall)+'</svg>';
   }
   function brandSymbol() { return '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 5h9v7h8V5h9v22h-9v-7h-8v7H3Z"/><path d="M16 2v28"/></svg>'; }
+  function homeView() {
+    const resumable = state && state.winner == null;
+    return '<main class="command-home command-screen"><section class="home-intro"><span class="eyebrow">PROJECT FACTION / COMMAND INTERFACE</span><h1>TAKE GROUND.<br><span>HOLD THE LINE.</span></h1><p>Build your force. Read the battlefield. Commit Presence to push a living frontline toward the enemy command.</p><div class="home-motif">'+Object.keys(D.FACTIONS).map(id=>symbol(id)).join('')+'</div><p class="home-version">FIVE FACTIONS / YOUR DECK / ONE FRONTLINE</p></section><nav class="home-actions" aria-label="Main menu"><button class="home-command primary" data-action="open-play"><span><strong>'+ (resumable?'RESUME OPERATION':'PLAY')+'</strong><small>'+(resumable?'Your active battlefield is paused.':'Choose your faction, deck and opponent.')+'</small></span><b>→</b></button><a class="home-command" href="deck-builder.html" data-game-navigation="arsenal"><span><strong>ARSENAL</strong><small>Build, inspect and save your decks.</small></span><b>→</b></a><a class="home-command" href="simulator.html" data-game-navigation="warroom"><span><strong>WAR ROOM</strong><small>Test decks, compare matchups and run tournaments.</small></span><b>→</b></a><button class="home-command" data-action="settings"><span><strong>SETTINGS</strong><small>Display, fullscreen, interface and audio.</small></span><b>→</b></button><div class="home-secondary"><button class="btn quiet" data-action="rules">Field manual</button><button class="btn quiet" data-action="recent-matches">Match history</button>'+(window.FrontlinesDesktop?'<button class="btn quiet" data-shell-action="quit">Quit</button>':'')+'</div><span class="home-version">'+esc(runtimeLabel())+' · F11 FULLSCREEN</span></nav></main>';
+  }
   function art(card) {
     if (card.type === 'leader') return symbol(card.faction);
     if (card.type === 'order') return '<svg viewBox="0 0 80 48" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="40" cy="24" r="15"/><circle cx="40" cy="24" r="7"/><path d="M40 3v12m0 18v12M17 24h15m16 0h15M26 10l6 6m16 16 6 6M26 38l6-6m16-16 6-6"/></svg>';
@@ -123,7 +130,8 @@
     return '<svg viewBox="0 0 80 48" fill="currentColor" aria-hidden="true"><path d="M34 7h10l3 6-2 7H33l-2-7Zm-5 16 11-3 12 4 5 14-7 2-4-10-2 8 6 9H39l-2-7-3 7H23l8-13-2-3-4 8-7-3Z"/><path d="m39 27 29-9 2 4-28 11Z"/></svg>';
   }
   function header() {
-    return '<header class="app-header"><div class="brand-icon">'+brandSymbol()+'</div><div class="brand">FRONTLINES<small>PROJECT FACTION</small></div><span class="spacer"></span><span class="session-label">'+esc(runtimeLabel())+'</span><nav class="header-actions" aria-label="Game tools">'+(state?'<button class="btn quiet" data-action="log">Match log</button>':'<a class="btn quiet" href="deck-builder.html">Arsenal</a><a class="btn quiet" href="simulator.html">Balance Lab</a><button class="btn quiet" data-action="recent-matches">Recent matches</button>')+(state&&state.winner!=null?'<button class="btn quiet" data-action="playtest-report">Export playtest</button>':'')+'<button class="btn quiet" data-action="settings">Settings</button><button class="btn quiet" data-action="rules">Field manual</button>'+(state && settings.developer?'<button class="btn quiet" data-action="dev">Dev tools</button>':'')+(state?'<button class="btn quiet" data-action="new-match">New match</button>':'')+'</nav></header>';
+    const match=currentScreen==='match' && state;
+    return '<header class="app-header"><div class="brand-icon">'+brandSymbol()+'</div><div class="brand">FRONTLINES<small>PROJECT FACTION</small></div><span class="spacer"></span><span class="session-label">'+esc(runtimeLabel())+'</span><nav class="header-actions" aria-label="Operation tools">'+(currentScreen!=='home'?'<button class="btn quiet" data-action="home">Command menu</button>':'')+(match?'<button class="btn quiet" data-action="log">Match log</button><button class="btn quiet" data-action="new-match">New match</button>':'')+(currentScreen!=='home'?'<button class="btn quiet" data-action="settings">Settings</button>':'')+(match&&settings.developer?'<button class="btn quiet" data-action="dev">Dev</button>':'')+'</nav></header>';
   }
   function factionChoice(player) {
     const f = D.FACTIONS[settings.factions[player]];
@@ -131,7 +139,7 @@
     return '<section class="faction-choice p'+(player+1)+' faction-'+f.id+'" style="'+factionStyle(f.id)+'"><div class="choice-heading"><span class="player-name">0'+(player+1)+' / '+(player?'OPPOSING FORCE':'YOUR FORCE')+'</span><button class="btn quiet compact" data-action="deck" data-player="'+player+'">Inspect deck ↗</button></div><label class="tag" for="faction-'+player+'">Choose faction</label><select id="faction-'+player+'" data-setting="faction" data-player="'+player+'">'+Object.values(D.FACTIONS).map(x=>'<option value="'+x.id+'" '+(x.id===f.id?'selected':'')+'>'+esc(x.name)+'</option>').join('')+'</select><div class="setup-deck-picker"><label class="tag" for="deck-'+player+'">Choose deck</label><select id="deck-'+player+'" data-setting="deckId" data-player="'+player+'">'+availableDecks(player).map(d=>'<option value="'+esc(d.id)+'" '+(d.id===deck.id?'selected':'')+'>'+esc(d.name)+(d.source==='saved'&&!Decks.validate(d).legal?' · DRAFT':'')+'</option>').join('')+'</select><div class="setup-deck-summary '+(!validation.legal?'invalid':'')+'">'+deck.cards.length+'/26 CARDS'+(composition?' · '+composition.averageCost.toFixed(1)+' AVG P · '+(composition.units+composition.leaders)+' UNITS':'')+'<span>'+esc(validation.legal?deck.archetype?.replace(/-/g,' ')||'CUSTOM DECK':validation.errors.join(' '))+'</span></div><a class="setup-deck-edit" href="deck-builder.html?faction='+f.id+'&deck='+encodeURIComponent(deck.id)+'">Build your version →</a></div><p class="faction-description">'+esc(f.description)+'</p><span class="faction-tagline">'+esc(f.tagline)+'</span><div class="choice-symbol">'+symbol(f.id)+'</div></section>';
   }
   function setupView() {
-    return '<main class="setup"><div class="briefing-top"><div><span class="eyebrow">TACTICAL CARD GAME / FORGE 004</span><h1>TAKE GROUND.<br><span class="accent">HOLD THE LINE.</span></h1><p class="setup-intro">Commit your forces. Read your opponent. Push across a shifting battlefield. <strong>Presence takes territory. Territory wins wars.</strong></p></div><aside class="operation-stamp"><span class="eyebrow">OPERATION: FRONTLINES</span><strong>07 SECTORS</strong><p>02 COMMANDERS<br>01 CONTINUOUS FRONT<br>NO GROUND GIVEN FREELY</p></aside></div><div class="preview-map" aria-label="Seven territories: three blue, one neutral, three red">'+Array.from({length:7},(_,i)=>'<div class="preview-zone '+(i===3?'center':i>3?'enemy':'')+'"><span>'+String(i+1).padStart(2,'0')+' '+(i===3?'CONTACT':i===0||i===6?'HOME':'SECTOR')+'</span></div>').join('')+'</div><div class="map-caption"><span>WESTERN COMMAND →</span><span>← EASTERN COMMAND</span></div><div class="setup-controls">'+factionChoice(0)+factionChoice(1)+'<section class="launch-panel"><div><label for="mode">MATCH TYPE</label><select id="mode" data-setting="mode"><option value="hotseat" '+(settings.mode==='hotseat'?'selected':'')+'>Local hot-seat · 2 players</option><option value="ai" '+(settings.mode==='ai'?'selected':'')+'>Solo · deck-aware AI opponent</option></select></div><label class="check-label"><input type="checkbox" data-setting="developer" '+(settings.developer?'checked':'')+'>Developer tools</label><button class="btn primary" data-action="start" '+(!legalSetupDecks()?'disabled':'')+'>Deploy to front <span>→</span></button></section></div><div class="setup-footer"><p>OFFLINE READY / NO ACCOUNT REQUIRED<br>'+settings.config.startingCommand+' STARTING COMMAND · '+settings.config.actionLimit+' ACTIONS · '+settings.config.captureThreshold+' CAPTURE THRESHOLD</p><button class="btn quiet" data-action="config">Balance configuration</button></div><div class="setup-principles"><p><b><span>01</span>Commit Presence</b>Deployed cards keep part of your Command occupied. Orders spend it until your next turn.</p><p><b><span>02</span>Fight for position</b>Advance one territory at a time. Expect responses, interceptions, and persistent wounds.</p><p><b><span>03</span>Push the frontline</b>End your turn on the objective to build capture progress. Seize the enemy home to win.</p></div></main>';
+    return '<main class="setup command-screen"><div class="briefing-top"><div><span class="eyebrow">PLAY / OPERATION SETUP</span><h1>TAKE GROUND.<br><span class="accent">HOLD THE LINE.</span></h1><p class="setup-intro">Commit your forces. Read your opponent. Push across a shifting battlefield. <strong>Presence takes territory. Territory wins wars.</strong></p></div><aside class="operation-stamp"><span class="eyebrow">OPERATION: FRONTLINES</span><strong>07 SECTORS</strong><p>02 COMMANDERS<br>01 CONTINUOUS FRONT<br>NO GROUND GIVEN FREELY</p></aside></div><div class="preview-map" aria-label="Seven territories: three blue, one neutral, three red">'+Array.from({length:7},(_,i)=>'<div class="preview-zone '+(i===3?'center':i>3?'enemy':'')+'"><span>'+String(i+1).padStart(2,'0')+' '+(i===3?'CONTACT':i===0||i===6?'HOME':'SECTOR')+'</span></div>').join('')+'</div><div class="map-caption"><span>WESTERN COMMAND →</span><span>← EASTERN COMMAND</span></div><div class="setup-controls">'+factionChoice(0)+factionChoice(1)+'<section class="launch-panel"><div><label for="mode">MATCH TYPE</label><select id="mode" data-setting="mode"><option value="hotseat" '+(settings.mode==='hotseat'?'selected':'')+'>Local hot-seat · 2 players</option><option value="ai" '+(settings.mode==='ai'?'selected':'')+'>Solo · deck-aware AI opponent</option></select></div><label class="check-label"><input type="checkbox" data-setting="developer" '+(settings.developer?'checked':'')+'>Developer tools</label><button class="btn primary" data-action="start" '+(!legalSetupDecks()?'disabled':'')+'>Deploy to front <span>→</span></button></section></div><div class="setup-footer"><p>OFFLINE READY / NO ACCOUNT REQUIRED<br>'+settings.config.startingCommand+' STARTING COMMAND · '+settings.config.actionLimit+' ACTIONS · '+settings.config.captureThreshold+' CAPTURE THRESHOLD</p><button class="btn quiet" data-action="config">Balance configuration</button></div><div class="setup-principles"><p><b><span>01</span>Commit Presence</b>Deployed cards keep part of your Command occupied. Orders spend it until your next turn.</p><p><b><span>02</span>Fight for position</b>Advance one territory at a time. Expect responses, interceptions, and persistent wounds.</p><p><b><span>03</span>Push the frontline</b>End your turn on the objective to build capture progress. Seize the enemy home to win.</p></div></main>';
   }
   function hud(player) {
     const p=state.players[player], f=faction(player), econ=E.presence(state,player), count=E.controlledCount(state,player);
@@ -173,7 +181,7 @@
     const instance = inspected.kind==='unit'?findUnit(inspected.uid):inspected.kind==='hand'?handItem(inspected.uid):D.CARDS[inspected.uid];
     if (!instance) { inspected = null; return inspectorMarkup(); }
     const c = cardDef(instance), unit = inspected.kind==='unit'?instance:null;
-    return '<aside class="inspector faction-'+c.faction+'" style="'+factionStyle(c.faction)+'"><div class="inspect-art">'+portrait(c)+'</div><span class="eyebrow">'+esc(D.FACTIONS[c.faction].name)+' / '+esc(c.type)+(c.unique?' / UNIQUE':'')+'</span><h3>'+esc(c.name)+'</h3><div class="inspect-stats"><div><b>'+c.presence+'</b><small'+tooltip(glossaryText('Presence'))+'>PRESENCE</small></div>'+(c.type!=='order'?'<div><b>'+(unit?E.attackValue(state,unit):c.attack)+'</b><small'+tooltip('Attack is damage dealt in combat. Ready units can attack enemies in the same territory; the defender receives a response window.')+'>ATTACK</small></div><div><b>'+(unit?(c.health-unit.damage):c.health)+'</b><small>HEALTH'+(unit?' / '+c.health:'')+'</small></div>':'<div><b>↗</b><small>'+esc((c.timing||'action').toUpperCase())+'</small></div>')+'</div><p>'+esc(c.rulesText)+'</p>'+(c.flavorText?'<p class="card-flavor">'+esc(c.flavorText)+'</p>':'')+'<div class="traits">'+(c.traits||[]).map(trait=>'<span class="trait '+(unit?.suppressed?'suppressed':'')+'"'+tooltip(glossaryText(trait))+'>'+esc(trait)+'</span>').join('')+'</div>'+(unit?.suppressed?'<div class="inspect-sabotage">SABOTAGED · printed traits suppressed until this unit’s owner begins their next offensive turn.</div>':'')+(unit?'<div class="inspect-status">'+(unit.ready?'● READY':'○ EXHAUSTED')+' · P'+(unit.owner+1)+'<br>'+esc(state.territories[unit.territory].name)+(unit.damage?' · '+unit.damage+' wounds':'')+'</div>':'<div class="inspect-status">'+(c.type==='order'?'Temporary Presence spending.':c.presence+' Presence stays committed while deployed.')+'</div>')+'</aside>';
+    return '<aside class="inspector faction-'+c.faction+'" style="'+factionStyle(c.faction)+'"><div class="inspect-art">'+portrait(c)+'</div><span class="eyebrow">'+esc(D.FACTIONS[c.faction].name)+' / '+esc(c.type)+(c.unique?' / UNIQUE':'')+'</span><h3>'+esc(c.name)+'</h3><div class="inspect-stats"><div><b>'+c.presence+'</b><small'+tooltip(glossaryText('Presence'))+'>PRESENCE</small></div>'+(c.type!=='order'?'<div><b>'+(unit?E.attackValue(state,unit):c.attack)+'</b><small'+tooltip('Attack is damage dealt in combat. Ready units can attack enemies in the same territory; the defender receives a response window.')+'>ATTACK</small></div><div><b>'+(unit?(c.health-unit.damage):c.health)+'</b><small>HEALTH'+(unit?' / '+c.health:'')+'</small></div>':'<div><b>↗</b><small>'+esc((c.timing||'action').toUpperCase())+'</small></div>')+'</div><p>'+esc(c.rulesText)+'</p>'+(c.flavorText?'<p class="card-flavor">'+esc(c.flavorText)+'</p>':'')+'<div class="traits">'+(c.traits||[]).map(trait=>'<span class="trait '+(unit?.suppressed?'suppressed':'')+'"'+tooltip(glossaryText(trait))+'>'+esc(trait)+'</span>').join('')+'</div>'+(unit?.suppressed?'<div class="inspect-sabotage">SABOTAGED · printed traits suppressed until this unit’s owner begins their next offensive turn.</div>':'')+(unit?'<div class="inspect-status">'+(unit.ready?'● READY':'○ EXHAUSTED')+' · P'+(unit.owner+1)+'<br>'+esc(state.territories[unit.territory].name)+(unit.damage?' · '+unit.damage+' wounds':'')+'</div>':'<div class="inspect-status">'+(c.type==='order'?'Temporary Presence spending.':c.presence+' Presence stays committed while deployed.')+'</div>')+'<button class="btn quiet inspect-expand" data-action="enlarge-card" data-card-id="'+esc(c.id)+'">Full card briefing</button></aside>';
   }
   function glossaryText(key) { const entries=Object.entries(D.GLOSSARY||{}),lookup=key==='command'?'Command aura':key; return (entries.find(([k])=>k.toLowerCase()===lookup.toLowerCase())||[])[1]||key; }
   function guidance() {
@@ -235,7 +243,7 @@
     const targetActions=state.response&&state.response.stage==='response'?legal.filter(a=>a.guardUid):selectedActions();
     const handPlayer=settings.mode==='ai'&&actor()===1?0:actor(), handHidden=privacy||state.winner!=null;
     const dots=Array.from({length:state.config.actionLimit},(_,i)=>'<i class="'+(i<state.actionsLeft?'':'spent')+'"></i>').join('');
-    return '<main class="game"><div class="command-row">'+hud(0)+'<div class="turn-hud"><span class="eyebrow">OFFENSIVE TURN</span><strong>'+String(state.turn).padStart(2,'0')+'</strong><div class="action-dots" title="'+state.actionsLeft+' of '+state.config.actionLimit+' actions remaining">'+dots+'</div><span class="eyebrow">'+state.actionsLeft+' / '+state.config.actionLimit+' ACTIONS</span></div>'+hud(1)+'</div><section aria-label="Battlefield"><div class="board-heading"><h2><span class="live-indicator"></span>Territorial operations</h2><div class="frontline-detail"><span>OBJECTIVE <b>'+esc(state.territories[state.contested].name)+'</b></span><span class="badge">'+state.config.captureThreshold+' P TO CAPTURE</span></div></div>'+objectiveSummary()+'<div class="map-scroll"><div class="front-strip" aria-hidden="true" style="grid-template-columns:'+state.territories.map(t=>t.id===state.contested?'1.65fr':'1fr').join(' ')+'">'+state.territories.map(t=>'<div class="control-segment owner-'+t.owner+(t.id===state.contested?' contested':'')+'"></div>').join('')+'</div><div class="battlefield" style="grid-template-columns:'+state.territories.map(t=>t.id===state.contested?'1.65fr':'1fr').join(' ')+'">'+state.territories.map(t=>territoryMarkup(t,targetActions)).join('')+'</div></div><div class="board-caption"><span>P1 <b>WESTERN LINE →</b></span><span>UPPER ROW: P2 · LOWER ROW: P1</span><span><b>← EASTERN LINE</b> P2</span></div></section>'+ordersBar()+'<section class="hand-area"><div><div class="hand-heading"><h2>'+(handHidden?(state.winner!=null?'OPERATION COMPLETE':'CLASSIFIED HAND'):esc(faction(handPlayer).name)+' / P'+(handPlayer+1)+' HAND')+'</h2><span>'+(handHidden?(state.winner!=null?'FINAL BATTLEFIELD SECURED':'IDENTITY VERIFICATION REQUIRED'):state.players[handPlayer].hand.length+' CARDS · SELECT TO COMMIT')+'</span></div>'+(handHidden?'<div class="hidden-hand">'+(state.winner!=null?'TERRITORY SECURED / ALL ORDERS COMPLETE':'HAND SECURED / PASS THE COMPUTER')+'</div>':'<div class="hand-cards">'+state.players[handPlayer].hand.map(h=>handCardMarkup(h,handPlayer,false)).join('')+(state.players[handPlayer].hand.length?'':'<div class="hidden-hand" style="width:100%">No cards in hand. Draw on your next turn.</div>')+'</div><div class="opponent-note">'+(settings.mode==='ai'?'SOLO OPERATIONS · DECK-AWARE AI OPPONENT':'LOCAL HOT-SEAT · HANDS HIDDEN BETWEEN COMMANDERS')+'</div>')+'</div><div id="inspector">'+inspectorMarkup()+'</div></section>'+(handsPublic()&&!handHidden?'<section class="debug-other-hand"><div class="hand-heading"><h2>DEVELOPER VIEW / P'+(2-handPlayer)+' HAND</h2><span>INFORMATION VISIBLE TO BOTH PLAYERS</span></div><div class="hand-cards">'+state.players[1-handPlayer].hand.map(h=>handCardMarkup(h,1-handPlayer,false)).join('')+'</div></section>':'')+'<div class="footer-line"><span>PROJECT FACTION / FRONTLINES · v0.5.0</span><span>ESC CANCEL · R RULES · L LOG · SEED '+state.seed+'</span></div></main>';
+    return '<main class="game"><div class="command-row">'+hud(0)+'<div class="turn-hud"><span class="eyebrow">OFFENSIVE TURN</span><strong>'+String(state.turn).padStart(2,'0')+'</strong><div class="action-dots" title="'+state.actionsLeft+' of '+state.config.actionLimit+' actions remaining">'+dots+'</div><span class="eyebrow">'+state.actionsLeft+' / '+state.config.actionLimit+' ACTIONS</span></div>'+hud(1)+'</div><section aria-label="Battlefield"><div class="board-heading"><h2><span class="live-indicator"></span>Territorial operations</h2><div class="frontline-detail"><span>OBJECTIVE <b>'+esc(state.territories[state.contested].name)+'</b></span><span class="badge">'+state.config.captureThreshold+' P TO CAPTURE</span></div></div>'+objectiveSummary()+'<div class="map-scroll"><div class="front-strip" aria-hidden="true" style="grid-template-columns:'+state.territories.map(t=>t.id===state.contested?'1.65fr':'1fr').join(' ')+'">'+state.territories.map(t=>'<div class="control-segment owner-'+t.owner+(t.id===state.contested?' contested':'')+'"></div>').join('')+'</div><div class="battlefield" style="grid-template-columns:'+state.territories.map(t=>t.id===state.contested?'1.65fr':'1fr').join(' ')+'">'+state.territories.map(t=>territoryMarkup(t,targetActions)).join('')+'</div></div><div class="board-caption"><span>P1 <b>WESTERN LINE →</b></span><span>UPPER ROW: P2 · LOWER ROW: P1</span><span><b>← EASTERN LINE</b> P2</span></div></section>'+ordersBar()+'<section class="hand-area"><div><div class="hand-heading"><h2>'+(handHidden?(state.winner!=null?'OPERATION COMPLETE':'CLASSIFIED HAND'):esc(faction(handPlayer).name)+' / P'+(handPlayer+1)+' HAND')+'</h2><span>'+(handHidden?(state.winner!=null?'FINAL BATTLEFIELD SECURED':'IDENTITY VERIFICATION REQUIRED'):state.players[handPlayer].hand.length+' CARDS · SELECT TO COMMIT')+'</span></div>'+(handHidden?'<div class="hidden-hand">'+(state.winner!=null?'TERRITORY SECURED / ALL ORDERS COMPLETE':'HAND SECURED / PASS THE COMPUTER')+'</div>':'<div class="hand-cards">'+state.players[handPlayer].hand.map(h=>handCardMarkup(h,handPlayer,false)).join('')+(state.players[handPlayer].hand.length?'':'<div class="hidden-hand" style="width:100%">No cards in hand. Draw on your next turn.</div>')+'</div><div class="opponent-note">'+(settings.mode==='ai'?'SOLO OPERATIONS · DECK-AWARE AI OPPONENT':'LOCAL HOT-SEAT · HANDS HIDDEN BETWEEN COMMANDERS')+'</div>')+'</div><div id="inspector">'+inspectorMarkup()+'</div></section>'+(handsPublic()&&!handHidden?'<details class="debug-other-hand"><summary class="debug-hand-toggle">Opponent hand · developer view</summary><div class="hand-heading"><h2>DEVELOPER VIEW / P'+(2-handPlayer)+' HAND</h2><span>INFORMATION VISIBLE TO BOTH PLAYERS</span></div><div class="hand-cards">'+state.players[1-handPlayer].hand.map(h=>handCardMarkup(h,1-handPlayer,false)).join('')+'</div></details>':'')+'<div class="footer-line"><span>PROJECT FACTION / FRONTLINES · v0.5.0</span><span>ESC CANCEL · R RULES · L LOG · SEED '+state.seed+'</span></div></main>';
   }
   function privacyMarkup() {
     const p=actor(), f=faction(p), stage=state.response?(state.response.stage==='counter'?'A counter window needs your decision.':'An attack has been declared. Your response is requested.'):'Your offensive turn is ready.';
@@ -248,6 +256,10 @@
   }
   function configMarkup() {
     return modalShell('Balance configuration','<p>These values apply to the next match. Prototype defaults are designed for a deliberate, moving frontline.</p><form id="config-form"><div class="config-grid">'+configFields.map(([key,label,min,max,hint])=>'<label>'+label+'<input name="'+key+'" type="number" min="'+min+'" max="'+max+'" step="1" value="'+settings.config[key]+'" required><small>'+hint+'</small></label>').join('')+'</div></form>','<button class="btn quiet" data-action="reset-config">Restore defaults</button><button class="btn primary" data-action="save-config">Save configuration</button>',false);
+  }
+  function cardBriefingMarkup(cardId) {
+    const c=D.CARDS[cardId];if(!c)return '';
+    return modalShell(c.name,'<div class="full-card-briefing"><div class="full-card-art" style="'+factionStyle(c.faction)+'">'+portrait(c)+'</div><div><span class="eyebrow">'+esc(D.FACTIONS[c.faction].name)+' / '+esc(c.type)+'</span><div class="full-card-stats"><b>'+c.presence+' P</b>'+(c.type==='order'?'<span>'+esc(c.timing)+' Order</span>':'<span>'+c.attack+' Attack</span><span>'+c.health+' Health</span>')+'</div><h3>Rules</h3><p>'+esc(c.rulesText)+'</p><dl class="glossary">'+(c.traits||[]).map(t=>'<dt>'+esc(t)+'</dt><dd>'+esc(glossaryText(t))+'</dd>').join('')+'</dl>'+(c.flavorText?'<p class="card-flavor">'+esc(c.flavorText)+'</p>':'')+'</div></div>','<button class="btn primary" data-action="close-modal">Return to battlefield</button>',true);
   }
   function settingsMarkup() {
     return modalShell('Presentation settings','<p>Keep the front responsive. These preferences apply immediately and are saved on this device.</p><div class="presentation-settings"><label>Animation speed<select data-setting="animationSpeed"><option value="normal" '+(settings.animationSpeed==='normal'?'selected':'')+'>Normal</option><option value="fast" '+(settings.animationSpeed==='fast'?'selected':'')+'>Fast</option></select><small>Fast shortens feedback and opponent pacing.</small></label><label class="check-label"><input type="checkbox" data-setting="reducedEffects" '+(settings.reducedEffects?'checked':'')+'>Reduced visual effects</label><label class="check-label"><input type="checkbox" data-setting="reducedShake" '+(settings.reducedShake?'checked':'')+'>Reduced screen shake</label><label class="check-label"><input type="checkbox" data-setting="sound" '+(settings.sound?'checked':'')+'>Enable sound</label><p class="small muted">Audio uses lightweight placeholder cues. Your system’s reduced-motion preference also reduces animation.</p></div>','<button class="btn primary" data-action="close-modal">Return to operations</button>',false);
@@ -273,6 +285,7 @@
     if(modal==='settings')return settingsMarkup();
     if(modal==='rules')return rulesMarkup();if(modal==='config')return configMarkup();if(modal==='log'&&state)return logMarkup();if(modal==='dev'&&settings.developer&&state)return devMarkup();
     if(typeof modal==='object'&&modal.type==='deck')return deckMarkup(modal.player);
+    if(typeof modal==='object'&&modal.type==='inspect')return cardBriefingMarkup(modal.cardId);
     if(modal==='playtest'&&state&&state.winner!=null)return playtestMarkup();
     if(modal==='recent')return recentMarkup();
     if(modal==='new-match')return modalShell('Leave this operation?','<p>This match is still in progress. Returning to setup clears its battlefield and log. Your faction choices and balance settings are kept.</p>','<button class="btn quiet" data-action="close-modal">Keep playing</button><button class="btn danger" data-action="to-setup">Return to setup</button>');
@@ -310,7 +323,8 @@
     app.style.setProperty('--p1-color',D.FACTIONS[factions[0]].color);
     app.style.setProperty('--p2-color',D.FACTIONS[factions[1]].color);
     const scroll = document.querySelector('.hand-cards')?.scrollLeft || 0, handScrollTop=document.querySelector('.hand-cards')?.scrollTop||0;
-    app.innerHTML = header()+(state?gameView():setupView())+renderModal()+(privacy?privacyMarkup():'')+(state&&state.winner!=null&&victoryReady&&!victoryDismissed?victoryMarkup():'');
+    app.innerHTML = header()+(currentScreen==='home'?homeView():currentScreen==='match'&&state?gameView():setupView())+renderModal()+(currentScreen==='match'&&privacy?privacyMarkup():'')+(currentScreen==='match'&&state&&state.winner!=null&&victoryReady&&!victoryDismissed?victoryMarkup():'');
+    window.FrontlinesShell?.notifyMatch(!!state && state.winner==null);
     const versionLine=document.querySelector('.footer-line span');if(versionLine)versionLine.textContent='PROJECT FACTION / FRONTLINES · '+runtimeLabel()+' · '+Runtime.aiProfile+' AI';
     const victoryActions=document.querySelector('.victory-modal .modal-footer');if(victoryActions)victoryActions.insertAdjacentHTML('afterbegin','<button class="btn quiet" data-action="playtest-report">Export Playtest Report</button>');
     const hand=document.querySelector('.hand-cards');if(hand){hand.scrollLeft=scroll;hand.scrollTop=handScrollTop;}
@@ -318,7 +332,7 @@
     document.querySelector('.app-header')?.toggleAttribute('inert',hasOverlay);
     document.querySelector('main')?.toggleAttribute('inert',hasOverlay);
     document.body.style.overflow=hasOverlay?'hidden':'';
-    if(privacy)document.querySelector('[data-action="reveal"]')?.focus();
+    if(currentScreen==='match'&&privacy)document.querySelector('[data-action="reveal"]')?.focus();
   }
   function notify(message,error) { const toast=document.getElementById('toast');toast.textContent=message;toast.className='toast visible'+(error?' error':'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('visible'),error?5200:3300); }
   function openModal(value) { focusBeforeModal=document.activeElement;modal=value;render();document.querySelector('.overlay button')?.focus(); }
@@ -348,7 +362,7 @@
     if(invalid){notify(invalid.name+': '+Decks.validate(invalid).errors.join(' '),true);return null;}
     const nextOptions={factions:settings.factions.slice(),decks:JSON.parse(JSON.stringify(decks)),config,seed:options.seed==null?Math.floor(Math.random()*2147483646)+1:options.seed};
     let nextState;try{nextState=E.createGame(nextOptions);}catch(error){notify(error.message,true);return null;}
-    matchOptions=nextOptions;state=nextState;selection=null;inspected=null;modal=null;revealedPlayer=null;capturedZone=null;victoryDismissed=false;
+    currentScreen='match';matchOptions=nextOptions;state=nextState;selection=null;inspected=null;modal=null;revealedPlayer=null;capturedZone=null;victoryDismissed=false;
     completedTelemetry=null;telemetryFinished=false;debugChanges=false;
     telemetry=window.FrontlinesTelemetry?.createTracker({state,data:D,engine:E,trace:true,traceLimit:1000,territoryHistory:true,decks:decks.map(d=>d.id||d.name),aiProfiles:settings.mode==='ai'?['human',Runtime.aiProfile]:['human','human']})||null;
     privacy=settings.mode==='hotseat'&&!handsPublic();
@@ -373,9 +387,9 @@
   }
   function scheduleAI() {
     clearTimeout(aiTimer);aiTimer=null;
-    if(!isAI()||modal||privacy)return;
+    if(currentScreen!=='match'||shellSettingsOpen||!isAI()||modal||privacy)return;
     aiTimer=setTimeout(()=>{
-      if(!isAI()||modal||privacy)return;
+      if(currentScreen!=='match'||shellSettingsOpen||!isAI()||modal||privacy)return;
       try {
         const decision=window.FrontlinesAI?.explainAction?.(state),action=decision?.action||window.FrontlinesAI?.chooseAction(state);
         if(!action){notify('The AI could not choose an action. Switch to manual control in developer tools or start a new match.',true);return;}
@@ -426,11 +440,13 @@
     const tip=event.target.closest('[data-tip]');if(tip&&!event.target.closest('[data-action]')){showTooltip(tip);return;}
     const node=event.target.closest('[data-action]');if(!node||node.disabled)return;
     const action=node.dataset.action;
-    if(privacy&&action!=='reveal')return;
+    if(currentScreen==='match'&&privacy&&action!=='reveal'&&!['home','settings'].includes(action))return;
     switch(action){
       case 'start':startMatch();break;
       case 'rules':openModal('rules');break;
-      case 'settings':openModal('settings');break;
+      case 'settings':window.FrontlinesShell?.openSettings();break;
+      case 'home':showScreen('home');break;
+      case 'open-play':showScreen('play');break;
       case 'recent-matches':openModal('recent');break;
       case 'playtest-report':if(state&&state.winner!=null){victoryDismissed=true;openModal('playtest');}break;
       case 'download-playtest':if(state&&state.winner!=null)downloadPlaytest(node.dataset.format);break;
@@ -438,6 +454,7 @@
       case 'log':if(state)openModal('log');break;
       case 'dev':if(settings.developer)openModal('dev');break;
       case 'deck':openModal({type:'deck',player:Number(node.dataset.player)});break;
+      case 'enlarge-card':if(!privacy)openModal({type:'inspect',cardId:node.dataset.cardId});break;
       case 'close-modal':closeModal();break;
       case 'new-match':state.winner!=null?toSetup():openModal('new-match');break;
       case 'to-setup':toSetup();break;
@@ -472,7 +489,7 @@
       }
     }
   });
-  function toSetup(){clearTimeout(aiTimer);clearTimeout(victoryTimer);aiTimer=null;FX()?.clear();state=null;selection=null;inspected=null;modal=null;privacy=false;victoryReady=false;render();}
+  function toSetup(){clearTimeout(aiTimer);clearTimeout(victoryTimer);aiTimer=null;FX()?.clear();state=null;currentScreen='play';selection=null;inspected=null;modal=null;privacy=false;victoryReady=false;render();}
   app.addEventListener('change',event=>{
     const node=event.target,key=node.dataset.setting;if(!key)return;
     if(key==='faction'){const player=Number(node.dataset.player);settings.factions[player]=node.value;settings.deckIds[player]=node.value+'-starter';saveSettings();render();}
@@ -500,14 +517,27 @@
     FX()?.unlockAudio();
     const overlay=document.querySelector('.overlay');
     if(event.key==='Tab'&&overlay){const items=Array.from(overlay.querySelectorAll('button:not(:disabled),input,select,textarea,summary,[tabindex="0"]')).filter(n=>n.offsetParent!==null);const first=items[0],last=items[items.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}}
-    if(privacy)return;
-    if(event.key==='Escape'){if(modal)closeModal();else{selection=null;render();}return;}
+    if(shellSettingsOpen)return;
+    if(event.key==='Escape'){if(modal)closeModal();else if(selection||inspected){selection=null;inspected=null;render();}else if(currentScreen==='play'||currentScreen==='match')showScreen('home');return;}
+    if(currentScreen==='match'&&privacy)return;
     if(/INPUT|SELECT|TEXTAREA/.test(event.target.tagName)||event.ctrlKey||event.altKey||event.metaKey)return;
     if(event.key.toLowerCase()==='r')openModal('rules');
     if(event.key.toLowerCase()==='l'&&state)openModal('log');
     if((event.key==='Enter'||event.key===' ')&&event.target.classList.contains('legal-zone')){event.preventDefault();chooseTerritory(Number(event.target.dataset.territory));}
   });
-  window.FrontlinesApp={getState:()=>state?JSON.parse(JSON.stringify(state)):null,dispatch,startMatch,getSettings:()=>JSON.parse(JSON.stringify(settings)),getUIState:()=>({privacy,actor:state?actor():null,selection,settings:JSON.parse(JSON.stringify(settings))}),getPlaytestReport:()=>state&&state.winner!=null?playtestReport():null,getRecentMatches:()=>JSON.parse(JSON.stringify(recentMatches))};
+  function showScreen(screen) {
+    if(!['home','play'].includes(screen))return;
+    clearTimeout(aiTimer);aiTimer=null;FX()?.clear();modal=null;selection=null;inspected=null;
+    currentScreen=screen==='home'?'home':state&&state.winner==null?'match':'play';
+    if(currentScreen==='play'&&state)state=null;
+    render();if(currentScreen==='match')scheduleAI();
+    document.querySelector(currentScreen==='home'?'[data-action="open-play"]':'[data-action="start"]')?.focus();
+  }
+  app.addEventListener('click',event=>{const link=event.target.closest('[data-game-navigation]');if(link){event.preventDefault();window.FrontlinesShell?.navigate(link.dataset.gameNavigation);}});
+  window.addEventListener('frontlines-settings-opened',()=>{shellSettingsOpen=true;clearTimeout(aiTimer);aiTimer=null;FX()?.clear();});
+  window.addEventListener('frontlines-settings-closed',()=>{shellSettingsOpen=false;scheduleAI();});
+  window.addEventListener('frontlines-settings',event=>{Object.assign(settings,event.detail);saveSettings();configureEffects();scheduleAI();});
+  window.FrontlinesApp={showScreen,getState:()=>state?JSON.parse(JSON.stringify(state)):null,dispatch,startMatch,getSettings:()=>JSON.parse(JSON.stringify(settings)),getUIState:()=>({screen:currentScreen,settingsOpen:shellSettingsOpen,privacy,actor:state?actor():null,selection,settings:JSON.parse(JSON.stringify(settings))}),getPlaytestReport:()=>state&&state.winner!=null?playtestReport():null,getRecentMatches:()=>JSON.parse(JSON.stringify(recentMatches))};
   configureEffects();
   render();
 })();

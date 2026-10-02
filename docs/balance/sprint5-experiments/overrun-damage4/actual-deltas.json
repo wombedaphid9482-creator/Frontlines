@@ -1,0 +1,30 @@
+{
+  "experiment": "overrun-damage4",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "bruiser_overrun_charge": {
+      "effect": {
+        "before": {
+          "kind": "damage",
+          "amount": 6
+        },
+        "after": {
+          "kind": "damage",
+          "amount": 4
+        }
+      },
+      "rulesText": {
+        "before": "Deal 6 damage to one enemy battlefield card. Spending and a major action are required.",
+        "after": "Deal 4 damage to one enemy battlefield card. Spending and a major action are required."
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-overrun-damage4-v1",
+  "compiledFromActualSource": true
+}

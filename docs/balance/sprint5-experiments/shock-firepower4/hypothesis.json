@@ -1,0 +1,12 @@
+{
+  "id": "shock-firepower4",
+  "changes": {
+    "bruiser_assault": {
+      "attack": 4
+    }
+  },
+  "deckChange": "none",
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

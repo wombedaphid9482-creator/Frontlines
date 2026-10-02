@@ -1,0 +1,11 @@
+{
+  "id": "rupture-presence12",
+  "changes": {
+    "bruiser_rupture_heavy": {
+      "presence": 12
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

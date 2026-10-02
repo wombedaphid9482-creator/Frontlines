@@ -1,0 +1,11 @@
+{
+  "id": "broker-health7",
+  "changes": {
+    "rogue_broker": {
+      "health": 7
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

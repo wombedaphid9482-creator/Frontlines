@@ -1,0 +1,24 @@
+{
+  "experiment": "rupture-presence12",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "bruiser_rupture_heavy": {
+      "presence": {
+        "before": 10,
+        "after": 12
+      },
+      "health": {
+        "before": 5,
+        "after": 7
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-rupture-presence12-v1",
+  "compiledFromActualSource": true
+}

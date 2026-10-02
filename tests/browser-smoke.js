@@ -35,7 +35,7 @@ async function clickAction(page, action) {
   page.on('pageerror',e=>errors.push(e.message));
   page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
   page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());});
-  await page.goto(pathToFileURL(path.join(base,'index.html')).href);
+  await page.goto(pathToFileURL(path.join(base,'index.html')).href+'?screen=play');
   await page.waitForSelector('[data-action="start"]');
   assert.equal(await page.locator('#faction-0 option').count(),5);
   await page.screenshot({path:path.join(out,'setup.png'),fullPage:true});
@@ -54,6 +54,10 @@ async function clickAction(page, action) {
   const beforeKey=await page.evaluate(()=>FrontlinesApp.getState().turn);
   await page.keyboard.press('Tab');await page.keyboard.press('Escape');
   assert.equal(await page.evaluate(()=>FrontlinesApp.getState().turn),beforeKey);
+  assert.equal(await page.evaluate(()=>FrontlinesApp.getUIState().screen),'home');
+  assert.equal(await page.locator('.hand-card').count(),0,'Pause menu leaked private hands');
+  await page.locator('[data-action="open-play"]').click();
+  assert.equal(await page.locator('.privacy').count(),1,'Resume must keep the hand curtain');
   await page.locator('[data-action="reveal"]').click();
 
   await page.evaluate(()=>FrontlinesApp.startMatch({factions:['stonewall','bruiser'],seed:631,developer:true,bothHands:true,mode:'hotseat'}));
@@ -81,7 +85,7 @@ async function clickAction(page, action) {
   assert.equal(await page.locator('.victory-modal').count(),0,'Old victory timer leaked');
 
   // Fresh HTTP launch and several viewport sizes; board must fit horizontally.
-  await page.goto('http://127.0.0.1:4173');
+  await page.goto('http://127.0.0.1:4173/index.html?screen=play');
   await page.waitForSelector('[data-action="start"]');
   await page.evaluate(()=>FrontlinesApp.startMatch({seed:41001,developer:true,bothHands:true,mode:'hotseat'}));
   for(const width of [1920,1440,1366,1024]){
@@ -93,10 +97,11 @@ async function clickAction(page, action) {
   await page.setViewportSize({width:1366,height:768});
   await page.screenshot({path:path.join(out,'laptop.png'),fullPage:true});
   await page.locator('[data-action="settings"]').click();
-  await page.locator('[data-setting="animationSpeed"]').selectOption('fast');
-  await page.locator('[data-setting="reducedEffects"]').check();
-  await page.locator('[data-setting="reducedShake"]').check();
-  await page.locator('[data-action="close-modal"]').first().click();
+  await page.locator('[data-settings-tab="interface"]').click();
+  await page.locator('#shell-animation').selectOption('fast');
+  await page.locator('[data-pref="reducedEffects"]').check();
+  await page.locator('[data-pref="reducedShake"]').check();
+  await page.locator('.shell-settings [data-shell-action="close-settings"]').first().click();
   assert.equal(await page.evaluate(()=>FrontlinesApp.getSettings().animationSpeed),'fast');
   await page.reload();
   await page.waitForSelector('[data-action="start"]');

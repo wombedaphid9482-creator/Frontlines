@@ -1,0 +1,24 @@
+{
+  "id": "candidate04",
+  "parent": "candidate03-strike4",
+  "requestedChanges": {
+    "cards": {
+      "nightwalker_blade": {
+        "presence": 4
+      },
+      "rogue_lancer": {
+        "presence": 6,
+        "health": 5
+      },
+      "bruiser_heavy": {
+        "health": 6
+      },
+      "bruiser_overrun_charge": {
+        "presence": 3
+      }
+    }
+  },
+  "compiledDataDiffVerified": true,
+  "seed": 20261007,
+  "count": 10000
+}

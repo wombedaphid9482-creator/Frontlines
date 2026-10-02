@@ -1,0 +1,11 @@
+{
+  "id": "rupture-attack4",
+  "changes": {
+    "bruiser_rupture_heavy": {
+      "attack": 4
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

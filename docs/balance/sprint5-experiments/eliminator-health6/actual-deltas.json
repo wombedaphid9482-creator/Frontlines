@@ -1,0 +1,20 @@
+{
+  "experiment": "eliminator-health6",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "syndicate_eliminator": {
+      "health": {
+        "before": 4,
+        "after": 6
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-eliminator-health6-v1",
+  "compiledFromActualSource": true
+}

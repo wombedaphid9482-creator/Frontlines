@@ -1,0 +1,24 @@
+{
+  "experiment": "blade-health3",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "nightwalker_blade": {
+      "presence": {
+        "before": 4,
+        "after": 3
+      },
+      "health": {
+        "before": 4,
+        "after": 3
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-blade-health3-v1",
+  "compiledFromActualSource": true
+}

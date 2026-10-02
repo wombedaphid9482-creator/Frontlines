@@ -1,0 +1,11 @@
+{
+  "id": "blade-restore4",
+  "changes": {
+    "nightwalker_blade": {
+      "health": 4
+    }
+  },
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

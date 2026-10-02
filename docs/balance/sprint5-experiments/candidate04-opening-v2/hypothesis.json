@@ -1,0 +1,13 @@
+{
+  "id": "candidate04-opening-v2",
+  "parent": "candidate04",
+  "requestedChanges": {},
+  "compiledDataDiffVerified": true,
+  "seed": 20261007,
+  "count": 10000,
+  "openingRule": {
+    "secondPlayerOpeningDraw": 1,
+    "source": "Existing legal reserve",
+    "notAnExtraCard": true
+  }
+}

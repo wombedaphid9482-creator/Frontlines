@@ -20,7 +20,8 @@ function headless(options){const run=Simulator.createRun(options);while(!run.don
   const own=await page.evaluate(()=>FrontlinesDeckBuilder.getDeck());
   await page.locator('[data-action="simulate"]').click();await page.waitForURL(/simulator\.html\?/);
   assert.equal(await page.locator('#deck-a').inputValue(),own.id);assert.equal(await page.locator('#ai-a').inputValue(),'deck');
-  assert.equal(await page.locator('#balance-profile').inputValue(),'arsenal');
+  assert.equal(await page.locator('#balance-profile').inputValue(),await page.evaluate(()=>FrontlinesBalance.DEFAULT_PROFILE));
+  await page.locator('#toggle-developer').click();
   await page.locator('#faction-b').selectOption('bruiser');await page.locator('#deck-b').selectOption('bruiser-heavy-breakthrough');
   await page.locator('#match-count').fill('20');await page.locator('#seed').fill('812934');await page.locator('#run-button').click();await waitFinished(page);
   const first=await page.evaluate(()=>FrontlinesSimulatorApp.getReport());
@@ -44,7 +45,7 @@ function headless(options){const run=Simulator.createRun(options);while(!run.don
     const bad={...deck,id:'deck-invalid-fixture',name:'Removed-card draft',cards:['nightwalker_removed',...deck.cards.slice(1)]};const draft=library.save(bad);if(!draft.ok)throw new Error(draft.error);return saved.deck;
   },own.id);
   await page.locator('#refresh-decks').click();
-  assert.ok((await page.locator('#deck-library-note').innerText()).includes('2 saved legal decks loaded; 1 drafts need repair'));
+  assert.ok((await page.locator('#deck-library-note').innerText()).includes('2 legal decks loaded · 1 draft to repair'));
   assert.equal(await page.locator('#deck-a option[value="deck-invalid-fixture"]').count(),0);
   assert.equal(await page.locator('#deck-a option[value="'+revision.id+'"]').count(),1);
   await page.locator('#deck-a').selectOption(revision.id);await page.locator('#match-count').fill('20');await page.locator('#seed').fill('812934');
@@ -70,7 +71,7 @@ function headless(options){const run=Simulator.createRun(options);while(!run.don
   await page.locator('[data-tab="decks"]').click();assert.equal(await page.locator('#deck-matrix tbody tr').count(),10);
   await page.screenshot({path:path.join(out,'sprint4-lab-deck-tournament.png'),fullPage:true});
   await page.evaluate(()=>{FrontlinesDecks.remove(FrontlinesDecks.load().find(d=>d.name==='Assassination Lab v2').id);});
-  await page.locator('#refresh-decks').click();assert.ok((await page.locator('#deck-library-note').innerText()).includes('1 saved legal decks loaded'));
+  await page.locator('#refresh-decks').click();assert.ok((await page.locator('#deck-library-note').innerText()).includes('1 legal decks loaded'));
   await page.locator('[data-tab="overview"]').click();assert.equal(await page.locator('#faction-rows tr').count(),5);
   for(const width of [1366,1024,768,390]){await page.setViewportSize({width,height:900});const box=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));assert.ok(box.scroll<=box.width+1,'Lab overflow at '+width);}
   await page.goto(pathToFileURL(path.join(base,'simulator.html')).href);

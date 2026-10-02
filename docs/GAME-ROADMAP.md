@@ -1,23 +1,24 @@
 # Game action roadmap
 
-The next work starts from **v0.5.0 Arsenal**. Territory, continuing Presence commitment and the shared authoritative engine remain the foundation. Completed: illustrated battlefield/effects; Balance Lab profiles/diagnostics/replays; local deckbuilding, JSON exchange, custom live/simulated decks, twenty expansion cards and ten archetype presets.
+The current milestone is **v0.6.0 Command Interface**. Territory, continuing Presence commitment and the shared authoritative engine remain the foundation. The central command menu, viewport-bounded game/Arsenal/War Room, persistent primary actions, shared Settings and native fullscreen are implemented. Deckbuilding, 80 cards, custom live/simulated decks and advanced analysis remain available. Competitive stabilization is still subject to the final simulation release gate; interface completion does not certify balance.
 
-## Required next UI corrections
+## Owner interface requirements — implemented in Sprint 5
 
-Owner feedback recorded October 1, 2026, with Balance Lab access corrected October 2, 2026. The control-size improvements are requirements for the next implementation pass, not changes already included in v0.5.0.
+Owner feedback recorded October 1, 2026, with Balance Lab access corrected October 2, 2026, is now reflected in the command interface. This replaces the prior pending UI section; the historical v0.5.0 build has not been rewritten.
 
-- **Keep Balance Lab accessible inside the game.** Players should be able to test their decks through the game's menus and deckbuilding flows. Retain the existing access and dedicated simulator launchers; the earlier request to remove in-game access is canceled.
-- **Make primary actions larger and more visible.** Place clearly labeled buttons in the central menu or another prominent main-content area. Small controls at the top of the page must not be the only way to discover important actions. Check readable text, comfortable click/tap targets, spacing and keyboard focus.
+- **Balance Lab remains in the game as War Room.** The main menu and Arsenal's Test command lead to player deck simulations. Advanced Lab and dedicated launchers remain available; access is not restricted to admins.
+- **Primary actions are larger and prominent.** Play, Arsenal, War Room and Settings are central menu commands. Match, deck and simulation actions have persistent command areas, visible focus and stronger selected/disabled states.
+- **Native display and navigation are coherent.** F11/Alt + Enter and Windowed/Fullscreen settings use Electron fullscreen, with saved display preferences and off-screen recovery. Escape closes an overlay or returns from a submenu. Bounded internal collection/list/report scrolling keeps content accessible at the minimum supported window.
 
 ## Next game action plan
 
-1. **Owner and external human playtests.** Use the packaged candidate, choose two different decks of the same faction, swap opening seats and export feedback. Prioritize weak Shock/Rogue and favored Heavy/Assassination. Gate: humans can explain their deck plan, Presence tradeoffs and counterplay, and complete a match without technical help.
-2. **Deck identity and counterplay pass.** Separate AI weakness from card/preset weakness using matched schedules and human evidence. Review mandatory cards, recovery, fragile occupation and high-commitment finishers. Gate: each faction has two credible approaches with documented favorable/unfavorable matchups; no universal dominance hidden by faction averages.
-3. **Teach first-match decisions.** Add optional short guidance for deployment, movement, response, commitment, end-turn capture and deck strategy. Gate: a new player can finish a private-hand match and identify an unaffordable/illegal action without developer tools.
-4. **Distinct art and readable battlefield polish.** Replace representative portraits for the most-used expansion cards first, retain faction frames and optimize atlases. Iterate on unit-size readability, keyboard/tap inspection and the moving objective. Gate: visual inspection at desktop/mobile sizes and reduced-motion settings passes without gameplay overhead.
-5. **Small scenarios and deeper strategy.** Add only a documented missing role/choice, then extend keywords, AI and simulation together. Gate: every ability has exact rules, counterplay and conservation/regression checks. Online systems and progression remain deferred until local matches demonstrate durable fun.
+1. **Pass the competitive release gate.** Preserve the fresh frozen v0.5.0 50,000-match baseline, use targeted hypotheses and paired screens, then validate the final current profile over at least 50,000 representative-deck matches. Gate: every faction 45–55% against other factions, preferred highest-minus-lowest spread at most 5 percentage points, with deck/archetype and extreme matchup gaps explicitly reviewed. Same-faction variants remain deck results rather than forced 50% padding. Baseline Nightwalker 66.138% / Rogue 32.472% cross-faction rates fail (64.346% / 34.419% over all appearances); these are not results for an unvalidated new profile.
+2. **Owner and external human playtests.** Use the packaged candidate, choose different same-faction decks, swap opening seats and export feedback. Check the central menu, fullscreen, card briefing, Presence tradeoffs and answers to strong enemy plays. Gate: players can explain their plan and finish without developer help; automated button/native checks do not substitute for these observations.
+3. **Deck identity and counterplay pass.** Separate AI weakness from card/preset weakness using controlled schedules and human evidence. Review mandatory cards, recovery, fragile occupation and high-commitment finishers. Gate: two credible approaches per faction with documented strengths/weaknesses; faction averages do not conceal a near-auto-win strategy.
+4. **Teach and refine the command interface.** Add optional deployment/movement/response/capture guidance; use human observations to refine internal panels, enlarged inspection and Windows display-scaling accessibility. Gate: a new player identifies a legal action, an unaffordable card and the next command without page scrolling or developer tools.
+5. **Distinct art and small scenarios.** Prioritize recognizable signature-card portraits, then documented missing strategic roles and controlled public-position fixtures. Keep new abilities, AI, simulation and counterplay tests together. Online systems and progression remain deferred until local matches demonstrate durable fun.
 
-The acceptance gates below preserve the earlier roadmap context; the plan above is the active post-Sprint-4 priority order.
+The acceptance gates below preserve the earlier roadmap context; the plan above is the active Sprint 5/follow-up priority order. Previous starter-only percentages are historical measurements of their recorded builds.
 
 This roadmap has acceptance gates rather than dates. Complete a gate before widening its scope. The separate [simulator roadmap](SIMULATOR-ROADMAP.md) supports these decisions; CPU results alone do not establish human balance.
 

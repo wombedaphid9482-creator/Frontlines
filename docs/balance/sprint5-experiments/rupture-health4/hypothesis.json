@@ -1,0 +1,11 @@
+{
+  "id": "rupture-health4",
+  "changes": {
+    "bruiser_rupture_heavy": {
+      "health": 4
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

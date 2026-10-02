@@ -1,0 +1,15 @@
+{
+  "id": "rogue-raid4",
+  "changes": {
+    "rogue_raid": {
+      "effect": {
+        "kind": "damage",
+        "amount": 4
+      },
+      "rulesText": "Deal 4 damage to one enemy battlefield card."
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

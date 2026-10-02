@@ -1,0 +1,14 @@
+{
+  "id": "candidate05-assault4",
+  "parent": "candidate04-overrun4",
+  "requestedChanges": {
+    "cards": {
+      "bruiser_assault": {
+        "health": 4
+      }
+    }
+  },
+  "compiledDataDiffVerified": true,
+  "seed": 20261007,
+  "count": 10000
+}

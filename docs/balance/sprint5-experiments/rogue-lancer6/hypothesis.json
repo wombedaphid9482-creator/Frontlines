@@ -1,0 +1,11 @@
+{
+  "id": "rogue-lancer6",
+  "changes": {
+    "rogue_lancer": {
+      "health": 6
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

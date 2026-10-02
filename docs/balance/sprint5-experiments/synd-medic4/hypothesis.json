@@ -1,0 +1,11 @@
+{
+  "id": "synd-medic4",
+  "changes": {
+    "syndicate_tactical_medic": {
+      "health": 4
+    }
+  },
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

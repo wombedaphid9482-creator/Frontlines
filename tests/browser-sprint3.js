@@ -15,7 +15,7 @@ const waitFinished=page=>page.waitForFunction(()=>['completed','stopped','error'
   const page=await context.newPage(),errors=[];
   page.on('pageerror',error=>errors.push(error.message));
   page.on('console',message=>{if(message.type()==='error')errors.push(message.text());});
-  await page.goto('http://127.0.0.1:4173/simulator.html');
+  await page.goto('http://127.0.0.1:4173/simulator.html?view=advanced');
   await page.evaluate(()=>{localStorage.clear();});
   await page.reload();
   assert.equal(await page.locator('#balance-profile option').count()>=3,true);
@@ -38,7 +38,7 @@ const waitFinished=page=>page.waitForFunction(()=>['completed','stopped','error'
   assert.ok(initial.summary.turns.p95>=initial.summary.turns.median);
   await page.locator('[data-tab="diagnostics"]').click();
   assert.ok((await page.locator('#length-metrics').innerText()).includes('95th percentile'));
-  await page.locator('#view-diagnostics details').nth(1).locator('summary').click();
+  await page.locator('[data-tab="economy"]').click();
   assert.ok((await page.locator('#economy-table').innerText()).includes('Bruiser'));
   await page.locator('[data-tab="cards"]').click();
   await page.locator('#card-metric-sort').selectOption('damageDealt');
@@ -82,7 +82,7 @@ const waitFinished=page=>page.waitForFunction(()=>['completed','stopped','error'
     assert.ok(dimensions.scroll<=dimensions.width+1,`Lab overflow at ${width}: ${JSON.stringify(dimensions)}`);
   }
   await page.setViewportSize({width:1366,height:768});
-  await page.goto(pathToFileURL(path.join(base,'simulator.html')).href);
+  await page.goto(pathToFileURL(path.join(base,'simulator.html')).href + '?view=advanced');
   await page.evaluate(()=>{localStorage.clear();});await page.reload();
   await page.locator('#match-count').fill('1000');
   await page.locator('#run-button').click();
@@ -101,6 +101,7 @@ const waitFinished=page=>page.waitForFunction(()=>['completed','stopped','error'
 
   await page.goto(pathToFileURL(path.join(base,'index.html')).href);
   await page.evaluate(()=>{localStorage.clear();});await page.reload();
+  await page.evaluate(()=>FrontlinesApp.showScreen('play'));
   const liveStart=await page.evaluate(()=>{
     FrontlinesApp.startMatch({factions:['nightwalker','rogue'],seed:6411,mode:'hotseat',config:{...FrontlinesData.DEFAULT_CONFIG}});
     return {privacy:FrontlinesApp.getUIState().privacy,hands:document.querySelectorAll('.hand-area .hand-card').length,report:FrontlinesApp.getPlaytestReport(),runtime:FrontlinesRuntime};
@@ -136,6 +137,7 @@ const waitFinished=page=>page.waitForFunction(()=>['completed','stopped','error'
   assert.equal(playtest.match.seed,6411);
   await page.locator('[data-action="close-modal"]').last().click();
   await page.locator('[data-action="new-match"]').click();
+  await page.evaluate(()=>FrontlinesApp.showScreen('home'));
   await page.locator('[data-action="recent-matches"]').click();
   assert.ok((await page.locator('.recent-table').innerText()).includes('6411'));
   assert.deepEqual(errors,[]);

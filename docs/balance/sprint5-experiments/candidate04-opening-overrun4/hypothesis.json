@@ -1,0 +1,19 @@
+{
+  "id": "candidate04-opening-overrun4",
+  "parent": "candidate04",
+  "requestedChanges": {
+    "cards": {
+      "bruiser_overrun_charge": {
+        "presence": 4
+      }
+    }
+  },
+  "compiledDataDiffVerified": true,
+  "seed": 20261007,
+  "count": 10000,
+  "openingRule": {
+    "secondPlayerOpeningDraw": 1,
+    "source": "Existing legal reserve",
+    "notAnExtraCard": true
+  }
+}

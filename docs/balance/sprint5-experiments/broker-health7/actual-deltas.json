@@ -1,0 +1,20 @@
+{
+  "experiment": "broker-health7",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "rogue_broker": {
+      "health": {
+        "before": 5,
+        "after": 7
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-broker-health7-v1",
+  "compiledFromActualSource": true
+}

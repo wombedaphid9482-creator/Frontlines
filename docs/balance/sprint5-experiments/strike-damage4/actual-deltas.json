@@ -1,0 +1,30 @@
+{
+  "experiment": "strike-damage4",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "nightwalker_strike": {
+      "effect": {
+        "before": {
+          "kind": "damage",
+          "amount": 5
+        },
+        "after": {
+          "kind": "damage",
+          "amount": 4
+        }
+      },
+      "rulesText": {
+        "before": "Deal 5 damage to one enemy battlefield card.",
+        "after": "Deal 4 damage to one enemy battlefield card."
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-strike-damage4-v1",
+  "compiledFromActualSource": true
+}

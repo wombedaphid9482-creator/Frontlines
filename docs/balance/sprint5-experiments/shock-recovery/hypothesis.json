@@ -1,0 +1,14 @@
+{
+  "id": "shock-recovery",
+  "changes": {
+    "bruiser_assault": {
+      "attack": 4
+    },
+    "bruiser_breacher": {
+      "health": 5
+    }
+  },
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

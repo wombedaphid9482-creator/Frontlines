@@ -1,0 +1,11 @@
+{
+  "id": "baseline",
+  "name": "Sprint 3 frozen baseline",
+  "version": "sprint2-original",
+  "description": "Original cards, starter decks and Presence/territory rules, preserved for historical comparison.",
+  "changes": {
+    "cards": {},
+    "decks": {},
+    "config": {}
+  }
+}

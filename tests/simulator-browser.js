@@ -37,7 +37,7 @@ async function exportFile(page, button, filename) {
   const errors = [];
   const track = p => { p.on('pageerror', e => errors.push(e.message)); p.on('console', e => {if(e.type()==='error') errors.push(e.text());}); };
   track(page);
-  await page.goto('http://127.0.0.1:4173/simulator.html');
+  await page.goto('http://127.0.0.1:4173/simulator.html?view=advanced');
   await page.evaluate(()=>localStorage.clear());await page.reload();
   await page.waitForSelector('#run-button');
   assert.equal(await page.locator('#faction-a option').count(), 5);
@@ -126,12 +126,12 @@ async function exportFile(page, button, filename) {
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Overflow at ${width}px`);
   }
   await page.setViewportSize({width:1366,height:900});
-  await page.screenshot({path:path.join(root, 'docs/screenshots/simulator.png'), fullPage:true});
+  await page.screenshot({path:path.join(out, 'sprint5-simulator-regression.png')});
 
   // Direct offline launch uses the same deterministic cooperative runner.
   const offline = await browser.newPage({viewport:{width:1366,height:768}});
   track(offline);
-  await offline.goto(pathToFileURL(path.join(root, 'simulator.html')).href);
+  await offline.goto(pathToFileURL(path.join(root, 'simulator.html')).href + '?view=advanced');
   await selectedMatch(offline, 24);
   await offline.locator('#run-button').click();
   await status(offline, 'completed');

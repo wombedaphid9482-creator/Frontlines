@@ -1,0 +1,15 @@
+{
+  "id": "candidate05-siege6",
+  "parent": "candidate04-overrun4",
+  "requestedChanges": {
+    "cards": {
+      "bruiser_heavy": {
+        "presence": 6,
+        "health": 5
+      }
+    }
+  },
+  "compiledDataDiffVerified": true,
+  "seed": 20261007,
+  "count": 10000
+}

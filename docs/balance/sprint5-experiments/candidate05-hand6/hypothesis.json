@@ -1,0 +1,12 @@
+{
+  "id": "candidate05-hand6",
+  "parent": "candidate05-combined",
+  "requestedChanges": {
+    "config": {
+      "startingHand": 6
+    }
+  },
+  "compiledDataDiffVerified": true,
+  "seed": 20261007,
+  "count": 10000
+}

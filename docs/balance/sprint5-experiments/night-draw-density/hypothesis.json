@@ -1,0 +1,12 @@
+{
+  "id": "night-draw-density",
+  "changes": {
+    "nightwalker_blade": {
+      "health": 4
+    }
+  },
+  "deckChange": "See exact 26-card lists in source and report",
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

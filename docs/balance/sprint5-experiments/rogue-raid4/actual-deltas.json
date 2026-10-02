@@ -1,0 +1,30 @@
+{
+  "experiment": "rogue-raid4",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "rogue_raid": {
+      "effect": {
+        "before": {
+          "kind": "damage",
+          "amount": 3
+        },
+        "after": {
+          "kind": "damage",
+          "amount": 4
+        }
+      },
+      "rulesText": {
+        "before": "Deal 3 damage to one enemy battlefield card.",
+        "after": "Deal 4 damage to one enemy battlefield card."
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-rogue-raid4-v1",
+  "compiledFromActualSource": true
+}

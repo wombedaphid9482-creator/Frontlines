@@ -1,16 +1,18 @@
-# Frontlines Balance Lab
+# Frontlines War Room and Advanced Balance Lab
 
-The Balance Lab runs the shared authoritative engine with selected baseline, faction-aware, deck-aware or random policies, without artwork, animation, sound or turn delays. Territory capture, Breakthrough, Presence commitment, responses and victory use the same rules as the live game.
+The **v0.6.0 War Room** keeps deck testing inside Frontlines. Its central landing offers **Quick Matchup**, **Tournament**, **Faction Overview** and **Advanced Lab**. Player results use clear cards and bounded tabs; the full Balance Lab remains accessible through Advanced. The simulation runs the shared authoritative engine without artwork, animation, sound or turn delays. Territory capture, Breakthrough, Presence commitment, responses and victory use the same rules as the live game.
 
 Five original starter lists, ten archetype presets and saved legal custom decks are available. Open Arsenal to construct or import a list, then refresh saved decks in the Lab. Choose a duel or a selected-pool round robin, including same-faction variants. The exact total is distributed across paired opening seats; partial cycles can have unequal matchup exposures. See [deckbuilding guide](DECKBUILDING.md) for construction rules and CLI deck imports.
 
-Reports preserve exact lists, profiles, versions and seeds. Decks & pairs adds a deck matrix, archetype rates, curves and played-pair correlations. Compare supports earlier reports and named variants; AI/rule/deck-list differences remain explicit. HTML, JSON and CSV exports accompany rich replay, card outliers, economy, territory/comeback and match-length percentiles. Current validation is in [Sprint 4](SPRINT-004.md); older benchmark sections below remain useful historical context.
+Reports preserve exact lists, profiles, versions and seeds. **Decks** adds a deck matrix, archetype rates, curves and played-pair correlations. **Advanced → Compare** supports earlier reports and named variants; AI/rule/deck-list differences remain explicit. HTML, JSON and CSV exports accompany rich replay, card outliers, economy, territory/comeback and match-length percentiles. Current validation status is in [Sprint 5](SPRINT-005.md); [Sprint 4](SPRINT-004.md) and the older benchmark sections remain historical context.
+
+Normal entry uses the current game balance profile and deck-aware AI. **Advanced view** exposes balance profiles, both AI policies, reproducible seeds, rule overrides, safeguards, diagnostic thresholds, confidence intervals, match records and comparison. The dashboard labels advanced experiment settings when those results are viewed in player mode. Experiments never change live game rules or saved decks.
 
 The [saved 1,000-match baseline](simulator-baseline-1000.json) and [verification report](SIMULATOR-VERIFICATION.md) preserve the initial benchmark and launch checks. The older [Sprint 2 balance checkpoint](BALANCE.md) remains a separate historical sample.
 
 ## Launch and run
 
-Double-click `Launch Simulator.cmd` or open `simulator.html` in a desktop browser. This offline path needs no installation or internet connection. It uses a cooperative main-thread runner so the page can yield between simulation slices.
+Choose **War Room** in the game's command menu, **Test in War Room** in Arsenal, or the native **Frontlines → War Room / Balance Lab** menu. Dedicated `Launch Simulator.cmd` and direct `simulator.html` browser launch remain supported. This offline path needs no installation or internet connection and uses a cooperative runner that yields between simulation slices. Native menu commands navigate in the same window.
 
 For the local HTTP Worker path, use Node 18 or newer:
 
@@ -18,16 +20,22 @@ For the local HTTP Worker path, use Node 18 or newer:
 npm start
 ```
 
-Open `http://127.0.0.1:4173/simulator.html`. The dashboard identifies the active runner. The HTTP route moves the simulation work into a Worker where available; file launch remains a supported fallback.
+Open `http://127.0.0.1:4173/simulator.html`. The HTTP route uses a background Worker where available; file launch remains a supported fallback. **Advanced view** identifies the active runner. Native fullscreen works through Settings, F11 or Alt + Enter; browser launch uses browser fullscreen.
 
-1. Choose **Selected matchup** and two faction starter decks, or **All factions** for a matchup matrix.
-2. Enter the total number of matches, from 1 to 100,000, and a base seed. The count is the total experiment size, not a count per matchup.
-3. Keep alternate seats enabled for a duel. Use an even total to complete every original/swapped seed pair.
-4. Leave default rules and safeguards for an initial benchmark. Change one parameter at a time in later comparisons.
-5. Run the batch. Pause/resume continues the current in-memory job; Stop ends the batch with the records finalized so far.
-6. Review unresolved results and errors before interpreting win rates. Export JSON for provenance and match/card CSVs for analysis. Inspect an individual match to rerun its seed and view a decision trace.
+1. Choose **Quick Matchup**, pick both factions and actual starter/preset/saved decks. Or choose **Tournament** and check at least two decks; **Faction Overview** starts with the five original starter decks.
+2. Enter 1–100,000 total simulations, or use the 1,000/10,000/50,000 presets. The count is the total experiment size, not a count per matchup. Both opening seats are included by default.
+3. Use the fixed **Run simulations** command. Pause/Resume and Stop stay available while the batch runs. Setup controls and long statistics scroll inside bounded panels; small browser windows offer Setup/Results panel switches.
+4. Explore **Overview**, **Decks**, **Cards**, **Economy** and **Territory**, and export an HTML report to review or share. Review unresolved matches and errors before interpreting approximate rates.
+5. For a controlled experiment, enable **Advanced view**. Choose seed, exact profile, AI and rule parameters; change one factor at a time. JSON and match/card CSV preserve provenance; Matches opens an exact-seed trace, and Compare imports a previous report or named variant.
+6. Escape closes a trace/Settings overlay or returns to the War Room landing. The main-menu command remains visible. Save/export completed results before leaving or reloading the simulator.
 
 Pause/resume does not provide recovery after closing or reloading the page. Stop is a partial run: the requested total remains visible, unfinished scheduled matches are not fabricated, and an in-progress match is not included until finalized.
+
+## Faction rates and the release gate
+
+The player faction table uses **performance against other factions** whenever those observations exist. `summary.byFactionCross` counts only games between different factions; `summary.byFaction` retains all appearances for compatibility. Same-faction deck variants remain meaningful in deck/archetype and matchup results, but each contributes a forced 50% faction total. Including them in the formal faction gate would conceal part of the spread.
+
+Sprint 5 requires every faction **45–55% against other factions** in the final representative-deck 50,000-match validation, with preferred highest-minus-lowest spread **at most 5 percentage points**. Extreme archetype and head-to-head gaps require separate review. The frozen v0.5.0 baseline failed: Nightwalker 66.138%, Rogue 32.472% against other factions (64.346% / 34.419% across all appearances). Final tuning is still being validated; no player interface or single winning-card correlation proves human competitive balance.
 
 ## Modes, seeds, and seats
 
@@ -39,9 +47,9 @@ The same seed and seat order reproduce decisions only with the same build, deck 
 
 ## Rules and safeguards
 
-The nine editable game settings are saved in the report and apply only to the experiment:
+The nine editable game settings are saved in the report and apply only to the experiment. The table records the original authoring/Arsenal defaults; use the selected profile's displayed values and exported options for a current experiment:
 
-| Setting | Default | Meaning |
+| Setting | Authoring baseline | Meaning |
 | --- | ---: | --- |
 | Starting Command | 20 | Initial supported Presence capacity. |
 | Command growth | 10 | Capacity added on each later offensive turn for that player. |
@@ -65,6 +73,7 @@ A turn is one player's offensive turn, not a full round containing both players.
 | Unresolved | `turnLimit` and `decisionLimit` records. These have no winner. |
 | Errors | `error` records, with their failure message. These have no winner. |
 | Faction/deck win rate | Wins divided by resolved player appearances for that faction/deck. Cutoffs and errors are reported separately. |
+| Cross-faction win rate | Faction wins divided by resolved appearances against a different faction. Same-faction deck variants are excluded. This is the formal Sprint 5 faction gate. |
 | Seat win rate | Wins divided by resolved appearances in that seat. The overall first-player rate uses resolved matches. |
 | Head-to-head win rate | The selected deck's wins divided by resolved games in that pairing. |
 | Wilson 95% interval | A descriptive interval around the resolved proportion. An absent resolved sample produces `null`/—, not 0%. |
@@ -113,6 +122,12 @@ node scripts/simulate.js --count 100 --a rogue --b nightwalker --fixed-seats --m
 ```
 
 Supported batch controls include `--count`, `--mode duel|matrix`, `--a`, `--b`, `--seed`, `--out`, `--csv`, `--max-turns`, `--max-decisions`, `--verify`, `--fixed-seats`, and `--mirrors`. The browser exposes the nine rule parameters.
+
+The CLI preserves the historical `baseline` profile/basic policy defaults. Specify **`--balance` and `--ai` explicitly** when comparing a current War Room experiment. Advanced view displays the profile ID and exported options retain it. `--pool archetypes` selects all ten presets; `--pool starters` selects the five originals. `--deck-file-a` / `--deck-file-b` accept validated exported deck JSON, and `--compare` accepts a previous report. For example, this is an explicit Arsenal-profile screen, not an automatic claim about the current selected live profile:
+
+```text
+node scripts/simulate.js --mode matrix --pool archetypes --count 1000 --balance arsenal --ai deck --seed 20261007 --out test-results/arsenal-screen.json --csv --verify
+```
 
 Use `node scripts/simulate.js --help` for flag help. Ctrl+C saves finalized CLI records as a partial report and excludes the active incomplete match. Rule/AI errors produce a nonzero exit status; reaching a safety cutoff is reported as unresolved.
 

@@ -1,0 +1,136 @@
+{
+  "id": "synd-eliminator5",
+  "name": "Sprint 5 hypothesis synd-eliminator5",
+  "version": "sprint5-synd-eliminator5-v1",
+  "description": "Candidate01 plus independently tested Rupture Health4, Assault Squad Health5 and Salvage Broker Health7. Tests large-force exposure, shock infantry survival and casualty recovery.",
+  "changes": {
+    "cards": {
+      "bruiser_assault": {
+        "attack": 3,
+        "health": 5
+      },
+      "bruiser_heavy": {
+        "presence": 7,
+        "attack": 4,
+        "health": 5
+      },
+      "bruiser_brawler": {
+        "health": 4
+      },
+      "bruiser_breacher": {
+        "health": 4
+      },
+      "bruiser_vanguard": {
+        "attack": 3,
+        "health": 5,
+        "traits": [],
+        "rulesText": "A forward screen with the Presence to occupy ground; vulnerable to precision fire."
+      },
+      "bruiser_gunner": {
+        "health": 4
+      },
+      "bruiser_commander": {
+        "presence": 7,
+        "attack": 4,
+        "health": 5
+      },
+      "bruiser_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 2
+        },
+        "rulesText": "Response: deal 2 damage to the attacker before combat."
+      },
+      "nightwalker_blade": {
+        "health": 3
+      },
+      "nightwalker_stalker": {
+        "presence": 5,
+        "health": 4
+      },
+      "nightwalker_marksman": {
+        "presence": 6
+      },
+      "nightwalker_saboteur": {
+        "presence": 5
+      },
+      "nightwalker_scout": {
+        "presence": 6,
+        "health": 6
+      },
+      "nightwalker_commander": {
+        "presence": 7,
+        "health": 6
+      },
+      "nightwalker_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 4
+        },
+        "rulesText": "Response: deal 4 damage to the attacker before combat."
+      },
+      "nightwalker_strike": {
+        "effect": {
+          "kind": "damage",
+          "amount": 4
+        },
+        "rulesText": "Deal 4 damage to one enemy battlefield card."
+      },
+      "rogue_outrider": {
+        "health": 5
+      },
+      "rogue_skirmisher": {
+        "attack": 4
+      },
+      "rogue_scrapper": {
+        "presence": 5,
+        "health": 5
+      },
+      "rogue_commander": {
+        "traits": [
+          "command",
+          "mobile",
+          "medic"
+        ],
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Mobile. Medic — heal each ally here by 1 at your turn start."
+      },
+      "bruiser_rupture_heavy": {
+        "health": 4
+      },
+      "stonewall_watchguard": {
+        "health": 6
+      },
+      "stonewall_recovery_team": {
+        "health": 4
+      },
+      "bruiser_overrun_charge": {
+        "effect": {
+          "kind": "damage",
+          "amount": 4
+        },
+        "rulesText": "Deal 4 damage to one enemy battlefield card. Spending and a major action are required."
+      },
+      "bruiser_shock_runner": {
+        "health": 5
+      },
+      "syndicate_eliminator": {
+        "health": 5
+      },
+      "rogue_lancer": {
+        "health": 6
+      },
+      "rogue_raid": {
+        "effect": {
+          "kind": "damage",
+          "amount": 4
+        },
+        "rulesText": "Deal 4 damage to one enemy battlefield card."
+      },
+      "rogue_broker": {
+        "health": 7
+      }
+    },
+    "decks": {},
+    "config": {}
+  }
+}

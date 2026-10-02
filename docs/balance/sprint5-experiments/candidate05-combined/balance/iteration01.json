@@ -1,0 +1,51 @@
+{
+  "id": "iteration01",
+  "name": "Iteration 01 — exposed breakthrough",
+  "version": "sprint3-iteration01-v1",
+  "description": "Reduce Bruiser attrition after a failed push; strengthen selected Nightwalker timing tools and occupation anchors. Original economy and decks retained.",
+  "changes": {
+    "cards": {
+      "bruiser_heavy": {
+        "health": 6
+      },
+      "bruiser_brawler": {
+        "health": 4
+      },
+      "bruiser_breacher": {
+        "health": 5
+      },
+      "bruiser_vanguard": {
+        "health": 5
+      },
+      "bruiser_gunner": {
+        "health": 4
+      },
+      "bruiser_commander": {
+        "health": 6
+      },
+      "nightwalker_scout": {
+        "health": 6
+      },
+      "nightwalker_commander": {
+        "presence": 7,
+        "health": 6
+      },
+      "nightwalker_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 4
+        },
+        "rulesText": "Response: deal 4 damage to the attacker before combat."
+      },
+      "nightwalker_strike": {
+        "effect": {
+          "kind": "damage",
+          "amount": 5
+        },
+        "rulesText": "Deal 5 damage to one enemy battlefield card."
+      }
+    },
+    "decks": {},
+    "config": {}
+  }
+}

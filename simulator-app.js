@@ -30,7 +30,8 @@
     jobId: 0, status: 'idle', runner: null, worker: null, localRun: null, timer: null, clock: null,
     snapshot: null, report: null, options: null, activeMs: 0, activeSince: 0, wallStarted: 0,
     cardSort: 'plays', sortDescending: true, matchPage: 0, activeTab: 'overview', replayLines: [],
-    workerStarted: false, startupTimer: null, lastRender: 0, previousReport: null, comparison: null, replay: null
+    workerStarted: false, startupTimer: null, lastRender: 0, previousReport: null, comparison: null, replay: null,
+    room: 'home', developer: false, workspacePane: 'setup'
   };
   const live = () => ['loading', 'running', 'paused', 'stopping'].includes(state.status);
   function elapsed() {
@@ -70,7 +71,7 @@
   function applyOptions(options) {
     const radio=document.querySelector(`input[name="mode"][value="${options.mode}"]`);if(radio)radio.checked=true;
     ['a','b'].forEach((side,index)=>{const id=options[index===0?'deckA':'deckB'];if(deckById[id]){$(`faction-${side}`).value=deckById[id].faction;fillDeck(side,id);}if(options.aiProfiles)$(`ai-${side}`).value=options.aiProfiles[index];});
-    $('balance-profile').value=options.balanceProfile||'arsenal';
+    $('balance-profile').value=options.balanceProfile||(Balance && Balance.DEFAULT_PROFILE)||'arsenal';
     for(const option of $('matrix-deck-pool').options)option.selected=(options.deckPool||[]).includes(option.value);
     $('match-count').value=options.count;$('seed').value=options.seed;$('swap-seats').checked=options.swapSeats;$('include-mirrors').checked=options.includeMirrors;
     $('max-turns').value=options.maxTurns;$('max-decisions').value=options.maxDecisions;$('verify').checked=options.verify;
@@ -94,6 +95,8 @@
     $('duel-options').hidden = matrix;
     $('matrix-options').hidden = !matrix;
     $('seat-options').hidden = matrix;
+    if ($('workspace-title')) $('workspace-title').textContent = state.developer ? 'Advanced Balance Lab' : state.room === 'factions' ? 'Faction Overview' : matrix ? 'Tournament' : 'Quick Matchup';
+    updatePoolChoices();
   }
   function setCountPreset() {
     document.querySelectorAll('[data-count]').forEach(button => button.classList.toggle('active', button.dataset.count === $('match-count').value));
@@ -117,9 +120,12 @@
     $('pause-button').textContent = status === 'paused' ? 'Resume' : 'Pause';
     $('stop-button').hidden = !live();
     $('stop-button').disabled = status === 'stopping';
+    $('refresh-decks').disabled = live();
     ['export-html','export-json', 'export-matches', 'export-cards'].forEach(id => { $(id).disabled = !state.report; });
     const labels = { idle: 'Ready to run', loading: 'Preparing experiment…', running: 'Simulations running', paused: 'Paused', stopping: 'Finishing current decision…', completed: 'Experiment complete', stopped: 'Stopped — completed results retained', error: 'Runner stopped with an error' };
     $('run-status-text').textContent = labels[status];
+    $('command-summary').textContent = labels[status];
+    document.querySelectorAll('[data-pool-choice]').forEach(input => { input.disabled = live(); });
     renderProgress();
   }
   function renderProgress() {
@@ -138,22 +144,29 @@
     const options = state.options;
     const method = options.mode === 'matrix' ? `${options.deckPool.length}-deck tournament` : `${deckById[options.deckA]?.name||options.deckA} vs ${deckById[options.deckB]?.name||options.deckB}`;
     const balance=balanceProfiles.find(profile=>profile.id===options.balanceProfile);
-    let description = `${method} · ${balance?balance.name:options.balanceProfile||'baseline'} · ${(options.aiProfiles||['baseline','baseline']).join(' / ')} AI · seed ${options.seed}`;
-    if (current && ['running', 'paused'].includes(state.status)) description += ` · match ${format(current.index + 1)}, turn ${current.turn}, ${format(current.decisions)} decisions`;
+    const defaults = Balance ? Balance.dataFor(options.balanceProfile).DEFAULT_CONFIG : Data.DEFAULT_CONFIG;
+    const experimental = options.balanceProfile !== ((Balance && Balance.DEFAULT_PROFILE) || 'arsenal') || options.aiProfiles.some(profile => profile !== 'deck') || Object.keys(ruleDefinitions).some(key => options.config[key] !== defaults[key]);
+    let description = state.developer ? `${method} · ${balance?balance.name:options.balanceProfile||'baseline'} · ${(options.aiProfiles||['baseline','baseline']).join(' / ')} AI · seed ${options.seed}` : `${method} · ${format(total)} AI matches${experimental ? ' · advanced experiment settings' : ''}`;
+    if (current && ['running', 'paused'].includes(state.status)) description += state.developer ? ` · match ${format(current.index + 1)}, turn ${current.turn}, ${format(current.decisions)} decisions` : ` · match ${format(current.index + 1)}`;
     else if (state.status === 'stopped') description += ' · finalized matches retained';
     $('run-description').textContent = description;
+    $('command-summary').textContent = live() ? `${state.status === 'paused' ? 'Paused' : 'Testing'} · ${format(completed)} / ${format(total)} matches` : state.report ? `${format(completed)} matches ready to explore` : 'Ready when you are.';
   }
   function renderOverview(summary) {
-    const factions = summary.byFaction || [];
+    const crossFaction = summary.byFactionCross || [];
+    const showCrossFaction = crossFaction.some(row => row.decisive > 0);
+    const factions = showCrossFaction ? crossFaction : summary.byFaction || [];
+    const factionHeading = $('faction-rows').closest('.table-wrap').previousElementSibling.querySelector('h3');
+    factionHeading.textContent = showCrossFaction ? 'Faction performance against other factions' : 'Faction performance';
     $('metric-wins').textContent = format(summary.decisive);
     $('metric-unresolved').textContent = format(summary.unfinished);
     $('metric-errors').textContent = format(summary.errors);
     $('metric-seat').textContent = percent(summary.firstPlayerWinRate !== undefined ? summary.firstPlayerWinRate : summary.decisive ? summary.firstPlayerWins / summary.decisive : null);
     $('metric-seat-denominator').textContent = `${format(summary.firstPlayerWins)} / ${format(summary.decisive)} resolved matches`;
     $('metric-seat').title = summary.firstPlayerWinInterval ? `Descriptive 95% Wilson interval: ${percent(summary.firstPlayerWinInterval.low)}–${percent(summary.firstPlayerWinInterval.high)}` : 'No resolved samples';
-    $('sample-note').textContent = `${format(summary.matches)} finalized matches`;
+    $('sample-note').textContent = `${format(summary.matches)} finalized matches${showCrossFaction ? ' · cross-faction rates' : factions.length && summary.matches ? ' · same-faction results: see Decks' : ''}`;
     $('faction-rows').innerHTML = factions.length ? factions.map(row => {
-      const interval = row.winInterval ? `<small title="95% Wilson interval for baseline AI outcomes">95% interval ${percent(row.winInterval.low)}–${percent(row.winInterval.high)}</small>` : '';
+      const interval = row.winInterval ? `<small class="developer-metric" title="95% Wilson interval for AI outcomes">95% interval ${percent(row.winInterval.low)}–${percent(row.winInterval.high)}</small>` : '';
       return `<tr><td>${factionLabel(row.id)}</td><td>${format(row.decisive)}</td><td>${format(row.won)}</td><td class="rate-cell">${percent(row.winRate)}${interval}</td><td>${format(row.unfinished)}</td><td>${format(row.errors)}</td></tr>`;
     }).join('') : '<tr><td colspan="6" class="empty-cell">The front is quiet. Your first run will appear here.</td></tr>';
     const deckRows = summary.byDeck || [];
@@ -181,7 +194,8 @@
       return `<td title="${escape(tooltip)}" class="${rate > .6 ? 'matrix-high' : rate !== null && rate < .4 ? 'matrix-low' : ''}">${percent(rate)}<small>${item && item.decisive ? `${format(item.wins)} / ${format(item.decisive)}` : 'no resolved samples'}</small></td>`;
     }).join('')}</tr>`).join('')}</tbody>`;
     const turns = summary.turns || {};
-    $('summary-notes').innerHTML = `<span>Mean turns <b>${turns.mean ? Number(turns.mean).toFixed(1) : '—'}</b></span><span>Turn range <b>${turns.min === null || turns.min === undefined ? '—' : `${turns.min}–${turns.max}`}</b></span><span>Captures <b>${format(Array.isArray(summary.captures) ? summary.captures.reduce((a,b) => a+b,0) : summary.captures)}</b></span><span>AI <b>${escape(Simulator.AI_VERSION || 'baseline')}</b></span>`;
+    $('summary-notes').innerHTML = `<span>Mean turns <b>${turns.mean ? Number(turns.mean).toFixed(1) : '—'}</b></span><span>Turn range <b>${turns.min === null || turns.min === undefined ? '—' : `${turns.min}–${turns.max}`}</b></span><span>Captures <b>${format(Array.isArray(summary.captures) ? summary.captures.reduce((a,b) => a+b,0) : summary.captures)}</b></span><span class="developer-metric">AI <b>${escape(Simulator.AI_VERSION || 'baseline')}</b></span>`;
+    renderPlayerSummary(summary);
   }
   function renderCards(summary) {
     const filter = $('card-faction-filter').value;
@@ -272,7 +286,7 @@
     if (!snapshot) return;
     renderProgress();
     renderOverview(snapshot.summary);
-    if(state.activeTab==='diagnostics')renderDiagnostics(snapshot.summary);
+    if(['diagnostics','economy','territory'].includes(state.activeTab))renderDiagnostics(snapshot.summary);
     if (state.activeTab === 'cards') renderCards(snapshot.summary);
     if (state.activeTab === 'decks') renderDecks(snapshot.summary);
     if (state.activeTab === 'matches') renderMatches();
@@ -322,6 +336,8 @@
     if (live()) throw new Error('Pause or stop the current run before starting another experiment.');
     let normalized;
     try { normalized = Simulator.normalizeOptions(options || readOptions()); } catch (error) { showError('form-error', error.message || String(error)); return false; }
+    if (state.room === 'home') openWarRoom('quick', true);
+    setWorkspacePane('results');
     for(const deck of Simulator.getDeckCatalog(Data,normalized.customDecks))deckById[deck.id]=deck;
     cleanRunner();
     state.jobId++;
@@ -409,6 +425,7 @@
     setTimeout(() => URL.revokeObjectURL(url), 10000);
   }
   function setTab(name) {
+    if (['diagnostics','matches','compare'].includes(name) && !state.developer) setDeveloper(true);
     state.activeTab = name;
     document.querySelectorAll('[data-tab]').forEach(button => {
       const selected = button.dataset.tab === name;
@@ -418,6 +435,18 @@
     });
     renderResults(true);
     if (name === 'matches') renderMatches();
+  }
+  function tabKeydown(event) {
+    if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    const button = event.target.closest('[data-tab]');
+    if (!button) return;
+    const tabs = [...document.querySelectorAll('[data-tab]')].filter(tab => !tab.hidden);
+    const current = tabs.indexOf(button);
+    if (current < 0) return;
+    event.preventDefault();
+    const index = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (current + (event.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+    setTab(tabs[index].dataset.tab);
+    tabs[index].focus();
   }
   function renderTrace() {
     const query = $('trace-search').value.trim().toLowerCase();
@@ -466,6 +495,123 @@
       } catch (error) { $('replay-trace').textContent = error.message || String(error); $('replay-description').textContent = 'This match could not be reproduced.'; }
     }, 30);
   }
+  function setWorkspacePane(pane) {
+    state.workspacePane = pane;
+    $('war-room-workspace').dataset.pane = pane;
+    document.querySelectorAll('[data-workspace-pane]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.workspacePane === pane)));
+  }
+  function setDeveloper(enabled) {
+    state.developer = Boolean(enabled);
+    document.body.classList.toggle('developer-view', state.developer);
+    document.querySelectorAll('.developer-only').forEach(element => { element.hidden = !state.developer; });
+    $('toggle-developer').setAttribute('aria-pressed', String(state.developer));
+    $('toggle-developer').textContent = state.developer ? 'Player view' : 'Advanced view';
+    if (!state.developer && ['diagnostics','matches','compare'].includes(state.activeTab)) setTab('overview');
+    setMode();
+    renderResults(true);
+  }
+  function openWarRoom(room, preserve) {
+    if (live()) preserve = true;
+    state.room = room;
+    $('war-room-landing').hidden = true;
+    $('war-room-workspace').hidden = false;
+    if (!preserve) {
+      setDeveloper(room === 'advanced');
+      if (room !== 'advanced') {
+        const profile = (Balance && Balance.DEFAULT_PROFILE) || 'arsenal';
+        if (balanceProfiles.some(item => item.id === profile)) $('balance-profile').value = profile;
+        $('ai-a').value = 'deck'; $('ai-b').value = 'deck';
+        $('swap-seats').checked = true;
+        $('include-mirrors').checked = false;
+        $('max-turns').value = 240; $('max-decisions').value = 10000; $('verify').checked = false;
+        balanceNote(true);
+        document.querySelector(`input[name="mode"][value="${room === 'quick' ? 'duel' : 'matrix'}"]`).checked = true;
+        if (room === 'factions') selectDeckPool('starter');
+        else if (room === 'tournament' && $('matrix-deck-pool').selectedOptions.length < 2) selectDeckPool('preset');
+      }
+      setWorkspacePane('setup');
+    }
+    setMode();
+    renderProgress();
+    $('workspace-title').focus({preventScroll:true});
+  }
+  function warRoomHome() {
+    state.room = 'home';
+    $('war-room-workspace').hidden = true;
+    $('war-room-landing').hidden = false;
+    document.querySelector('[data-war-room="quick"]').focus({preventScroll:true});
+  }
+  function updatePoolChoices() {
+    if (!$('pool-choices')) return;
+    const selected = new Set([...$('matrix-deck-pool').selectedOptions].map(option => option.value));
+    $('pool-choices').innerHTML = decks.map(deck => `<label class="pool-choice"><input type="checkbox" data-pool-choice="${escape(deck.id)}" ${selected.has(deck.id) ? 'checked' : ''} ${live() ? 'disabled' : ''}><span><b>${escape(deck.name)}</b><small>${escape(factionName(deck.faction))} · ${deck.cards.length} cards</small></span></label>`).join('');
+    $('pool-count').textContent = `${selected.size} decks selected`;
+  }
+  function selectDeckPool(source) {
+    for (const option of $('matrix-deck-pool').options) option.selected = deckById[option.value].source === source;
+    updatePoolChoices();
+  }
+  function renderPlayerSummary(summary) {
+    if (!$('player-summary')) return;
+    const rows = summary.byDeck || [];
+    $('player-summary').innerHTML = rows.length ? `<div class="player-summary-heading"><h3>${rows.length === 2 ? 'How these decks performed' : 'Deck results at a glance'}</h3><span>AI benchmark · ${format(summary.decisive)} resolved matches</span></div><div class="deck-result-cards">${rows.map(row => `<div class="deck-result-card" style="--faction:${Data.FACTIONS[row.faction]?.color || '#f2b276'}"><span>${escape(factionName(row.faction))}</span><b>${escape(row.name)}</b><strong>${percent(row.winRate)}</strong><div class="deck-rate-track"><i style="width:${Math.max(0,Math.min(100,(row.winRate || 0)*100))}%"></i></div><small>${format(row.won)} wins / ${format(row.decisive)} resolved games</small></div>`).join('')}</div><p class="table-note">Each deck can win and lose in different matchups. These AI results help you choose what to try; small samples and card correlations need context.</p>` : '<div class="player-empty"><span aria-hidden="true">⌖</span><h3>Your next strategy starts here.</h3><p>Select your decks, choose a batch size, then run simulations. Results appear as the battles finish.</p></div>';
+  }
+  function setupWarRoom() {
+    $('workspace-title').tabIndex = -1;
+    $('view-overview').insertAdjacentHTML('afterbegin', '<div id="player-summary"></div>');
+    $('tab-overview').textContent = 'Overview';
+    $('tab-decks').textContent = 'Decks';
+    $('tab-diagnostics').textContent = 'Advanced';
+    for (const name of ['diagnostics','matches','compare']) $('tab-' + name).classList.add('developer-only');
+    for (const id of ['export-json','export-matches','export-cards']) $(id).classList.add('developer-only');
+    $('tab-cards').insertAdjacentHTML('afterend', '<button type="button" id="tab-economy" role="tab" aria-selected="false" aria-controls="view-economy" data-tab="economy" tabindex="-1">Economy</button><button type="button" id="tab-territory" role="tab" aria-selected="false" aria-controls="view-territory" data-tab="territory" tabindex="-1">Territory</button>');
+    $('view-diagnostics').insertAdjacentHTML('afterend', '<section id="view-economy" role="tabpanel" aria-labelledby="tab-economy" hidden><div class="section-heading"><h3>Presence economy</h3><span>Deployment flexibility and battlefield commitment</span></div></section><section id="view-territory" role="tabpanel" aria-labelledby="tab-territory" hidden><div class="section-heading"><h3>Territory & comeback</h3><span>How decks claim ground and recover</span></div></section>');
+    const economy = $('economy-table').closest('details'), territory = $('territory-metrics').closest('details');
+    economy.open = true; territory.open = true;
+    $('view-economy').append(economy); $('view-territory').append(territory);
+    for (const pane of ['economy','territory']) {
+      $('tab-' + pane).addEventListener('click', () => setTab(pane));
+      $('tab-' + pane).addEventListener('keydown', tabKeydown);
+    }
+    // The native multi-select remains the single authoritative deck-pool input.
+    $('matrix-deck-pool').classList.add('developer-only');
+    $('matrix-deck-pool').previousElementSibling.classList.add('developer-only');
+    $('pool-note').classList.add('developer-only');
+    $('seat-options').querySelector('.field-note').classList.add('developer-only');
+    $('matrix-deck-pool').insertAdjacentHTML('beforebegin', '<div class="pool-heading"><b>Choose tournament decks</b><span id="pool-count"></span></div><div id="pool-choices" class="pool-choices"></div>');
+    const setupHeading = document.querySelector('.setup-panel .panel-heading');
+    setupHeading.querySelector('.chip').remove();
+    setupHeading.append($('refresh-decks'));
+    $('refresh-decks').textContent = 'Refresh decks';
+    $('refresh-decks').title = 'Reload saved legal decks from the Arsenal';
+    $('pool-choices').addEventListener('change', event => {
+      const choice = event.target.closest('[data-pool-choice]');
+      if (!choice || live()) return;
+      const option = [...$('matrix-deck-pool').options].find(item => item.value === choice.dataset.poolChoice);
+      if (option) option.selected = choice.checked;
+      $('pool-count').textContent = `${$('matrix-deck-pool').selectedOptions.length} decks selected`;
+      saveOptions();
+    });
+    $('matrix-deck-pool').addEventListener('change', updatePoolChoices);
+    for (const id of ['pool-starters','pool-archetypes','refresh-decks']) $(id).addEventListener('click', updatePoolChoices);
+    document.querySelectorAll('[data-war-room]').forEach(button => button.addEventListener('click', () => openWarRoom(button.dataset.warRoom)));
+    $('war-room-home').addEventListener('click', warRoomHome);
+    $('back-war-room').addEventListener('click', warRoomHome);
+    $('toggle-developer').addEventListener('click', () => setDeveloper(!state.developer));
+    $('show-setup').addEventListener('click', () => { setWorkspacePane('setup'); $('match-count').focus(); });
+    document.querySelectorAll('[data-workspace-pane]').forEach(button => button.addEventListener('click', () => setWorkspacePane(button.dataset.workspacePane)));
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape' || event.defaultPrevented || document.querySelector('dialog[open]')) return;
+      if (state.room !== 'home') { event.preventDefault(); warRoomHome(); }
+      else if (root.FrontlinesShell) { event.preventDefault(); root.FrontlinesShell.goHome(); }
+    });
+    renderPlayerSummary({});
+    updatePoolChoices();
+    setDeveloper(false);
+    const params = new URLSearchParams(location.search);
+    if (params.has('deck')) openWarRoom('quick');
+    else if (params.get('view') === 'advanced') openWarRoom('advanced');
+  }
   function setup() {
     $('tab-overview').insertAdjacentHTML('afterend','<button type="button" id="tab-decks" role="tab" aria-selected="false" aria-controls="view-decks" data-tab="decks" tabindex="-1">Decks & pairs</button>');
     $('view-overview').insertAdjacentHTML('afterend','<section id="view-decks" role="tabpanel" aria-labelledby="tab-decks" hidden><div class="section-heading"><h3>Deck matchup matrix</h3><span>Row deck wins / decisive games</span></div><div class="table-wrap"><table class="matrix-table" id="deck-matrix"></table></div><details class="advanced" open><summary>Archetype performance</summary><div class="table-wrap"><table><thead><tr><th>Faction / archetype</th><th>Wins / resolved</th><th>Win rate</th><th>Mean turns</th></tr></thead><tbody id="archetype-rows"></tbody></table></div></details><details class="advanced"><summary>Deck composition</summary><div class="table-wrap"><table><thead><tr><th>Deck</th><th>Mean Presence</th><th>Units / Leaders / Assets / Orders</th><th>Presence curve</th></tr></thead><tbody id="deck-curve-rows"></tbody></table></div></details><details class="advanced" open><summary>Frequently played card pairs</summary><div class="table-wrap"><table><thead><tr><th>Deck</th><th>Cards</th><th>Wins / games together</th><th>Win association</th><th>Mean final control change</th></tr></thead><tbody id="synergy-rows"></tbody></table></div><p class="table-note">Both cards were played in the same decisive player-game. The top 100 pairs are shown; JSON retains all. Correlation includes deck, duration and winning-position bias. Control change from the opening three territories does not establish that the pair caused it.</p></details></section>');
@@ -476,7 +622,7 @@
     $('matrix-deck-pool').innerHTML=decks.map(d=>`<option value="${escape(d.id)}" ${d.source==='starter'?'selected':''}>${escape(d.name)}</option>`).join('');
     $('pool-starters').addEventListener('click',()=>{for(const o of $('matrix-deck-pool').options)o.selected=deckById[o.value].source==='starter';saveOptions();});
     $('pool-archetypes').addEventListener('click',()=>{for(const o of $('matrix-deck-pool').options)o.selected=deckById[o.value].source==='preset';saveOptions();});
-    $('duel-options').insertAdjacentHTML('afterend','<button type="button" id="refresh-decks">Refresh saved decks</button><p id="deck-library-note" class="field-note">Saved legal decks from the Arsenal appear here. Illegal drafts stay in the Arsenal for repair.</p>');
+    $('duel-options').insertAdjacentHTML('afterend','<button type="button" id="refresh-decks">Refresh saved decks</button><p id="deck-library-note" class="field-note">Saved legal decks appear here.</p>');
     $('refresh-decks').addEventListener('click',()=>{
       if(live())return;
       const saved=root.FrontlinesDecks.load(),valid=saved.filter(d=>root.FrontlinesDecks.validate(d).legal);
@@ -485,7 +631,9 @@
       for(const side of ['a','b'])fillDeck(side,$('deck-'+side).value);
       const pool=new Set([...$('matrix-deck-pool').selectedOptions].map(o=>o.value));
       $('matrix-deck-pool').innerHTML=decks.map(d=>`<option value="${escape(d.id)}" ${pool.has(d.id)?'selected':''}>${escape(d.name)}</option>`).join('');
-      $('deck-library-note').textContent=`${valid.length} saved legal decks loaded; ${saved.length-valid.length} drafts need repair. Results retain the exact deck lists used.`;
+      const drafts=saved.length-valid.length;
+      $('deck-library-note').textContent=`${valid.length} legal decks loaded · ${drafts} draft${drafts===1?'':'s'} to repair`;
+      $('deck-library-note').title='Illegal drafts stay in Arsenal for repair. Results retain the exact deck lists used.';
       const prior=$('matchup-filter').value,pairs=[],catalog=Object.values(deckById);for(let a=0;a<catalog.length;a++)for(let b=a;b<catalog.length;b++)pairs.push({id:[catalog[a].id,catalog[b].id].sort().join('|'),name:`${catalog[a].name} vs ${catalog[b].name}`});
       $('matchup-filter').innerHTML='<option value="">All matchups</option>'+pairs.map(pair=>`<option value="${escape(pair.id)}">${escape(pair.name)}</option>`).join('');if(pairs.some(pair=>pair.id===prior))$('matchup-filter').value=prior;
     });
@@ -499,13 +647,19 @@
     $('card-faction-filter').innerHTML += Object.values(Data.FACTIONS).map(faction => `<option value="${faction.id}">${escape(faction.name)}</option>`).join('');
     $('rule-fields').innerHTML = Object.entries(ruleDefinitions).map(([key, [label, min, max]]) => `<div><label for="rule-${key}">${label}</label><input id="rule-${key}" type="number" min="${min}" max="${max}" value="${Data.DEFAULT_CONFIG[key]}" step="1" required></div>`).join('');
     $('balance-profile').innerHTML=balanceProfiles.map(profile=>`<option value="${escape(profile.id)}">${escape(profile.name)}</option>`).join('');
-    $('balance-profile').value=balanceProfiles.some(p=>p.id==='arsenal')?'arsenal':'baseline';balanceNote(false);
+    $('balance-profile').value=balanceProfiles.some(p=>p.id===(Balance && Balance.DEFAULT_PROFILE))?Balance.DEFAULT_PROFILE:balanceProfiles.some(p=>p.id==='arsenal')?'arsenal':'baseline';balanceNote(false);
     $('threshold-fields').innerHTML=Object.entries(thresholdDefinitions).map(([key,[label,percentage]])=>`<div class="${percentage?'threshold-percentage':''}"><label for="threshold-${key}">${label}</label><input id="threshold-${key}" type="number" min="0" max="${percentage?100:key==='minSamples'?100000:10000}" step="${percentage ? .1 : key==='efficientPressure' ? .1 : 1}" value="${thresholdDefaults[key]*(percentage?100:1)}" required></div>`).join('');
     const pairs=[];for(let a=0;a<decks.length;a++)for(let b=a;b<decks.length;b++)pairs.push({id:[decks[a].id,decks[b].id].sort().join('|'),name:`${decks[a].name} vs ${decks[b].name}`});
     $('matchup-filter').innerHTML+=pairs.map(pair=>`<option value="${escape(pair.id)}">${escape(pair.name)}</option>`).join('');
     $('matrix-options').querySelector('p').textContent = 'Both opening seats are included. The count is the total across selected deck pairings, including same-faction variants.';
     $('run-form').addEventListener('submit', event => {
       event.preventDefault();
+      const invalid = $('configuration').querySelector(':invalid');
+      if (invalid) {
+        if (invalid.closest('.developer-only')) setDeveloper(true);
+        const details = invalid.closest('details'); if (details) details.open = true;
+        setWorkspacePane('setup');
+      }
       if (!$('run-form').reportValidity()) return;
       start();
     });
@@ -529,15 +683,7 @@
     $('export-cards').addEventListener('click', () => download(Simulator.cardsCSV(state.report), 'cards.csv', 'text/csv;charset=utf-8'));
     document.querySelectorAll('[data-tab]').forEach(button => {
       button.addEventListener('click', () => setTab(button.dataset.tab));
-      button.addEventListener('keydown', event => {
-        const tabs = [...document.querySelectorAll('[data-tab]')];
-        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-        event.preventDefault();
-        const current = tabs.indexOf(button);
-        const index = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (current + (event.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
-        setTab(tabs[index].dataset.tab);
-        tabs[index].focus();
-      });
+      button.addEventListener('keydown', tabKeydown);
     });
     $('card-faction-filter').addEventListener('change', () => renderResults(true));
     $('match-status-filter').addEventListener('change', () => { state.matchPage = 0; renderMatches(); });
@@ -576,14 +722,15 @@
     const launchDeck=deckById[new URLSearchParams(location.search).get('deck')];if(launchDeck){document.querySelector('input[name="mode"][value="duel"]').checked=true;$('faction-a').value=launchDeck.faction;fillDeck('a',launchDeck.id);}
     setMode();
     setCountPreset();
-    const fitControls=()=>{const top=document.querySelector('.lab-layout').getBoundingClientRect().top+scrollY;document.documentElement.style.setProperty('--lab-head-room',(top+18)+'px');};
-    fitControls();window.addEventListener('resize',fitControls);
+    $('run-form').noValidate = true;
+    setupWarRoom();
   }
   root.FrontlinesSimulatorApp = {
     getStatus: () => ({ status: state.status, runner: state.runner, jobId: state.jobId, completed: state.snapshot ? state.snapshot.completed : 0, total: state.snapshot ? state.snapshot.total : 0, elapsedMs: elapsed() }),
     getReport: () => state.report,
     getOptions: () => state.options,
-    start, pause, resume, stop
+    start, pause, resume, stop,
+    openWarRoom, setDeveloper, getView: () => ({room:state.room,developer:state.developer,pane:state.workspacePane,tab:state.activeTab})
   };
   setup();
 })(globalThis);

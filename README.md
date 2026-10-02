@@ -1,22 +1,36 @@
 # Project Faction: Frontlines
 
-**Frontlines v0.5.0 — Custom Deckbuilding + Expanded Arsenal.**
+**Frontlines v0.6.0 — Command Interface candidate.**
 
 Fight for territory. Commit Presence. Push the frontline into enemy ground.
 
+The command menu puts **Play**, **Arsenal**, **War Room** and **Settings** in the main viewing area. The game, deckbuilder and simulator fit the active viewport, with scrolling inside bounded collections, lists and statistics. Primary actions stay visible in command bars rather than depending on small top links. Territory, Presence, private hands and the shared authoritative engine remain the foundation.
+
+Competitive validation is a release gate: every faction must fall within **45–55% against other factions**, with a preferred highest-to-lowest spread of **at most 5 percentage points**, and archetype gaps must be reviewed separately. Same-faction deck variants are measured separately so forced 50% faction contributions cannot compress the spread. The fresh frozen v0.5.0 baseline completed 50,000 matches with zero errors/cutoffs but failed: Nightwalker **66.138%**, Rogue **32.472%** against other factions (all-appearance figures were 64.346% / 34.419%). Final Sprint 5 validation is still in progress; UI completion does not establish competitive balance. See [Sprint 5 status](docs/SPRINT-005.md) and [the preserved investigation](docs/balance/sprint5-iteration-notes.md).
+
+## Command interface and display
+
+Use **Play** for faction/deck/opponent setup; **Arsenal** to build or inspect a deck; **War Room** to test decks; and **Settings** for display, interface and audio. Native menu commands use the same window and navigation routes. Escape closes a modal or inspection, or returns from a submenu; it does not quit the application or serve as the fullscreen toggle.
+
+The Windows app uses true native fullscreen through **F11** or **Alt + Enter**. Settings also offers **Windowed / Fullscreen**. The app remembers display mode and normal window bounds, and recovers off-screen bounds on a changed monitor. Browser launch uses browser fullscreen. Settings includes Normal/Fast animation, reduced motion/effects, reduced shake, optional sound, and master/effects volume; system reduced motion remains respected.
+
+Installed-build update feedback provides available/downloading/ready status, **Later**, and **Restart & update**. Downloading an update never restarts a match. Installation requires a ready update and no active match in any game window; updates are unavailable in a plain browser. See the [v0.6.0 release guide](docs/RELEASE-0.6.0.md) for candidate packaging and validation status.
+
 ## Arsenal and custom decks
 
-Open **Launch Arsenal.cmd** or the **Arsenal** link in setup. All 80 cards are available: five preserved starters, two archetype presets per faction, and a local library of named custom decks. Inspect artwork/rules, filter and sort cards, add/remove copies, review Presence/type curves, save variants and exchange lightweight JSON. Invalid decks remain editable drafts with explained warnings.
+Open **Arsenal** from the command menu, the native menu, or **Launch Arsenal.cmd**. All 80 cards are available: five preserved starters, two archetype presets per faction, and a local library of named custom decks. The viewport contains deck selection/contents, the card collection and inspection, plus a persistent composition summary and **Save / Test in War Room / Duplicate / Export / Play** command bar. Inspect artwork/rules, filter and sort cards, add/remove copies, review Presence/type curves, save variants and exchange lightweight JSON. Invalid decks remain editable drafts with explained warnings. Unsaved edits prompt before navigation; **Ctrl + S** saves an editable deck or draft.
 
 Build exactly 26 cards from one faction, with at most four copies of a regular card and two of a Leader. Unique still limits deployed Leaders. Select the actual saved deck for each side before a match; rematches and exported playtest reports retain its exact list. See [deckbuilding guide](docs/DECKBUILDING.md), [card design and counterplay](docs/arsenal/CARD-DESIGN.md), and [keyword rules](docs/KEYWORDS.md).
 
 Retaliate, Sabotage and Scavenge use the same engine in live matches and simulations. Updated terrain includes command fortifications, cargo yards, factories, river crossings and transit landmarks. New cards use coherent representative faction portraits.
 
-## Separate matchup simulator
+## War Room and Advanced Balance Lab
 
-Double-click **Launch Simulator.cmd** or open **simulator.html**. This separate analysis app runs AI against AI through the same rules engine, without match artwork, animation, or turn delays. It does not require admin access or change an active game.
+Open **War Room** inside the game, **Test in War Room** from Arsenal, **Launch Simulator.cmd**, or **simulator.html**. Player access remains available inside Frontlines, as requested by the owner on October 2. AI-versus-AI matches use the same rules engine, without battlefield artwork, animation or turn delays; no admin access is required.
 
-Choose starter, preset or saved decks, or run a selected deck round robin. Set the **total number of simulations**, seed, profiles, rules, and safety limits. Alternating seats measures opening-seat differences. Pause, resume, or stop while retaining completed results. Inspect faction/deck/archetype matchups, length percentiles, economy, territory, comeback, card usage and played pairs; export HTML/JSON/CSV or inspect a seeded decision trace.
+The landing commands are **Quick Matchup**, **Tournament**, **Faction Overview** and **Advanced Lab**. Choose starter, preset or saved decks and the **total simulation count**. Tournament uses checkboxes to select a deck pool. **Run / Pause / Resume / Stop** remain in the fixed command bar. Overview, Decks, Cards, Economy and Territory use bounded result tabs; player summaries show approximate deck rates and sample counts.
+
+**Advanced view** retains profiles, AI policies, seeds, rule overrides, safeguards, diagnostic thresholds, confidence intervals, match traces, regression/named-variant comparison and JSON/CSV exports. Player entry defaults to the current game profile and deck-aware AI. Advanced experiments stay labeled when viewed through the simpler results UI. An experiment does not alter live rules or a saved deck.
 
 Baseline, faction-aware, random and deck-aware policies are selectable. Reports snapshot custom lists, so local edits cannot change a replay. Compare older reports or named deck variants. Timeouts/errors remain separate from victories. Card/pair associations and AI rates require human validation before competitive balance claims.
 
@@ -26,9 +40,11 @@ The optional HTTP preview uses a background worker. Direct offline launch uses a
 npm run simulate -- --count 1000 --a stonewall --b bruiser --seed 1009 --out test-results/sim-report.json --csv
 ```
 
-See the [simulator guide](docs/SIMULATOR.md), [game roadmap](docs/GAME-ROADMAP.md), and [simulator roadmap](docs/SIMULATOR-ROADMAP.md) for the workflow and next implementation stages.
+That CLI example uses historical baseline defaults. Specify the current profile with `--balance` and use `--ai deck` to match a player War Room experiment; Advanced view and report options identify its profile. Use `--pool archetypes` for the ten-preset tournament.
 
-## Sprint 2 presentation
+See the [War Room guide](docs/SIMULATOR.md), [game roadmap](docs/GAME-ROADMAP.md), and [simulator roadmap](docs/SIMULATOR-ROADMAP.md) for the workflow and next implementation stages.
+
+## Battlefield and card presentation
 
 The seven-zone battlefield has faction-colored ground, banners, a connected tactical city map, an advancing objective, and an explicit end-turn capture forecast. The desktop hand sits beside the board so selecting a card and deploying it does not require scrolling between them.
 
@@ -52,8 +68,8 @@ Open `http://127.0.0.1:4173`. The optional server binds to this computer only. T
 
 ## First match
 
-1. Choose two factions. Stonewall versus Bruiser is a useful first matchup.
-2. Start a local hot-seat game. Pass the computer when prompted and reveal your hand when ready. You can instead select a basic AI opponent for player 2.
+1. Choose **Play** from the command menu, then select a faction and actual deck for each side. Stonewall versus Bruiser is a useful first matchup.
+2. Start a local hot-seat game. Pass the computer when prompted and reveal your hand when ready. You can instead select a deck-aware AI opponent for player 2.
 3. Select a Unit or Leader in your hand, then a highlighted controlled territory to deploy it. The controlled territory closest to the orange objective is usually a useful staging area.
 4. Select a deployed unit and move it one adjacent territory toward the objective. Movement takes an action and normally exhausts the unit. Units can move immediately after deployment; only Rush units can attack on the turn they deploy.
 5. Attack an enemy in the same territory with a ready unit. The defender may pass, use a defensive Order, or intercept with a ready Guard. A played response gives the attacker one counter opportunity, then the engagement resolves.
@@ -110,7 +126,7 @@ npm run playtest
 
 Tests use Node's built-in test runner and require no npm install. The playtest script runs seeded AI matches across all faction pairings, checks card conservation and state invariants after decisions, and writes `docs/playtest-results.json`. These simulations find rule failures and obvious balance problems; they cannot establish human enjoyment or competitive balance.
 
-See [Sprint 4 report](docs/SPRINT-004.md), [Sprint 3 checkpoint](docs/SPRINT-003.md), [balance history](docs/BALANCE.md), and [art direction](docs/ART-DIRECTION.md). Native release details are in [v0.5.0 playtest guide](docs/RELEASE-0.5.0.md).
+See [Sprint 5 status](docs/SPRINT-005.md), [Sprint 4 report](docs/SPRINT-004.md), [Sprint 3 checkpoint](docs/SPRINT-003.md), [balance history](docs/BALANCE.md), and [art direction](docs/ART-DIRECTION.md). Current native release details are in [v0.6.0 release guide](docs/RELEASE-0.6.0.md); the [v0.5.0 guide](docs/RELEASE-0.5.0.md) remains historical.
 
 Optional browser checks use an existing Playwright installation and Microsoft Edge:
 
@@ -121,22 +137,25 @@ node tests/browser-layout.js <path-to-playwright>
 node tests/browser-sprint3.js <path-to-playwright>
 node tests/browser-deck-builder.js <path-to-playwright>
 node tests/browser-deck-lab.js <path-to-playwright>
+node tests/browser-warroom-sprint5.js <path-to-playwright>
+node tests/browser-arsenal-sprint5.js <path-to-playwright>
 ```
 
-Run `npm start` first for those checks. They verify direct file launch, HTTP launch, complete matches, actual button input, privacy, effects cleanup, audio hooks, the paced AI, settings, rematch, and desktop sizes. Browser-test dependencies are not needed to play or run the rules tests.
+Run `npm start` first for HTTP checks. The suites verify direct file launch, complete matches, actual button input, privacy, effects cleanup, audio hooks, the paced AI, settings, rematch, custom-deck/Worker/Node parity and bounded viewport navigation. Sprint 5 screen checks cover 1920×1080, 2560×1440, 1366×768, 1280×720 and 900×600, with a small-browser fallback where applicable. Desktop host tests use a mocked updater and isolated temporary profiles; native smoke launches also use an isolated profile. These checks are automated; owner/external human playtests have not been performed. Browser-test dependencies are not needed to play or run the rules tests.
 
 ## Main files
 
 | File | Responsibility |
 | --- | --- |
-| `index.html`, `styles.css`, `app.js` | Setup, battlefield, input, privacy, feedback, and dialogs. |
+| `index.html`, `styles.css`, `command.css`, `app.js` | Command menu, setup, bounded battlefield/hand, input, privacy, feedback and dialogs. |
+| `shell-state.js`, `shell.js`, `shell.css` | Shared command styling, navigation, settings, display/update state and safe update feedback. |
 | `data.js` | Factions, card definitions, 26-card starter decks, glossary, default balance values. |
 | `engine.js` | Pure state transitions, legality, combat, Presence, capture, victory, and debug helpers. |
 | `ai.js` | Deterministic baseline, faction, deck and random policies using the same legal actions as players. |
 | `decks.js`, `deck-builder.*` | Shared construction/persistence, archetype presets and Arsenal UI. |
 | `balance.js`, `balance/`, `live-runtime.js` | Explicit isolated rules/card profiles and selected live runtime. |
-| `telemetry.js`, `analytics.js`, `sim-core.js`, `simulator-*` | Authoritative event observation, diagnostics, deck tournaments, comparison and replay. |
-| `main.js`, `package.json` | Native desktop launch/menu and local Windows packaging. |
+| `telemetry.js`, `analytics.js`, `sim-core.js`, `simulator-*`, `war-room.css` | Authoritative event observation, player War Room, advanced diagnostics, deck tournaments, comparison and replay. |
+| `main.js`, `desktop.js`, `preload.js`, `package.json` | Sandboxed native host/bridge, fullscreen, menu routes, update guard and Windows packaging. |
 | `art.js`, `assets/` | Faction themes, illustrated role atlases, vector emblems, tactical map, original source art, and future asset folders. |
 | `effects.js`, `effects.css` | State-diff presentation events, bounded animations, resource counters, public hot-seat replay, and replaceable audio cues. |
 | `tests/` | Rules regression tests, integration checks, and deterministic full-match simulation. |

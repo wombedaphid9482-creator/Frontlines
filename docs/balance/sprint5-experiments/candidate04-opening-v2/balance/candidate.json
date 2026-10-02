@@ -1,0 +1,101 @@
+{
+  "id": "candidate",
+  "name": "Sprint 3 candidate — iteration 04",
+  "version": "sprint3-candidate-v4",
+  "description": "Exploratory attrition-weakness pass. Bruiser breakthrough forces expose lighter staying power and no universal Guard screen; selected Nightwalker infantry survive ordinary 3-Attack retaliation. Not yet the live default.",
+  "changes": {
+    "cards": {
+      "bruiser_assault": {
+        "attack": 3
+      },
+      "bruiser_heavy": {
+        "presence": 7,
+        "attack": 4,
+        "health": 5
+      },
+      "bruiser_brawler": {
+        "health": 4
+      },
+      "bruiser_breacher": {
+        "health": 4
+      },
+      "bruiser_vanguard": {
+        "attack": 3,
+        "health": 5,
+        "traits": [],
+        "rulesText": "A forward screen with the Presence to occupy ground; vulnerable to precision fire."
+      },
+      "bruiser_gunner": {
+        "health": 4
+      },
+      "bruiser_commander": {
+        "presence": 7,
+        "attack": 4,
+        "health": 5
+      },
+      "bruiser_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 2
+        },
+        "rulesText": "Response: deal 2 damage to the attacker before combat."
+      },
+      "nightwalker_blade": {
+        "presence": 4,
+        "health": 4
+      },
+      "nightwalker_stalker": {
+        "presence": 5,
+        "health": 4
+      },
+      "nightwalker_marksman": {
+        "presence": 6
+      },
+      "nightwalker_saboteur": {
+        "presence": 5
+      },
+      "nightwalker_scout": {
+        "presence": 6,
+        "health": 6
+      },
+      "nightwalker_commander": {
+        "presence": 7,
+        "health": 6
+      },
+      "nightwalker_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 4
+        },
+        "rulesText": "Response: deal 4 damage to the attacker before combat."
+      },
+      "nightwalker_strike": {
+        "effect": {
+          "kind": "damage",
+          "amount": 5
+        },
+        "rulesText": "Deal 5 damage to one enemy battlefield card."
+      },
+      "rogue_outrider": {
+        "health": 5
+      },
+      "rogue_skirmisher": {
+        "attack": 4
+      },
+      "rogue_scrapper": {
+        "presence": 5,
+        "health": 5
+      },
+      "rogue_commander": {
+        "traits": [
+          "command",
+          "mobile",
+          "medic"
+        ],
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Mobile. Medic — heal each ally here by 1 at your turn start."
+      }
+    },
+    "decks": {},
+    "config": {}
+  }
+}

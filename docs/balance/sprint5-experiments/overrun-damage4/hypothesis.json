@@ -1,0 +1,15 @@
+{
+  "id": "overrun-damage4",
+  "changes": {
+    "bruiser_overrun_charge": {
+      "effect": {
+        "kind": "damage",
+        "amount": 4
+      },
+      "rulesText": "Deal 4 damage to one enemy battlefield card. Spending and a major action are required."
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

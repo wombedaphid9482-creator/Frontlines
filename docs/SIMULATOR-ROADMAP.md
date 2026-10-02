@@ -1,23 +1,24 @@
 # Simulator action roadmap
 
-The **v3 Balance Lab** is a fast AI-versus-AI tool sharing the live engine, accessible inside the game and through dedicated launchers. Delivered: deterministic profiles/tiers, rich traces, exact deck snapshots, custom deck duels, selected-pool round robin, faction/deck/archetype/seat statistics, curves, pair associations, diagnostics, comparison and HTML/JSON/CSV export.
+The **v0.6.0 War Room** is the player-facing AI-versus-AI screen inside Frontlines. Its **Advanced Lab** retains the full developer Balance Lab. Dedicated launchers remain supported. Delivered: prominent Quick Matchup/Tournament/Faction Overview/Advanced commands, bounded result tabs, persistent Run/Pause/Stop, deterministic policies, exact saved-deck snapshots, round robin, faction/deck/archetype/seat statistics, curves, pair associations, diagnostics, comparison and HTML/JSON/CSV export. The shared authoritative engine remains unchanged by presentation.
 
-## Required next access and UI corrections
+## Owner access and UI requirements — implemented
 
-Owner feedback recorded October 1, 2026, with Balance Lab access corrected October 2, 2026. The control-size improvements are pending the next pass.
+Owner feedback recorded October 1, 2026, with Balance Lab access corrected October 2, 2026, is reflected in Sprint 5.
 
-- Keep Balance Lab accessible through the game's player-facing menus and deckbuilding flows so players can test their decks. Preserve dedicated simulator launchers and shared engine/deck support as well. The earlier requirement to remove in-game access is canceled.
-- Make the tool's primary actions and setup controls large, clearly labeled and prominent in the main page, with comfortable click/tap targets and visible keyboard focus.
+- War Room is accessible through the central game menu and Arsenal's Test command. Players can test their own decks without admin access; the earlier removal request is canceled.
+- Large landing commands and the fixed simulation command bar make primary actions easy to find. Setup and result content scroll inside bounded panels; smaller browser windows offer Setup/Results panel switches.
+- Engineering profiles, AI choices, seeds, safeguards, diagnostic thresholds, confidence intervals, traces and comparison stay available through Advanced rather than dominating the initial player view.
 
 ## Next simulator action plan
 
-1. **Inspect current outliers.** Replay weak Shock/Rogue and dominant Heavy/Assassination across both seats; compare deck AI with baseline/faction controls and human reports. Gate: recorded causes distinguish sequencing, list density, card efficiency and missing strategic answers.
-2. **Improve deck AI carefully.** Add bounded public-state tactical evaluation for declared archetypes, especially fast deployment and salvage/recovery. Gate: deterministic legal actions and hidden-information independence hold; benchmarks demonstrate improvement per faction rather than only overall wins.
-3. **Controlled variant campaigns.** Use identical seeds/opponent pools for one list/card revision, keep profiles and reports immutable, and summarize effect sizes with uncertainty. Gate: deck-list changes, AI changes, cutoffs and schedule differences are explicit; no attribution from uncontrolled win-rate deltas.
-4. **Scenario fixtures.** Add a small public-position library for overwhelmed fronts, salvage deaths, defense conversion and response windows. Gate: each scenario uses normal authoritative actions and reproduces live behavior.
-5. **Pair and usage exploration.** Improve pair views with exposure-adjusted cohorts and optional usage heatmaps. Gate: sample sizes and selection bias remain visible; correlations never automatically nerf a card.
+1. **Validate competitive stabilization.** Start from the preserved current-Arsenal 50,000-match baseline, not older starter percentages. Targeted 10,000-match hypotheses precede the final 50,000-match gate: every faction 45–55% against other factions, preferred spread at most 5 percentage points, and viable archetypes with reviewed extreme pairings. Use `byFactionCross` for this gate; `byFaction` preserves all appearances and same-faction deck tests separately. Baseline Nightwalker 66.138% / Rogue 32.472% cross-faction rates fail (all appearances: 64.346% / 34.419%). Final current-profile results remain pending until recorded.
+2. **Diagnose before tuning.** Investigate rule bugs, AI sequencing, single-card outliers and combinations before broad faction changes. Use Silent Blade's actual draws, repeated plays, efficiency, kills, deployment timing, tactical priority and matchup context. Gate: control-versus-variant outcomes and censored observations are explicit; raw winning-card associations are not causal conclusions.
+3. **Human deck experiments and controlled campaigns.** Use identical versions/seeds/opponent pools for one revision, keep reports immutable, and compare both deck rates and gameplay behavior. Gate: humans confirm useful choices and counterplay; the War Room remains understandable while Advanced retains full provenance.
+4. **Scenario fixtures and bounded AI refinement.** Add public-position tests for pressure, salvage, defense conversion and responses; improve the relevant policy only with evidence. Gate: legal deterministic actions and hidden-information independence hold, and live/Worker/Node/offline results agree.
+5. **Pair/usage exploration and durable jobs.** Add exposure-aware heatmaps or persistent resumable batches after competitive/human validation. Gate: biases, sample sizes and partial completion remain visible; correlation never automatically nerfs a card, and a reloaded job cannot omit or duplicate records.
 
-The previous staged plan below is retained as historical context. Its shared registry/deck support and report comparison milestones are now implemented; remaining depth belongs after human validation.
+The previous staged plan below is retained as historical context. Shared registry/deck support, report comparison and the integrated player interface are implemented; deeper resumable-job and causal-analysis work remains future scope.
 
 Each phase below has a concrete acceptance gate and no calendar commitment. See [simulator usage](SIMULATOR.md) for the delivered interface and metric definitions.
 

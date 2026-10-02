@@ -1,0 +1,20 @@
+{
+  "experiment": "rupture-health4",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "bruiser_rupture_heavy": {
+      "health": {
+        "before": 5,
+        "after": 4
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-rupture-health4-v1",
+  "compiledFromActualSource": true
+}

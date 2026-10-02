@@ -1,0 +1,11 @@
+{
+  "id": "command-cap50",
+  "changes": {
+    "config": {
+      "commandCap": 50
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

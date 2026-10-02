@@ -429,7 +429,7 @@
     try {
       if (!audioContext) {
         const Context = root.AudioContext || root.webkitAudioContext; if (!Context) return;
-        audioContext = new Context(); master = audioContext.createGain(); master.gain.value = .2; master.connect(audioContext.destination);
+        audioContext = new Context(); master = audioContext.createGain(); master.gain.value = .2 * (Number.isFinite(settings.masterVolume) ? settings.masterVolume : .7); master.connect(audioContext.destination);
       }
       if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
     } catch (_) { /* Audio failure must never interrupt a legal game action. */ }
@@ -491,6 +491,8 @@
   function configure(next) {
     settings = { ...settings, ...(next || {}) };
     settings.animationSpeed = settings.animationSpeed === 'fast' ? 'fast' : 'normal';
+    settings.masterVolume = Number.isFinite(settings.masterVolume) ? Math.max(0,Math.min(1,settings.masterVolume)) : .7;
+    if (master) master.gain.value = .2 * settings.masterVolume;
     if (!settings.sound) stopSounds();
     if (hasDOM) doc.documentElement.dataset.effectsSpeed = settings.animationSpeed;
   }

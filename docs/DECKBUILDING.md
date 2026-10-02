@@ -13,7 +13,7 @@ These limits preserve all five original starter lists, including four infantry a
 
 ## Build, save and exchange
 
-Open `Launch Arsenal.cmd`, the Arsenal link in game setup, or the desktop application's Frontlines → Open Arsenal menu. Pick a faction and inspect its original starter or either archetype preset. Builtins remain available unchanged; make an editable copy to customize one. Search, filter by type, Presence, role or keyword, and sort by name, cost or type. Select a card to inspect the portrait, full rules, keyword explanations and separate flavor text.
+Open **Arsenal** from the command menu, `Launch Arsenal.cmd`, or the native **Frontlines → Arsenal** menu. Pick a faction and inspect its original starter or either archetype preset. Builtins remain available unchanged; make an editable copy to customize one. Search, filter by type, Presence, role or keyword, and sort by name, cost or type. Select a card to inspect the portrait, full rules, keyword explanations and separate flavor text. The collection and long contents use bounded internal scrolling; the composition summary and command bar remain visible. **Ctrl + S** saves an editable deck/draft, and unsaved changes prompt before navigation.
 
 The editor shows copies, total size, average Presence, card types, Heavy/Specialist counts and five Presence curve buckets. Save multiple named decks, duplicate variants, rename them and confirm deletions. Strategy intent is an optional declaration for deck-aware AI; it never changes legality or grants bonuses.
 
@@ -23,9 +23,9 @@ Export Deck writes lightweight `frontlines-deck-v1` JSON. Import from a file or 
 
 Choose a deck for each faction on match setup. The engine validates and shuffles those exact lists. Rematch uses the same lists even if a saved deck is edited elsewhere. Match reports include the actual list and declared strategy.
 
-In Balance Lab, refresh saved decks and choose both competitors. Illegal drafts are excluded. Use Deck-aware AI to evaluate the declared strategy, or compare against baseline/faction/random policies. Matrix mode supports a selected deck pool, including same-faction variants, with paired opening seats. The total match count is across the complete schedule. Reports retain explicit lists and can reproduce a match after a local library changes.
+Use **Test in War Room** from Arsenal or open **War Room → Quick Matchup**, refresh saved decks and choose both competitors. Illegal drafts are excluded. Player runs use the current game profile and deck-aware AI; **Advanced view** allows comparison against baseline/faction/random policies. **Tournament** supports a selected deck pool, including same-faction variants, with paired opening seats. The total match count is across the complete schedule. Reports retain explicit lists and can reproduce a match after a local library changes.
 
-Decks & pairs shows a deck matchup matrix, archetype rates, composition and frequently played pairs. Compare imports an older report and can compare two named variants. Pair win associations and final territory change are diagnostic correlations, not evidence that a combination caused victory. Different opponent pools, policies or rules must be considered before drawing balance conclusions.
+The **Decks** result tab shows a deck matchup matrix, archetype rates, composition and frequently played pairs. **Advanced → Compare** imports an older report and can compare two named variants. Pair win associations and final territory change are diagnostic correlations, not evidence that a combination caused victory. Different opponent pools, policies or rules must be considered before drawing balance conclusions.
 
 CLI examples:
 

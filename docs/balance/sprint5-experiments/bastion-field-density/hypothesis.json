@@ -1,0 +1,8 @@
+{
+  "id": "bastion-field-density",
+  "changes": {},
+  "deckChange": "See exact 26-card lists in source and report",
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

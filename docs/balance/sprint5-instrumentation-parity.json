@@ -1,0 +1,8 @@
+{
+  "frozenBaseline": "sprint5-baseline-50000.json",
+  "observedControl": "sprint5-observed-control-10000.json",
+  "matched": 10000,
+  "identicalOutcomes": true,
+  "identicalMatchDiagnostics": true,
+  "date": "2026-10-02"
+}

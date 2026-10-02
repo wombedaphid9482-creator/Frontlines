@@ -1,0 +1,437 @@
+[
+  {
+    "file": "sprint5-assault-health5-10000.json",
+    "profile": "assault-health5",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5515,
+    "meanTurns": 27.5791,
+    "factions": {
+      "stonewall": 0.49850299401197606,
+      "bruiser": 0.58075,
+      "syndicate": 0.46375,
+      "nightwalker": 0.6293793793793794,
+      "rogue": 0.32757757757757755
+    },
+    "decks": {
+      "stonewall-bastion": 0.44173306772908366,
+      "stonewall-counteroffensive": 0.5555,
+      "bruiser-shock-assault": 0.4005,
+      "bruiser-heavy-breakthrough": 0.761,
+      "syndicate-combined-arms": 0.62,
+      "syndicate-precision-operations": 0.3075,
+      "nightwalker-sabotage": 0.5815815815815816,
+      "nightwalker-assassination": 0.6771771771771772,
+      "rogue-scavenger": 0.33783783783783783,
+      "rogue-wildcard": 0.3173173173173173
+    },
+    "minimumMatchupRate": 0.09909909909909909
+  },
+  {
+    "file": "sprint5-blade-health3-10000.json",
+    "profile": "blade-health3",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5466,
+    "meanTurns": 27.458,
+    "factions": {
+      "stonewall": 0.5192115768463074,
+      "bruiser": 0.52275,
+      "syndicate": 0.495,
+      "nightwalker": 0.6076076076076076,
+      "rogue": 0.35535535535535534
+    },
+    "decks": {
+      "stonewall-bastion": 0.46065737051792827,
+      "stonewall-counteroffensive": 0.578,
+      "bruiser-shock-assault": 0.2615,
+      "bruiser-heavy-breakthrough": 0.784,
+      "syndicate-combined-arms": 0.637,
+      "syndicate-precision-operations": 0.353,
+      "nightwalker-sabotage": 0.6111111111111112,
+      "nightwalker-assassination": 0.6041041041041041,
+      "rogue-scavenger": 0.35685685685685686,
+      "rogue-wildcard": 0.3538538538538539
+    },
+    "minimumMatchupRate": 0.02252252252252252
+  },
+  {
+    "file": "sprint5-broker-health7-10000.json",
+    "profile": "broker-health7",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5447,
+    "meanTurns": 27.0785,
+    "factions": {
+      "stonewall": 0.5114770459081837,
+      "bruiser": 0.503,
+      "syndicate": 0.47625,
+      "nightwalker": 0.6161161161161162,
+      "rogue": 0.39314314314314314
+    },
+    "decks": {
+      "stonewall-bastion": 0.45717131474103584,
+      "stonewall-counteroffensive": 0.566,
+      "bruiser-shock-assault": 0.239,
+      "bruiser-heavy-breakthrough": 0.767,
+      "syndicate-combined-arms": 0.623,
+      "syndicate-precision-operations": 0.3295,
+      "nightwalker-sabotage": 0.571071071071071,
+      "nightwalker-assassination": 0.6611611611611612,
+      "rogue-scavenger": 0.44494494494494496,
+      "rogue-wildcard": 0.34134134134134136
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-eliminator-health6-10000.json",
+    "profile": "eliminator-health6",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5443,
+    "meanTurns": 27.3147,
+    "factions": {
+      "stonewall": 0.49151696606786427,
+      "bruiser": 0.5035,
+      "syndicate": 0.5725,
+      "nightwalker": 0.6013513513513513,
+      "rogue": 0.3310810810810811
+    },
+    "decks": {
+      "stonewall-bastion": 0.43725099601593626,
+      "stonewall-counteroffensive": 0.546,
+      "bruiser-shock-assault": 0.2485,
+      "bruiser-heavy-breakthrough": 0.7585,
+      "syndicate-combined-arms": 0.599,
+      "syndicate-precision-operations": 0.546,
+      "nightwalker-sabotage": 0.5535535535535535,
+      "nightwalker-assassination": 0.6491491491491491,
+      "rogue-scavenger": 0.33783783783783783,
+      "rogue-wildcard": 0.32432432432432434
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-night-counterplay-10000.json",
+    "profile": "night-counterplay",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5478,
+    "meanTurns": 27.5206,
+    "factions": {
+      "stonewall": 0.5339321357285429,
+      "bruiser": 0.55575,
+      "syndicate": 0.5065,
+      "nightwalker": 0.527027027027027,
+      "rogue": 0.3766266266266266
+    },
+    "decks": {
+      "stonewall-bastion": 0.47260956175298807,
+      "stonewall-counteroffensive": 0.5955,
+      "bruiser-shock-assault": 0.2705,
+      "bruiser-heavy-breakthrough": 0.841,
+      "syndicate-combined-arms": 0.648,
+      "syndicate-precision-operations": 0.365,
+      "nightwalker-sabotage": 0.5395395395395396,
+      "nightwalker-assassination": 0.5145145145145145,
+      "rogue-scavenger": 0.38038038038038036,
+      "rogue-wildcard": 0.37287287287287285
+    },
+    "minimumMatchupRate": 0.06306306306306306
+  },
+  {
+    "file": "sprint5-observed-control-10000.json",
+    "profile": "arsenal",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5447,
+    "meanTurns": 27.1015,
+    "factions": {
+      "stonewall": 0.5102295409181636,
+      "bruiser": 0.51825,
+      "syndicate": 0.482,
+      "nightwalker": 0.6428928928928929,
+      "rogue": 0.3465965965965966
+    },
+    "decks": {
+      "stonewall-bastion": 0.45617529880478086,
+      "stonewall-counteroffensive": 0.5645,
+      "bruiser-shock-assault": 0.2605,
+      "bruiser-heavy-breakthrough": 0.776,
+      "syndicate-combined-arms": 0.624,
+      "syndicate-precision-operations": 0.34,
+      "nightwalker-sabotage": 0.5970970970970971,
+      "nightwalker-assassination": 0.6886886886886887,
+      "rogue-scavenger": 0.34884884884884887,
+      "rogue-wildcard": 0.34434434434434436
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-overrun-damage4-10000.json",
+    "profile": "overrun-damage4",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5465,
+    "meanTurns": 27.4509,
+    "factions": {
+      "stonewall": 0.5164670658682635,
+      "bruiser": 0.476,
+      "syndicate": 0.49325,
+      "nightwalker": 0.6559059059059059,
+      "rogue": 0.35835835835835833
+    },
+    "decks": {
+      "stonewall-bastion": 0.4631474103585657,
+      "stonewall-counteroffensive": 0.57,
+      "bruiser-shock-assault": 0.263,
+      "bruiser-heavy-breakthrough": 0.689,
+      "syndicate-combined-arms": 0.6375,
+      "syndicate-precision-operations": 0.349,
+      "nightwalker-sabotage": 0.6151151151151151,
+      "nightwalker-assassination": 0.6966966966966966,
+      "rogue-scavenger": 0.36036036036036034,
+      "rogue-wildcard": 0.3563563563563564
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-rogue-lancer6-10000.json",
+    "profile": "rogue-lancer6",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5438,
+    "meanTurns": 27.2078,
+    "factions": {
+      "stonewall": 0.5022455089820359,
+      "bruiser": 0.50475,
+      "syndicate": 0.4665,
+      "nightwalker": 0.6163663663663663,
+      "rogue": 0.41016016016016016
+    },
+    "decks": {
+      "stonewall-bastion": 0.4506972111553785,
+      "stonewall-counteroffensive": 0.554,
+      "bruiser-shock-assault": 0.2395,
+      "bruiser-heavy-breakthrough": 0.77,
+      "syndicate-combined-arms": 0.6165,
+      "syndicate-precision-operations": 0.3165,
+      "nightwalker-sabotage": 0.5685685685685685,
+      "nightwalker-assassination": 0.6641641641641641,
+      "rogue-scavenger": 0.34134134134134136,
+      "rogue-wildcard": 0.47897897897897895
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-rogue-raid4-10000.json",
+    "profile": "rogue-raid4",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5449,
+    "meanTurns": 27.3061,
+    "factions": {
+      "stonewall": 0.500249500998004,
+      "bruiser": 0.49825,
+      "syndicate": 0.4625,
+      "nightwalker": 0.6238738738738738,
+      "rogue": 0.41516516516516516
+    },
+    "decks": {
+      "stonewall-bastion": 0.448207171314741,
+      "stonewall-counteroffensive": 0.5525,
+      "bruiser-shock-assault": 0.224,
+      "bruiser-heavy-breakthrough": 0.7725,
+      "syndicate-combined-arms": 0.6195,
+      "syndicate-precision-operations": 0.3055,
+      "nightwalker-sabotage": 0.5695695695695696,
+      "nightwalker-assassination": 0.6781781781781782,
+      "rogue-scavenger": 0.4269269269269269,
+      "rogue-wildcard": 0.4034034034034034
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-rupture-attack4-10000.json",
+    "profile": "rupture-attack4",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5407,
+    "meanTurns": 26.8119,
+    "factions": {
+      "stonewall": 0.5074850299401198,
+      "bruiser": 0.549,
+      "syndicate": 0.474,
+      "nightwalker": 0.6258758758758759,
+      "rogue": 0.3435935935935936
+    },
+    "decks": {
+      "stonewall-bastion": 0.4541832669322709,
+      "stonewall-counteroffensive": 0.561,
+      "bruiser-shock-assault": 0.256,
+      "bruiser-heavy-breakthrough": 0.842,
+      "syndicate-combined-arms": 0.613,
+      "syndicate-precision-operations": 0.335,
+      "nightwalker-sabotage": 0.5855855855855856,
+      "nightwalker-assassination": 0.6661661661661662,
+      "rogue-scavenger": 0.34284284284284283,
+      "rogue-wildcard": 0.34434434434434436
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-rupture-health4-10000.json",
+    "profile": "rupture-health4",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5458,
+    "meanTurns": 27.4116,
+    "factions": {
+      "stonewall": 0.5159680638722555,
+      "bruiser": 0.47625,
+      "syndicate": 0.49125,
+      "nightwalker": 0.664914914914915,
+      "rogue": 0.3516016016016016
+    },
+    "decks": {
+      "stonewall-bastion": 0.4636454183266932,
+      "stonewall-counteroffensive": 0.5685,
+      "bruiser-shock-assault": 0.267,
+      "bruiser-heavy-breakthrough": 0.6855,
+      "syndicate-combined-arms": 0.632,
+      "syndicate-precision-operations": 0.3505,
+      "nightwalker-sabotage": 0.6151151151151151,
+      "nightwalker-assassination": 0.7147147147147147,
+      "rogue-scavenger": 0.35135135135135137,
+      "rogue-wildcard": 0.35185185185185186
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-rupture-presence12-10000.json",
+    "profile": "rupture-presence12",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5362,
+    "meanTurns": 26.1792,
+    "factions": {
+      "stonewall": 0.49426147704590817,
+      "bruiser": 0.59325,
+      "syndicate": 0.4645,
+      "nightwalker": 0.6088588588588588,
+      "rogue": 0.3390890890890891
+    },
+    "decks": {
+      "stonewall-bastion": 0.44671314741035856,
+      "stonewall-counteroffensive": 0.542,
+      "bruiser-shock-assault": 0.255,
+      "bruiser-heavy-breakthrough": 0.9315,
+      "syndicate-combined-arms": 0.5975,
+      "syndicate-precision-operations": 0.3315,
+      "nightwalker-sabotage": 0.5680680680680681,
+      "nightwalker-assassination": 0.6496496496496497,
+      "rogue-scavenger": 0.33983983983983984,
+      "rogue-wildcard": 0.3383383383383383
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-rupture-presence7-10000.json",
+    "profile": "rupture-presence7",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5386,
+    "meanTurns": 26.8272,
+    "factions": {
+      "stonewall": 0.5072355289421158,
+      "bruiser": 0.56425,
+      "syndicate": 0.47175,
+      "nightwalker": 0.6163663663663663,
+      "rogue": 0.34034034034034033
+    },
+    "decks": {
+      "stonewall-bastion": 0.4546812749003984,
+      "stonewall-counteroffensive": 0.56,
+      "bruiser-shock-assault": 0.26,
+      "bruiser-heavy-breakthrough": 0.8685,
+      "syndicate-combined-arms": 0.6095,
+      "syndicate-precision-operations": 0.334,
+      "nightwalker-sabotage": 0.5745745745745746,
+      "nightwalker-assassination": 0.6581581581581581,
+      "rogue-scavenger": 0.34184184184184185,
+      "rogue-wildcard": 0.33883883883883886
+    },
+    "minimumMatchupRate": 0.013513513513513514
+  },
+  {
+    "file": "sprint5-shock-health5-10000.json",
+    "profile": "shock-health5",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5464,
+    "meanTurns": 27.1812,
+    "factions": {
+      "stonewall": 0.5029940119760479,
+      "bruiser": 0.55275,
+      "syndicate": 0.469,
+      "nightwalker": 0.6373873873873874,
+      "rogue": 0.33783783783783783
+    },
+    "decks": {
+      "stonewall-bastion": 0.44721115537848605,
+      "stonewall-counteroffensive": 0.559,
+      "bruiser-shock-assault": 0.335,
+      "bruiser-heavy-breakthrough": 0.7705,
+      "syndicate-combined-arms": 0.6175,
+      "syndicate-precision-operations": 0.3205,
+      "nightwalker-sabotage": 0.5895895895895896,
+      "nightwalker-assassination": 0.6851851851851852,
+      "rogue-scavenger": 0.33933933933933935,
+      "rogue-wildcard": 0.33633633633633636
+    },
+    "minimumMatchupRate": 0.04504504504504504
+  },
+  {
+    "file": "sprint5-strike-damage4-10000.json",
+    "profile": "strike-damage4",
+    "decisive": 10000,
+    "errors": 0,
+    "cutoffs": 0,
+    "firstPlayer": 0.5473,
+    "meanTurns": 27.2781,
+    "factions": {
+      "stonewall": 0.5219560878243513,
+      "bruiser": 0.553,
+      "syndicate": 0.4955,
+      "nightwalker": 0.5655655655655656,
+      "rogue": 0.3638638638638639
+    },
+    "decks": {
+      "stonewall-bastion": 0.4676294820717131,
+      "stonewall-counteroffensive": 0.5765,
+      "bruiser-shock-assault": 0.268,
+      "bruiser-heavy-breakthrough": 0.838,
+      "syndicate-combined-arms": 0.638,
+      "syndicate-precision-operations": 0.353,
+      "nightwalker-sabotage": 0.53003003003003,
+      "nightwalker-assassination": 0.6011011011011012,
+      "rogue-scavenger": 0.3688688688688689,
+      "rogue-wildcard": 0.3588588588588589
+    },
+    "minimumMatchupRate": 0.04054054054054054
+  }
+]

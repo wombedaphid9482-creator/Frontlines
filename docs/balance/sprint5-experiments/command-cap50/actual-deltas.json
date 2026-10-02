@@ -1,0 +1,18 @@
+{
+  "experiment": "command-cap50",
+  "comparisonProfile": "arsenal",
+  "cards": {},
+  "config": {
+    "commandCap": {
+      "before": 80,
+      "after": 50
+    }
+  },
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-command-cap50-v1",
+  "compiledFromActualSource": true
+}

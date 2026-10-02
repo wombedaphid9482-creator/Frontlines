@@ -1,0 +1,118 @@
+{
+  "experiment": "candidate05-assault4",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "bruiser_heavy": {
+      "health": {
+        "before": 5,
+        "after": 6
+      }
+    },
+    "bruiser_breacher": {
+      "health": {
+        "before": 4,
+        "after": 5
+      }
+    },
+    "nightwalker_strike": {
+      "effect": {
+        "before": {
+          "kind": "damage",
+          "amount": 5
+        },
+        "after": {
+          "kind": "damage",
+          "amount": 4
+        }
+      },
+      "rulesText": {
+        "before": "Deal 5 damage to one enemy battlefield card.",
+        "after": "Deal 4 damage to one enemy battlefield card."
+      }
+    },
+    "rogue_raid": {
+      "effect": {
+        "before": {
+          "kind": "damage",
+          "amount": 3
+        },
+        "after": {
+          "kind": "damage",
+          "amount": 4
+        }
+      },
+      "rulesText": {
+        "before": "Deal 3 damage to one enemy battlefield card.",
+        "after": "Deal 4 damage to one enemy battlefield card."
+      }
+    },
+    "bruiser_shock_runner": {
+      "health": {
+        "before": 3,
+        "after": 5
+      }
+    },
+    "bruiser_rupture_heavy": {
+      "health": {
+        "before": 5,
+        "after": 4
+      }
+    },
+    "bruiser_overrun_charge": {
+      "presence": {
+        "before": 6,
+        "after": 4
+      },
+      "effect": {
+        "before": {
+          "kind": "damage",
+          "amount": 6
+        },
+        "after": {
+          "kind": "damage",
+          "amount": 4
+        }
+      },
+      "rulesText": {
+        "before": "Deal 6 damage to one enemy battlefield card. Spending and a major action are required.",
+        "after": "Deal 4 damage to one enemy battlefield card. Spending and a major action are required."
+      }
+    },
+    "syndicate_tactical_medic": {
+      "health": {
+        "before": 5,
+        "after": 4
+      }
+    },
+    "syndicate_eliminator": {
+      "health": {
+        "before": 4,
+        "after": 5
+      }
+    },
+    "rogue_broker": {
+      "health": {
+        "before": 5,
+        "after": 6
+      }
+    },
+    "rogue_lancer": {
+      "presence": {
+        "before": 5,
+        "after": 6
+      },
+      "health": {
+        "before": 4,
+        "after": 5
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-candidate05-assault4-v1",
+  "compiledFromActualSource": true
+}

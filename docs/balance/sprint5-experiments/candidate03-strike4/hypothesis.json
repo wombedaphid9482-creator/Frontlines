@@ -1,0 +1,30 @@
+{
+  "id": "candidate03-strike4",
+  "changes": {
+    "bruiser_breacher": {
+      "health": 5
+    },
+    "nightwalker_blade": {
+      "health": 4
+    },
+    "nightwalker_strike": {
+      "effect": {
+        "kind": "damage",
+        "amount": 4
+      },
+      "rulesText": "Deal 4 damage to one enemy battlefield card."
+    },
+    "syndicate_tactical_medic": {
+      "health": 4
+    },
+    "syndicate_eliminator": {
+      "health": 5
+    },
+    "rogue_broker": {
+      "health": 6
+    }
+  },
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

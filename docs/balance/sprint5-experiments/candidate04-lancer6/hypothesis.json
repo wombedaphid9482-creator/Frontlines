@@ -1,0 +1,14 @@
+{
+  "id": "candidate04-lancer6",
+  "parent": "candidate04",
+  "requestedChanges": {
+    "cards": {
+      "rogue_lancer": {
+        "health": 6
+      }
+    }
+  },
+  "compiledDataDiffVerified": true,
+  "seed": 20261007,
+  "count": 10000
+}

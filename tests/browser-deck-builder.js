@@ -33,11 +33,12 @@ fs.mkdirSync(out,{recursive:true});
   await page.reload();
   await page.locator('#builder-deck').selectOption(draftId);
   assert.ok((await page.locator('.deck-legality').innerText()).includes('25/26'));
+  await page.locator('[data-action="filters"]').click();
   await page.locator('#card-keyword-filter').selectOption('retaliate');
   assert.equal(await page.locator('.arsenal-card').count(),2);
   await page.locator('#card-search').fill('Watchguard');
   assert.equal(await page.locator('.arsenal-card').count(),1);
-  await page.locator('[data-action="inspect"][data-id="stonewall_watchguard"]').click();
+  await page.locator('.arsenal-card-inspect[data-id="stonewall_watchguard"]').click();
   assert.ok((await page.locator('#card-detail').innerText()).includes('Retaliate'));
   assert.ok((await page.locator('#card-detail').innerText()).includes('FLAVOR'));
   await page.locator('[data-action="add-card"][data-id="stonewall_watchguard"]').click();
@@ -109,10 +110,10 @@ fs.mkdirSync(out,{recursive:true});
     assert.ok(box.scroll<=box.width+1,'Builder horizontal overflow at '+width+': '+JSON.stringify(box));
     await page.screenshot({path:path.join(out,'sprint4-builder-'+width+'.png'),fullPage:true});
   }
-  await page.locator('[data-action="inspect"][data-id="stonewall_watchguard"]').first().click();
+  await page.locator('.arsenal-card-inspect[data-id="stonewall_watchguard"]').first().click();
   assert.equal(await page.locator('#deck-dialog').isVisible(),true);
   await page.locator('[data-dialog-action="close"]').click();
-  await page.goto('http://127.0.0.1:4173/index.html');
+  await page.goto('http://127.0.0.1:4173/index.html?screen=play');
   const setupBox=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
   assert.ok(setupBox.scroll<=setupBox.width+1,'Match setup overflow at mobile width');
   const inspectedHand=await page.evaluate(id=>{const decks=FrontlinesDecks.forData(FrontlinesData).getDecks();const state=FrontlinesApp.startMatch({decks:[decks.find(d=>d.id===id),decks.find(d=>d.id==='bruiser-heavy-breakthrough')],seed:991143,mode:'ai',developer:false,bothHands:false,config:{startingHand:8}});return state.players[0].hand.find(c=>FrontlinesData.CARDS[c.cardId].type==='unit').uid;},alpha.id);
@@ -120,7 +121,7 @@ fs.mkdirSync(out,{recursive:true});
     await page.setViewportSize({width,height:900});await page.locator('[data-action="hand"][data-uid="'+inspectedHand+'"]').hover();
     const gameBox=await page.evaluate(()=>({width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,hand:document.querySelector('.hand-area').getBoundingClientRect().width}));
     assert.ok(gameBox.scroll<=gameBox.width+1,'Populated hand / inspected card overflows at '+width);assert.ok(gameBox.hand<width);
-    if(width===390)assert.equal(Math.round((await page.locator('.hand-area .inspect-art .card-portrait').boundingBox()).width),170);
+    if(width===390){const art=await page.locator('.hand-area .inspect-art .card-portrait').boundingBox();assert.ok(art.width>=64&&art.width<width,'Mobile inspection artwork remains visible inside the game viewport');}
   }
   await page.goto(pathToFileURL(path.join(base,'deck-builder.html')).href);
   assert.equal(await page.locator('#builder-faction').isVisible(),true);

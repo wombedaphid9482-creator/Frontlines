@@ -1,0 +1,17 @@
+{
+  "id": "candidate02",
+  "changes": {
+    "bruiser_rupture_heavy": {
+      "health": 4
+    },
+    "bruiser_assault": {
+      "health": 5
+    },
+    "rogue_broker": {
+      "health": 7
+    }
+  },
+  "base": "sprint5-candidate01-v1",
+  "seed": 20261007,
+  "count": 10000
+}

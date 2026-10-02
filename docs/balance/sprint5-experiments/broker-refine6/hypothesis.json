@@ -1,0 +1,11 @@
+{
+  "id": "broker-refine6",
+  "changes": {
+    "rogue_broker": {
+      "health": 6
+    }
+  },
+  "base": "sprint5-candidate02-v1",
+  "seed": 20261007,
+  "count": 10000
+}

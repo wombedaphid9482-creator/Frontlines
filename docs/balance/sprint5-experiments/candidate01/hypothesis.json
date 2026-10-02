@@ -1,0 +1,41 @@
+{
+  "id": "candidate01",
+  "changes": {
+    "nightwalker_blade": {
+      "health": 3
+    },
+    "nightwalker_strike": {
+      "effect": {
+        "kind": "damage",
+        "amount": 4
+      },
+      "rulesText": "Deal 4 damage to one enemy battlefield card."
+    },
+    "bruiser_overrun_charge": {
+      "effect": {
+        "kind": "damage",
+        "amount": 4
+      },
+      "rulesText": "Deal 4 damage to one enemy battlefield card. Spending and a major action are required."
+    },
+    "bruiser_shock_runner": {
+      "health": 5
+    },
+    "syndicate_eliminator": {
+      "health": 6
+    },
+    "rogue_lancer": {
+      "health": 6
+    },
+    "rogue_raid": {
+      "effect": {
+        "kind": "damage",
+        "amount": 4
+      },
+      "rulesText": "Deal 4 damage to one enemy battlefield card."
+    }
+  },
+  "base": "sprint4-arsenal-v3",
+  "seed": 20261007,
+  "count": 10000
+}

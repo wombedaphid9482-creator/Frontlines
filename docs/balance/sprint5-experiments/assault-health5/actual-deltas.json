@@ -1,0 +1,24 @@
+{
+  "experiment": "assault-health5",
+  "comparisonProfile": "arsenal",
+  "cards": {
+    "bruiser_assault": {
+      "attack": {
+        "before": 3,
+        "after": 4
+      },
+      "health": {
+        "before": 4,
+        "after": 5
+      }
+    }
+  },
+  "config": {},
+  "starters": {},
+  "secondPlayerOpeningDraw": {
+    "before": 0,
+    "after": 0
+  },
+  "profileVersion": "sprint5-assault-health5-v1",
+  "compiledFromActualSource": true
+}

@@ -1,0 +1,60 @@
+{
+  "name": "project-faction-frontlines",
+  "productName": "Frontlines",
+  "version": "0.5.0",
+  "private": true,
+  "description": "Offline tactical territory card game and AI matchup simulator",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server.js",
+    "electron": "electron .",
+    "build": "electron-builder",
+    "publish": "electron-builder --publish always",
+    "test": "node --test tests/*.test.js",
+    "playtest": "node tests/playtest.js",
+    "simulate": "node scripts/simulate.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "build": {
+    "appId": "com.ryken.frontlines",
+    "productName": "Frontlines",
+    "publish": {
+      "provider": "github",
+      "owner": "wombedaphid9482-creator",
+      "repo": "Frontlines"
+    },
+    "directories": {
+      "output": "release/0.5.0"
+    },
+    "artifactName": "Frontlines-Setup-${version}.${ext}",
+    "files": [
+      "*.js",
+      "*.html",
+      "*.css",
+      "package.json",
+      "balance/*.json",
+      "assets/cards/**/*",
+      "assets/ui/**/*",
+      "assets/battlefield/**/*",
+      "assets/audio/**/*",
+      "assets/effects/**/*",
+      "assets/animations/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/ui/frontlines-icon.ico"
+    },
+    "electronDist": "node_modules/electron/dist",
+    "npmRebuild": false
+  },
+  "devDependencies": {
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
+}

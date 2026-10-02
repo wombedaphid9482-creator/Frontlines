@@ -6,10 +6,11 @@ const {chromium}=require(process.argv[2]||'playwright');
  const browser=await chromium.launch({headless:true,channel:'msedge'});
  const page=await browser.newPage({viewport:{width:1366,height:768}}),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
- await page.goto('http://127.0.0.1:4173');await page.waitForSelector('[data-action="start"]');
+ await page.goto('http://127.0.0.1:4173/index.html?screen=play');await page.waitForSelector('[data-action="start"]');
  await page.locator('[data-action="settings"]').click();
- await page.locator('[data-setting="sound"]').check();
- await page.locator('[data-action="close-modal"]').first().click();
+ await page.locator('[data-settings-tab="audio"]').click();
+ await page.locator('[data-pref="sound"]').check();
+ await page.locator('.shell-settings [data-shell-action="close-settings"]').first().click();
  // A turn draw survives privacy as a count, then animates only the new card.
  await page.evaluate(()=>FrontlinesApp.startMatch({factions:['stonewall','bruiser'],seed:41000,mode:'hotseat',developer:false,bothHands:false}));
  await page.locator('[data-action="reveal"]').click();
@@ -55,9 +56,10 @@ const {chromium}=require(process.argv[2]||'playwright');
  // Verify actual paced AI, allowing it to take player2 actions on its own.
  await page.evaluate(()=>{FrontlinesEffects.configure({animationSpeed:'fast',sound:false,reducedEffects:true});FrontlinesApp.startMatch({factions:['bruiser','stonewall'],seed:1209,mode:'ai',developer:false,bothHands:false});});
  await page.locator('[data-action="settings"]').click();
- await page.locator('[data-setting="animationSpeed"]').selectOption('fast');
- await page.locator('[data-setting="reducedEffects"]').check();
- await page.locator('[data-action="close-modal"]').first().click();
+ await page.locator('[data-settings-tab="interface"]').click();
+ await page.locator('#shell-animation').selectOption('fast');
+ await page.locator('[data-pref="reducedEffects"]').check();
+ await page.locator('.shell-settings [data-shell-action="close-settings"]').first().click();
  let humanDecisions=0;
  while(await page.evaluate(()=>FrontlinesApp.getState().winner===null)){
   const actor=await page.evaluate(()=>FrontlinesEngine.getActor(FrontlinesApp.getState()));
