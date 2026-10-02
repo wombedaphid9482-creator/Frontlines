@@ -1,0 +1,23 @@
+{
+  "version": "0.5.0",
+  "clientDate": "2026-10-01",
+  "balanceVersion": "sprint4-arsenal-v3",
+  "aiVersion": "frontlines-ai-sprint4-v2",
+  "simulatorVersion": "3.0.0",
+  "installer": {
+    "file": "Frontlines-Setup-0.5.0.exe",
+    "bytes": 112613127,
+    "sha256": "8689098bedb57e5070fbe9cd11d781d6df756fb977eaeeb18febb24aa98780aa"
+  },
+  "validation": {
+    "unitTests": 123,
+    "simulatedMatches": 20000,
+    "errors": 0,
+    "cutoffs": 0,
+    "seeds": [
+      20261005,
+      20261006
+    ],
+    "verifiedRuntimeFiles": 45
+  }
+}

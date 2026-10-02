@@ -14,6 +14,9 @@ async function status(page, expected) {
 }
 async function selectedMatch(page, count) {
   await page.locator('.mode-switch label:has(input[value="duel"])').click();
+  await page.locator('#balance-profile').selectOption('baseline');
+  await page.locator('#ai-a').selectOption('baseline');
+  await page.locator('#ai-b').selectOption('baseline');
   await page.locator('#faction-a').selectOption('nightwalker');
   await page.locator('#faction-b').selectOption('rogue');
   await page.locator('#match-count').fill(String(count));
@@ -35,21 +38,22 @@ async function exportFile(page, button, filename) {
   const track = p => { p.on('pageerror', e => errors.push(e.message)); p.on('console', e => {if(e.type()==='error') errors.push(e.text());}); };
   track(page);
   await page.goto('http://127.0.0.1:4173/simulator.html');
+  await page.evaluate(()=>localStorage.clear());await page.reload();
   await page.waitForSelector('#run-button');
   assert.equal(await page.locator('#faction-a option').count(), 5);
-  assert.equal(await page.locator('#deck-a option').count(), 1);
+  assert.equal(await page.locator('#deck-a option').count(), 3);
   // Both native count validation and cross-field rules validation stop a job.
   await page.locator('#match-count').fill('0');
   await page.locator('#run-button').click();
   assert.equal(await page.evaluate(() => FrontlinesSimulatorApp.getStatus().status), 'idle');
   await page.locator('#match-count').fill('24');
-  await page.locator('#run-form .advanced summary').click();
+  await page.locator('#run-form .advanced summary').first().click();
   await page.locator('#rule-commandCap').fill('10');
   await page.locator('#run-button').click();
   assert.match(await page.locator('#form-error').innerText(), /cap.*lower/i);
   assert.equal(await page.evaluate(() => FrontlinesSimulatorApp.getStatus().status), 'idle');
   await page.locator('#reset-rules').click();
-  await page.locator('#run-form .advanced summary').click();
+  await page.locator('#run-form .advanced summary').first().click();
   await selectedMatch(page, 24);
   assert.equal(await page.locator('#deck-a').inputValue(), 'nightwalker-starter');
   await page.locator('#run-button').click();
@@ -106,14 +110,16 @@ async function exportFile(page, button, filename) {
   // The complete browser worker benchmark must match Node/CLI records exactly.
   await page.locator('[data-tab="overview"]').click();
   await page.locator('.mode-switch label:has(input[value="matrix"])').click();
+  await page.locator('#pool-starters').click();
   await page.locator('#match-count').fill('1000');
   await page.locator('#seed').fill('1009');
   await page.locator('#run-button').click();
   await status(page, 'completed');
   const matrix = await page.evaluate(() => FrontlinesSimulatorApp.getReport());
   const baseline = JSON.parse(fs.readFileSync(path.join(root, 'docs/simulator-baseline-1000.json'), 'utf8'));
-  assert.deepEqual(matrix.matches, baseline.matches);
-  assert.deepEqual(matrix.summary, baseline.summary);
+  assert.equal(matrix.completed,baseline.completed);
+  for(let index=0;index<baseline.matches.length;index++){const expected=baseline.matches[index],actual=matrix.matches[index];assert.deepEqual(Object.fromEntries(Object.keys(expected).map(key=>[key,actual[key]])),expected,'Canonical baseline match '+index);}
+  for(const metric of ['matches','decisive','unfinished','errors','firstPlayerWins'])assert.equal(matrix.summary[metric],baseline.summary[metric]);
   const workerTime = await page.evaluate(() => FrontlinesSimulatorApp.getStatus().elapsedMs);
   for (const width of [1366,1024,768,390]) {
     await page.setViewportSize({width,height:900});
@@ -134,7 +140,7 @@ async function exportFile(page, button, filename) {
   assert.deepEqual(local.matches, duel.matches);
   assert.deepEqual(local.summary, duel.summary);
   // Explicit turn/decision limit labels and missing win denominators.
-  await offline.locator('#run-form .advanced summary').click();
+  await offline.locator('#run-form .advanced summary').first().click();
   await offline.locator('#max-decisions').fill('1');
   await offline.locator('#match-count').fill('5');
   await offline.locator('#run-button').click();

@@ -11,6 +11,8 @@
   };
   const POSITIONS = { rifle:'0% 0%', heavy:'100% 0%', specialist:'0% 100%', commander:'100% 100%' };
   function role(card) {
+    // New strategic roles can intentionally reuse an established atlas crop.
+    if (Object.prototype.hasOwnProperty.call(POSITIONS, card.artRole)) return card.artRole;
     if (card.type === 'leader') return 'commander';
     if (/heavy|siege|bastion|armored|vanguard|breach|trail guard|rage gunner/i.test(card.name)) return 'heavy';
     if ((card.traits || []).some(t => ['medic','precision','command'].includes(t)) || /scout|saboteur|courier|salvage|pathfinder|stalker/i.test(card.name)) return 'specialist';

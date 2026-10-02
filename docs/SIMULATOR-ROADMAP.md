@@ -1,6 +1,23 @@
 # Simulator action roadmap
 
-The simulator is a separate fast AI-versus-AI tool. It uses the game's authoritative territory and Presence engine and leaves the animated match interface intact. Its purpose is to find failures, compare controlled changes, and produce inspectable evidence.
+The **v3 Balance Lab** is a fast AI-versus-AI tool sharing the live engine, accessible inside the game and through dedicated launchers. Delivered: deterministic profiles/tiers, rich traces, exact deck snapshots, custom deck duels, selected-pool round robin, faction/deck/archetype/seat statistics, curves, pair associations, diagnostics, comparison and HTML/JSON/CSV export.
+
+## Required next access and UI corrections
+
+Owner feedback recorded October 1, 2026, with Balance Lab access corrected October 2, 2026. The control-size improvements are pending the next pass.
+
+- Keep Balance Lab accessible through the game's player-facing menus and deckbuilding flows so players can test their decks. Preserve dedicated simulator launchers and shared engine/deck support as well. The earlier requirement to remove in-game access is canceled.
+- Make the tool's primary actions and setup controls large, clearly labeled and prominent in the main page, with comfortable click/tap targets and visible keyboard focus.
+
+## Next simulator action plan
+
+1. **Inspect current outliers.** Replay weak Shock/Rogue and dominant Heavy/Assassination across both seats; compare deck AI with baseline/faction controls and human reports. Gate: recorded causes distinguish sequencing, list density, card efficiency and missing strategic answers.
+2. **Improve deck AI carefully.** Add bounded public-state tactical evaluation for declared archetypes, especially fast deployment and salvage/recovery. Gate: deterministic legal actions and hidden-information independence hold; benchmarks demonstrate improvement per faction rather than only overall wins.
+3. **Controlled variant campaigns.** Use identical seeds/opponent pools for one list/card revision, keep profiles and reports immutable, and summarize effect sizes with uncertainty. Gate: deck-list changes, AI changes, cutoffs and schedule differences are explicit; no attribution from uncontrolled win-rate deltas.
+4. **Scenario fixtures.** Add a small public-position library for overwhelmed fronts, salvage deaths, defense conversion and response windows. Gate: each scenario uses normal authoritative actions and reproduces live behavior.
+5. **Pair and usage exploration.** Improve pair views with exposure-adjusted cohorts and optional usage heatmaps. Gate: sample sizes and selection bias remain visible; correlations never automatically nerf a card.
+
+The previous staged plan below is retained as historical context. Its shared registry/deck support and report comparison milestones are now implemented; remaining depth belongs after human validation.
 
 Each phase below has a concrete acceptance gate and no calendar commitment. See [simulator usage](SIMULATOR.md) for the delivered interface and metric definitions.
 

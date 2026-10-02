@@ -1,6 +1,23 @@
 # Game action roadmap
 
-The next work starts from the playable Sprint 2 game. Territory remains the victory objective. Presence remains deployment cost, ongoing field commitment, and capture strength. The engine owns rules; the interface and effects describe its state.
+The next work starts from **v0.5.0 Arsenal**. Territory, continuing Presence commitment and the shared authoritative engine remain the foundation. Completed: illustrated battlefield/effects; Balance Lab profiles/diagnostics/replays; local deckbuilding, JSON exchange, custom live/simulated decks, twenty expansion cards and ten archetype presets.
+
+## Required next UI corrections
+
+Owner feedback recorded October 1, 2026, with Balance Lab access corrected October 2, 2026. The control-size improvements are requirements for the next implementation pass, not changes already included in v0.5.0.
+
+- **Keep Balance Lab accessible inside the game.** Players should be able to test their decks through the game's menus and deckbuilding flows. Retain the existing access and dedicated simulator launchers; the earlier request to remove in-game access is canceled.
+- **Make primary actions larger and more visible.** Place clearly labeled buttons in the central menu or another prominent main-content area. Small controls at the top of the page must not be the only way to discover important actions. Check readable text, comfortable click/tap targets, spacing and keyboard focus.
+
+## Next game action plan
+
+1. **Owner and external human playtests.** Use the packaged candidate, choose two different decks of the same faction, swap opening seats and export feedback. Prioritize weak Shock/Rogue and favored Heavy/Assassination. Gate: humans can explain their deck plan, Presence tradeoffs and counterplay, and complete a match without technical help.
+2. **Deck identity and counterplay pass.** Separate AI weakness from card/preset weakness using matched schedules and human evidence. Review mandatory cards, recovery, fragile occupation and high-commitment finishers. Gate: each faction has two credible approaches with documented favorable/unfavorable matchups; no universal dominance hidden by faction averages.
+3. **Teach first-match decisions.** Add optional short guidance for deployment, movement, response, commitment, end-turn capture and deck strategy. Gate: a new player can finish a private-hand match and identify an unaffordable/illegal action without developer tools.
+4. **Distinct art and readable battlefield polish.** Replace representative portraits for the most-used expansion cards first, retain faction frames and optimize atlases. Iterate on unit-size readability, keyboard/tap inspection and the moving objective. Gate: visual inspection at desktop/mobile sizes and reduced-motion settings passes without gameplay overhead.
+5. **Small scenarios and deeper strategy.** Add only a documented missing role/choice, then extend keywords, AI and simulation together. Gate: every ability has exact rules, counterplay and conservation/regression checks. Online systems and progression remain deferred until local matches demonstrate durable fun.
+
+The acceptance gates below preserve the earlier roadmap context; the plan above is the active post-Sprint-4 priority order.
 
 This roadmap has acceptance gates rather than dates. Complete a gate before widening its scope. The separate [simulator roadmap](SIMULATOR-ROADMAP.md) supports these decisions; CPU results alone do not establish human balance.
 

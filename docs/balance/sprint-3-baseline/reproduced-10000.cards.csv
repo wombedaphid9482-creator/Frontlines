@@ -1,0 +1,61 @@
+deckId,cardId,name,faction,type,copiesPerDeck,drawn,plays,deployments,orders,attacksInitiated,deaths,unitTurnObservations,handEndTurnObservations,affordableHandEndTurnObservations,playRate
+stonewall-starter,stonewall_rifles,Line Rifle Squad,stonewall,unit,4,11122,9692,9692,0,10628,6912,33951,20809,20788,0.8714260025175328
+stonewall-starter,stonewall_defender,Shield Defender,stonewall,unit,3,8482,8107,8107,0,5439,5853,28845,5877,5767,0.9557887290733318
+stonewall-starter,stonewall_medic,Field Medic,stonewall,unit,2,5652,5313,5313,0,2308,4026,15995,5676,5595,0.9400212314225053
+stonewall-starter,stonewall_heavy,Bastion Heavy,stonewall,unit,2,5790,5687,5687,0,11528,3439,24554,407,407,0.9822107081174438
+stonewall-starter,stonewall_escort,Armored Escort,stonewall,unit,2,5693,5561,5561,0,5507,4168,18728,1248,988,0.9768136307746356
+stonewall-starter,stonewall_pathfinder,Route Pathfinder,stonewall,unit,2,5578,5378,5378,0,2612,4596,12800,2295,2290,0.9641448547866619
+stonewall-starter,stonewall_commander,Defense Commander,stonewall,leader,2,5699,5417,5417,0,5724,3952,19944,2905,2780,0.9505176346727496
+stonewall-starter,stonewall_aid_station,Forward Aid Station,stonewall,asset,1,2661,1501,1501,0,0,900,9175,13118,13084,0.5640736565201052
+stonewall-starter,stonewall_triage,Emergency Triage,stonewall,order,2,5596,4571,0,4571,0,0,0,18404,18399,0.8168334524660472
+stonewall-starter,stonewall_brace,Brace for Impact,stonewall,order,2,5646,4938,0,4938,0,0,0,12757,12754,0.8746014877789585
+stonewall-starter,stonewall_rally,Hold the Line,stonewall,order,2,5312,1209,0,1209,0,0,0,46274,46271,0.22759789156626506
+stonewall-starter,stonewall_fire_support,Defensive Fire,stonewall,order,2,5473,4930,0,4930,0,0,0,11942,11923,0.9007856751324684
+bruiser-starter,bruiser_assault,Assault Squad,bruiser,unit,4,9462,8135,8135,0,4537,4290,25929,13603,12762,0.8597548087085183
+bruiser-starter,bruiser_heavy,Siege Heavy,bruiser,unit,3,7456,7112,7112,0,9144,3437,26774,1740,1569,0.953862660944206
+bruiser-starter,bruiser_brawler,Scarred Brawler,bruiser,unit,2,4815,3206,3206,0,3228,1312,13205,13778,13681,0.6658359293873313
+bruiser-starter,bruiser_breacher,Breach Team,bruiser,unit,2,4981,4739,4739,0,5221,2277,17546,2036,1437,0.9514153784380647
+bruiser-starter,bruiser_vanguard,Iron Vanguard,bruiser,unit,2,4911,4540,4540,0,4623,1972,18061,3765,3006,0.924455304418652
+bruiser-starter,bruiser_gunner,Rage Gunner,bruiser,unit,2,4948,4380,4380,0,4360,2075,15633,6028,5195,0.8852061438965239
+bruiser-starter,bruiser_commander,Assault Commander,bruiser,leader,2,4977,4453,4453,0,5534,2404,16232,3053,2758,0.8947156921840466
+bruiser-starter,bruiser_banner,Assault Standard,bruiser,asset,1,2338,617,617,0,0,72,4387,12288,12060,0.26390076988879385
+bruiser-starter,bruiser_bombard,Demolition Charge,bruiser,order,2,4735,3945,0,3945,0,0,0,8909,8401,0.8331573389651531
+bruiser-starter,bruiser_rally,Second Wind,bruiser,order,2,4658,439,0,439,0,0,0,32443,32414,0.09424645770717045
+bruiser-starter,bruiser_ambush,Violent Reprisal,bruiser,order,2,4769,3074,0,3074,0,0,0,15333,15267,0.6445795764311176
+bruiser-starter,bruiser_resupply,Combat Resupply,bruiser,order,2,4567,2070,0,2070,0,0,0,22719,22670,0.45325158747536676
+syndicate-starter,syndicate_security,Security Detail,syndicate,unit,4,13544,12593,12593,0,5989,10688,28623,16796,16792,0.9297844063792085
+syndicate-starter,syndicate_enforcer,Contract Enforcer,syndicate,unit,3,10172,9950,9950,0,10565,7316,34011,2781,2770,0.9781753834054266
+syndicate-starter,syndicate_observer,Target Observer,syndicate,unit,2,6705,5874,5874,0,3219,4727,16251,13244,13244,0.876062639821029
+syndicate-starter,syndicate_courier,Blackline Courier,syndicate,unit,2,6797,6571,6571,0,2294,5529,15640,3609,3609,0.9667500367809327
+syndicate-starter,syndicate_coordinator,Operations Coordinator,syndicate,unit,2,6779,6561,6561,0,4237,5019,20066,4229,4229,0.9678418645817968
+syndicate-starter,syndicate_contractor,Armored Contractor,syndicate,unit,2,6838,6729,6729,0,8264,4958,23655,888,888,0.9840596665691723
+syndicate-starter,syndicate_commander,Operations Director,syndicate,leader,2,6800,6520,6520,0,5850,5161,21459,3254,3137,0.9588235294117647
+syndicate-starter,syndicate_relay,Coordination Relay,syndicate,asset,1,3187,2151,2151,0,0,1203,12847,12496,12491,0.6749294006903044
+syndicate-starter,syndicate_intel,Intelligence Network,syndicate,order,2,6451,5220,0,5220,0,0,0,21279,21279,0.8091768718028213
+syndicate-starter,syndicate_disrupt,Supply Interference,syndicate,order,2,5976,1,0,1,0,0,0,64977,64977,0.00016733601070950468
+syndicate-starter,syndicate_counter,Override Protocol,syndicate,order,2,6518,3488,0,3488,0,0,0,31976,31976,0.5351334765265419
+syndicate-starter,syndicate_precision_strike,Contract Strike,syndicate,order,2,6726,6075,0,6075,0,0,0,13014,13013,0.9032114183764496
+nightwalker-starter,nightwalker_blade,Silent Blade,nightwalker,unit,4,15555,15225,15225,0,9876,14006,33506,16729,16729,0.9787849566055931
+nightwalker-starter,nightwalker_stalker,Veil Stalker,nightwalker,unit,3,11660,11588,11588,0,4197,10921,22673,2220,2220,0.9938250428816466
+nightwalker-starter,nightwalker_marksman,Ghost Marksman,nightwalker,unit,2,7831,7770,7770,0,3069,7414,13922,2692,2692,0.9922104456646661
+nightwalker-starter,nightwalker_assault,Dusk Assault Team,nightwalker,unit,2,7762,7716,7716,0,5939,7202,17769,3381,3381,0.9940736923473331
+nightwalker-starter,nightwalker_saboteur,Cornered Saboteur,nightwalker,unit,2,7777,7693,7693,0,2859,7214,16077,5355,5355,0.9891989198919892
+nightwalker-starter,nightwalker_scout,Shadow Scout,nightwalker,unit,2,7753,7712,7712,0,5601,7102,20918,733,733,0.9947117244937443
+nightwalker-starter,nightwalker_commander,Veil Commander,nightwalker,leader,2,7603,7522,7522,0,5143,7025,19526,2339,2339,0.9893463106668421
+nightwalker-starter,nightwalker_beacon,Targeting Beacon,nightwalker,asset,1,3608,3234,3234,0,0,2483,17059,9157,9157,0.8963414634146342
+nightwalker-starter,nightwalker_ambush,From the Dark,nightwalker,order,2,7721,7079,0,7079,0,0,0,17184,17184,0.9168501489444373
+nightwalker-starter,nightwalker_strike,Surgical Strike,nightwalker,order,2,7824,7677,0,7677,0,0,0,8037,8037,0.9812116564417178
+nightwalker-starter,nightwalker_withdraw,Fade Away,nightwalker,order,2,7780,6508,0,6508,0,0,0,18929,18929,0.8365038560411311
+nightwalker-starter,nightwalker_recon,Night Reconnaissance,nightwalker,order,2,7377,7120,0,7120,0,0,0,14444,14444,0.965161989968822
+rogue-starter,rogue_outrider,Dust Outrider,rogue,unit,4,11921,11648,11648,0,6242,10787,25928,8700,8698,0.9770992366412213
+rogue-starter,rogue_skirmisher,Frontier Skirmisher,rogue,unit,3,9128,9001,9001,0,7183,8006,24235,2854,2848,0.9860867659947414
+rogue-starter,rogue_scrapper,Scrap Fighter,rogue,unit,2,6002,5682,5682,0,3797,5138,12025,9797,9796,0.9466844385204932
+rogue-starter,rogue_salvage,Salvage Crew,rogue,unit,2,6010,5857,5857,0,4536,4956,18943,6426,6419,0.9745424292845258
+rogue-starter,rogue_trailguard,Trail Guard,rogue,unit,2,6006,5963,5963,0,4865,5331,15956,792,792,0.9928404928404928
+rogue-starter,rogue_raider,Road Raider,rogue,unit,2,5928,5898,5898,0,7497,5426,13112,197,197,0.9949392712550608
+rogue-starter,rogue_commander,Route Commander,rogue,leader,2,6037,5935,5935,0,4530,5332,16230,1967,1864,0.9831041908232566
+rogue-starter,rogue_workshop,Field Workshop,rogue,asset,1,2865,3531,3531,0,0,2068,9462,11544,11542,1.2324607329842932
+rogue-starter,rogue_reclaim,Pull Back,rogue,order,2,5748,1229,0,1229,0,0,0,53302,53302,0.2138135003479471
+rogue-starter,rogue_rally,Keep Moving,rogue,order,2,5688,771,0,771,0,0,0,56937,56937,0.13554852320675106
+rogue-starter,rogue_retreat,Break Contact,rogue,order,2,6126,5079,0,5079,0,0,0,15142,15142,0.8290891283055828
+rogue-starter,rogue_raid,Hit and Run,rogue,order,2,6003,5832,0,5832,0,0,0,9884,9884,0.9715142428785607

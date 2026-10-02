@@ -110,6 +110,81 @@
   order('rogue', 'retreat', 'Break Contact', 1, 'retreat', 0, 'response', 'Response: move the defender one legal territory toward home. This attack deals no combat damage.', 2);
   order('rogue', 'raid', 'Hit and Run', 3, 'damage', 3, 'action', 'Deal 3 damage to one enemy battlefield card.', 2);
 
+  // Arsenal expansion: available to every builder, but never inserted into the
+  // preserved starter lists. Explicit roles also reuse the existing art atlases.
+  function arsenal(faction, key, name, type, presence, attack, health, traits, rulesText, meta) {
+    permanent(faction, key, name, type, presence, attack, health, traits, rulesText, 0);
+    Object.assign(CARDS[faction + '_' + key], { set:'arsenal', ...meta });
+  }
+  function arsenalOrder(faction, key, name, presence, kind, amount, rulesText, meta) {
+    order(faction, key, name, presence, kind, amount, 'action', rulesText, 0);
+    Object.assign(CARDS[faction + '_' + key], { set:'arsenal', ...meta });
+  }
+  arsenal('stonewall','watchguard','Watchguard Detachment','unit',5,2,7,['guard','retaliate'],
+    'Guard. Retaliate — after defending and surviving combat, deal 1 damage to the surviving attacker.',
+    { role:'defensive infantry',artRole:'rifle',archetype:'bastion',flavorText:'The second line is already sighted in.' });
+  arsenal('stonewall','redoubt','Field Redoubt','asset',6,0,9,['fortify','command'],
+    'Immobile. Fortify. Command — other allies here gain +1 Attack. Holds Presence.',
+    { role:'lane support',artRole:'heavy',archetype:'bastion',flavorText:'A position is a promise kept.' });
+  arsenal('stonewall','counterbattery','Counterbattery Section','unit',6,3,7,['fortify','retaliate'],
+    'Fortify. Retaliate — after defending and surviving combat, deal 1 damage to the surviving attacker.',
+    { role:'counteroffensive infantry',artRole:'heavy',archetype:'counteroffensive',flavorText:'Let them spend the first volley.' });
+  arsenal('stonewall','recovery_team','Recovery Column','unit',5,2,5,['medic','mobile'],
+    'Medic. Mobile — first move each turn preserves readiness; heal allies here by 1 at your turn start.',
+    { role:'mobile support',artRole:'specialist',archetype:'counteroffensive',flavorText:'No wounded line advances alone.' });
+
+  arsenal('bruiser','shock_runner','Shock Runner','unit',4,3,3,['rush','mobile'],
+    'Rush. Mobile — may move once and then attack on its deployment turn; each action still costs an action.',
+    { role:'fast pressure',artRole:'rifle',archetype:'shock-assault',flavorText:'The warning arrives behind them.' });
+  arsenal('bruiser','breach_caller','Breach Caller','unit',5,2,4,['command','rush'],
+    'Command — other allies here gain +1 Attack. Rush — may attack on its deployment turn if ready.',
+    { role:'assault support',artRole:'specialist',archetype:'shock-assault',flavorText:'One signal. Every weapon.' });
+  arsenal('bruiser','rupture_heavy','Rupture Heavy','unit',10,6,7,['berserk'],
+    'Berserk — gains +1 Attack while damaged. A large commitment that needs protection against selective removal.',
+    { role:'heavy finisher',artRole:'heavy',archetype:'heavy-breakthrough',flavorText:'The street remembers the recoil.' });
+  arsenalOrder('bruiser','overrun_charge','Overrun Charge',6,'damage',6,
+    'Deal 6 damage to one enemy battlefield card. Spending and a major action are required.',
+    { role:'prepared breakthrough',artRole:'heavy',archetype:'heavy-breakthrough',flavorText:'Open a gap wide enough for the heavy.' });
+
+  arsenal('syndicate','tactical_medic','Tactical Recovery Team','unit',5,2,5,['medic','precision'],
+    'Medic — heal allies here by 1 at your turn start. Precision — attacks ignore Guard interception.',
+    { role:'combined-arms support',artRole:'specialist',archetype:'combined-arms',flavorText:'Every specialist returns to the roster.' });
+  arsenal('syndicate','rapid_detail','Rapid Security Detail','unit',5,3,5,['guard','mobile'],
+    'Guard. Mobile — first move each turn preserves readiness, allowing an escort to keep its interception ready.',
+    { role:'mobile escort',artRole:'rifle',archetype:'combined-arms',flavorText:'Protection arrives with the asset.' });
+  arsenal('syndicate','eliminator','Contract Eliminator','unit',7,5,4,['precision','mobile'],
+    'Precision. Mobile — move once without exhausting, then attack a selected target if deployment timing allows.',
+    { role:'selective removal',artRole:'specialist',archetype:'precision-operations',flavorText:'Only the contracted target matters.' });
+  arsenalOrder('syndicate','signal_lock','Signal Lock',3,'sabotage',0,
+    'Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins.',
+    { role:'tactical disruption',artRole:'specialist',archetype:'precision-operations',flavorText:'The override has a very short window.' });
+
+  arsenal('nightwalker','handler','Deep-cover Handler','unit',5,2,5,['command','mobile'],
+    'Command — other allies here gain +1 Attack. Mobile — first move each turn preserves readiness.',
+    { role:'disruption support',artRole:'commander',archetype:'sabotage',flavorText:'Instructions travel without a signature.' });
+  arsenalOrder('nightwalker','blackout','Blackout Protocol',2,'sabotage',0,
+    'Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins.',
+    { role:'ability disruption',artRole:'specialist',archetype:'sabotage',flavorText:'For a moment, none of their equipment knows who they are.' });
+  arsenal('nightwalker','silencer','Silencer Team','unit',6,5,4,['precision','rush'],
+    'Precision. Rush — may attack on its deployment turn if ready, bypassing Guard interception.',
+    { role:'assassination finisher',artRole:'rifle',archetype:'assassination',flavorText:'One missing officer. An entire operation pauses.' });
+  arsenalOrder('nightwalker','ghost_extraction','Ghost Extraction',2,'reclaim',0,
+    'Return one friendly battlefield card to hand, clearing wounds and freeing commitment. Redeployment still costs Presence and an action.',
+    { role:'planned recovery',artRole:'specialist',archetype:'assassination',flavorText:'The exit was arranged before the first shot.' });
+
+  arsenal('rogue','broker','Salvage Broker','unit',5,2,5,['scavenge','mobile'],
+    'Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Mobile.',
+    { role:'casualty recovery',artRole:'specialist',archetype:'scavenger',flavorText:'A ruined plan can still have useful parts.' });
+  arsenal('rogue','bulwark','Patchwork Bulwark','unit',6,3,6,['guard','scavenge'],
+    'Guard. Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack).',
+    { role:'salvage escort',artRole:'heavy',archetype:'scavenger',flavorText:'Borrowed plates. Earned scars.' });
+  arsenal('rogue','lancer','Improvised Lancer','unit',5,4,4,['precision','mobile'],
+    'Precision. Mobile — first move each turn preserves readiness; attacks ignore Guard interception.',
+    { role:'flexible skirmisher',artRole:'rifle',archetype:'wildcard',flavorText:'The tool is whatever the situation needs.' });
+  arsenal('rogue','repair_courier','Repair Courier','unit',4,2,5,['medic','mobile'],
+    'Medic. Mobile — move support between wounded groups; heal allies here by 1 at your turn start.',
+    { role:'adaptive support',artRole:'specialist',archetype:'wildcard',flavorText:'A moving workshop never loses its customers.' });
+
   const GLOSSARY = Object.freeze({
     'Presence': 'Every permanent card’s printed P is its deployment requirement, continuing field commitment, and contribution toward capture. Orders spend their printed P temporarily.',
     'Command': 'Your total army support capacity. Start at the configured value (default 20); gain the configured growth (default +10) on each later offensive turn, up to the cap (default 80).',
@@ -130,6 +205,9 @@
     'Berserk': 'This card gains +1 Attack while it has any damage.',
     'Command aura': 'Other friendly battlefield cards in the same territory gain +1 Attack for each allied Command card there. The source does not boost itself.',
     'Medic': 'At the start of its owner’s offensive turn, this card heals every friendly card in its territory by 1. Each Medic contributes; health cannot exceed printed maximum.',
+    'Retaliate': 'After a normal simultaneous combat, a defending Retaliate card that survived deals 1 non-combat damage to the surviving attacker. This happens after combat deaths. It cannot trigger from an Order, Ambush, Retreat, or another Retaliate hit.',
+    'Sabotage': 'An action Order suppresses all printed traits on one enemy permanent until that card’s owner next begins an offensive turn. It does not change printed stats, prevent actions, remove incoming allied auras, or cancel an already played Order. Suppression clears before Medic passives resolve.',
+    'Scavenge': 'When another ally in this territory is destroyed, a surviving Scavenge source draws 1 card for its owner. At most one Scavenge draw per player per global turn, across all sources and territories. A source cannot scavenge itself; simultaneous casualties do not trigger a dead source. Normal reserve recycling still applies.',
     'Asset': 'A permanent support card that commits Presence and contributes to capture, but cannot move or declare attacks. Its passive traits remain active. It can be targeted and destroyed.',
     'Unique': 'You may control only one copy of this card at a time. A replacement can deploy after the existing copy leaves the field.',
     'Rally': 'Ready an exhausted friendly unit. Deployment-turn attack restrictions still apply; the next move or attack still costs an action.',

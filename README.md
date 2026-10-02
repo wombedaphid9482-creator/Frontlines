@@ -1,16 +1,24 @@
 # Project Faction: Frontlines
 
-**Forge Sprint 002 — battlefield identity, illustrated cards, and game feel.**
+**Frontlines v0.5.0 — Custom Deckbuilding + Expanded Arsenal.**
 
 Fight for territory. Commit Presence. Push the frontline into enemy ground.
+
+## Arsenal and custom decks
+
+Open **Launch Arsenal.cmd** or the **Arsenal** link in setup. All 80 cards are available: five preserved starters, two archetype presets per faction, and a local library of named custom decks. Inspect artwork/rules, filter and sort cards, add/remove copies, review Presence/type curves, save variants and exchange lightweight JSON. Invalid decks remain editable drafts with explained warnings.
+
+Build exactly 26 cards from one faction, with at most four copies of a regular card and two of a Leader. Unique still limits deployed Leaders. Select the actual saved deck for each side before a match; rematches and exported playtest reports retain its exact list. See [deckbuilding guide](docs/DECKBUILDING.md), [card design and counterplay](docs/arsenal/CARD-DESIGN.md), and [keyword rules](docs/KEYWORDS.md).
+
+Retaliate, Sabotage and Scavenge use the same engine in live matches and simulations. Updated terrain includes command fortifications, cargo yards, factories, river crossings and transit landmarks. New cards use coherent representative faction portraits.
 
 ## Separate matchup simulator
 
 Double-click **Launch Simulator.cmd** or open **simulator.html**. This separate analysis app runs AI against AI through the same rules engine, without match artwork, animation, or turn delays. It does not require admin access or change an active game.
 
-Choose two factions and their starter decks, or run an all-faction matrix. Set the **total number of simulations**, seed, rules, and safety limits. Alternating seats reduces first-player bias. Pause, resume, or stop a batch while retaining completed results. Inspect faction, deck, matchup, seat, and card-usage statistics; export JSON or CSV and inspect a seeded match.
+Choose starter, preset or saved decks, or run a selected deck round robin. Set the **total number of simulations**, seed, profiles, rules, and safety limits. Alternating seats measures opening-seat differences. Pause, resume, or stop while retaining completed results. Inspect faction/deck/archetype matchups, length percentiles, economy, territory, comeback, card usage and played pairs; export HTML/JSON/CSV or inspect a seeded decision trace.
 
-There is currently one 26-card starter deck per faction. The selectors use a deck registry ready for the future saved-deck system; this build does not add a deck builder. Timeouts and errors are reported separately from victories. Card usage is descriptive, and baseline AI results need human matchup testing before balance changes.
+Baseline, faction-aware, random and deck-aware policies are selectable. Reports snapshot custom lists, so local edits cannot change a replay. Compare older reports or named deck variants. Timeouts/errors remain separate from victories. Card/pair associations and AI rates require human validation before competitive balance claims.
 
 The optional HTTP preview uses a background worker. Direct offline launch uses a cooperative runner that yields to the browser, so controls remain responsive. For larger headless batches with Node:
 
@@ -24,7 +32,7 @@ See the [simulator guide](docs/SIMULATOR.md), [game roadmap](docs/GAME-ROADMAP.m
 
 The seven-zone battlefield has faction-colored ground, banners, a connected tactical city map, an advancing objective, and an explicit end-turn capture forecast. The desktop hand sits beside the board so selecting a card and deploying it does not require scrolling between them.
 
-Five optimized faction atlases supply twenty illustrated Rifle, Heavy, Specialist, and Commander concepts. The existing sixty card definitions share this role-based art foundation. Card frames, emblems, battlefield accents, and unit thumbnails identify factions consistently.
+Five optimized faction atlases supply twenty illustrated Rifle, Heavy, Specialist, and Commander concepts. The eighty card definitions share this role-based art foundation. Card frames, emblems, battlefield accents, and unit thumbnails identify factions consistently.
 
 Deployment, movement, combat, damage, destruction, Presence changes, drawing, capture, and victory have short presentation cues. Rifle bursts, Heavy impacts, specialist tracers, and commander effects differ. Hot-seat transfers remove private hand content immediately and replay only public battlefield events after reveal.
 
@@ -102,7 +110,7 @@ npm run playtest
 
 Tests use Node's built-in test runner and require no npm install. The playtest script runs seeded AI matches across all faction pairings, checks card conservation and state invariants after decisions, and writes `docs/playtest-results.json`. These simulations find rule failures and obvious balance problems; they cannot establish human enjoyment or competitive balance.
 
-See [Sprint 2 report](docs/SPRINT-002.md) for verified results, remaining limitations, and next priorities; [balance checkpoint](docs/BALANCE.md) for match observations; and [art direction](docs/ART-DIRECTION.md) for the reusable asset pipeline and saved generation prompts.
+See [Sprint 4 report](docs/SPRINT-004.md), [Sprint 3 checkpoint](docs/SPRINT-003.md), [balance history](docs/BALANCE.md), and [art direction](docs/ART-DIRECTION.md). Native release details are in [v0.5.0 playtest guide](docs/RELEASE-0.5.0.md).
 
 Optional browser checks use an existing Playwright installation and Microsoft Edge:
 
@@ -110,6 +118,9 @@ Optional browser checks use an existing Playwright installation and Microsoft Ed
 node tests/browser-smoke.js <path-to-playwright>
 node tests/browser-effects.js <path-to-playwright>
 node tests/browser-layout.js <path-to-playwright>
+node tests/browser-sprint3.js <path-to-playwright>
+node tests/browser-deck-builder.js <path-to-playwright>
+node tests/browser-deck-lab.js <path-to-playwright>
 ```
 
 Run `npm start` first for those checks. They verify direct file launch, HTTP launch, complete matches, actual button input, privacy, effects cleanup, audio hooks, the paced AI, settings, rematch, and desktop sizes. Browser-test dependencies are not needed to play or run the rules tests.
@@ -121,7 +132,11 @@ Run `npm start` first for those checks. They verify direct file launch, HTTP lau
 | `index.html`, `styles.css`, `app.js` | Setup, battlefield, input, privacy, feedback, and dialogs. |
 | `data.js` | Factions, card definitions, 26-card starter decks, glossary, default balance values. |
 | `engine.js` | Pure state transitions, legality, combat, Presence, capture, victory, and debug helpers. |
-| `ai.js` | Baseline tactical AI using the same legal-action API as players. |
+| `ai.js` | Deterministic baseline, faction, deck and random policies using the same legal actions as players. |
+| `decks.js`, `deck-builder.*` | Shared construction/persistence, archetype presets and Arsenal UI. |
+| `balance.js`, `balance/`, `live-runtime.js` | Explicit isolated rules/card profiles and selected live runtime. |
+| `telemetry.js`, `analytics.js`, `sim-core.js`, `simulator-*` | Authoritative event observation, diagnostics, deck tournaments, comparison and replay. |
+| `main.js`, `package.json` | Native desktop launch/menu and local Windows packaging. |
 | `art.js`, `assets/` | Faction themes, illustrated role atlases, vector emblems, tactical map, original source art, and future asset folders. |
 | `effects.js`, `effects.css` | State-diff presentation events, bounded animations, resource counters, public hot-seat replay, and replaceable audio cues. |
 | `tests/` | Rules regression tests, integration checks, and deterministic full-match simulation. |

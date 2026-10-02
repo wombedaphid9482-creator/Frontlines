@@ -1,0 +1,43 @@
+{
+  "source": "User-supplied Sprint 3 brief; aggregate figures only, raw match records and seed not supplied.",
+  "totalMatchesInferredFromWins": 10000,
+  "rows": [
+    {
+      "faction": "stonewall",
+      "games": 4000,
+      "wins": 2177,
+      "reportedPercent": 54.4
+    },
+    {
+      "faction": "bruiser",
+      "games": 4000,
+      "wins": 3929,
+      "reportedPercent": 98.2
+    },
+    {
+      "faction": "syndicate",
+      "games": 4000,
+      "wins": 2218,
+      "reportedPercent": 55.5
+    },
+    {
+      "faction": "nightwalker",
+      "games": 4000,
+      "wins": 798,
+      "reportedPercent": 20
+    },
+    {
+      "faction": "rogue",
+      "games": 4000,
+      "wins": 878,
+      "reportedPercent": 21.9
+    }
+  ],
+  "unknown": [
+    "seed",
+    "first-player rates",
+    "cutoffs",
+    "errors",
+    "per-match traces"
+  ]
+}

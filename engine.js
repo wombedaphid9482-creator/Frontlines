@@ -3,7 +3,7 @@
   const api = factory(typeof module === 'object' && module.exports ? require('./data.js') : root.FrontlinesData);
   if (typeof module === 'object' && module.exports) module.exports = api;
   root.FrontlinesEngine = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (Data) {
+})(typeof globalThis !== 'undefined' ? globalThis : this, function createEngine(Data) {
   'use strict';
 
   const LIMITS = {
@@ -12,16 +12,18 @@
     slotsPerTerritory: [1, 20], actionLimit: [1, 20], victoryTerritories: [4, 7]
   };
   const RESPONSE_EFFECTS = ['shield', 'ambush', 'retreat'];
-  const ACTION_EFFECTS = ['damage', 'heal', 'rally', 'draw', 'disrupt', 'reclaim'];
+  const ACTION_EFFECTS = ['damage', 'heal', 'rally', 'draw', 'disrupt', 'reclaim', 'sabotage'];
   const copy = value => JSON.parse(JSON.stringify(value));
   const card = value => Data.CARDS[typeof value === 'string' ? value : value && value.cardId];
-  const trait = (unit, name) => !!unit && (card(unit).traits || []).includes(name);
+  const trait = (unit, name) => !!unit && !unit.suppressed && (card(unit).traits || []).includes(name);
   const unitById = (state, uid) => state.units.find(unit => unit.uid === uid);
   const handById = (state, player, uid) => state.players[player].hand.find(item => item.uid === uid);
   const unitsAt = (state, territory, owner) => state.units.filter(unit => unit.territory === territory && (owner === undefined || unit.owner === owner));
   const controlledCount = (state, player) => state.territories.filter(territory => territory.owner === player).length;
   const getActor = state => state.response && state.response.stage === 'response' ? state.response.responder : state.attacker;
   const direction = player => player === 0 ? 1 : -1;
+  let activeEvents = null;
+  function event(state, type, detail) { if (activeEvents) activeEvents.push({ type, turn:state.turn, ...detail }); }
 
   function presence(state, player) {
     const p = state.players[player];
@@ -67,6 +69,8 @@
       }
       if (!p.deck.length) break;
       p.hand.push({ uid: `c${state.nextUid++}`, cardId: p.deck.pop() });
+      const item = p.hand[p.hand.length - 1];
+      event(state,'draw',{player,uid:item.uid,cardId:item.cardId});
       drawn++;
     }
     if (!quiet) log(state, drawn ? `Player ${player + 1} draws ${drawn} card${drawn === 1 ? '' : 's'}.` : `Player ${player + 1} has no reserves to draw.`, 'draw');
@@ -78,15 +82,34 @@
     state.units = state.units.filter(item => item.uid !== unit.uid);
     state.players[unit.owner].discard.push(unit.cardId);
     if (killer !== undefined && killer !== unit.owner) state.stats.kills[killer]++;
+    const source = activeEvents && activeEvents.slice().reverse().find(item => item.type === 'damage' && item.targetUid === unit.uid && item.player === killer);
+    event(state,'death',{player:unit.owner,uid:unit.uid,cardId:unit.cardId,territory:unit.territory,freedPresence:card(unit).presence,
+      killer:killer === undefined ? null : killer,sourceUid:source && source.sourceUid || null,sourceCardId:source && source.sourceCardId || null});
     log(state, `${card(unit).name} is destroyed; Player ${unit.owner + 1} frees ${card(unit).presence} committed Presence.`, 'destroy');
+    // Simultaneous casualties are already wounded to their lethal totals. A
+    // source destined to die in this exchange must never draw before removal.
+    const salvager = state.units.find(ally => ally.owner === unit.owner && ally.territory === unit.territory &&
+      ally.damage < card(ally).health && trait(ally,'scavenge'));
+    const owner = state.players[unit.owner];
+    if (salvager && owner.scavengedTurn !== state.turn) {
+      owner.scavengedTurn = state.turn;
+      const drawn = draw(state, unit.owner, 1);
+      event(state,'passive',{player:unit.owner,uid:salvager.uid,cardId:salvager.cardId,trait:'scavenge',amount:drawn,causeUid:unit.uid});
+    }
   }
 
-  function dealDamage(state, unit, amount, sourcePlayer, combat) {
+  function dealDamage(state, unit, amount, sourcePlayer, combat, source) {
     if (!unit || !unitById(state, unit.uid)) return 0;
     const reduction = combat && trait(unit, 'fortify') && state.territories[unit.territory].owner === unit.owner ? 1 : 0;
     const actual = Math.max(0, amount - reduction);
+    const remainingHealth=Math.max(0,card(unit).health-unit.damage);
+    const effective=Math.min(actual,remainingHealth);
     unit.damage += actual;
     if (sourcePlayer !== undefined) state.stats.damage[sourcePlayer] += actual;
+    event(state,'damage',{player:sourcePlayer === undefined ? null : sourcePlayer,targetOwner:unit.owner,targetUid:unit.uid,targetCardId:unit.cardId,
+      territory:unit.territory,amount:actual,effective,fortifyAbsorbed:Math.min(amount,reduction),combat:!!combat,...source,
+      fortifyEffectiveProtected:Math.min(amount,remainingHealth)-effective,
+      commandEffectiveEnabled:source&&source.commandSupporters?effective-Math.min(Math.max(0,actual-source.commandSupporters.length),remainingHealth):0});
     log(state, `${card(unit).name} takes ${actual} damage${reduction ? ' (Fortify absorbs 1)' : ''}.`, 'damage');
     return actual;
   }
@@ -112,12 +135,23 @@
     options = options || {};
     const factions = options.factions || ['stonewall', 'bruiser'];
     if (factions.length !== 2 || factions.some(faction => !Data.FACTIONS[faction] || !Data.DECKS[faction])) throw new Error('Choose two valid factions.');
+    const deckAPI = (typeof module === 'object' && module.exports ? require('./decks.js') : globalThis.FrontlinesDecks);
+    const library = deckAPI && deckAPI.forData(Data);
+    if (options.decks !== undefined && (!Array.isArray(options.decks) || options.decks.length !== 2)) throw new Error('Choose two legal decks.');
+    const chosenDecks = factions.map((faction,seat) => {
+      const chosen = options.decks && options.decks[seat];
+      if (!chosen) return {id:faction+'-starter',name:Data.FACTIONS[faction].name+' Starter',faction,cards:Data.DECKS[faction].slice(),archetype:'custom'};
+      if (!library) throw new Error('Deck rules are unavailable.');
+      const result = library.validate(chosen);
+      if (!result.legal || chosen.faction !== faction) throw new Error('Player '+(seat+1)+' deck is illegal: '+(chosen.faction!==faction?'deck faction does not match selection':result.errors.join(' ')));
+      return copy(chosen);
+    });
     const seed = Number.isFinite(options.seed) ? options.seed >>> 0 : (Date.now() >>> 0);
     const config = configFor(options.config || {});
     const state = {
       config, seed, rngState: seed || 0x9e3779b9, nextUid: 1, turn: 1, attacker: 0,
       actionsLeft: config.actionLimit,
-      players: factions.map((faction, id) => ({ id, faction, command: config.startingCommand, spent: 0, turns: 0, deck: Data.DECKS[faction].slice(), hand: [], discard: [], riftwalker: null })),
+      players: factions.map((faction, id) => ({ id, faction, command: config.startingCommand, spent: 0, turns: 0, deck: chosenDecks[id].cards.slice(), deckMeta:{id:chosenDecks[id].id||'custom-'+id,name:chosenDecks[id].name,faction,archetype:chosenDecks[id].archetype||'custom'}, hand: [], discard: [], riftwalker: null })),
       territories: Data.TERRITORY_NAMES.map((name, id) => ({ id, name, owner: id < 3 ? 0 : id > 3 ? 1 : null, progress: [0, 0] })),
       contested: 3, units: [], response: null, winner: null, log: [],
       stats: { deployments: [0, 0], orders: [0, 0], attacks: [0, 0], kills: [0, 0], damage: [0, 0], captures: [0, 0], presenceGenerated: [0, 0], turns: [0, 0] }
@@ -138,11 +172,20 @@
     state.stats.turns[player]++;
     state.actionsLeft = state.config.actionLimit;
     state.units.filter(unit => unit.owner === player).forEach(unit => { unit.ready = true; });
+    // Sabotage is a tactical window, ending before this owner's Medic/aura
+    // effects are evaluated. Printed stats and commitment never change.
+    state.units.filter(unit => unit.owner === player && unit.suppressed).forEach(unit => {
+      delete unit.suppressed;
+      delete unit.sabotageSource;
+      event(state,'sabotageEnd',{player,uid:unit.uid,cardId:unit.cardId});
+    });
     for (const unit of state.units.filter(item => item.owner === player && item.damage > 0)) {
       const healing = unitsAt(state, unit.territory, player).filter(ally => trait(ally, 'medic')).length;
       if (healing) {
         const actual = Math.min(healing, unit.damage);
         unit.damage -= actual;
+        event(state,'heal',{player,uid:unit.uid,cardId:unit.cardId,amount:actual,passive:'medic',
+          supporters:unitsAt(state,unit.territory,player).filter(ally => trait(ally,'medic')).map(ally => ({uid:ally.uid,cardId:ally.cardId}))});
         log(state, `${card(unit).name} recovers ${actual} damage from Medic support.`, 'heal');
       }
     }
@@ -177,6 +220,11 @@
     switch (definition.effect.kind) {
       case 'damage':
         if (!target || target.owner === player) return 'Choose an enemy battlefield card to damage.';
+        break;
+      case 'sabotage':
+        if (!target || target.owner === player) return 'Choose an enemy battlefield card to sabotage.';
+        if (!(card(target).traits || []).length) return 'This card has no printed traits to suppress.';
+        if (target.suppressed) return 'This card is already sabotaged until its next offensive turn.';
         break;
       case 'heal':
         if (!target || target.owner !== player) return 'Choose an allied battlefield card to heal.';
@@ -277,6 +325,7 @@
     p.spent += definition.presence;
     p.discard.push(item.cardId);
     state.stats.orders[player]++;
+    event(state,'order',{player,uid:item.uid,cardId:item.cardId,presence:definition.presence,effect:definition.effect.kind,timing:definition.timing || 'action'});
     log(state, `Player ${player + 1} plays ${definition.name}, spending ${definition.presence} Presence until their next offensive turn.`, 'order');
     return item;
   }
@@ -285,24 +334,33 @@
     const target = unitById(state, targetUid);
     const amount = definition.effect.amount || 0;
     switch (definition.effect.kind) {
-      case 'damage': dealDamage(state, target, amount, player, false); removeDead(state, player); break;
+      case 'damage': dealDamage(state, target, amount, player, false,{sourceCardId:definition.id,sourceUid:null}); removeDead(state, player); break;
+      case 'sabotage':
+        target.suppressed = true;
+        target.sabotageSource = {player,cardId:definition.id};
+        event(state,'sabotage',{player,targetOwner:target.owner,uid:target.uid,targetUid:target.uid,cardId:target.cardId,sourceCardId:definition.id,traits:card(target).traits.slice()});
+        log(state, `${card(target).name} loses its printed traits until its owner's next offensive turn.`, 'order');
+        break;
       case 'heal': {
         const healed = Math.min(target.damage, amount);
         target.damage -= healed;
+        event(state,'heal',{player,uid:target.uid,cardId:target.cardId,amount:healed,sourceCardId:definition.id});
         log(state, `${card(target).name} heals ${healed} damage.`, 'heal');
         break;
       }
-      case 'rally': target.ready = true; log(state, `${card(target).name} is ready again.`, 'order'); break;
+      case 'rally': target.ready=true;event(state,'rally',{player,uid:target.uid,cardId:target.cardId,sourceCardId:definition.id});log(state,`${card(target).name} is ready again.`,'order');break;
       case 'draw': draw(state, player, amount); break;
       case 'disrupt': {
         const applied = Math.min(amount, presence(state, 1 - player).available);
         state.players[1 - player].spent += applied;
+        event(state,'disrupt',{player,targetPlayer:1-player,amount:applied,sourceCardId:definition.id});
         log(state, `Player ${2 - player} loses ${applied} available Presence until their next offensive turn.`, 'order');
         break;
       }
       case 'reclaim':
         state.units = state.units.filter(unit => unit.uid !== target.uid);
         state.players[player].hand.push({ uid: target.uid, cardId: target.cardId });
+        event(state,'reclaim',{player,uid:target.uid,cardId:target.cardId,freedPresence:card(target).presence,sourceCardId:definition.id});
         log(state, `${card(target).name} returns to hand and frees ${card(target).presence} committed Presence.`, 'order');
         break;
     }
@@ -320,15 +378,17 @@
       const amount = definition.effect.amount || 0;
       if (definition.effect.kind === 'shield') shield = amount;
       if (definition.effect.kind === 'ambush') {
-        dealDamage(state, attacker, amount, response.responder, false);
+        dealDamage(state, attacker, amount, response.responder, false,{sourceUid:response.order.handUid,sourceCardId:definition.id});
         removeDead(state, response.responder);
       }
       if (definition.effect.kind === 'retreat' && defender) {
         const destination = defender.territory - direction(defender.owner);
         if (!moveError(state, defender, destination, true)) {
+          const origin = defender.territory;
           defender.territory = destination;
           defender.ready = false;
           defender.movedTurn = state.turn;
+          event(state,'move',{player:defender.owner,uid:defender.uid,cardId:defender.cardId,from:origin,to:destination,reason:'retreat'});
           log(state, `${card(defender).name} retreats to ${state.territories[destination].name}; the attack misses.`, 'move');
         }
       }
@@ -342,18 +402,36 @@
     // Snapshot both attacks before wounds or deaths so retaliation is simultaneous.
     const incoming = attackValue(state, attacker);
     const retaliation = attackValue(state, defender);
+    event(state,'combat',{player:attacker.owner,attackerUid:attacker.uid,attackerCardId:attacker.cardId,defenderUid:defender.uid,defenderCardId:defender.cardId,
+      incoming,retaliation,shield,shieldCardId:response.order && !canceled && shield ? response.order.cardId : null,
+      shieldAbsorbed:Math.min(incoming,shield),shieldEffectiveProtected:Math.min(Math.max(0,incoming-(trait(defender,'fortify')&&state.territories[defender.territory].owner===defender.owner?1:0)),card(defender).health-defender.damage)
+        -Math.min(Math.max(0,incoming-shield-(trait(defender,'fortify')&&state.territories[defender.territory].owner===defender.owner?1:0)),card(defender).health-defender.damage),
+      commandSupporters:[attacker,defender].map(unit => unitsAt(state,unit.territory,unit.owner).filter(ally => ally.uid !== unit.uid && trait(ally,'command')).map(ally => ({player:ally.owner,uid:ally.uid,cardId:ally.cardId}))),
+      berserk:[attacker,defender].map(unit => trait(unit,'berserk') && unit.damage > 0)});
     if (shield) log(state, `The defensive Order absorbs up to ${shield} incoming damage.`, 'combat');
-    dealDamage(state, defender, Math.max(0, incoming - shield), attacker.owner, true);
-    dealDamage(state, attacker, retaliation, defender.owner, true);
+    dealDamage(state,defender,Math.max(0,incoming-shield),attacker.owner,true,{sourceUid:attacker.uid,sourceCardId:attacker.cardId,
+      commandSupporters:unitsAt(state,attacker.territory,attacker.owner).filter(unit=>unit.uid!==attacker.uid&&trait(unit,'command')).map(unit=>({player:unit.owner,cardId:unit.cardId}))});
+    dealDamage(state,attacker,retaliation,defender.owner,true,{sourceUid:defender.uid,sourceCardId:defender.cardId,
+      commandSupporters:unitsAt(state,defender.territory,defender.owner).filter(unit=>unit.uid!==defender.uid&&trait(unit,'command')).map(unit=>({player:unit.owner,cardId:unit.cardId}))});
     removeDead(state);
+    const survivor = unitById(state, response.defenderUid);
+    const survivingAttacker = unitById(state, response.attackerUid);
+    if (survivor && survivingAttacker && trait(survivor,'retaliate')) {
+      event(state,'passive',{player:survivor.owner,uid:survivor.uid,cardId:survivor.cardId,trait:'retaliate',amount:1});
+      dealDamage(state,survivingAttacker,1,survivor.owner,false,{sourceUid:survivor.uid,sourceCardId:survivor.cardId,passive:'retaliate'});
+      removeDead(state,survivor.owner);
+    }
   }
 
   function capture(state, player, forced) {
     const territory = state.territories[state.contested];
     const held = territory.owner === player;
+    const previousOwner = territory.owner;
     territory.owner = player;
     state.territories.forEach(item => { item.progress = [0, 0]; });
     state.stats.captures[player]++;
+    event(state,'capture',{player,territory:territory.id,previousOwner,recapture:held,forced:!!forced,
+      contributors:unitsAt(state,territory.id,player).map(unit => ({uid:unit.uid,cardId:unit.cardId,presence:card(unit).presence}))});
     log(state, `Player ${player + 1} ${held ? 'secures' : 'captures'} ${territory.name}${forced ? ' [DEBUG]' : ''}.`, 'capture');
     const opponentHome = player === 0 ? 6 : 0;
     if (territory.id === opponentHome || controlledCount(state, player) >= state.config.victoryTerritories) {
@@ -374,6 +452,7 @@
     for (const unit of advancing) {
       if (spaces <= 0) break;
       unit.territory = state.contested;
+      event(state,'move',{player,uid:unit.uid,cardId:unit.cardId,from:territory.id,to:state.contested,reason:'breakthrough'});
       spaces--;
       log(state, `${card(unit).name} advances one territory with the breakthrough to ${state.territories[state.contested].name}.`, 'move');
     }
@@ -385,6 +464,7 @@
     const generated = unitsAt(state, state.contested, player).reduce((sum, unit) => sum + card(unit).presence, 0);
     territory.progress[player] += generated;
     state.stats.presenceGenerated[player] += generated;
+    event(state,'pressure',{player,territory:territory.id,amount:generated,contributors:unitsAt(state,territory.id,player).map(unit => ({uid:unit.uid,cardId:unit.cardId,presence:card(unit).presence}))});
     log(state, `Player ${player + 1} adds ${generated} Presence to ${territory.name}: ${territory.progress[player]}/${state.config.captureThreshold}.`, 'presence');
     if (territory.progress[player] >= state.config.captureThreshold) capture(state, player, false);
     if (state.winner !== null) return;
@@ -393,7 +473,7 @@
     startTurn(state);
   }
 
-  function dispatch(state, action) {
+  function dispatchImpl(state, action) {
     const error = validate(state, action);
     if (error) return { ok: false, state, error };
     const next = copy(state);
@@ -405,16 +485,19 @@
         next.units.push({ uid: item.uid, cardId: item.cardId, owner: player, territory: action.territory, damage: 0, ready: true, deployedTurn: next.turn, movedTurn: -1 });
         next.actionsLeft--;
         next.stats.deployments[player]++;
+        event(next,'deploy',{player,uid:item.uid,cardId:item.cardId,territory:action.territory,presence:card(item).presence});
         log(next, `${card(item).name} deploys to ${next.territories[action.territory].name}, committing ${card(item).presence} Presence.`, 'deploy');
         break;
       }
       case 'move': {
         const unit = unitById(next, action.unitUid);
         const freeReady = trait(unit, 'mobile') && unit.movedTurn !== next.turn;
+        const origin = unit.territory;
         unit.territory = action.territory;
         unit.ready = freeReady;
         unit.movedTurn = next.turn;
         next.actionsLeft--;
+        event(next,'move',{player,uid:unit.uid,cardId:unit.cardId,from:origin,to:action.territory,reason:freeReady ? 'mobile' : 'action'});
         log(next, `${card(unit).name} moves to ${next.territories[action.territory].name}${freeReady ? ' and remains ready (Mobile)' : ''}.`, 'move');
         break;
       }
@@ -442,6 +525,7 @@
             guard.ready = false;
             next.response.defenderUid = guard.uid;
             next.response.guardUid = guard.uid;
+            event(next,'passive',{player,uid:guard.uid,cardId:guard.cardId,trait:'guard',amount:1});
             log(next, `${card(guard).name} intercepts the attack (Guard).`, 'response');
           } else {
             const item = playOrder(next, player, action.handUid);
@@ -454,6 +538,7 @@
         if (action.pass === true) resolveCombat(next, false);
         else {
           const item = playOrder(next, player, action.handUid);
+          event(next,'counter',{player,cardId:item.cardId,canceledCardId:next.response.order.cardId});
           log(next, `${card(item).name} cancels ${card(next.response.order.cardId).name}. Its spent Presence remains spent.`, 'counter');
           resolveCombat(next, true);
         }
@@ -462,6 +547,17 @@
     }
     assertInvariants(next);
     return { ok: true, state: next };
+  }
+
+  // Optional diagnostic events are returned alongside the exact authoritative
+  // transition. They never enter state or change validation, RNG, or rules.
+  function dispatch(state, action, options) {
+    const previous = activeEvents;
+    activeEvents = options && options.events ? [] : null;
+    try {
+      const result = dispatchImpl(state,action);
+      return activeEvents ? { ...result,events:activeEvents } : result;
+    } finally { activeEvents = previous; }
   }
 
   function legalActions(state) {
@@ -479,7 +575,7 @@
         state.players[player].hand.forEach(item => {
           const definition = card(item);
           if (definition.type !== 'order') state.territories.forEach(territory => candidates.push({ type: 'deploy', handUid: item.uid, territory: territory.id }));
-          else if (definition.effect && ['damage', 'heal', 'rally', 'reclaim'].includes(definition.effect.kind)) state.units.forEach(unit => candidates.push({ type: 'order', handUid: item.uid, targetUid: unit.uid }));
+          else if (definition.effect && ['damage', 'heal', 'rally', 'reclaim', 'sabotage'].includes(definition.effect.kind)) state.units.forEach(unit => candidates.push({ type: 'order', handUid: item.uid, targetUid: unit.uid }));
           else candidates.push({ type: 'order', handUid: item.uid });
         });
         state.units.filter(unit => unit.owner === player).forEach(unit => {
@@ -569,5 +665,5 @@
     return true;
   }
 
-  return { createGame, dispatch, card, presence, unitsAt, controlledCount, getActor, legalActions, validate, attackValue, debug, assertInvariants };
+  return { VERSION:'frontlines-territory-v2-arsenal',withData:data => createEngine(data),hasTrait:trait,createGame,dispatch,card,presence,unitsAt,controlledCount,getActor,legalActions,validate,attackValue,debug,assertInvariants };
 });

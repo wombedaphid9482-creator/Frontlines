@@ -1,0 +1,1210 @@
+{
+  "clientDate": "2026-10-01",
+  "gitCommit": "f7944ade94faf761a2f8b0e7859ae59be82dd2dd",
+  "package": {
+    "name": "project-faction-frontlines",
+    "productName": "Frontlines",
+    "version": "0.3.0",
+    "private": true,
+    "description": "Offline tactical territory card game and AI matchup simulator",
+    "main": "main.js",
+    "scripts": {
+      "start": "node server.js",
+      "electron": "electron .",
+      "build": "electron-builder",
+      "test": "node --test tests/*.test.js",
+      "playtest": "node tests/playtest.js",
+      "simulate": "node scripts/simulate.js"
+    },
+    "engines": {
+      "node": ">=18"
+    },
+    "build": {
+      "appId": "com.ryken.frontlines",
+      "productName": "Frontlines",
+      "win": {
+        "target": "nsis"
+      }
+    },
+    "devDependencies": {
+      "electron": "^44.4.3",
+      "electron-builder": "^26.15.3"
+    },
+    "license": "UNLICENSED"
+  },
+  "rules": {
+    "config": {
+      "startingCommand": 20,
+      "commandGrowth": 10,
+      "commandCap": 80,
+      "captureThreshold": 25,
+      "startingHand": 5,
+      "drawCount": 1,
+      "slotsPerTerritory": 5,
+      "actionLimit": 3,
+      "victoryTerritories": 7
+    },
+    "factions": {
+      "stonewall": {
+        "id": "stonewall",
+        "name": "Stonewall",
+        "tagline": "Hold. Recover. Advance.",
+        "color": "#8ba9c7",
+        "symbol": "▣",
+        "description": "A disciplined territorial army. Guards protect key units, Fortify rewards owned ground, and medics keep an established line fighting."
+      },
+      "bruiser": {
+        "id": "bruiser",
+        "name": "Bruiser",
+        "tagline": "Break the line.",
+        "color": "#e77955",
+        "symbol": "◆",
+        "description": "Heavy assault forces trade subtlety for pressure. High Presence captures quickly; Rush and Berserk punish defenders who leave an opening."
+      },
+      "syndicate": {
+        "id": "syndicate",
+        "name": "Syndicate",
+        "tagline": "Control the terms.",
+        "color": "#c3a76a",
+        "symbol": "◈",
+        "description": "An adaptable force with deep options. Draw extra orders, tie up enemy Presence, and counter reactions while coordinated units hold the objective."
+      },
+      "nightwalker": {
+        "id": "nightwalker",
+        "name": "Nightwalker",
+        "tagline": "Strike where it matters.",
+        "color": "#af95d7",
+        "symbol": "◭",
+        "description": "Fragile specialists remove valuable targets. Precision ignores Guards and Ambush punishes attacks, but low Presence demands a sustained occupation."
+      },
+      "rogue": {
+        "id": "rogue",
+        "name": "Rogue",
+        "tagline": "Keep moving. Keep fighting.",
+        "color": "#71b79b",
+        "symbol": "➤",
+        "description": "Mobile irregulars thrive on shifting ground. Advance while staying ready, rally exhausted squads, and reclaim wounded forces to free commitment."
+      }
+    },
+    "cards": {
+      "stonewall_rifles": {
+        "id": "stonewall_rifles",
+        "name": "Line Rifle Squad",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 4,
+        "attack": 3,
+        "health": 5,
+        "traits": [
+          "fortify"
+        ],
+        "rulesText": "Fortify — takes 1 less combat damage on owned ground."
+      },
+      "stonewall_defender": {
+        "id": "stonewall_defender",
+        "name": "Shield Defender",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 7,
+        "traits": [
+          "guard"
+        ],
+        "rulesText": "Guard — may intercept an attack in this territory while ready."
+      },
+      "stonewall_medic": {
+        "id": "stonewall_medic",
+        "name": "Field Medic",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 5,
+        "traits": [
+          "medic"
+        ],
+        "rulesText": "Medic — at the start of your turn, heal each ally here by 1."
+      },
+      "stonewall_heavy": {
+        "id": "stonewall_heavy",
+        "name": "Bastion Heavy",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 8,
+        "attack": 4,
+        "health": 9,
+        "traits": [
+          "fortify"
+        ],
+        "rulesText": "Fortify — takes 1 less combat damage on owned ground."
+      },
+      "stonewall_escort": {
+        "id": "stonewall_escort",
+        "name": "Armored Escort",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 6,
+        "attack": 3,
+        "health": 6,
+        "traits": [
+          "guard",
+          "fortify"
+        ],
+        "rulesText": "Guard. Fortify. Protects the line best on owned ground."
+      },
+      "stonewall_pathfinder": {
+        "id": "stonewall_pathfinder",
+        "name": "Route Pathfinder",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 4,
+        "attack": 3,
+        "health": 4,
+        "traits": [
+          "mobile"
+        ],
+        "rulesText": "Mobile — first move each turn does not exhaust this unit."
+      },
+      "stonewall_commander": {
+        "id": "stonewall_commander",
+        "name": "Defense Commander",
+        "faction": "stonewall",
+        "type": "leader",
+        "presence": 7,
+        "attack": 3,
+        "health": 7,
+        "traits": [
+          "command",
+          "fortify"
+        ],
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Fortify.",
+        "unique": true
+      },
+      "stonewall_aid_station": {
+        "id": "stonewall_aid_station",
+        "name": "Forward Aid Station",
+        "faction": "stonewall",
+        "type": "asset",
+        "presence": 5,
+        "attack": 0,
+        "health": 8,
+        "traits": [
+          "medic"
+        ],
+        "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence."
+      },
+      "stonewall_triage": {
+        "id": "stonewall_triage",
+        "name": "Emergency Triage",
+        "faction": "stonewall",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "heal",
+          "amount": 4
+        },
+        "rulesText": "Heal one friendly battlefield card by 4."
+      },
+      "stonewall_brace": {
+        "id": "stonewall_brace",
+        "name": "Brace for Impact",
+        "faction": "stonewall",
+        "type": "order",
+        "presence": 2,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "response",
+        "effect": {
+          "kind": "shield",
+          "amount": 3
+        },
+        "rulesText": "Response: reduce damage to the defender from this combat by 3."
+      },
+      "stonewall_rally": {
+        "id": "stonewall_rally",
+        "name": "Hold the Line",
+        "faction": "stonewall",
+        "type": "order",
+        "presence": 2,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "rally",
+          "amount": 0
+        },
+        "rulesText": "Ready one exhausted friendly unit."
+      },
+      "stonewall_fire_support": {
+        "id": "stonewall_fire_support",
+        "name": "Defensive Fire",
+        "faction": "stonewall",
+        "type": "order",
+        "presence": 4,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "damage",
+          "amount": 3
+        },
+        "rulesText": "Deal 3 damage to one enemy battlefield card."
+      },
+      "bruiser_assault": {
+        "id": "bruiser_assault",
+        "name": "Assault Squad",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 5,
+        "attack": 4,
+        "health": 4,
+        "traits": [
+          "rush"
+        ],
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready."
+      },
+      "bruiser_heavy": {
+        "id": "bruiser_heavy",
+        "name": "Siege Heavy",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 8,
+        "attack": 5,
+        "health": 7,
+        "traits": [],
+        "rulesText": "A heavy commitment with the Presence to take ground quickly."
+      },
+      "bruiser_brawler": {
+        "id": "bruiser_brawler",
+        "name": "Scarred Brawler",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 4,
+        "attack": 3,
+        "health": 6,
+        "traits": [
+          "berserk"
+        ],
+        "rulesText": "Berserk — gains +1 Attack while damaged."
+      },
+      "bruiser_breacher": {
+        "id": "bruiser_breacher",
+        "name": "Breach Team",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 7,
+        "attack": 5,
+        "health": 6,
+        "traits": [
+          "rush"
+        ],
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready."
+      },
+      "bruiser_vanguard": {
+        "id": "bruiser_vanguard",
+        "name": "Iron Vanguard",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 6,
+        "attack": 4,
+        "health": 7,
+        "traits": [
+          "guard"
+        ],
+        "rulesText": "Guard — may intercept an attack in this territory while ready."
+      },
+      "bruiser_gunner": {
+        "id": "bruiser_gunner",
+        "name": "Rage Gunner",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 6,
+        "attack": 5,
+        "health": 5,
+        "traits": [
+          "berserk"
+        ],
+        "rulesText": "Berserk — gains +1 Attack while damaged."
+      },
+      "bruiser_commander": {
+        "id": "bruiser_commander",
+        "name": "Assault Commander",
+        "faction": "bruiser",
+        "type": "leader",
+        "presence": 8,
+        "attack": 5,
+        "health": 7,
+        "traits": [
+          "command",
+          "berserk"
+        ],
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Berserk.",
+        "unique": true
+      },
+      "bruiser_banner": {
+        "id": "bruiser_banner",
+        "name": "Assault Standard",
+        "faction": "bruiser",
+        "type": "asset",
+        "presence": 5,
+        "attack": 0,
+        "health": 7,
+        "traits": [
+          "command"
+        ],
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence."
+      },
+      "bruiser_bombard": {
+        "id": "bruiser_bombard",
+        "name": "Demolition Charge",
+        "faction": "bruiser",
+        "type": "order",
+        "presence": 5,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "damage",
+          "amount": 5
+        },
+        "rulesText": "Deal 5 damage to one enemy battlefield card."
+      },
+      "bruiser_rally": {
+        "id": "bruiser_rally",
+        "name": "Second Wind",
+        "faction": "bruiser",
+        "type": "order",
+        "presence": 2,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "rally",
+          "amount": 0
+        },
+        "rulesText": "Ready one exhausted friendly unit."
+      },
+      "bruiser_ambush": {
+        "id": "bruiser_ambush",
+        "name": "Violent Reprisal",
+        "faction": "bruiser",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "response",
+        "effect": {
+          "kind": "ambush",
+          "amount": 3
+        },
+        "rulesText": "Response: deal 3 damage to the attacking unit before combat."
+      },
+      "bruiser_resupply": {
+        "id": "bruiser_resupply",
+        "name": "Combat Resupply",
+        "faction": "bruiser",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "draw",
+          "amount": 2
+        },
+        "rulesText": "Draw 2 cards."
+      },
+      "syndicate_security": {
+        "id": "syndicate_security",
+        "name": "Security Detail",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 4,
+        "attack": 3,
+        "health": 4,
+        "traits": [
+          "guard"
+        ],
+        "rulesText": "Guard — may intercept an attack in this territory while ready."
+      },
+      "syndicate_enforcer": {
+        "id": "syndicate_enforcer",
+        "name": "Contract Enforcer",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 6,
+        "attack": 4,
+        "health": 6,
+        "traits": [],
+        "rulesText": "Reliable muscle with enough Presence to secure an objective."
+      },
+      "syndicate_observer": {
+        "id": "syndicate_observer",
+        "name": "Target Observer",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 3,
+        "attack": 2,
+        "health": 4,
+        "traits": [
+          "precision"
+        ],
+        "rulesText": "Precision — attacks cannot be intercepted by Guards."
+      },
+      "syndicate_courier": {
+        "id": "syndicate_courier",
+        "name": "Blackline Courier",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 4,
+        "attack": 2,
+        "health": 4,
+        "traits": [
+          "mobile"
+        ],
+        "rulesText": "Mobile — first move each turn does not exhaust this unit."
+      },
+      "syndicate_coordinator": {
+        "id": "syndicate_coordinator",
+        "name": "Operations Coordinator",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 5,
+        "attack": 3,
+        "health": 5,
+        "traits": [
+          "command"
+        ],
+        "rulesText": "Command — other allies in this territory gain +1 Attack."
+      },
+      "syndicate_contractor": {
+        "id": "syndicate_contractor",
+        "name": "Armored Contractor",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 7,
+        "attack": 4,
+        "health": 8,
+        "traits": [
+          "guard"
+        ],
+        "rulesText": "Guard — may intercept an attack in this territory while ready."
+      },
+      "syndicate_commander": {
+        "id": "syndicate_commander",
+        "name": "Operations Director",
+        "faction": "syndicate",
+        "type": "leader",
+        "presence": 7,
+        "attack": 3,
+        "health": 7,
+        "traits": [
+          "command"
+        ],
+        "rulesText": "Unique. Command — other allies in this territory gain +1 Attack.",
+        "unique": true
+      },
+      "syndicate_relay": {
+        "id": "syndicate_relay",
+        "name": "Coordination Relay",
+        "faction": "syndicate",
+        "type": "asset",
+        "presence": 5,
+        "attack": 0,
+        "health": 8,
+        "traits": [
+          "command"
+        ],
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence."
+      },
+      "syndicate_intel": {
+        "id": "syndicate_intel",
+        "name": "Intelligence Network",
+        "faction": "syndicate",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "draw",
+          "amount": 2
+        },
+        "rulesText": "Draw 2 cards."
+      },
+      "syndicate_disrupt": {
+        "id": "syndicate_disrupt",
+        "name": "Supply Interference",
+        "faction": "syndicate",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "disrupt",
+          "amount": 4
+        },
+        "rulesText": "Tie up up to 4 available enemy Presence as temporary spending until their next offensive turn."
+      },
+      "syndicate_counter": {
+        "id": "syndicate_counter",
+        "name": "Override Protocol",
+        "faction": "syndicate",
+        "type": "order",
+        "presence": 2,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "counter",
+        "effect": {
+          "kind": "counter",
+          "amount": 0
+        },
+        "rulesText": "Counter: cancel the defender’s response Order. Cannot cancel a Guard interception."
+      },
+      "syndicate_precision_strike": {
+        "id": "syndicate_precision_strike",
+        "name": "Contract Strike",
+        "faction": "syndicate",
+        "type": "order",
+        "presence": 4,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "damage",
+          "amount": 3
+        },
+        "rulesText": "Deal 3 damage to one enemy battlefield card."
+      },
+      "nightwalker_blade": {
+        "id": "nightwalker_blade",
+        "name": "Silent Blade",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 3,
+        "attack": 4,
+        "health": 3,
+        "traits": [
+          "precision"
+        ],
+        "rulesText": "Precision — attacks cannot be intercepted by Guards."
+      },
+      "nightwalker_stalker": {
+        "id": "nightwalker_stalker",
+        "name": "Veil Stalker",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 4,
+        "attack": 4,
+        "health": 3,
+        "traits": [
+          "mobile"
+        ],
+        "rulesText": "Mobile — first move each turn does not exhaust this unit."
+      },
+      "nightwalker_marksman": {
+        "id": "nightwalker_marksman",
+        "name": "Ghost Marksman",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 5,
+        "attack": 6,
+        "health": 3,
+        "traits": [
+          "precision"
+        ],
+        "rulesText": "Precision — attacks cannot be intercepted by Guards."
+      },
+      "nightwalker_assault": {
+        "id": "nightwalker_assault",
+        "name": "Dusk Assault Team",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 5,
+        "attack": 4,
+        "health": 4,
+        "traits": [
+          "rush"
+        ],
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready."
+      },
+      "nightwalker_saboteur": {
+        "id": "nightwalker_saboteur",
+        "name": "Cornered Saboteur",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 4,
+        "attack": 4,
+        "health": 3,
+        "traits": [
+          "berserk"
+        ],
+        "rulesText": "Berserk — gains +1 Attack while damaged."
+      },
+      "nightwalker_scout": {
+        "id": "nightwalker_scout",
+        "name": "Shadow Scout",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 5,
+        "attack": 3,
+        "health": 5,
+        "traits": [
+          "mobile",
+          "precision"
+        ],
+        "rulesText": "Mobile. Precision. First move does not exhaust; attacks ignore Guards."
+      },
+      "nightwalker_commander": {
+        "id": "nightwalker_commander",
+        "name": "Veil Commander",
+        "faction": "nightwalker",
+        "type": "leader",
+        "presence": 6,
+        "attack": 4,
+        "health": 5,
+        "traits": [
+          "command",
+          "precision"
+        ],
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Precision.",
+        "unique": true
+      },
+      "nightwalker_beacon": {
+        "id": "nightwalker_beacon",
+        "name": "Targeting Beacon",
+        "faction": "nightwalker",
+        "type": "asset",
+        "presence": 4,
+        "attack": 0,
+        "health": 6,
+        "traits": [
+          "command"
+        ],
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence."
+      },
+      "nightwalker_ambush": {
+        "id": "nightwalker_ambush",
+        "name": "From the Dark",
+        "faction": "nightwalker",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "response",
+        "effect": {
+          "kind": "ambush",
+          "amount": 3
+        },
+        "rulesText": "Response: deal 3 damage to the attacking unit before combat."
+      },
+      "nightwalker_strike": {
+        "id": "nightwalker_strike",
+        "name": "Surgical Strike",
+        "faction": "nightwalker",
+        "type": "order",
+        "presence": 4,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "damage",
+          "amount": 4
+        },
+        "rulesText": "Deal 4 damage to one enemy battlefield card."
+      },
+      "nightwalker_withdraw": {
+        "id": "nightwalker_withdraw",
+        "name": "Fade Away",
+        "faction": "nightwalker",
+        "type": "order",
+        "presence": 1,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "response",
+        "effect": {
+          "kind": "retreat",
+          "amount": 0
+        },
+        "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage."
+      },
+      "nightwalker_recon": {
+        "id": "nightwalker_recon",
+        "name": "Night Reconnaissance",
+        "faction": "nightwalker",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "draw",
+          "amount": 2
+        },
+        "rulesText": "Draw 2 cards."
+      },
+      "rogue_outrider": {
+        "id": "rogue_outrider",
+        "name": "Dust Outrider",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 4,
+        "attack": 3,
+        "health": 4,
+        "traits": [
+          "mobile"
+        ],
+        "rulesText": "Mobile — first move each turn does not exhaust this unit."
+      },
+      "rogue_skirmisher": {
+        "id": "rogue_skirmisher",
+        "name": "Frontier Skirmisher",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 5,
+        "attack": 3,
+        "health": 5,
+        "traits": [
+          "mobile"
+        ],
+        "rulesText": "Mobile — first move each turn does not exhaust this unit."
+      },
+      "rogue_scrapper": {
+        "id": "rogue_scrapper",
+        "name": "Scrap Fighter",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 4,
+        "attack": 4,
+        "health": 4,
+        "traits": [
+          "berserk"
+        ],
+        "rulesText": "Berserk — gains +1 Attack while damaged."
+      },
+      "rogue_salvage": {
+        "id": "rogue_salvage",
+        "name": "Salvage Crew",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 6,
+        "traits": [
+          "medic"
+        ],
+        "rulesText": "Medic — at the start of your turn, heal each ally here by 1."
+      },
+      "rogue_trailguard": {
+        "id": "rogue_trailguard",
+        "name": "Trail Guard",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 6,
+        "attack": 3,
+        "health": 7,
+        "traits": [
+          "guard",
+          "mobile"
+        ],
+        "rulesText": "Guard. Mobile. Escort the advance while staying ready."
+      },
+      "rogue_raider": {
+        "id": "rogue_raider",
+        "name": "Road Raider",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 7,
+        "attack": 5,
+        "health": 6,
+        "traits": [
+          "rush",
+          "mobile"
+        ],
+        "rulesText": "Rush. Mobile. Can move once and then attack on its deployment turn."
+      },
+      "rogue_commander": {
+        "id": "rogue_commander",
+        "name": "Route Commander",
+        "faction": "rogue",
+        "type": "leader",
+        "presence": 7,
+        "attack": 3,
+        "health": 6,
+        "traits": [
+          "command",
+          "mobile"
+        ],
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Mobile.",
+        "unique": true
+      },
+      "rogue_workshop": {
+        "id": "rogue_workshop",
+        "name": "Field Workshop",
+        "faction": "rogue",
+        "type": "asset",
+        "presence": 5,
+        "attack": 0,
+        "health": 8,
+        "traits": [
+          "medic"
+        ],
+        "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence."
+      },
+      "rogue_reclaim": {
+        "id": "rogue_reclaim",
+        "name": "Pull Back",
+        "faction": "rogue",
+        "type": "order",
+        "presence": 1,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "reclaim",
+          "amount": 0
+        },
+        "rulesText": "Return one friendly battlefield card to your hand, removing its wounds and freeing its commitment."
+      },
+      "rogue_rally": {
+        "id": "rogue_rally",
+        "name": "Keep Moving",
+        "faction": "rogue",
+        "type": "order",
+        "presence": 2,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "rally",
+          "amount": 0
+        },
+        "rulesText": "Ready one exhausted friendly unit."
+      },
+      "rogue_retreat": {
+        "id": "rogue_retreat",
+        "name": "Break Contact",
+        "faction": "rogue",
+        "type": "order",
+        "presence": 1,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "response",
+        "effect": {
+          "kind": "retreat",
+          "amount": 0
+        },
+        "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage."
+      },
+      "rogue_raid": {
+        "id": "rogue_raid",
+        "name": "Hit and Run",
+        "faction": "rogue",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "timing": "action",
+        "effect": {
+          "kind": "damage",
+          "amount": 3
+        },
+        "rulesText": "Deal 3 damage to one enemy battlefield card."
+      }
+    },
+    "decks": [
+      {
+        "id": "stonewall-starter",
+        "name": "Stonewall Starter",
+        "faction": "stonewall",
+        "cards": [
+          "stonewall_rifles",
+          "stonewall_rifles",
+          "stonewall_rifles",
+          "stonewall_rifles",
+          "stonewall_defender",
+          "stonewall_defender",
+          "stonewall_defender",
+          "stonewall_medic",
+          "stonewall_medic",
+          "stonewall_heavy",
+          "stonewall_heavy",
+          "stonewall_escort",
+          "stonewall_escort",
+          "stonewall_pathfinder",
+          "stonewall_pathfinder",
+          "stonewall_commander",
+          "stonewall_commander",
+          "stonewall_aid_station",
+          "stonewall_triage",
+          "stonewall_triage",
+          "stonewall_brace",
+          "stonewall_brace",
+          "stonewall_rally",
+          "stonewall_rally",
+          "stonewall_fire_support",
+          "stonewall_fire_support"
+        ]
+      },
+      {
+        "id": "bruiser-starter",
+        "name": "Bruiser Starter",
+        "faction": "bruiser",
+        "cards": [
+          "bruiser_assault",
+          "bruiser_assault",
+          "bruiser_assault",
+          "bruiser_assault",
+          "bruiser_heavy",
+          "bruiser_heavy",
+          "bruiser_heavy",
+          "bruiser_brawler",
+          "bruiser_brawler",
+          "bruiser_breacher",
+          "bruiser_breacher",
+          "bruiser_vanguard",
+          "bruiser_vanguard",
+          "bruiser_gunner",
+          "bruiser_gunner",
+          "bruiser_commander",
+          "bruiser_commander",
+          "bruiser_banner",
+          "bruiser_bombard",
+          "bruiser_bombard",
+          "bruiser_rally",
+          "bruiser_rally",
+          "bruiser_ambush",
+          "bruiser_ambush",
+          "bruiser_resupply",
+          "bruiser_resupply"
+        ]
+      },
+      {
+        "id": "syndicate-starter",
+        "name": "Syndicate Starter",
+        "faction": "syndicate",
+        "cards": [
+          "syndicate_security",
+          "syndicate_security",
+          "syndicate_security",
+          "syndicate_security",
+          "syndicate_enforcer",
+          "syndicate_enforcer",
+          "syndicate_enforcer",
+          "syndicate_observer",
+          "syndicate_observer",
+          "syndicate_courier",
+          "syndicate_courier",
+          "syndicate_coordinator",
+          "syndicate_coordinator",
+          "syndicate_contractor",
+          "syndicate_contractor",
+          "syndicate_commander",
+          "syndicate_commander",
+          "syndicate_relay",
+          "syndicate_intel",
+          "syndicate_intel",
+          "syndicate_disrupt",
+          "syndicate_disrupt",
+          "syndicate_counter",
+          "syndicate_counter",
+          "syndicate_precision_strike",
+          "syndicate_precision_strike"
+        ]
+      },
+      {
+        "id": "nightwalker-starter",
+        "name": "Nightwalker Starter",
+        "faction": "nightwalker",
+        "cards": [
+          "nightwalker_blade",
+          "nightwalker_blade",
+          "nightwalker_blade",
+          "nightwalker_blade",
+          "nightwalker_stalker",
+          "nightwalker_stalker",
+          "nightwalker_stalker",
+          "nightwalker_marksman",
+          "nightwalker_marksman",
+          "nightwalker_assault",
+          "nightwalker_assault",
+          "nightwalker_saboteur",
+          "nightwalker_saboteur",
+          "nightwalker_scout",
+          "nightwalker_scout",
+          "nightwalker_commander",
+          "nightwalker_commander",
+          "nightwalker_beacon",
+          "nightwalker_ambush",
+          "nightwalker_ambush",
+          "nightwalker_strike",
+          "nightwalker_strike",
+          "nightwalker_withdraw",
+          "nightwalker_withdraw",
+          "nightwalker_recon",
+          "nightwalker_recon"
+        ]
+      },
+      {
+        "id": "rogue-starter",
+        "name": "Rogue Starter",
+        "faction": "rogue",
+        "cards": [
+          "rogue_outrider",
+          "rogue_outrider",
+          "rogue_outrider",
+          "rogue_outrider",
+          "rogue_skirmisher",
+          "rogue_skirmisher",
+          "rogue_skirmisher",
+          "rogue_scrapper",
+          "rogue_scrapper",
+          "rogue_salvage",
+          "rogue_salvage",
+          "rogue_trailguard",
+          "rogue_trailguard",
+          "rogue_raider",
+          "rogue_raider",
+          "rogue_commander",
+          "rogue_commander",
+          "rogue_workshop",
+          "rogue_reclaim",
+          "rogue_reclaim",
+          "rogue_rally",
+          "rogue_rally",
+          "rogue_retreat",
+          "rogue_retreat",
+          "rogue_raid",
+          "rogue_raid"
+        ]
+      }
+    ],
+    "territoryNames": [
+      "Western Command",
+      "Freight Yards",
+      "Industrial District",
+      "Downtown",
+      "Transit Exchange",
+      "Eastern Checkpoint",
+      "Eastern Command"
+    ],
+    "glossary": {
+      "Presence": "Every permanent card’s printed P is its deployment requirement, continuing field commitment, and contribution toward capture. Orders spend their printed P temporarily.",
+      "Command": "Your total army support capacity. Start at the configured value (default 20); gain the configured growth (default +10) on each later offensive turn, up to the cap (default 80).",
+      "Available": "Command − Field commitment − temporary spending. Destroyed or reclaimed cards immediately free commitment. Spending refreshes only at the start of your next offensive turn.",
+      "Actions": "Default: three major actions per offensive turn. Deploying, moving, attacking, or playing an action Order each uses one. Responses and counters cost Presence but no major action.",
+      "Deploy": "Deploy into any territory you own with a free friendly slot. New units are ready and may move, but cannot attack that turn without Rush. Assets are immobile.",
+      "Move": "A ready unit moves one adjacent territory and exhausts. Destination must be owned or contested; stranded units may take a legal step toward the current objective. There is no jumping over territories.",
+      "Combat": "A ready unit attacks an enemy in its territory and exhausts. After one defender response and at most one counter, both surviving participants deal their Attack simultaneously. Wounds persist; cards at zero health enter their owner’s discard.",
+      "Capture": "At the end of your offensive turn, your surviving cards in the contested territory add printed Presence to your progress, even with enemies present. Meet the threshold (default 25) to capture. Both progress tracks reset, the objective moves one step toward the opponent, and surviving units make a Breakthrough.",
+      "Breakthrough": "After a non-winning capture, your units and leaders in the captured territory automatically advance one adjacent territory to the new objective, up to its friendly slot limit. Earlier-deployed cards advance first. Wounds and readiness are preserved. Assets and overflow stay behind; this costs no action.",
+      "Conquest": "Capture the opponent’s home territory, or reach the configured territory requirement (default all seven). Recapturing an already-owned objective still pushes the front back toward the opponent.",
+      "Response": "The defender may play one legal response Order, intercept with a ready Guard here, or pass. A response Order opens one counter opportunity for the attacker. Combat then resolves exactly once.",
+      "Guard": "A ready Guard in the same territory can intercept an attack on another friendly card. The Guard exhausts. Precision prevents interception; Guard is not an Order and cannot be countered.",
+      "Fortify": "Reduce incoming combat damage by 1 while this card is on a territory its owner controls. Does not reduce Order or Ambush damage.",
+      "Rush": "This unit may attack on its deployment turn if ready. Moving normally still exhausts it; Rush does not grant extra actions.",
+      "Mobile": "The first move this unit makes each turn does not exhaust it. The move still costs a major action. Later moves exhaust normally.",
+      "Precision": "This unit’s attacks cannot be redirected by a Guard. Defensive response Orders remain legal.",
+      "Berserk": "This card gains +1 Attack while it has any damage.",
+      "Command aura": "Other friendly battlefield cards in the same territory gain +1 Attack for each allied Command card there. The source does not boost itself.",
+      "Medic": "At the start of its owner’s offensive turn, this card heals every friendly card in its territory by 1. Each Medic contributes; health cannot exceed printed maximum.",
+      "Asset": "A permanent support card that commits Presence and contributes to capture, but cannot move or declare attacks. Its passive traits remain active. It can be targeted and destroyed.",
+      "Unique": "You may control only one copy of this card at a time. A replacement can deploy after the existing copy leaves the field.",
+      "Rally": "Ready an exhausted friendly unit. Deployment-turn attack restrictions still apply; the next move or attack still costs an action.",
+      "Shield": "A response Order that reduces combat damage to the defender for this combat only. It does not stop damage from Orders.",
+      "Ambush": "A response Order deals damage to the attacker before combat. If that destroys the attacker, no combat damage is exchanged.",
+      "Retreat": "A response Order moves the defender one territory toward its home, if the destination is legal and has room. The attacker exhausts and no combat damage is exchanged.",
+      "Counter": "Cancel the defender’s response Order. Both Orders are spent and discarded; the original combat proceeds. There is no counter to a counter.",
+      "Disrupt": "Add temporary enemy spending, capped at their currently available Presence. This can limit reactions now; their spending still resets at the start of their next offensive turn.",
+      "Reclaim": "Return a friendly permanent to your hand, clearing its wounds and freeing its field commitment. Redeployment requires Presence and a major action again.",
+      "Reserves": "When a draw needs an empty deck, shuffle your discard/casualties into a new reserve deck. If both are empty, skip that draw. There is no fatigue damage.",
+      "Prototype lore": "Leader names are editable generic roles. The reserved Riftwalker slot has no gameplay effect in Sprint 001."
+    },
+    "mechanics": {
+      "economy": "Available Presence = Command minus deployed card Presence minus spent Orders. Subsequent own offensive turns grow Command to the configured cap and clear spent Presence. Casualties immediately free commitment.",
+      "battlefield": "Seven territories: Player 1 initially owns sectors 0–2, sector 3 is neutral, and Player 2 initially owns sectors 4–6. The contested objective moves one territory on capture.",
+      "actions": "Deploy, move, attack and action Orders each consume one major action. Responses and counters consume no major action but card Orders spend Presence. Units normally cannot attack on their deployment turn without Rush.",
+      "combat": "Same-territory attacks open response and optional counter windows. Combat damage is simultaneous after those windows, with persistent wounds and card-defined traits. Lethal ambush can remove the attacker before combat.",
+      "capture": "Only the ending offensive player adds printed frontline unit Presence to their progress, including when enemies are present. At the configured threshold they secure the objective, reset progress, and move the frontline.",
+      "breakthrough": "After a nonwinning capture, surviving non-assets advance one adjacent into the new objective, filling friendly slots in unit order and preserving wounds/readiness. Assets and overflow remain.",
+      "victory": "A player wins by capturing the opponent home sector or controlling the configured number of territories. No player health total determines victory.",
+      "reserves": "Draw configured opening and own-turn cards. Empty reserves recycle casualty and spent Order discards; if both reserve and discard are empty, drawing safely stops."
+    },
+    "rulesVersion": "sprint2-territory-breakthrough-v1",
+    "engineFingerprint": "1ceb9dba",
+    "aiFingerprint": "8416f259",
+    "dataFingerprint": "443eb217"
+  },
+  "simulatorVersion": "1.0.0",
+  "aiVersion": "frontlines-heuristic-sprint2-v1",
+  "hashes": {
+    "ai.js": "0751434838bab66dd2d7e171f4baf7bae162b99fd1c4696792652c8c90874e0c",
+    "app.js": "b4da44801f39317fce54ad4a0d73097c83da5667c698aa81ad5b9fad34a30115",
+    "art.js": "4ba5bc5293ec9b979ec8326842ea4662b0dd6b6abce655e96847d5ca548b79cc",
+    "assets/animations/README.md": "e4b86d3cfd76aef15fac986c0330ab69b6df24d0600ba2f868c3434a5b91e6ca",
+    "assets/audio/README.md": "3f31bed67a86123a0deda9a4e4d4d225f8a69e7ad52c5766369d94bf61eaf2ae",
+    "assets/battlefield/tactical-city.svg": "88640cfcedb409dffda265e40dc02e767b29c3d326e66c2dd0c1a813e6be3156",
+    "assets/cards/bruiser/starter-atlas.webp": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419",
+    "assets/cards/nightwalker/starter-atlas.webp": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0",
+    "assets/cards/rogue/starter-atlas.webp": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1",
+    "assets/cards/stonewall/starter-atlas.webp": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20",
+    "assets/cards/syndicate/starter-atlas.webp": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf",
+    "assets/effects/README.md": "9787c2d97db8b4ab0a2b1ef99368b2275633ecd3f17ce64ec9e94cc4056416b8",
+    "assets/ui/faction_emblems/bruiser.svg": "81c5e32cbaed842637309ed39aea00fc47993d0a9881f22c4d15eb1ed1364c2f",
+    "assets/ui/faction_emblems/nightwalker.svg": "1f8f9895cdccdec78b9fbaa246db31d4d6c6848c32171838f4735b87e67950b9",
+    "assets/ui/faction_emblems/rogue.svg": "b905acd986b3f56e78a26707ddb1eb9cd0751a6a514ea1ae9f3df553d42cc297",
+    "assets/ui/faction_emblems/stonewall.svg": "dfa7b9913e1da786a3c03a4f4225d850a476f3cee33c4a2106e79a36a5cba6c9",
+    "assets/ui/faction_emblems/syndicate.svg": "bfa1ac959a0f899a4f8b74352c6642ff680e102ddc0b6c11fecebbb36ac1835e",
+    "CONTRACT.md": "2210b6652a63476758886bbca3bf17bc7358ed1f9221aaa9e78271e3171dc20e",
+    "data.js": "a53349ec7a0199a353f152cf024fe4a6a33a2d4bca57f0e772ca4e1780f9d328",
+    "effects.css": "b6d435291ccf494ca25836de7b370c455eac0f2357d706e4e48022b19c28de5a",
+    "effects.js": "269cc25d6ee88873c8890ada7b9739968e60ddcd0c9f08b697ca3b522ae8c874",
+    "engine.js": "57be416a8c52c8475b542542a14c66331eeee31fb41d36b78235fbd4688692c8",
+    "index.html": "7c159037aaddfedef9c1d751e4738bb4dd458b784aebda4b831b8fc8b46e4603",
+    "Launch Frontlines.cmd": "64750f8f4db3e3fbcb862a967bb4142a81724f6dc7ccd081126e5318bb8930c4",
+    "Launch Simulator.cmd": "6fb18d896892d2de69f6b207a8652bc1bf296fa96e8f6bed4ac400c2a561529f",
+    "main.js": "772ef17d1153b97454c359763448dace33a3c3784532aa787479ebca3a151915",
+    "package-lock.json": "133b3208367608d3c48de66d6068bc199f2fa9bddf3d059b0eda98c2df8a9fb0",
+    "package.json": "23ea4339b4250de72a6cd1b2e7c35bf70fc8cc91c99d58430d356193f373f688",
+    "scripts/simulate.js": "c9886003df4dcc651ea7df7faf967df09db20a942fe5f4f102751349412e72df",
+    "server.js": "5e9b7e8cc4c79a202870240d00806b89ab42186e32344b4305ece0d9119efefa",
+    "sim-core.js": "7c68d9bb8493b99dc83e483280cd17895aa95a5b71a845d8e672ca5231eec871",
+    "simulator-app.js": "7868cce19e27b344d48ae95d176163d5a17538b7b5f570189b936d4bbe4ecb1f",
+    "simulator-worker.js": "4a6abc1961e0c08dfc050ec73eb4353fd7680de12f43059aaf8e9706d13181a6",
+    "simulator.css": "8f472cf8246e213daa10b12cf56c02fc7edabcf8e961139033a34ddb6e97d354",
+    "simulator.html": "975152f6c722633f0d0e516961ac4226eea2047ccc1ab6768f2c2cd269f83e55",
+    "styles.css": "3c59cf97999fe100923d7f64d501b0c7e021d84c4ca7ab4d041cf97c787e764e",
+    "tests/art.test.js": "03c4f8e5f28306c97eecf3ca5f6afd9e4cd07f29dca5dfa64608891b8900979c",
+    "tests/effects.test.js": "2fa8eb2c80834f0c271d75348dfa2237bf86519cdb2b950aeaa92306a568ad64",
+    "tests/engine.test.js": "541b0add1322df29875756e0036a8ba9612397b103416210948cc6c08b750bbd",
+    "tests/fuzz.test.js": "4d0966d1fd8a33dee89ac79e9e71662baece2af69a5329eec08c36b6d96d8a73",
+    "tests/integration.test.js": "883bee7f7994f0f2c01f138d9197fd590ae4bcb5db9bcba1685d1390794dfcb9",
+    "tests/simulator.test.js": "8406ce1aa5f93a8de35fd4104f09483ba09fdedcaf2dba5dc8bf08f51a073970"
+  },
+  "note": "Frozen pre-Sprint-3 runtime source, native tests, and optimized runtime assets. Original art sources remain in the initial Git commit. Historical reports and user-reported 10,000-match figures are separate evidence."
+}

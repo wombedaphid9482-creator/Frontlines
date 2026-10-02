@@ -150,13 +150,13 @@ test('card descriptive counts match engine deployments/orders/attacks/deaths', (
   assert.equal(report.summary.byFaction.reduce((sum,row) => sum+row.decisive,0),16);
 });
 test('errors remain diagnostics rather than wins and later trials can continue', () => {
-  const original = AI.chooseAction;
-  AI.chooseAction = () => ({type:'invalid'});
+  const Balance=require('../balance.js'),original=Balance.createRuntime;
+  Balance.createRuntime=id=>{const runtime=original(id);return {...runtime,ai:{...runtime.ai,chooseAction:()=>({type:'invalid'})}};};
   try {
     const report = finish({count:3});
     assert.equal(report.completed,3); assert.equal(report.summary.errors,3); assert.equal(report.summary.decisive,0);
     assert.ok(report.matches.every(match => match.status === 'error' && match.winner === null && /Illegal AI/.test(match.error)));
-  } finally { AI.chooseAction = original; }
+  } finally { Balance.createRuntime=original; }
 });
 test('Wilson intervals and complete rules snapshots accompany decisive rates', () => {
   const report = finish({count:10});
@@ -166,7 +166,8 @@ test('Wilson intervals and complete rules snapshots accompany decisive rates', (
   }
   assert.deepEqual(report.rulesSnapshot.cards,D.CARDS);
   assert.deepEqual(report.rulesSnapshot.config,D.DEFAULT_CONFIG);
-  assert.equal(report.rulesSnapshot.decks.length,5);
+  assert.equal(report.rulesSnapshot.decks.length,2);
+  assert.deepEqual(report.rulesSnapshot.decks.map(d=>d.id).sort(),['bruiser-starter','stonewall-starter']);
   assert.ok(report.summary.turns.min <= report.summary.turns.median && report.summary.turns.median <= report.summary.turns.max);
 });
 test('CSV exports use all matches and readable card headers with escaped fields', () => {

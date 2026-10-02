@@ -1,8 +1,10 @@
 # Frontlines Balance Lab
 
-The Balance Lab runs the existing engine and baseline AI without match artwork, animation, sound, or turn delays. It is separate from the playable game. Territory capture, Breakthrough, Presence commitment, responses, and victory use the same rules.
+The Balance Lab runs the shared authoritative engine with selected baseline, faction-aware, deck-aware or random policies, without artwork, animation, sound or turn delays. Territory capture, Breakthrough, Presence commitment, responses and victory use the same rules as the live game.
 
-There are currently five factions and one 26-card starter deck per faction. Deck selection supports those registered presets; custom deck building is future work.
+Five original starter lists, ten archetype presets and saved legal custom decks are available. Open Arsenal to construct or import a list, then refresh saved decks in the Lab. Choose a duel or a selected-pool round robin, including same-faction variants. The exact total is distributed across paired opening seats; partial cycles can have unequal matchup exposures. See [deckbuilding guide](DECKBUILDING.md) for construction rules and CLI deck imports.
+
+Reports preserve exact lists, profiles, versions and seeds. Decks & pairs adds a deck matrix, archetype rates, curves and played-pair correlations. Compare supports earlier reports and named variants; AI/rule/deck-list differences remain explicit. HTML, JSON and CSV exports accompany rich replay, card outliers, economy, territory/comeback and match-length percentiles. Current validation is in [Sprint 4](SPRINT-004.md); older benchmark sections below remain useful historical context.
 
 The [saved 1,000-match baseline](simulator-baseline-1000.json) and [verification report](SIMULATOR-VERIFICATION.md) preserve the initial benchmark and launch checks. The older [Sprint 2 balance checkpoint](BALANCE.md) remains a separate historical sample.
 

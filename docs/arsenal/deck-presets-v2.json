@@ -1,0 +1,192 @@
+[
+  {
+    "faction": "stonewall",
+    "archetype": "bastion",
+    "name": "Stonewall — Bastion",
+    "description": "Guard, Fortify and recovery build an enduring occupation. Static Redoubts trade mobility for support.",
+    "counts": {
+      "rifles": 3,
+      "defender": 3,
+      "medic": 2,
+      "heavy": 2,
+      "escort": 2,
+      "commander": 2,
+      "aid_station": 1,
+      "watchguard": 3,
+      "redoubt": 2,
+      "triage": 2,
+      "brace": 2,
+      "fire_support": 2
+    }
+  },
+  {
+    "faction": "stonewall",
+    "archetype": "counteroffensive",
+    "name": "Stonewall — Counteroffensive",
+    "description": "Survive pressure, recover wounds and move mobile support behind a controlled advance.",
+    "counts": {
+      "rifles": 3,
+      "pathfinder": 3,
+      "escort": 2,
+      "commander": 2,
+      "counterbattery": 3,
+      "recovery_team": 3,
+      "watchguard": 2,
+      "medic": 1,
+      "rally": 3,
+      "fire_support": 2,
+      "triage": 2
+    }
+  },
+  {
+    "faction": "bruiser",
+    "archetype": "shock-assault",
+    "name": "Bruiser — Shock Assault",
+    "description": "Cheap mobile Rush units and fragile Command support pressure the frontier before defenders settle.",
+    "counts": {
+      "assault": 4,
+      "brawler": 2,
+      "breacher": 3,
+      "gunner": 2,
+      "commander": 2,
+      "shock_runner": 4,
+      "breach_caller": 3,
+      "rally": 2,
+      "bombard": 2,
+      "ambush": 2
+    }
+  },
+  {
+    "faction": "bruiser",
+    "archetype": "heavy-breakthrough",
+    "name": "Bruiser — Heavy Breakthrough",
+    "description": "Expensive heavies need Command and selective demolition. Failed pushes expose substantial commitment.",
+    "counts": {
+      "heavy": 4,
+      "brawler": 2,
+      "vanguard": 2,
+      "commander": 2,
+      "banner": 1,
+      "rupture_heavy": 3,
+      "breach_caller": 2,
+      "rally": 3,
+      "bombard": 2,
+      "overrun_charge": 3,
+      "resupply": 2
+    }
+  },
+  {
+    "faction": "syndicate",
+    "archetype": "combined-arms",
+    "name": "The Syndicate — Combined Arms",
+    "description": "Mobile Guards, Medic recovery and Command auras support a durable formation with distinct roles.",
+    "counts": {
+      "security": 3,
+      "enforcer": 3,
+      "courier": 2,
+      "coordinator": 2,
+      "contractor": 2,
+      "commander": 2,
+      "tactical_medic": 3,
+      "rapid_detail": 3,
+      "intel": 2,
+      "counter": 2,
+      "precision_strike": 2
+    }
+  },
+  {
+    "faction": "syndicate",
+    "archetype": "precision-operations",
+    "name": "The Syndicate — Precision Operations",
+    "description": "Remove an important piece with mobile Precision, direct Orders and a timed Sabotage window.",
+    "counts": {
+      "security": 2,
+      "observer": 2,
+      "courier": 2,
+      "coordinator": 2,
+      "commander": 2,
+      "eliminator": 3,
+      "signal_lock": 2,
+      "precision_strike": 3,
+      "intel": 2,
+      "counter": 2,
+      "contractor": 2,
+      "rapid_detail": 2
+    }
+  },
+  {
+    "faction": "nightwalker",
+    "archetype": "sabotage",
+    "name": "Nightwalker — Sabotage",
+    "description": "Blackout disables a visible ability for a short offensive window. Handler support converts disruption into pressure.",
+    "counts": {
+      "stalker": 3,
+      "saboteur": 1,
+      "scout": 4,
+      "commander": 2,
+      "handler": 4,
+      "blackout": 2,
+      "beacon": 1,
+      "ambush": 2,
+      "strike": 2,
+      "recon": 2,
+      "withdraw": 1,
+      "silencer": 2
+    }
+  },
+  {
+    "faction": "nightwalker",
+    "archetype": "assassination",
+    "name": "Nightwalker — Assassination",
+    "description": "Precision finishers and planned extraction remove critical targets while keeping fragile commitments useful.",
+    "counts": {
+      "blade": 3,
+      "marksman": 4,
+      "assault": 2,
+      "scout": 2,
+      "commander": 2,
+      "silencer": 3,
+      "ghost_extraction": 3,
+      "strike": 3,
+      "ambush": 2,
+      "recon": 2
+    }
+  },
+  {
+    "faction": "rogue",
+    "archetype": "scavenger",
+    "name": "Rogue — Scavenger",
+    "description": "A single surviving salvage source converts nearby casualties into options. Medic, Guard and Reclaim preserve the engine.",
+    "counts": {
+      "outrider": 3,
+      "salvage": 2,
+      "trailguard": 2,
+      "commander": 2,
+      "broker": 3,
+      "bulwark": 3,
+      "workshop": 1,
+      "reclaim": 3,
+      "rally": 2,
+      "raid": 3,
+      "retreat": 2
+    }
+  },
+  {
+    "faction": "rogue",
+    "archetype": "wildcard",
+    "name": "Rogue — Wildcard",
+    "description": "Mobile Precision, mobile recovery and readiness Orders adapt to visible threats instead of random outcomes.",
+    "counts": {
+      "outrider": 3,
+      "skirmisher": 2,
+      "raider": 3,
+      "commander": 2,
+      "lancer": 3,
+      "repair_courier": 3,
+      "trailguard": 2,
+      "reclaim": 2,
+      "rally": 3,
+      "raid": 3
+    }
+  }
+]

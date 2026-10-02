@@ -17,6 +17,14 @@ Usage: node scripts/simulate.js [options]
   --max-turns N         Offensive-turn cutoff (default 240)
   --max-decisions N     AI-decision cutoff per match (default 10000)
   --verify              Check invariants and card conservation every decision
+  --balance PROFILE     Centralized balance profile (default baseline)
+  --ai PROFILE          baseline, faction, deck, or random for both decks
+  --deck-file-a FILE    Exported deck JSON for side A
+  --deck-file-b FILE    Exported deck JSON for side B
+  --pool IDS            Matrix pool: archetypes, starters, or comma-separated IDs
+  --ai-a PROFILE        Override policy attached to original A deck
+  --ai-b PROFILE        Override policy attached to original B deck
+  --compare FILE        Compare a previous JSON report using matched seeds
   --out FILE            JSON report (default test-results/simulator-report.json)
   --csv                 Also write sibling .matches.csv and .cards.csv files
   --help                Show this help
@@ -27,8 +35,9 @@ matches; the current incomplete match is excluded. No animations or sleeps.
 `;
 
 function parseArgs(args) {
-  const options = {}, result = {options,out:'test-results/simulator-report.json',csv:false,help:false};
-  const values = {'--count':'count','--a':'deckA','--b':'deckB','--mode':'mode','--seed':'seed','--max-turns':'maxTurns','--max-decisions':'maxDecisions'};
+  const options = {}, result = {options,out:'test-results/simulator-report.json',csv:false,help:false,compare:null};
+  let aiA,aiB;
+  const values = {'--count':'count','--a':'deckA','--b':'deckB','--mode':'mode','--seed':'seed','--max-turns':'maxTurns','--max-decisions':'maxDecisions','--balance':'balanceProfile','--ai':'ai'};
   for (let index = 0; index < args.length; index++) {
     const flag = args[index];
     if (flag === '--help' || flag === '-h') result.help = true;
@@ -36,18 +45,35 @@ function parseArgs(args) {
     else if (flag === '--verify') options.verify = true;
     else if (flag === '--fixed-seats') options.swapSeats = false;
     else if (flag === '--mirrors') options.includeMirrors = true;
-    else if (flag === '--out' || values[flag]) {
+    else if (flag === '--out'||flag==='--compare'||flag==='--ai-a'||flag==='--ai-b'||flag==='--deck-file-a'||flag==='--deck-file-b'||flag==='--pool'||values[flag]) {
       const value = args[++index];
       if (!value || value.startsWith('--')) throw new Error(`Missing value for ${flag}.`);
-      if (flag === '--out') result.out = value; else options[values[flag]] = value;
+      if(flag==='--out')result.out=value;else if(flag==='--compare')result.compare=value;
+      else if(flag==='--deck-file-a')result.deckFileA=value;else if(flag==='--deck-file-b')result.deckFileB=value;else if(flag==='--pool')result.pool=value;
+      else if(flag==='--ai-a')aiA=value;else if(flag==='--ai-b')aiB=value;else options[values[flag]]=value;
     } else throw new Error(`Unknown option: ${flag}. Use --help for usage.`);
   }
+  if(aiA||aiB)options.aiProfiles=[aiA||options.ai||'baseline',aiB||options.ai||'baseline'];
   return result;
+}
+function unusedOutput(requested,csv){
+  const absolute=path.resolve(requested),extension=path.extname(absolute)||'.json',stem=absolute.slice(0,absolute.length-(path.extname(absolute).length));
+  let candidate=absolute,index=1;
+  function exists(file){const base=file.replace(/\.json$/i,'');return fs.existsSync(file)||fs.existsSync(`${base}.html`)||(csv&&(fs.existsSync(`${base}.matches.csv`)||fs.existsSync(`${base}.cards.csv`)));}
+  while(exists(candidate))candidate=`${stem}-${++index}${extension}`;
+  return candidate;
 }
 
 async function main(args = process.argv.slice(2)) {
   const cli = parseArgs(args);
   if (cli.help) { process.stdout.write(HELP); return null; }
+  const Decks=require('../decks.js');
+  for(const side of ['A','B'])if(cli['deckFile'+side]){
+    const file=path.resolve(cli['deckFile'+side]);if(fs.statSync(file).size>100000)throw new Error('Deck files must be smaller than 100 KB.');
+    const deck=Decks.importDeck(fs.readFileSync(file,'utf8'));deck.id='import-'+side.toLowerCase();
+    (cli.options.customDecks||(cli.options.customDecks=[])).push(deck);cli.options['deck'+side]=deck.id;
+  }
+  if(cli.pool)cli.options.deckPool=cli.pool==='archetypes'?Decks.presets().map(d=>d.id):cli.pool==='starters'?Decks.starters().map(d=>d.id):cli.pool.split(',');
   const run = Simulator.createRun(cli.options), start = performance.now();
   let stopped = false,lastProgress = start;
   const stop = () => { stopped = true; };
@@ -68,11 +94,13 @@ async function main(args = process.argv.slice(2)) {
   const report = run.result();
   report.reason = stopped ? 'stopped' : 'completed';
   report.elapsedMs = performance.now() - start;
-  const output = path.resolve(cli.out);
+  const comparison=cli.compare?Simulator.compareReports(JSON.parse(fs.readFileSync(path.resolve(cli.compare),'utf8')),report):null;
+  if(comparison)report.comparison=comparison;
+  const output=unusedOutput(cli.out,cli.csv),base=output.replace(/\.json$/i,'');
   fs.mkdirSync(path.dirname(output),{recursive:true});
   fs.writeFileSync(output,JSON.stringify(report,null,2) + '\n');
+  fs.writeFileSync(`${base}.html`,Simulator.reportHTML(report,comparison));
   if (cli.csv) {
-    const base = output.replace(/\.json$/i,'');
     fs.writeFileSync(`${base}.matches.csv`,Simulator.matchesCSV(report));
     fs.writeFileSync(`${base}.cards.csv`,Simulator.cardsCSV(report));
   }
@@ -82,4 +110,4 @@ async function main(args = process.argv.slice(2)) {
   return report;
 }
 if (require.main === module) main().catch(error => { console.error(error.message);process.exitCode = 1; });
-module.exports = {parseArgs,main};
+module.exports = {parseArgs,main,unusedOutput};

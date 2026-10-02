@@ -1,0 +1,46 @@
+# Frontlines implementation contract
+
+Standalone classic-script JS, no build step, no CDN, works by opening index.html. Each module uses an IIFE, exports `globalThis.FrontlinesData`, `FrontlinesEngine`, `FrontlinesAI`, and `module.exports` under Node. Browser script order: data.js, engine.js, ai.js, app.js. Node dependencies use require.
+
+## Data (`data.js`)
+
+`FACTIONS`: object keyed stonewall, bruiser, syndicate, nightwalker, rogue. Entries `{id,name,tagline,description,color,symbol}`. `CARDS`: object keyed card ID. Entries `{id,name,faction,type:'unit'|'leader'|'asset'|'order',presence,attack,health,traits:[],rulesText,effect?:{kind,amount},timing?:'action'|'response'|'counter',unique?:true}`. Leaders use generic editable titles, not invented canon names. `DECKS`: faction -> array of 26 card IDs, shuffled by engine. `DEFAULT_CONFIG`: `{startingCommand:20,commandGrowth:10,commandCap:80,captureThreshold:25,startingHand:5,drawCount:1,slotsPerTerritory:5,actionLimit:3,victoryTerritories:7}`. `TERRITORY_NAMES`: 7 names. `GLOSSARY`: term -> explanation. Future `riftwalker:null` per player reserved only.
+
+Engine supports traits: guard (intercept); fortify (reduce incoming combat damage by 1 on owned ground); rush (can attack on deployment turn); mobile (one move per turn without exhausting, still costs action); precision (ignore guard); berserk (+1 attack while damaged); command (other allies in same territory +1 attack); medic (heal same-territory allies 1 at owner's start). Asset cannot move or attack, still holds Presence.
+
+Order effect kinds: damage (enemy target, amount), heal (ally target, amount), rally (ready an exhausted ally), draw (draw amount), disrupt (enemy temporary spend +amount until their next offensive turn), reclaim (return ally to hand, free commitment), shield (response: reduce incoming damage by amount), ambush (response: deal amount damage to attacking unit before combat), retreat (response: move defender one territory homeward if legal), counter (counter: cancel defender order). Guard interception is a unit response, no hand card needed. Actions consume 1 major action; reaction/counter no major action but cost Presence.
+
+## Engine (`engine.js`)
+
+`createGame({factions:['stonewall','bruiser'],config:{...},seed:123}) -> state`.
+State `{config,seed,turn:1,attacker:0,actionsLeft:3,players:[{id:0,faction,command,spent,turns,deck:[cardId],hand:[{uid,cardId}],discard:[cardId],riftwalker:null}],territories:[{id:0,name,owner:0|1|null,progress:[0,0]}],contested:3,units:[{uid,cardId,owner,territory,damage,ready,deployedTurn,movedTurn}],response:null|{stage:'response'|'counter',attackerUid,defenderUid,originalDefenderUid,responder:1,order?:{cardId,...},...},winner:null|0|1,log:[{turn,text,type}],stats:{...}}`.
+
+State mutations ONLY through `dispatch(state,action) -> {ok,state,error?}`. Must leave input unchanged; reject without mutation. `action.player` optional defaults to expected actor. `getActor(state)` = responder during response, attacker during counter/action.
+
+Actions: `{type:'deploy',handUid,territory}`, `{type:'move',unitUid,territory}`, `{type:'attack',unitUid,targetUid}`, `{type:'order',handUid,targetUid?}`, `{type:'endTurn'}`, `{type:'respond',handUid?,guardUid?,pass?:true}`, `{type:'counter',handUid?,pass?:true}`. Response card effects resolve at resolution after optional counter; a pass resolves directly, a chosen response leads to counter stage. All combat resolves once. Response retreat automatically chooses homeward territory. Defender always gets response opportunity; ready Guard in same territory can redirect and is exhausted by doing so.
+
+Helpers `card(idOrInstance)` returns card definition (`cardId` or string); `presence(state,player)` -> `{command,committed,spent,available}`; `unitsAt(state,territory,owner?)`; `controlledCount(state,player)`; `getActor(state)`; `legalActions(state)` -> array of ALL currently valid action objects (including endTurn, response passes); `validate(state,action)` -> null if legal else readable error; `attackValue(state,unit)` -> modified attack. Enumerated legalActions MUST roundtrip through dispatch without failures. UI may call validate to explain invalid targets.
+
+Normal deploy to any owned territory with slots; units cannot attack on deployment turn unless rush; can move on deployment turn. A move costs action, exhausts except mobile's first move, only adjacent into owned/contested territory. Stranded survivors may move one step toward current contested territory. No teleport or advance beyond current objective. Attack same-territory enemy, ready unit; simultaneous damage, persistent wounds. Uniqueness per owner. Start own turn: growth only on subsequent own turns, reset spent, ready own units, heal medic, draw. At end own turn ONLY owner's units on contested territory add printed Presence, even if enemies present. At threshold capture and reset engagement progress, new objective one index toward capturer's opponent. Capturing one's already-owned objective pushes the enemy back. **Breakthrough (added after simulation exposed passive separate-stack loops):** after a nonwinning capture, the capturing side's surviving non-assets in the captured zone automatically advance one adjacent to the new objective, filling allied capacity in existing unit order and preserving wounds/readiness. Assets and overflow remain. Conquest if opponent home is captured OR control >= configured victoryTerritories. Stop actions after win.
+
+Deck exhaustion: shuffle casualty/discard pile as reserves when needing to draw with empty deck; if both empty skip draw, no crash. Communicate log/rules. No fabricated bonus resources.
+
+Debug exported `debug(state,{type:'presence'|'draw'|'damage'|'destroy'|'capture',player?,unitUid?,amount?}) -> state`, clones state, labels log. UI gates behind developer mode. `assertInvariants(state)` throws on illegal economy, duplicate UID, slots, response refs, etc.
+
+## UI (`index.html`, `styles.css`, `app.js`)
+
+Setup screen selects all five factions, hot-seat default or basic AI player 2; config and developer mode. Distinctive polished dark military operations map, warm orange contested frontline, blue player 1, red player 2; seven zones dominate. Clear HUD command / field / spent / available, action count, progress, deck/hand/discard. Select card then valid territory; select unit then move/attack; inspect full text; rules dialog with glossary. Match log, collapsible developer tools, victory/rematch/statistics. UI keeps separate ephemeral selection/privacy state, never authoritative rules. Keep hands private on every actor change including response/counter and back to offensive player. Privacy overlay must remove/obscure underlying hand DOM before passing. AI gets no privacy prompt. Debug both-hands toggle. Persist settings (not necessary entire game). Escape cancels selection, key help if useful.
+
+`FrontlinesAI.chooseAction(state) -> legal action` (no hidden-information cheating: use actor's hand only). AI autoplay uses paced setTimeout, not blocking loops. Optional root-level tests can simulate same function. Expose app state/getter and dispatch for debugging only if useful.
+
+## Separate simulator
+
+`simulator.html` is an independent local analysis app. It loads `data.js`, `engine.js`, `ai.js`, `sim-core.js`, and `simulator-app.js`. It does not load the animated game UI or change an active game's state. `Launch Simulator.cmd` opens it directly; HTTP execution may use `simulator-worker.js`, with a cooperative local runner for offline launch.
+
+`FrontlinesSimulator` / CommonJS `sim-core.js` exports `getDecks()`, `normalizeOptions(raw)`, `createRun(options)`, `replayMatch(report,index)`, `matchesCSV(report)`, `cardsCSV(report)`, and version metadata. Current deck IDs are `<faction>-starter`; these map to the existing faction decks. Custom deck construction remains future work.
+
+Normalized options: `{mode:'duel'|'matrix',count:1..100000,deckA,deckB,swapSeats,includeMirrors,seed:0..4294967295,maxTurns:1..2000,maxDecisions:1..100000,verify,config}`. `count` is the exact total requested, not matches per pairing. Duel seat swaps use paired seeds. Matrix scheduling covers both ordered seats, with optional mirrors; partial cycles may be unequal.
+
+A run exposes `step()` for one initialization, AI decision, or finalization; `done`, `completed`, `total`; `snapshot()` for compact live aggregation; and `result()` for completed match records plus rules/card/deck snapshots. Stop/pause are scheduling operations outside game rules. An unfinished current match is not a completed result. Cutoffs (`turnLimit`, `decisionLimit`) and `error` are separate from `win` and excluded from decisive win-rate denominators.
+
+Exports preserve seeds, rules, deck IDs, statuses, seat results, and descriptive card metrics. Mirrors count two deck/faction appearances and one matchup game. Wilson intervals are descriptive; paired deterministic AI runs are not independent human trials. Usage metrics do not establish causal card strength. Replay uses the same seed and safeguards, rejects detected metadata/data mismatch, and caps retained action traces. Increment reported rules/AI versions when changing private rule or scoring helpers: exported-function fingerprints cannot detect every closure implementation change.

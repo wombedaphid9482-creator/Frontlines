@@ -1,5 +1,9 @@
 # First human playtest
 
+For v0.5.0, launch the native candidate or `Launch Frontlines.cmd`. Open Arsenal, inspect a preset, make a named copy and change a few cards. Select that saved deck in setup. Play a match with developer mode off, answer optional feedback after conquest, and use **Export playtest report**. Share that JSON together with **Export Deck** from Arsenal; no account or developer setup is required. Browser/file/native local libraries are separate, so import exported decks when moving between them.
+
+Test one same-faction contrast (Bastion/Counteroffensive or Sabotage/Assassination), then a cross-faction contest. Swap first attacker. Record whether the two decks required different plans, which cards were always included, and whether an opponent's strong play had a readable answer. Current AI validation is documented in `SPRINT-004.md`; it is a starting hypothesis for human play, not a claim of competitive balance.
+
 Start with default settings, hot-seat Stonewall versus Bruiser. Keep developer mode off for the first match. Swap factions and who takes the first turn for the second match. Try Rogue versus Nightwalker for the third.
 
 ## What to record

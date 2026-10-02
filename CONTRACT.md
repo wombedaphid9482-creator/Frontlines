@@ -2,6 +2,24 @@
 
 Standalone classic-script JS, no build step, no CDN, works by opening index.html. Each module uses an IIFE, exports `globalThis.FrontlinesData`, `FrontlinesEngine`, `FrontlinesAI`, and `module.exports` under Node. Browser script order: data.js, engine.js, ai.js, app.js. Node dependencies use require.
 
+## Sprint 4 extensions (v0.5.0)
+
+The earlier sections below describe the preserved foundation. Current browser order is data, decks, engine, AI, balance, live-runtime (game/Arsenal only), art/effects, telemetry, app. Balance Lab loads analytics/sim-core and omits live-runtime activation. Runtime defaults to the explicit `arsenal` profile; original starter stats remain selectable as `baseline`, and the actual pre-expansion source is archived.
+
+`FrontlinesDecks` (`decks.js`) exports `RULES`, `validate`, `composition`, `starters`, `presets`, `getDecks`, `load`, `save`, `duplicate`, `remove`, `random`, `importDeck`, `exportDeck`, and `forData(data)`. Deck objects contain `{id,name,faction,cards:[cardId],archetype,source,createdAt?,updatedAt?}`. Construction is exactly26/one faction/max4 regular/max2 Leader. Imported unavailable cards remain explained illegal drafts. Legality is required only for match/simulation, not draft saving.
+
+`createGame({factions,decks:[deckObject,deckObject],seed,config})` validates and shuffles exact explicit inventories; omitted lists use original starters. Each player gets `deckMeta` with identity/name/declared strategy. No later local-storage lookup affects an active match. `hasTrait(unit,name)` accounts for temporary Sabotage. Retaliate, Scavenge and Sabotage are defined in `docs/KEYWORDS.md`; helpers run in the same engine for all surfaces.
+
+`engine.withData(data)` isolates compiled profile rules. `dispatch(state,action,{events:true})` returns transient exact events without changing gameplay state, RNG or default dispatch behavior. The ordinary immutable state remains authoritative. Telemetry creates an observer with `{data,engine,state,decks,aiProfiles,trace,traceLimit,territoryHistory}` and records `(before,after,action,{events,decision?,legalActions?})`; `finish(state)` returns cached metrics. Traces are bounded; public live handoff effects remain separate from analysis hands.
+
+`AI.forRules(data,engine)` compiles baseline/faction/random/deck profiles. `chooseAction(state,{profile,legalActions?})` returns a legal action. `explainAction` additionally returns score, reason, evaluation count and ranked candidates. Deck policy uses own `deckMeta.archetype`; concealed enemy identities and future order do not influence decisions.
+
+`FrontlinesBalance` uses offline embedded definitions exactly mirrored in `balance/*.json`: `dataFor(id)`, `createRuntime(id)`, `getProfiles()`, `DEFAULT_PROFILE`. Existing60 authoring definitions and five starter lists are retained;20 expansion cards bring the catalog to80. Profiles explicitly override cloned values; the source does not mutate globally.
+
+Simulator v3 adds `getDeckCatalog(data?,customDecks?)`, options `customDecks` (explicit legal object snapshots), `deckPool` (matrix registry IDs), `balanceProfile`, `aiProfiles` and diagnostic `thresholds`. Legacy `getDecks` still exposes five original starters; default matrix remains those five. An explicit pool may contain multiple same-faction variants. Custom IDs must be distinct from builtin IDs. Worker messages contain exact lists, not storage references. Rules snapshots include the selected lists; replay rejects changed rule/card/AI definitions. Exports include `byDeck`, `byArchetype`, composition, played-pair correlations, seat/length/territory/economy/comeback metrics and cutoff/error counts.
+
+Local libraries/history are small and failure tolerant. Deck JSON sharing and human feedback export need no server or account. Electron's native menu offers separate game/Arsenal/Lab windows with context isolation and Node integration disabled. `--simulator` and `--arsenal` launch separate tools; `--smoke-test` uses hidden windows and isolated temporary user data.
+
 ## Data (`data.js`)
 
 `FACTIONS`: object keyed stonewall, bruiser, syndicate, nightwalker, rogue. Entries `{id,name,tagline,description,color,symbol}`. `CARDS`: object keyed card ID. Entries `{id,name,faction,type:'unit'|'leader'|'asset'|'order',presence,attack,health,traits:[],rulesText,effect?:{kind,amount},timing?:'action'|'response'|'counter',unique?:true}`. Leaders use generic editable titles, not invented canon names. `DECKS`: faction -> array of 26 card IDs, shuffled by engine. `DEFAULT_CONFIG`: `{startingCommand:20,commandGrowth:10,commandCap:80,captureThreshold:25,startingHand:5,drawCount:1,slotsPerTerritory:5,actionLimit:3,victoryTerritories:7}`. `TERRITORY_NAMES`: 7 names. `GLOSSARY`: term -> explanation. Future `riftwalker:null` per player reserved only.
