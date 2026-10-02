@@ -9,6 +9,7 @@
     "start": "node server.js",
     "electron": "electron .",
     "build": "electron-builder",
+    "publish": "electron-builder --publish always",
     "test": "node --test tests/*.test.js",
     "playtest": "node tests/playtest.js",
     "simulate": "node scripts/simulate.js"
@@ -19,6 +20,11 @@
   "build": {
     "appId": "com.ryken.frontlines",
     "productName": "Frontlines",
+    "publish": {
+      "provider": "github",
+      "owner": "wombedaphid9482-creator",
+      "repo": "Frontlines"
+    },
     "directories": {
       "output": "release/0.5.0"
     },
@@ -47,5 +53,8 @@
     "electron": "^44.4.3",
     "electron-builder": "^26.15.3"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
 }
