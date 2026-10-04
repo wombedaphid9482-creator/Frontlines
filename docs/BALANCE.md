@@ -1,6 +1,20 @@
 # Frontlines balance history and current validation policy
 
-## Current v1.0.0 Commander candidate
+## Current v1.0.3 Balance Recovery candidate
+
+Sprint 10 preserves v1.0.2 artwork and battlefield fitting, freezes the previous rules and implements targeted recovery repairs under the new `sprint10` profile. Scavenge and Nothing Wasted share one casualty draw per player/global offensive turn. Reclaim retains wounds through redeployment. Four weak hybrid templates change composition; public-board AI cost/sequence/projection defects are corrected before broad stat buffs. Card Presence, Attack, Health, traits, effect amounts and printed Command Action costs remain unchanged. Drifter and the turn system remain intact.
+
+The [v1.0.3 release candidate](RELEASE-1.0.3.md) is built and verified: 334/334 automated tests, thirteen populated battlefield viewport/scaling cases, ten action/card contexts, random-opponent persistence/default-migration checks, full tutorial at six viewports, legacy presentation at five viewports and final packaged shell/ordinary-match smoke passes. All 95 packaged runtime files match source; protected art and historical snapshots remain intact. These are correctness results, not new competitive win rates. Exact evidence/hashes are in the [release manifest](release-1.0.3-manifest.json).
+
+The owner-approved balance evidence is **interim 46,679 / 100,000 matches: 46,402 decisive, 277 cutoffs, zero reported errors**, v1.0.2 / `sprint9`, seed 1209. Rogue cross-faction 95.4%, Scavenger list 97.6%, Wildcard 92.4%, Field Improvisation 97.1%, Scavenger foundation 88.1% and Drifter foundation 60.9% motivate different rule/Commander findings. Rolling Breakthrough 12.8%, Coordinated Removal 21.5%, Planned Exposure 19.6% and Fortified Advance 25.6% expose composition and sequencing risks. These are not final 100,000-match results and do not prove human balance or a causal effect of any one repair.
+
+[Sprint 10](SPRINT-010.md) and the [complete traceable change log](balance/SPRINT-010-CHANGELOG.md) identify every changed card text, Commander rule, deck and AI policy, preserved baseline inventories, initiative findings and validation boundaries. The original report/options/source/hashes are in [the frozen v1.0.2 baseline](balance/sprint10-v1.0.2-baseline/). Historical profiles retain their original mechanics rather than silently adopting the new recovery rules.
+
+**No autonomous large post-patch campaign was run.** Ryken controls the next run. Recommend the same thirty-deck, mirror-inclusive, both-seat 100,000-match matrix under `sprint10`, deck/deck AI, seed 1209, max 240 turns / 10,000 decisions, original 20/10/80 Capacity and 25 capture defaults. Keep unfinished counts visible and export JSON/HTML/match/card/Commander CSVs. The exact owner-run command/configuration is in [Sprint 10](SPRINT-010.md#exact-recommended-owner-run-validation--not-executed).
+
+The healthy ranges remain investigation targets, not instructions to force 50%: approximately 45–55% faction, 40–60% deck and 35–65% ordinary matchup. Strong Assassination, Combined Arms and Ghost remain watch-list entries. First-mover capture/terminal ordering remains unresolved; equal own-turn opening resources do not remove this structural risk. Competitive stabilization and human readability validation precede private online multiplayer and tactical expansion.
+
+## Preserved v1.0.0 Commander candidate
 
 Sprint 9 adds ten distinct Commanders to the `sprint9` profile. All 115 battlefield card definitions remain unchanged; Commander modifiers change effective costs, targeting, capture pressure and AI priorities. Commander aggregates, per-match usage and replay fingerprints are recorded by the shared simulator. Correctness fixtures cannot certify Commander, faction or human balance. No new large balance or economy campaign has been run. The exact ten-foundation validation proposal is in [Sprint 9](SPRINT-009.md) and requires Ryken’s separate authorization.
 

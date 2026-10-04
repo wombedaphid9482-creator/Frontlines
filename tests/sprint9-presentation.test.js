@@ -1,23 +1,36 @@
 'use strict';
-const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const Art=require('../art'),P=require('../presentation'),FX=require('../effects'),Data=require('../balance').dataFor('sprint7');
 
-test('all ten launch Commanders have unique small portable portraits with named accessible artwork',()=>{
+function webpDimensions(bytes){
+  assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');
+  for(let offset=12;offset+8<=bytes.length;){
+    const kind=bytes.toString('ascii',offset,offset+4),length=bytes.readUInt32LE(offset+4),payload=offset+8;
+    assert.ok(payload+length<=bytes.length,'Truncated WebP');
+    if(kind==='VP8X')return [bytes.readUIntLE(payload+4,3)+1,bytes.readUIntLE(payload+7,3)+1];
+    if(kind==='VP8 '){assert.equal(bytes.subarray(payload+3,payload+6).toString('hex'),'9d012a');return [bytes.readUInt16LE(payload+6)&0x3fff,bytes.readUInt16LE(payload+8)&0x3fff];}
+    if(kind==='VP8L'){assert.equal(bytes[payload],0x2f);const bits=bytes.readUInt32LE(payload+1);return [(bits&0x3fff)+1,((bits>>>14)&0x3fff)+1];}
+    offset=payload+length+(length%2);
+  }
+  assert.fail('No supported WebP frame');
+}
+test('all ten launch Commanders have unique optimized painted portraits with named accessible artwork',()=>{
   const ids=Object.keys(Art.COMMANDER_ART),portraits=new Set();assert.equal(ids.length,10);
   for(const faction of Object.keys(Art.THEMES))assert.equal(ids.filter(id=>id.startsWith('commander_'+faction+'_')).length,2);
   let bytes=0;
   for(const id of ids){
-    const c=Art.COMMANDER_ART[id],asset=Art.commanderGet(id),svg=fs.readFileSync(path.join(__dirname,'..',asset.src),'utf8');
-    assert.equal(svg,Art.commanderSvg(id));assert.match(svg,/<svg[^>]+viewBox="0 0 400 280"/);assert.ok(svg.includes(c.name));assert.ok(Object.isFrozen(c));
-    assert.doesNotMatch(svg,/<script|foreignObject|(?:href|src)="https?:|onload=|<image/i);assert.ok(Buffer.byteLength(svg)<5000);bytes+=Buffer.byteLength(svg);portraits.add(svg);
+    const c=Art.COMMANDER_ART[id],asset=Art.commanderGet(id),portrait=fs.readFileSync(path.join(__dirname,'..',asset.src));
+    assert.equal(asset.src,'assets/cards/commanders/'+id+'-portrait-v2.webp');assert.deepEqual(webpDimensions(portrait),[asset.width,asset.height]);assert.equal(asset.width,768);assert.equal(asset.height,768);assert.ok(Object.isFrozen(c));
+    assert.ok(portrait.length<200000,id+' portrait exceeds 200KB');bytes+=portrait.length;portraits.add(crypto.createHash('sha256').update(portrait).digest('hex'));
+    assert.ok(fs.existsSync(path.join(__dirname,'../assets/source/commanders',id+'-portrait-v2.png')),'Preserved source art missing: '+id);
     assert.match(Art.commanderHtml({id,name:c.name,faction:c.faction}),/art-commander/);assert.match(asset.alt,/strategic Commander portrait/);
   }
-  assert.equal(portraits.size,10);assert.ok(bytes<40000);assert.equal(Art.commanderGet('not-a-commander'),null);assert.equal(Art.commanderHtml({id:'<script>'}),'');
+  assert.equal(portraits.size,10);assert.ok(bytes<1600000,'Commander set exceeds 1.6MB');assert.equal(Art.commanderGet('not-a-commander'),null);assert.equal(Art.commanderHtml({id:'<script>'}),'');
 });
 
-test('expanded unit art differentiates battlefield jobs through full-size silhouettes and equipment',()=>{
+test('ordinary cards retain original faction atlas portraits without procedural SVG overlays',()=>{
   const representative={stonewall_medic:'medic',stonewall_defender:'shield',stonewall_heavy:'heavy',nightwalker_marksman:'marksman',syndicate_courier:'scout',rogue_scrap_hauler:'engineer',stonewall_commander:'officer',nightwalker_blade:'blade',bruiser_brawler:'brawler'};
-  for(const [id,identity]of Object.entries(representative)){const card=Data.CARDS[id];assert.ok(card,id);assert.equal(Art.identity(card),identity,id);assert.match(Art.html(card),/class="art-identity"/);assert.match(Art.html(card),new RegExp('art-'+identity));}
+  for(const [id,identity]of Object.entries(representative)){const card=Data.CARDS[id];assert.ok(card,id);assert.equal(Art.identity(card),identity,id);assert.match(Art.html(card),/starter-atlas\.webp/);assert.doesNotMatch(Art.html(card),/art-identity|art-illustrated|<svg/);}
   for(const faction of Object.keys(Art.THEMES)){
     const units=Object.values(Data.CARDS).filter(c=>c.faction===faction&&['unit','leader'].includes(c.type));
     const roles=new Set(units.map(Art.identity)),pictures=new Set(units.map(Art.illustration));
@@ -55,6 +68,6 @@ test('Commander activation has one public event from authoritative engine events
 
 test('premium frame ornament remains in art windows and name/rules/stat panels remain separate',()=>{
   const css=fs.readFileSync(require.resolve('../presentation.css'),'utf8');
-  assert.match(css,/v1\.0 material frames/);assert.match(css,/\.rarity-legendary :is\(\.card-art,\.arsenal-art,\.collection-art,\.pack-card-art\):before/);assert.doesNotMatch(css,/\.card-rules:(?:before|after)/);assert.match(css,/\.art-identity\{[^}]*width:100%!important;height:100%!important/);
+  assert.match(css,/v1\.0 material frames/);assert.match(css,/\.rarity-legendary :is\(\.card-art,\.arsenal-art,\.collection-art,\.pack-card-art\):before/);assert.doesNotMatch(css,/\.card-rules:(?:before|after)/);assert.doesNotMatch(css,/\.art-identity\{/);
   for(const id of Object.keys(Art.COMMANDER_ART)){const skin=P.commanderSkin({id,faction:Art.COMMANDER_ART[id].faction});assert.equal(skin.rarity,'legendary');assert.match(skin.className,/faction-/);}
 });

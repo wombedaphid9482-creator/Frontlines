@@ -756,7 +756,7 @@
       catch(error){showError('comparison-notice',error.message||String(error));}
       event.target.value='';
     });
-    try{const saved=JSON.parse(localStorage.getItem('frontlines.lab.settings.v2')||'null');if(saved){if(!saved.gameVersion&&saved.balanceProfile==='arsenal'||saved.gameVersion==='0.7.0'&&saved.balanceProfile==='sprint6')saved.balanceProfile=Balance.DEFAULT_PROFILE;applyOptions(Simulator.normalizeOptions(saved));}}catch(_){/* Older or corrupt saved settings do not prevent launch. */}
+    try{const saved=JSON.parse(localStorage.getItem('frontlines.lab.settings.v2')||'null');if(saved){if(saved.gameVersion==='1.0.2'&&saved.balanceProfile==='sprint9')saved.balanceProfile=Balance.DEFAULT_PROFILE;if(!saved.gameVersion&&saved.balanceProfile==='arsenal'||saved.gameVersion==='0.7.0'&&saved.balanceProfile==='sprint6')saved.balanceProfile=Balance.DEFAULT_PROFILE;applyOptions(Simulator.normalizeOptions(saved));}}catch(_){/* Older or corrupt saved settings do not prevent launch. */}
     const launchDeck=deckById[new URLSearchParams(location.search).get('deck')];if(launchDeck){document.querySelector('input[name="mode"][value="duel"]').checked=true;$('faction-a').value=launchDeck.faction;fillDeck('a',launchDeck.id);}
     setMode();
     setCountPreset();

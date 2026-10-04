@@ -1,0 +1,1827 @@
+{
+  "id": "sprint10",
+  "name": "Sprint 10 — Balance Recovery",
+  "version": "sprint10-recovery-v1",
+  "description": "Shared casualty salvage, retained reclaim wounds, targeted preset and AI repairs. Based on the owner’s interim seed-1209 report; post-patch win rates await owner validation.",
+  "changes": {
+    "cards": {
+      "bruiser_assault": {
+        "attack": 3,
+        "commandCost": 0,
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_heavy": {
+        "presence": 7,
+        "attack": 4,
+        "health": 5,
+        "commandCost": 1,
+        "rulesText": "A heavy commitment with the Presence to take ground quickly. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_brawler": {
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_breacher": {
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_vanguard": {
+        "attack": 3,
+        "health": 5,
+        "traits": [],
+        "rulesText": "A forward screen with the Presence to occupy ground; vulnerable to precision fire. Free Action — costs Capacity; no Command Action.",
+        "commandCost": 0
+      },
+      "bruiser_gunner": {
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_commander": {
+        "presence": 7,
+        "attack": 4,
+        "health": 5,
+        "commandCost": 1,
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Berserk. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 2
+        },
+        "rulesText": "Response: deal 2 damage to the attacker before combat. Costs Capacity; no Command Action.",
+        "commandCost": 0
+      },
+      "nightwalker_blade": {
+        "presence": 4,
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_stalker": {
+        "presence": 5,
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_marksman": {
+        "presence": 6,
+        "commandCost": 0,
+        "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_saboteur": {
+        "presence": 5,
+        "commandCost": 0,
+        "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_scout": {
+        "presence": 6,
+        "health": 6,
+        "commandCost": 0,
+        "rulesText": "Mobile. Precision. First move does not exhaust; attacks ignore Guards. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_commander": {
+        "presence": 7,
+        "health": 6,
+        "commandCost": 1,
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Precision. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 4
+        },
+        "rulesText": "Response: deal 4 damage to the attacker before combat. Costs Capacity; no Command Action.",
+        "commandCost": 0
+      },
+      "nightwalker_strike": {
+        "effect": {
+          "kind": "damage",
+          "amount": 5
+        },
+        "rulesText": "Deal 5 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity.",
+        "commandCost": 1
+      },
+      "rogue_outrider": {
+        "health": 5,
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_skirmisher": {
+        "attack": 4,
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_scrapper": {
+        "presence": 5,
+        "health": 5,
+        "commandCost": 0,
+        "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_commander": {
+        "traits": [
+          "command",
+          "mobile",
+          "medic"
+        ],
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Mobile. Medic — heal each ally here by 1 at your turn start. Costs 1 Command Action in addition to Capacity.",
+        "commandCost": 1
+      },
+      "bruiser_rupture_heavy": {
+        "health": 5,
+        "commandCost": 1,
+        "rulesText": "Berserk — gains +1 Attack while damaged. A large commitment that needs protection against selective removal. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_watchguard": {
+        "health": 6,
+        "commandCost": 0,
+        "rulesText": "Guard. Retaliate — after defending and surviving combat, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_recovery_team": {
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Medic. Mobile — first move each turn preserves readiness; heal allies here by 1 at your turn start. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_rifles": {
+        "commandCost": 0,
+        "rulesText": "Fortify — takes 1 less combat damage on owned ground. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_defender": {
+        "commandCost": 0,
+        "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_medic": {
+        "commandCost": 0,
+        "rulesText": "Medic — at the start of your turn, heal each ally here by 1. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_heavy": {
+        "commandCost": 1,
+        "rulesText": "Fortify — takes 1 less combat damage on owned ground. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_escort": {
+        "commandCost": 0,
+        "rulesText": "Guard. Fortify. Protects the line best on owned ground. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_pathfinder": {
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_commander": {
+        "commandCost": 1,
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Fortify. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_aid_station": {
+        "commandCost": 0,
+        "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_triage": {
+        "commandCost": 0,
+        "rulesText": "Heal one friendly battlefield card by 4. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_brace": {
+        "commandCost": 0,
+        "rulesText": "Response: reduce damage to the defender from this combat by 3. Costs Capacity; no Command Action."
+      },
+      "stonewall_rally": {
+        "commandCost": 1,
+        "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_fire_support": {
+        "commandCost": 1,
+        "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_banner": {
+        "commandCost": 1,
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_bombard": {
+        "commandCost": 1,
+        "rulesText": "Deal 5 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_rally": {
+        "commandCost": 1,
+        "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_resupply": {
+        "commandCost": 0,
+        "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_security": {
+        "commandCost": 0,
+        "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_enforcer": {
+        "commandCost": 0,
+        "rulesText": "Reliable muscle with enough Presence to secure an objective. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_observer": {
+        "commandCost": 0,
+        "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_courier": {
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_coordinator": {
+        "commandCost": 0,
+        "rulesText": "Command — other allies in this territory gain +1 Attack. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_contractor": {
+        "commandCost": 0,
+        "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_commander": {
+        "commandCost": 1,
+        "rulesText": "Unique. Command — other allies in this territory gain +1 Attack. Costs 1 Command Action in addition to Capacity."
+      },
+      "syndicate_relay": {
+        "commandCost": 1,
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+      },
+      "syndicate_intel": {
+        "commandCost": 0,
+        "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_disrupt": {
+        "commandCost": 1,
+        "rulesText": "Tie up up to 4 available enemy Presence as temporary spending until their next offensive turn. Costs 1 Command Action in addition to Capacity."
+      },
+      "syndicate_counter": {
+        "commandCost": 0,
+        "rulesText": "Counter: cancel the defender’s response Order. Cannot cancel a Guard interception. Costs Capacity; no Command Action."
+      },
+      "syndicate_precision_strike": {
+        "commandCost": 1,
+        "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_assault": {
+        "commandCost": 0,
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_beacon": {
+        "commandCost": 1,
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_withdraw": {
+        "commandCost": 0,
+        "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage. Costs Capacity; no Command Action."
+      },
+      "nightwalker_recon": {
+        "commandCost": 0,
+        "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_salvage": {
+        "commandCost": 0,
+        "rulesText": "Medic — at the start of your turn, heal each ally here by 1. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_trailguard": {
+        "commandCost": 0,
+        "rulesText": "Guard. Mobile. Escort the advance while staying ready. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_raider": {
+        "commandCost": 0,
+        "rulesText": "Rush. Mobile. Can move once and then attack on its deployment turn. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_workshop": {
+        "commandCost": 0,
+        "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_reclaim": {
+        "commandCost": 0,
+        "rulesText": "Return a friendly battlefield card to hand. Its committed Presence is freed; its wounds remain. Redeployment pays its printed Capacity and Command Action cost. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_rally": {
+        "commandCost": 1,
+        "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+      },
+      "rogue_retreat": {
+        "commandCost": 0,
+        "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage. Costs Capacity; no Command Action."
+      },
+      "rogue_raid": {
+        "commandCost": 1,
+        "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_redoubt": {
+        "commandCost": 1,
+        "rulesText": "Immobile. Fortify. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_counterbattery": {
+        "commandCost": 0,
+        "rulesText": "Fortify. Retaliate — after defending and surviving combat, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_shock_runner": {
+        "commandCost": 0,
+        "rulesText": "Rush. Mobile — may move once and then attack on its deployment turn; movement and attack each cost 1 Command Action. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_breach_caller": {
+        "commandCost": 0,
+        "rulesText": "Command — other allies here gain +1 Attack. Rush — may attack on its deployment turn if ready. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_overrun_charge": {
+        "commandCost": 1,
+        "rulesText": "Deal 6 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "syndicate_tactical_medic": {
+        "commandCost": 0,
+        "rulesText": "Medic — heal allies here by 1 at your turn start. Precision — attacks ignore Guard interception. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_rapid_detail": {
+        "commandCost": 0,
+        "rulesText": "Guard. Mobile — first move each turn preserves readiness, allowing an escort to keep its interception ready. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_eliminator": {
+        "commandCost": 0,
+        "rulesText": "Precision. Mobile — move once without exhausting, then attack a selected target if deployment timing allows. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_signal_lock": {
+        "commandCost": 1,
+        "rulesText": "Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_handler": {
+        "commandCost": 0,
+        "rulesText": "Command — other allies here gain +1 Attack. Mobile — first move each turn preserves readiness. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_blackout": {
+        "commandCost": 1,
+        "rulesText": "Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_silencer": {
+        "commandCost": 1,
+        "rulesText": "Precision. Rush — may attack on its deployment turn if ready, bypassing Guard interception. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_ghost_extraction": {
+        "commandCost": 0,
+        "rulesText": "Return a friendly battlefield card to hand. Its committed Presence is freed; its wounds remain. Redeployment pays its printed Capacity and Command Action cost. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_broker": {
+        "commandCost": 0,
+        "rulesText": "Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Mobile. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_bulwark": {
+        "commandCost": 0,
+        "rulesText": "Guard. Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_lancer": {
+        "commandCost": 0,
+        "rulesText": "Precision. Mobile — first move each turn preserves readiness; attacks ignore Guard interception. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_repair_courier": {
+        "commandCost": 0,
+        "rulesText": "Medic. Mobile — move support between wounded groups; heal allies here by 1 at your turn start. Free Action — costs Capacity; no Command Action."
+      }
+    },
+    "decks": {},
+    "config": {},
+    "additions": {
+      "stonewall_bulwark_warden": {
+        "id": "stonewall_bulwark_warden",
+        "name": "Bulwark Warden",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 6,
+        "attack": 2,
+        "health": 6,
+        "traits": [
+          "armor",
+          "guard"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "bastion",
+        "archetypes": [
+          "bastion"
+        ],
+        "role": "armored interceptor",
+        "artRole": "heavy",
+        "rulesText": "Armor. Guard — while ready, intercept an attack on another ally here; Precision bypasses Guard. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Protect a forward foothold before it is owned. Trades offensive damage for Armor that works on contested ground; direct Orders still cut through it.",
+        "tags": [
+          "armored interceptor",
+          "armor",
+          "guard"
+        ],
+        "ai": {
+          "role": "armored interceptor",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "stonewall_countermarch": {
+        "id": "stonewall_countermarch",
+        "name": "Countermarch Section",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 5,
+        "attack": 3,
+        "health": 5,
+        "traits": [
+          "mobile",
+          "retaliate"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "counteroffensive",
+        "archetypes": [
+          "counteroffensive"
+        ],
+        "role": "mobile retaliation",
+        "artRole": "rifle",
+        "rulesText": "Mobile — first move each turn preserves readiness. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Turn a successful defensive exchange into an advance without buying extra attacks. Less durable than Counterbattery Section and no Fortify.",
+        "tags": [
+          "mobile retaliation",
+          "mobile",
+          "retaliate"
+        ],
+        "ai": {
+          "role": "mobile retaliation",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "stonewall_plate_medic": {
+        "id": "stonewall_plate_medic",
+        "name": "Plate Medic",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 4,
+        "attack": 1,
+        "health": 4,
+        "traits": [
+          "armor",
+          "medic"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "bastion",
+        "archetypes": [
+          "bastion",
+          "counteroffensive"
+        ],
+        "role": "armored medic",
+        "artRole": "specialist",
+        "rulesText": "Armor. Medic — at your offensive turn start, heal every ally here by 1. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Offer a low-commitment forward medic resilient to small combat hits, with weak attack and low health against Orders.",
+        "tags": [
+          "armored medic",
+          "armor",
+          "medic"
+        ],
+        "ai": {
+          "role": "armored medic",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "stonewall_advance_marshal": {
+        "id": "stonewall_advance_marshal",
+        "name": "Advance Marshal",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 6,
+        "attack": 2,
+        "health": 5,
+        "traits": [
+          "command",
+          "retaliate"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "counteroffensive",
+        "archetypes": [
+          "counteroffensive",
+          "bastion"
+        ],
+        "role": "retaliation command",
+        "artRole": "commander",
+        "rulesText": "Command — other allies here gain +1 Attack. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Support a counterpush without replacing the Commander. A lower-commitment aura pays a Command Action and exposes a fragile, low-Attack support body.",
+        "tags": [
+          "retaliation command",
+          "command",
+          "retaliate"
+        ],
+        "ai": {
+          "role": "retaliation command",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "stonewall_line_reinforcement": {
+        "id": "stonewall_line_reinforcement",
+        "name": "Line Reinforcement",
+        "faction": "stonewall",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "bastion",
+        "archetypes": [
+          "bastion",
+          "counteroffensive"
+        ],
+        "role": "defensive reinforcement",
+        "artRole": "specialist",
+        "rulesText": "Reinforce — heal one friendly permanent by 2, then give it temporary Armor 1 until your next offensive turn starts. Does not stack with printed Armor. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Choose protection for the enemy response instead of Triage’s larger heal. Armor expires before the next friendly initiative and cannot stop direct removal.",
+        "tags": [
+          "defensive reinforcement",
+          "reinforce"
+        ],
+        "ai": {
+          "role": "defensive reinforcement",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "friendly",
+          "required": true
+        },
+        "timing": "action",
+        "effect": {
+          "kind": "reinforce",
+          "amount": 2
+        }
+      },
+      "stonewall_reserve_watch": {
+        "id": "stonewall_reserve_watch",
+        "name": "Reserve Watch",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 3,
+        "attack": 1,
+        "health": 4,
+        "traits": [
+          "retaliate"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "counteroffensive",
+        "archetypes": [
+          "counteroffensive"
+        ],
+        "role": "recovery infantry",
+        "artRole": "rifle",
+        "rulesText": "Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Recover occupancy cheaply after casualties. Low pressure and Attack make it a defensive sacrifice rather than an efficient finisher.",
+        "tags": [
+          "recovery infantry",
+          "retaliate"
+        ],
+        "ai": {
+          "role": "recovery infantry",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "stonewall_breach_shield": {
+        "id": "stonewall_breach_shield",
+        "name": "Breach Shield Column",
+        "faction": "stonewall",
+        "type": "unit",
+        "presence": 7,
+        "attack": 2,
+        "health": 6,
+        "traits": [
+          "armor",
+          "guard",
+          "mobile"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "counteroffensive",
+        "archetypes": [
+          "counteroffensive",
+          "bastion"
+        ],
+        "role": "heavy escort",
+        "artRole": "heavy",
+        "rulesText": "Armor. Guard. Mobile — first move each turn preserves readiness, keeping interception available after repositioning. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Carry a defensive screen through the moving frontline. Pays a Command Action and sacrifices offensive stats for mobile protection.",
+        "tags": [
+          "heavy escort",
+          "armor",
+          "guard",
+          "mobile"
+        ],
+        "ai": {
+          "role": "heavy escort",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "bruiser_pavise_breaker": {
+        "id": "bruiser_pavise_breaker",
+        "name": "Pavise Breaker",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 6,
+        "attack": 3,
+        "health": 5,
+        "traits": [
+          "guard",
+          "berserk"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "heavy-breakthrough",
+        "archetypes": [
+          "heavy-breakthrough",
+          "shock-assault"
+        ],
+        "role": "heavy assault screen",
+        "artRole": "heavy",
+        "rulesText": "Guard. Berserk — gain +1 Attack while wounded. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Protect a committed Heavy after a push stalls. Unlike ordinary Vanguards, protection costs a Command Action and Precision still bypasses it.",
+        "tags": [
+          "heavy assault screen",
+          "guard",
+          "berserk"
+        ],
+        "ai": {
+          "role": "heavy assault screen",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "bruiser_collision_crew": {
+        "id": "bruiser_collision_crew",
+        "name": "Collision Crew",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 4,
+        "traits": [
+          "rush",
+          "retaliate"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "shock-assault",
+        "archetypes": [
+          "shock-assault"
+        ],
+        "role": "shock retaliation",
+        "artRole": "rifle",
+        "rulesText": "Rush — may attack on its deployment turn if ready. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Provide an aggressive force that punishes a counterattack. Loses a point of Attack versus Assault Squad to gain its defensive threat.",
+        "tags": [
+          "shock retaliation",
+          "rush",
+          "retaliate"
+        ],
+        "ai": {
+          "role": "shock retaliation",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "bruiser_ram_team": {
+        "id": "bruiser_ram_team",
+        "name": "Armored Ram Team",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 7,
+        "attack": 3,
+        "health": 7,
+        "traits": [
+          "armor",
+          "berserk"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "heavy-breakthrough",
+        "archetypes": [
+          "heavy-breakthrough"
+        ],
+        "role": "armored heavy",
+        "artRole": "heavy",
+        "rulesText": "Armor. Berserk — gain +1 Attack while wounded. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Commit to a slower, durable breakthrough body rather than raw Heavy damage. Still vulnerable to direct removal, Sabotage and pressure in another position.",
+        "tags": [
+          "armored heavy",
+          "armor",
+          "berserk"
+        ],
+        "ai": {
+          "role": "armored heavy",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "bruiser_surge_drummers": {
+        "id": "bruiser_surge_drummers",
+        "name": "Surge Drummers",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 4,
+        "attack": 1,
+        "health": 4,
+        "traits": [
+          "command",
+          "mobile"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "shock-assault",
+        "archetypes": [
+          "shock-assault",
+          "heavy-breakthrough"
+        ],
+        "role": "mobile assault command",
+        "artRole": "commander",
+        "rulesText": "Command — other allies here gain +1 Attack. Mobile — first move each turn preserves readiness. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Shift a fragile assault aura between groups. Small Presence commitment comes with an explicit Command Action and almost no independent damage.",
+        "tags": [
+          "mobile assault command",
+          "command",
+          "mobile"
+        ],
+        "ai": {
+          "role": "mobile assault command",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "bruiser_counterpuncher": {
+        "id": "bruiser_counterpuncher",
+        "name": "Counterpuncher",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 4,
+        "attack": 2,
+        "health": 4,
+        "traits": [
+          "berserk",
+          "retaliate"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "shock-assault",
+        "archetypes": [
+          "shock-assault",
+          "heavy-breakthrough"
+        ],
+        "role": "wounded retaliation",
+        "artRole": "rifle",
+        "rulesText": "Berserk — gain +1 Attack while wounded. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Keep a failed assault dangerous without raising Bruiser’s staying power across its pool. Trades Brawler damage for counterattack punishment.",
+        "tags": [
+          "wounded retaliation",
+          "berserk",
+          "retaliate"
+        ],
+        "ai": {
+          "role": "wounded retaliation",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "bruiser_triage_rig": {
+        "id": "bruiser_triage_rig",
+        "name": "Combat Triage Rig",
+        "faction": "bruiser",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "heavy-breakthrough",
+        "archetypes": [
+          "heavy-breakthrough"
+        ],
+        "role": "heavy recovery",
+        "artRole": "specialist",
+        "rulesText": "Heal one wounded friendly permanent by 3. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Spend a draw slot on preserving an expensive push instead of Resupply. Healing can remove Berserk, creating a timing decision.",
+        "tags": [
+          "heavy recovery",
+          "heal"
+        ],
+        "ai": {
+          "role": "heavy recovery",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "friendly",
+          "required": true
+        },
+        "timing": "action",
+        "effect": {
+          "kind": "heal",
+          "amount": 3
+        }
+      },
+      "bruiser_breakthrough_gunner": {
+        "id": "bruiser_breakthrough_gunner",
+        "name": "Breakthrough Gunner",
+        "faction": "bruiser",
+        "type": "unit",
+        "presence": 8,
+        "attack": 4,
+        "health": 4,
+        "traits": [
+          "rush",
+          "armor"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "heavy-breakthrough",
+        "archetypes": [
+          "heavy-breakthrough",
+          "shock-assault"
+        ],
+        "role": "armored shock heavy",
+        "artRole": "heavy",
+        "rulesText": "Rush — may attack on its deployment turn if ready. Armor — reduce incoming regular combat damage by 1. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Buy a protected deployment-turn shot with higher commitment and lower raw health than Siege Heavy. A 4-damage Order kills this Gunner while an unwounded Siege Heavy survives; deployment, movement and attack can consume the whole initiative.",
+        "tags": [
+          "armored shock heavy",
+          "rush",
+          "armor"
+        ],
+        "ai": {
+          "role": "armored shock heavy",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "syndicate_target_designator": {
+        "id": "syndicate_target_designator",
+        "name": "Target Designator",
+        "faction": "syndicate",
+        "type": "order",
+        "presence": 2,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "precision-operations",
+        "archetypes": [
+          "precision-operations",
+          "combined-arms"
+        ],
+        "role": "target marking",
+        "artRole": "specialist",
+        "rulesText": "Mark one enemy permanent: it takes +1 incoming regular combat damage until its next offensive turn starts. Marks do not stack. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Turn coordinated exchanges into selective removal instead of spending on direct damage. Guard and defensive responses remain available.",
+        "tags": [
+          "target marking",
+          "mark"
+        ],
+        "ai": {
+          "role": "target marking",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "enemy",
+          "required": true
+        },
+        "timing": "action",
+        "effect": {
+          "kind": "mark",
+          "amount": 1
+        }
+      },
+      "syndicate_screen_operator": {
+        "id": "syndicate_screen_operator",
+        "name": "Screen Operator",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 5,
+        "traits": [
+          "armor",
+          "guard"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "combined-arms",
+        "archetypes": [
+          "combined-arms"
+        ],
+        "role": "armored tactical escort",
+        "artRole": "rifle",
+        "rulesText": "Armor. Guard — while ready, intercept an attack on another ally here; Precision bypasses Guard. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Protect a marked-target operation without copying Rapid Security Detail’s mobility. Gives up Attack and movement readiness for combat protection.",
+        "tags": [
+          "armored tactical escort",
+          "armor",
+          "guard"
+        ],
+        "ai": {
+          "role": "armored tactical escort",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "syndicate_fire_coordinator": {
+        "id": "syndicate_fire_coordinator",
+        "name": "Fire Coordinator",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 4,
+        "traits": [
+          "command",
+          "precision"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "combined-arms",
+        "archetypes": [
+          "combined-arms",
+          "precision-operations"
+        ],
+        "role": "precision command",
+        "artRole": "commander",
+        "rulesText": "Command — other allies here gain +1 Attack. Precision — attacks cannot be redirected by Guard. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Bridge the two tactical archetypes with a fragile aura that can contribute to the selected target. Gives up Coordinator health and Attack for Precision.",
+        "tags": [
+          "precision command",
+          "command",
+          "precision"
+        ],
+        "ai": {
+          "role": "precision command",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "syndicate_patch_team": {
+        "id": "syndicate_patch_team",
+        "name": "Tactical Patch Team",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 4,
+        "attack": 1,
+        "health": 4,
+        "traits": [
+          "medic",
+          "guard"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "combined-arms",
+        "archetypes": [
+          "combined-arms"
+        ],
+        "role": "escort medic",
+        "artRole": "specialist",
+        "rulesText": "Medic — at your offensive turn start, heal every ally here by 1. Guard — intercept while ready. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Combine two supporting jobs in one slot while accepting low damage and fragile health. Small direct Orders can remove the combined support.",
+        "tags": [
+          "escort medic",
+          "medic",
+          "guard"
+        ],
+        "ai": {
+          "role": "escort medic",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "syndicate_breach_monitor": {
+        "id": "syndicate_breach_monitor",
+        "name": "Breach Monitor",
+        "faction": "syndicate",
+        "type": "unit",
+        "presence": 6,
+        "attack": 3,
+        "health": 6,
+        "traits": [
+          "armor",
+          "precision"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "precision-operations",
+        "archetypes": [
+          "precision-operations"
+        ],
+        "role": "armored precision specialist",
+        "artRole": "heavy",
+        "rulesText": "Armor. Precision — attacks cannot be redirected by Guard. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Offer a durable specialist for planned Mark exchanges instead of an Eliminator’s movement and burst damage. Costs a Command Action to deploy.",
+        "tags": [
+          "armored precision specialist",
+          "armor",
+          "precision"
+        ],
+        "ai": {
+          "role": "armored precision specialist",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "syndicate_field_link": {
+        "id": "syndicate_field_link",
+        "name": "Field Link",
+        "faction": "syndicate",
+        "type": "asset",
+        "presence": 3,
+        "attack": 0,
+        "health": 5,
+        "traits": [
+          "command",
+          "medic"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "combined-arms",
+        "archetypes": [
+          "combined-arms",
+          "precision-operations"
+        ],
+        "role": "fixed combined support",
+        "artRole": "specialist",
+        "rulesText": "Immobile asset. Command — other allies here gain +1 Attack. Medic — at your offensive turn start, heal every ally here by 1. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Combine auras cheaply in Presence while risking a fragile static asset and a Command Action. It cannot follow a breakthrough or retreat after capture.",
+        "tags": [
+          "fixed combined support",
+          "command",
+          "medic"
+        ],
+        "ai": {
+          "role": "fixed combined support",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "syndicate_cover_protocol": {
+        "id": "syndicate_cover_protocol",
+        "name": "Cover Protocol",
+        "faction": "syndicate",
+        "type": "order",
+        "presence": 2,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "combined-arms",
+        "archetypes": [
+          "combined-arms",
+          "precision-operations"
+        ],
+        "role": "tactical reinforcement",
+        "artRole": "specialist",
+        "rulesText": "Reinforce — heal one friendly permanent by 1, then give it temporary Armor 1 until your next offensive turn starts. Does not stack with printed Armor. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Protect the next combined exchange with a small, temporary investment. Sacrifices healing quantity and a deck slot for short-term protection.",
+        "tags": [
+          "tactical reinforcement",
+          "reinforce"
+        ],
+        "ai": {
+          "role": "tactical reinforcement",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "friendly",
+          "required": true
+        },
+        "timing": "action",
+        "effect": {
+          "kind": "reinforce",
+          "amount": 1
+        }
+      },
+      "nightwalker_exposure_window": {
+        "id": "nightwalker_exposure_window",
+        "name": "Exposure Window",
+        "faction": "nightwalker",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "assassination",
+        "archetypes": [
+          "assassination",
+          "sabotage"
+        ],
+        "role": "assassination marking",
+        "artRole": "specialist",
+        "rulesText": "Mark one enemy permanent: it takes +1 incoming regular combat damage until its next offensive turn starts. Marks do not stack. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Set up a chosen assassination with a visible, short window rather than additional raw stats. Pays more Presence than Syndicate’s specialized targeting tool.",
+        "tags": [
+          "assassination marking",
+          "mark"
+        ],
+        "ai": {
+          "role": "assassination marking",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "enemy",
+          "required": true
+        },
+        "timing": "action",
+        "effect": {
+          "kind": "mark",
+          "amount": 1
+        }
+      },
+      "nightwalker_shadow_handler": {
+        "id": "nightwalker_shadow_handler",
+        "name": "Shadow Handler",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 4,
+        "attack": 1,
+        "health": 4,
+        "traits": [
+          "command",
+          "precision"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "sabotage",
+        "archetypes": [
+          "sabotage",
+          "assassination"
+        ],
+        "role": "covert command",
+        "artRole": "commander",
+        "rulesText": "Command — other allies here gain +1 Attack. Precision — attacks cannot be redirected by Guard. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Supply a low-commitment aura for timed disruption and removal. Its tiny independent Attack and health make revealing it a risk.",
+        "tags": [
+          "covert command",
+          "command",
+          "precision"
+        ],
+        "ai": {
+          "role": "covert command",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "nightwalker_misfire_team": {
+        "id": "nightwalker_misfire_team",
+        "name": "Misfire Team",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 4,
+        "attack": 3,
+        "health": 4,
+        "traits": [
+          "precision",
+          "retaliate"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "assassination",
+        "archetypes": [
+          "assassination"
+        ],
+        "role": "precision retaliation",
+        "artRole": "specialist",
+        "rulesText": "Precision. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Choose a unit that discourages enemy cleanup rather than Blade Team’s higher Attack. It has no deployment-turn attack or movement shortcut.",
+        "tags": [
+          "precision retaliation",
+          "precision",
+          "retaliate"
+        ],
+        "ai": {
+          "role": "precision retaliation",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "nightwalker_false_route": {
+        "id": "nightwalker_false_route",
+        "name": "False Route",
+        "faction": "nightwalker",
+        "type": "order",
+        "presence": 2,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "sabotage",
+        "archetypes": [
+          "sabotage"
+        ],
+        "role": "Presence disruption",
+        "artRole": "specialist",
+        "rulesText": "Add 3 temporary Presence spending to the opponent until their next offensive turn starts. Does not reduce Command Actions. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Restrict enemy response Capacity during a planned operation without dealing damage. Costs a Command Action and expires when the opponent’s offensive turn starts.",
+        "tags": [
+          "Presence disruption",
+          "disrupt"
+        ],
+        "ai": {
+          "role": "Presence disruption",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        },
+        "timing": "action",
+        "effect": {
+          "kind": "disrupt",
+          "amount": 3
+        }
+      },
+      "nightwalker_decoy_patrol": {
+        "id": "nightwalker_decoy_patrol",
+        "name": "Decoy Patrol",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 3,
+        "attack": 1,
+        "health": 3,
+        "traits": [
+          "guard",
+          "mobile"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "sabotage",
+        "archetypes": [
+          "sabotage"
+        ],
+        "role": "mobile decoy",
+        "artRole": "rifle",
+        "rulesText": "Guard. Mobile — first move each turn preserves readiness, keeping interception available. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Trade a cheap body and a move for protecting the important operative. Low damage, health and pressure prevent the decoy from becoming a finisher.",
+        "tags": [
+          "mobile decoy",
+          "guard",
+          "mobile"
+        ],
+        "ai": {
+          "role": "mobile decoy",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "nightwalker_route_keeper": {
+        "id": "nightwalker_route_keeper",
+        "name": "Route Keeper",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 5,
+        "traits": [
+          "guard",
+          "precision"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "sabotage",
+        "archetypes": [
+          "sabotage",
+          "assassination"
+        ],
+        "role": "precision escort",
+        "artRole": "rifle",
+        "rulesText": "Guard. Precision — attacks cannot be redirected by Guard. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Let a planned operation defend its support without abandoning selective targeting. Lower Attack than ordinary Nightwalker threats and no Rush.",
+        "tags": [
+          "precision escort",
+          "guard",
+          "precision"
+        ],
+        "ai": {
+          "role": "precision escort",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "nightwalker_crossfire_cell": {
+        "id": "nightwalker_crossfire_cell",
+        "name": "Crossfire Cell",
+        "faction": "nightwalker",
+        "type": "unit",
+        "presence": 6,
+        "attack": 3,
+        "health": 4,
+        "traits": [
+          "precision",
+          "mobile",
+          "retaliate"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "assassination",
+        "archetypes": [
+          "assassination",
+          "sabotage"
+        ],
+        "role": "mobile precision retaliation",
+        "artRole": "specialist",
+        "rulesText": "Precision. Mobile. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Favor flexible positioning and an awkward counterattack over Silencer Team’s immediate burst. No Rush and modest Attack make the timing deliberate.",
+        "tags": [
+          "mobile precision retaliation",
+          "precision",
+          "mobile",
+          "retaliate"
+        ],
+        "ai": {
+          "role": "mobile precision retaliation",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "rogue_field_options": {
+        "id": "rogue_field_options",
+        "name": "Field Options",
+        "faction": "rogue",
+        "type": "order",
+        "presence": 3,
+        "attack": 0,
+        "health": 0,
+        "traits": [],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "wildcard",
+        "archetypes": [
+          "wildcard",
+          "scavenger"
+        ],
+        "role": "adaptive support",
+        "artRole": "specialist",
+        "rulesText": "Adapt — choose one: Repair (heal one ally by 3); Resupply (draw 2); Reposition (ready one exhausted ally). Every mode costs 1 Command Action. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Keep one card useful across different positions. Flexibility costs more tempo than a dedicated heal/draw Order and more Presence than Rally.",
+        "tags": [
+          "adaptive support",
+          "adapt"
+        ],
+        "ai": {
+          "role": "adaptive support",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "mode",
+          "required": false,
+          "modes": {
+            "repair": {
+              "owner": "friendly",
+              "required": true
+            },
+            "resupply": {
+              "owner": "none",
+              "required": false
+            },
+            "reposition": {
+              "owner": "friendly",
+              "required": true
+            }
+          }
+        },
+        "timing": "action",
+        "effect": {
+          "kind": "adapt",
+          "amount": 0,
+          "modes": [
+            {
+              "id": "repair",
+              "label": "Repair — heal 3",
+              "kind": "heal",
+              "amount": 3
+            },
+            {
+              "id": "resupply",
+              "label": "Resupply — draw 2",
+              "kind": "draw",
+              "amount": 2
+            },
+            {
+              "id": "reposition",
+              "label": "Reposition — ready one ally",
+              "kind": "rally",
+              "amount": 0
+            }
+          ]
+        }
+      },
+      "rogue_route_scout": {
+        "id": "rogue_route_scout",
+        "name": "Route Scout",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 3,
+        "attack": 1,
+        "health": 3,
+        "traits": [
+          "mobile",
+          "scavenge"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "scavenger",
+        "archetypes": [
+          "scavenger",
+          "wildcard"
+        ],
+        "role": "mobile salvage scout",
+        "artRole": "rifle",
+        "rulesText": "Mobile. Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Re-establish a cheap salvage network after losses. A fragile body and low capture pressure keep it from replacing durable Broker builds.",
+        "tags": [
+          "mobile salvage scout",
+          "mobile",
+          "scavenge"
+        ],
+        "ai": {
+          "role": "mobile salvage scout",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "rogue_scrap_hauler": {
+        "id": "rogue_scrap_hauler",
+        "name": "Scrap Hauler",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 6,
+        "attack": 2,
+        "health": 6,
+        "traits": [
+          "armor",
+          "scavenge"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "scavenger",
+        "archetypes": [
+          "scavenger"
+        ],
+        "role": "armored salvage support",
+        "artRole": "heavy",
+        "rulesText": "Armor. Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Maintain recovery value under repeated combat without Bulwark’s interception. Lower Attack and lack of Guard expose the rest of the force.",
+        "tags": [
+          "armored salvage support",
+          "armor",
+          "scavenge"
+        ],
+        "ai": {
+          "role": "armored salvage support",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "rogue_field_negotiator": {
+        "id": "rogue_field_negotiator",
+        "name": "Field Negotiator",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 5,
+        "attack": 1,
+        "health": 5,
+        "traits": [
+          "command",
+          "scavenge"
+        ],
+        "commandCost": 1,
+        "set": "arsenal-007",
+        "archetype": "scavenger",
+        "archetypes": [
+          "scavenger",
+          "wildcard"
+        ],
+        "role": "salvage command",
+        "artRole": "commander",
+        "rulesText": "Command — other allies here gain +1 Attack. Scavenge — draw 1 when another ally here is destroyed, once per player per turn. Costs 1 Command Action in addition to Capacity.",
+        "designIntent": "Make casualties and coordinated attacks support the same plan. Paying a Command Action for a low-Attack fragile aura prevents free support stacking.",
+        "tags": [
+          "salvage command",
+          "command",
+          "scavenge"
+        ],
+        "ai": {
+          "role": "salvage command",
+          "priority": "tactical"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "rogue_wandering_medic": {
+        "id": "rogue_wandering_medic",
+        "name": "Salvage Medic",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 4,
+        "traits": [
+          "medic",
+          "scavenge"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "scavenger",
+        "archetypes": [
+          "scavenger",
+          "wildcard"
+        ],
+        "role": "salvage medic",
+        "artRole": "specialist",
+        "rulesText": "Medic — at your offensive turn start, heal every ally here by 1. Scavenge — draw 1 when another ally here is destroyed, once per player per turn. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Choose whether to preserve allies or accept a casualty for recovery. Loses Repair Courier mobility and health in exchange for salvage value.",
+        "tags": [
+          "salvage medic",
+          "medic",
+          "scavenge"
+        ],
+        "ai": {
+          "role": "salvage medic",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "rogue_patchguard": {
+        "id": "rogue_patchguard",
+        "name": "Patchguard",
+        "faction": "rogue",
+        "type": "unit",
+        "presence": 5,
+        "attack": 2,
+        "health": 5,
+        "traits": [
+          "guard",
+          "armor"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "wildcard",
+        "archetypes": [
+          "wildcard",
+          "scavenger"
+        ],
+        "role": "improvised armored escort",
+        "artRole": "rifle",
+        "rulesText": "Guard. Armor — reduce incoming regular combat damage by 1 on any ground. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Protect an improvised support group without buying an expensive salvage engine. Modest Attack and no mobility limit aggressive flexibility.",
+        "tags": [
+          "improvised armored escort",
+          "guard",
+          "armor"
+        ],
+        "ai": {
+          "role": "improvised armored escort",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      },
+      "rogue_rolling_cache": {
+        "id": "rogue_rolling_cache",
+        "name": "Salvage Cache",
+        "faction": "rogue",
+        "type": "asset",
+        "presence": 4,
+        "attack": 0,
+        "health": 6,
+        "traits": [
+          "medic",
+          "scavenge"
+        ],
+        "commandCost": 0,
+        "set": "arsenal-007",
+        "archetype": "scavenger",
+        "archetypes": [
+          "scavenger"
+        ],
+        "role": "fixed recovery support",
+        "artRole": "specialist",
+        "rulesText": "Immobile asset. Medic — at your offensive turn start, heal every ally here by 1. Scavenge — draw 1 when another ally here is destroyed, once per player per turn. Free Action — costs Capacity; no Command Action.",
+        "designIntent": "Combine healing and recovery in a single slot at the price of fixed deployment. Advancing abandons its support and a lost territory eliminates the cache.",
+        "tags": [
+          "fixed recovery support",
+          "medic",
+          "scavenge"
+        ],
+        "ai": {
+          "role": "fixed recovery support",
+          "priority": "support"
+        },
+        "targeting": {
+          "owner": "none",
+          "required": false
+        }
+      }
+    },
+    "presets": {
+      "stonewall-fortified-advance": [
+        "stonewall_rifles",
+        "stonewall_rifles",
+        "stonewall_rifles",
+        "stonewall_defender",
+        "stonewall_defender",
+        "stonewall_medic",
+        "stonewall_medic",
+        "stonewall_commander",
+        "stonewall_commander",
+        "stonewall_bulwark_warden",
+        "stonewall_bulwark_warden",
+        "stonewall_bulwark_warden",
+        "stonewall_countermarch",
+        "stonewall_countermarch",
+        "stonewall_countermarch",
+        "stonewall_plate_medic",
+        "stonewall_line_reinforcement",
+        "stonewall_line_reinforcement",
+        "stonewall_line_reinforcement",
+        "stonewall_advance_marshal",
+        "stonewall_fire_support",
+        "stonewall_fire_support",
+        "stonewall_brace",
+        "stonewall_brace",
+        "stonewall_escort",
+        "stonewall_escort"
+      ],
+      "bruiser-rolling-breakthrough": [
+        "bruiser_assault",
+        "bruiser_assault",
+        "bruiser_assault",
+        "bruiser_shock_runner",
+        "bruiser_shock_runner",
+        "bruiser_shock_runner",
+        "bruiser_heavy",
+        "bruiser_heavy",
+        "bruiser_commander",
+        "bruiser_ram_team",
+        "bruiser_ram_team",
+        "bruiser_collision_crew",
+        "bruiser_collision_crew",
+        "bruiser_collision_crew",
+        "bruiser_counterpuncher",
+        "bruiser_counterpuncher",
+        "bruiser_surge_drummers",
+        "bruiser_surge_drummers",
+        "bruiser_triage_rig",
+        "bruiser_triage_rig",
+        "bruiser_rally",
+        "bruiser_rally",
+        "bruiser_bombard",
+        "bruiser_bombard",
+        "bruiser_breacher",
+        "bruiser_shock_runner"
+      ],
+      "syndicate-coordinated-removal": [
+        "syndicate_security",
+        "syndicate_security",
+        "syndicate_security",
+        "syndicate_coordinator",
+        "syndicate_coordinator",
+        "syndicate_commander",
+        "syndicate_commander",
+        "syndicate_eliminator",
+        "syndicate_eliminator",
+        "syndicate_screen_operator",
+        "syndicate_screen_operator",
+        "syndicate_screen_operator",
+        "syndicate_fire_coordinator",
+        "syndicate_fire_coordinator",
+        "syndicate_patch_team",
+        "syndicate_patch_team",
+        "syndicate_target_designator",
+        "syndicate_target_designator",
+        "syndicate_cover_protocol",
+        "syndicate_intel",
+        "syndicate_intel",
+        "syndicate_intel",
+        "syndicate_counter",
+        "syndicate_counter",
+        "syndicate_precision_strike",
+        "syndicate_eliminator"
+      ],
+      "nightwalker-planned-exposure": [
+        "nightwalker_blade",
+        "nightwalker_blade",
+        "nightwalker_blade",
+        "nightwalker_scout",
+        "nightwalker_scout",
+        "nightwalker_commander",
+        "nightwalker_commander",
+        "nightwalker_silencer",
+        "nightwalker_silencer",
+        "nightwalker_shadow_handler",
+        "nightwalker_decoy_patrol",
+        "nightwalker_decoy_patrol",
+        "nightwalker_crossfire_cell",
+        "nightwalker_crossfire_cell",
+        "nightwalker_crossfire_cell",
+        "nightwalker_exposure_window",
+        "nightwalker_exposure_window",
+        "nightwalker_false_route",
+        "nightwalker_false_route",
+        "nightwalker_ghost_extraction",
+        "nightwalker_ghost_extraction",
+        "nightwalker_recon",
+        "nightwalker_recon",
+        "nightwalker_marksman",
+        "nightwalker_strike",
+        "nightwalker_ambush"
+      ]
+    }
+  },
+  "rules": {
+    "actionEconomy": "capacity-command",
+    "frontlineIntegrity": true,
+    "arsenalMechanics": true,
+    "commanders": true,
+    "salvageRecovery": true,
+    "balanceRecovery": true
+  }
+}

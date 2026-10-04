@@ -10,8 +10,8 @@
   root.FrontlinesBalance=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(Base,Engine,AI,Arsenal,Decks){
   'use strict';
-  const VERSION='frontlines-balance-registry-v5-commanders';
-  const DEFAULT_PROFILE='sprint9';
+  const VERSION='frontlines-balance-registry-v6-recovery';
+  const DEFAULT_PROFILE='sprint10';
   const REGISTRY=[
     {id:'baseline',name:'Sprint 3 frozen baseline',version:'sprint2-original',description:'Original cards, starter decks and Presence/territory rules, preserved for historical comparison.',changes:{cards:{},decks:{},config:{}}},
     {id:'iteration01',name:'Iteration 01 — exposed breakthrough',version:'sprint3-iteration01-v1',description:'Reduce Bruiser attrition after a failed push; strengthen selected Nightwalker timing tools and occupation anchors. Original economy and decks retained.',changes:{cards:{
@@ -69,6 +69,27 @@
     description:'Ten off-lane Commanders with distinct passive incentives and once-per-match commands. All 115 card stats, costs, traits and effects remain identical to Sprint 7. Commander balance has not received a new statistical campaign.',
     changes:JSON.parse(JSON.stringify(sprint7.changes)),rules:{...sprint7.rules,commanders:true}};
   REGISTRY.push(sprint9);
+  const sprint10={id:'sprint10',name:'Sprint 10 — Balance Recovery',version:'sprint10-recovery-v1',
+    description:'Shared casualty salvage, retained reclaim wounds, targeted preset and AI repairs. Based on the owner’s interim seed-1209 report; post-patch win rates await owner validation.',
+    changes:JSON.parse(JSON.stringify(sprint9.changes)),rules:{...sprint9.rules,salvageRecovery:true,balanceRecovery:true}};
+  for(const id of ['rogue_reclaim','nightwalker_ghost_extraction']){
+    sprint10.changes.cards[id]={...sprint10.changes.cards[id],rulesText:'Return a friendly battlefield card to hand. Its committed Presence is freed; its wounds remain. Redeployment pays its printed Capacity and Command Action cost. Free Action — costs Capacity; no Command Action.'};
+    // Expansion cards are defined as additions, so their text belongs there.
+    if(sprint10.changes.additions?.[id]){sprint10.changes.additions[id].rulesText=sprint10.changes.cards[id].rulesText;delete sprint10.changes.cards[id];}
+  }
+  sprint10.changes.presets={};
+  const replacements={
+    'stonewall-fortified-advance':[['stonewall_plate_medic',-1],['stonewall_advance_marshal',-1],['stonewall_escort',2]],
+    'bruiser-rolling-breakthrough':[['bruiser_ram_team',-1],['bruiser_commander',-1],['bruiser_breacher',1],['bruiser_shock_runner',1]],
+    'syndicate-coordinated-removal':[['syndicate_target_designator',-1],['syndicate_cover_protocol',-1],['syndicate_precision_strike',1],['syndicate_eliminator',1]],
+    'nightwalker-planned-exposure':[['nightwalker_decoy_patrol',-1],['nightwalker_shadow_handler',-1],['nightwalker_recon',-1],['nightwalker_marksman',1],['nightwalker_strike',1],['nightwalker_ambush',1]]
+  };
+  for(const [id,edits] of Object.entries(replacements)){
+    const cards=Arsenal.PRESETS.find(d=>d.id===id).cards.slice();
+    for(const [cardId,delta] of edits){if(delta<0){const at=cards.indexOf(cardId);if(at<0)throw Error('Missing preset source: '+cardId);cards.splice(at,1);}else cards.push(...Array(delta).fill(cardId));}
+    sprint10.changes.presets[id]=cards;
+  }
+  REGISTRY.push(sprint10);
   const clone=value=>JSON.parse(JSON.stringify(value));
   const allowedCardFields=['presence','attack','health','traits','effect','rulesText','unique','commandCost'];
   const traits=new Set(['fortify','guard','medic','mobile','command','rush','berserk','precision','retaliate','scavenge','armor']);
@@ -106,6 +127,10 @@
     if(profile.rules?.arsenalMechanics){
       for(const [id,definition] of Object.entries(data.CARDS))data.CARDS[id]={...definition,...Arsenal.metadataFor(definition)};
       data.ARSENAL_PRESETS=clone(Arsenal.PRESETS);
+      for(const [deckId,cards] of Object.entries(profile.changes.presets||{})){
+        const deck=data.ARSENAL_PRESETS.find(d=>d.id===deckId);if(!deck)throw Error('Unknown preset override: '+deckId);
+        deck.cards=clone(cards);
+      }
       data.ARCHETYPE_PARENTS=clone(Arsenal.ARCHETYPE_PARENTS||{});
       data.GLOSSARY={...data.GLOSSARY,...clone(Arsenal.KEYWORDS)};
     }
@@ -130,6 +155,10 @@
         'Forced Retreat':'After capture, displaced defenders resolve in ascending card UID order. A unit retreats one territory toward its home only into friendly-owned ground with a free allied slot. Wounds remain; forced retreat costs no resources and exhausts the unit until its next turn. Immobile assets, full/no friendly destinations and units at home are eliminated.',
         'Frontline':'Owned ground stays contiguous on both sides of one contested objective. Enemy forces may occupy the objective, but never remain stranded behind the moving frontline.',
         'Reclaim':'Return a friendly permanent to hand, clearing wounds and freeing committed Presence. Redeployment pays that card’s Capacity and explicit Command Action cost.'};
+    }
+    if(profile.rules?.salvageRecovery){
+      data.GLOSSARY.Reclaim='Return a friendly permanent to hand and free its committed Presence. Wounds stay on the returned card and remain after redeployment. Redeployment pays printed Capacity and Command Action costs.';
+      data.GLOSSARY.Scavenge='When another ally here is destroyed, a surviving unsuppressed Scavenge source draws 1. All Scavenge sources and The Scavenger’s Nothing Wasted share one casualty draw per player per global turn. A nearby source takes priority; the Commander is the fallback.';
     }
     return validate(data);
   }

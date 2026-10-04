@@ -1,6 +1,8 @@
 # Project Faction: Frontlines
 
-**Frontlines v1.0.0 — Commander Update.**
+**Frontlines v1.0.3 — Balance Recovery.**
+
+Rogue salvage now shares one casualty draw per player/global turn, and reclaimed units keep their wounds. Four weak presets receive role-focused repairs, tactical AI uses exact costs and Commander state, and legal actions/targets are clearer. Random Enemy and Random Deck simplify local testing. Original card art, illustrated Commanders and the v1.0.2 battlefield fit are preserved. [Download and verification](docs/RELEASE-1.0.3.md) · [Complete balance changes](docs/balance/SPRINT-010-CHANGELOG.md).
 
 Fight for territory. Commit Presence. Push the frontline into enemy ground.
 
@@ -18,7 +20,7 @@ npm start
 
 Open `http://127.0.0.1:4173`. The server binds only to this computer. Native development launch uses `npm run electron` with the installed dependencies.
 
-The [v1.0.0 release guide](docs/RELEASE-1.0.0.md) records the candidate's packaging status, validation and manual checks. Ten off-lane Commanders and ten linked foundations are available immediately. The preserved [v0.9.0 release](docs/RELEASE-0.9.0.md) remains the pre-Commander checkpoint. Refer to that guide for finalized installer paths and hashes. Keep an unpacked application folder together when using it. The preserved [v0.8.0 release](docs/RELEASE-0.8.0.md) remains available as the prior checkpoint; this sprint does not publish or install over the owner's copy automatically.
+The [v1.0.3 release guide](docs/RELEASE-1.0.3.md) records packaging status and validation. Ten off-lane Commanders and ten linked foundations are available immediately. The [v1.0.2 illustrated Commanders](docs/RELEASE-1.0.2.md), [v1.0.2 viewport hotfix](docs/HOTFIX-1.0.2-VIEWPORT.md), [v1.0.1 art restoration](docs/RELEASE-1.0.1.md), [v1.0.0 Commander Update](docs/RELEASE-1.0.0.md) and [v0.9.0 pre-Commander checkpoint](docs/RELEASE-0.9.0.md) remain preserved. Keep an unpacked application folder together when using it. Releases do not publish or install over the owner's copy automatically.
 
 ## Learn and play
 
@@ -59,7 +61,7 @@ Each offensive turn still has **three Command Actions**, now reserved for major 
 | Leaders; explicitly marked Heavy units/command assets; tactical damage/Rally/disruption/Sabotage Orders | 1 |
 | Responses, counters, Guard, forced retreat and Breakthrough | 0 |
 
-Every card shows its explicit cost. Zero-command deployment remains possible after all three commands are spent if Capacity, timing, owned territory and slots permit. Free Action means free of command spending; it still requires Capacity. [Sprint 6 rules](docs/SPRINT-006.md) document the action-economy foundation. The `sprint9` profile retains the Sprint 7 printed costs: Silencer Team now requires one Command Action to deploy, and Field Options requires one for every Adapt mode. [Sprint 7](docs/SPRINT-007.md) explains the narrow correction and expanded card pool.
+Every card shows its explicit cost. Zero-command deployment remains possible after all three commands are spent if Capacity, timing, owned territory and slots permit. Free Action means free of command spending; it still requires Capacity. [Sprint 6 rules](docs/SPRINT-006.md) document the action-economy foundation. The `sprint10` profile retains the Sprint 7 printed costs: Silencer Team requires one Command Action to deploy, and Field Options requires one for every Adapt mode. [Sprint 7](docs/SPRINT-007.md) explains the narrow correction and expanded card pool. Reclaim frees commitment but retains wounds; Scavenge and Nothing Wasted share one casualty draw per player/global turn.
 
 New units may move but normally cannot attack on their deployment turn without Rush. Movement normally exhausts; Mobile preserves readiness on the first move while still consuming a command. Same-territory combat deals damage simultaneously after defender response and optional counter. Wounds persist and dead cards enter discard. Empty reserves recycle discard; there is no fatigue damage.
 
@@ -103,7 +105,7 @@ See [deckbuilding](docs/DECKBUILDING.md), [card design/counterplay](docs/arsenal
 
 Quick Matchup, Tournament, Faction Overview and Advanced Lab provide saved-deck selection, exact requested counts, paired seats, fixed Run/Pause/Resume/Stop commands and bounded results. Advanced retains seeds, explicit profiles/policies, rule overrides, confidence intervals, diagnostics, replay, comparisons and JSON/HTML/CSV export. Live rules and saved decks are not changed by an experiment.
 
-AI-versus-AI uses the same authoritative engine without battlefield animation. HTTP launch uses a worker; direct offline launch yields cooperatively to keep controls responsive. The current game profile is `sprint9`; changing an Advanced profile refreshes the catalog from that profile's actual cards and templates. Simulator **4.0.0** reports snapshot rules, command costs and exact deck lists, identify originating game version and keep errors/cutoffs separate from victories. Telemetry **`frontlines-telemetry-v6-commanders`** adds Commander activations, passive triggers, cost savings, recovery, disruption and healing/damage alongside Mark, Reinforce, Adapt and Armor counters to economy, territory, free-play and retreat metrics. Incompatible replay versions are refused.
+AI-versus-AI uses the same authoritative engine without battlefield animation. HTTP launch uses a worker; direct offline launch yields cooperatively to keep controls responsive. The current game profile is `sprint10`; changing an Advanced profile refreshes the catalog from that profile's actual cards and templates. Simulator **4.0.0** reports snapshot rules, command costs and exact deck lists, identify originating game version and keep errors/cutoffs separate from victories. Telemetry **`frontlines-telemetry-v6-commanders`** adds Commander activations, passive triggers, cost savings, recovery, disruption and healing/damage alongside Mark, Reinforce, Adapt and Armor counters to economy, territory, free-play and retreat metrics. Incompatible replay versions are refused. [Sprint 10](docs/SPRINT-010.md) records the interim baseline and exact owner-run validation recommendation; no large post-patch campaign has been run.
 
 **Ryken runs balance simulations unless explicitly authorizing Codex to run them.** The explicitly authorized v0.7.0 batch completed 10,000 decisive games with no errors or cutoffs. Its severe faction/deck and first-seat disparity is documented in the [archived Sprint 6 baseline](docs/balance/SPRINT6-BASELINE.md). Those results describe the preserved v0.7.0 rules and pool; they do not certify the expanded candidate. The earlier Sprint 5 competitive gate was not completed. The standing target remains 45–55% cross-faction rates and preferred spread ≤5 percentage points, with archetypes and extreme matchups reviewed separately.
 
@@ -115,20 +117,20 @@ The [Sprint 9 simulation proposal](docs/SPRINT-009.md) specifies a separate owne
 npm test
 ```
 
-**298 Node tests, eleven browser suites and five packaged native modes pass.** Exact checks, package hashes and preserved source provenance are recorded in the [v1.0.0 release guide](docs/RELEASE-1.0.0.md). Focused checks cover collection/save integrity, packs/crafting/mastery, ownership, expanded rules/AI, deck recovery, actual custom-deck inventories, responsive card regions and audio. These automated checks do not replace a new human completing the tutorial and an Easy match.
+**334 Node tests pass** for v1.0.3, including sixteen recovery cases, eleven AI cases and two paired deterministic integration fixtures. The populated battlefield passes thirteen viewport/scaling cases; action/card checks pass ten contexts and random-opponent setup/persistence passes browser validation. The complete fourteen-lesson tutorial, including Commander teaching and training victory/retry, passes at six viewports. Packaged tutorial/Commander activation and native fullscreen controls pass. [Release evidence](docs/RELEASE-1.0.3.md) records package hashes and preserved baseline provenance. Correctness tests do not establish post-patch win rates or replace human playtesting.
 
 The [v0.7.0 entry source checkpoint](docs/checkpoints/sprint7-entry-v0.7.0.zip) and archived baseline preserve the prior build. [Arsenal](docs/screenshots/arsenal-sprint-7.png) and [battlefield](docs/screenshots/battlefield-sprint-7.png) screenshots show the current interface; the [Sprint 6 tutorial](docs/screenshots/tutorial-sprint-6.png) remains the onboarding foundation.
 
 Do not use `npm run playtest`, simulation CLI batches or targeted experiment scripts as an autonomous balance loop. They are owner-operated analysis tools. Ordinary unit/browser/tutorial/small rule-smoke tests remain expected.
 
-Five optimized faction atlases combine with role/equipment/pose illustrations and ten dedicated Commander portraits. Faction materials, layered rarity frames, nameplates and stat regions distinguish cards while preserving bounded rules text. Normal deployment uses visible anticipation → emphasis → impact → settle over 720–1,060 ms; Fast and reduced/minimal settings remain available. Signature bespoke art and human competitive tuning remain future work. Four original procedural music themes and layered faction/rarity effects now provide replaceable audio. Gameplay-earned packs, Supply crafting, card mastery and cosmetic treatments now add local collection progression. No real-money systems, accounts, online matchmaking or sixth faction are added.
+Five optimized faction atlases provide the original illustrated card portraits; ten dedicated Commander portraits remain. Faction materials, layered rarity frames, nameplates and stat regions distinguish cards while preserving bounded rules text. Normal deployment uses visible anticipation → emphasis → impact → settle over 720–1,060 ms; Fast and reduced/minimal settings remain available. Signature bespoke art and human competitive tuning remain future work. Four original procedural music themes and layered faction/rarity effects now provide replaceable audio. Gameplay-earned packs, Supply crafting, card mastery and cosmetic treatments now add local collection progression. No real-money systems, accounts, online matchmaking or sixth faction are added.
 
 ## Main modules
 
 | Module | Responsibility |
 | --- | --- |
 | `engine.js` | Authoritative transitions, legality/cost API, combat, Capacity, capture, retreat, victory and invariants. |
-| `balance.js`, `balance/`, `live-runtime.js` | Explicit isolated rules/card profiles; Sprint 7 current default and preserved historical profiles. |
+| `balance.js`, `balance/`, `live-runtime.js` | Explicit isolated rules/card profiles; Sprint 10 current default and preserved historical profiles. |
 | `arsenal.js` | Structured expansion schema, faction design metadata, new cards and hybrid templates. |
 | `app.js`, `command.css`, `effects.*` | Central commands, bounded battlefield/hand, cost/target feedback, history, privacy and presentation. |
 | `tutorial.js`, `tutorial.css`, `field-manual.js` | Conserved lesson fixtures, guided controller, progressive hints, progress and concise rules reference. |

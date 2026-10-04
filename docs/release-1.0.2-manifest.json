@@ -1,0 +1,1846 @@
+{
+  "version": "1.0.2",
+  "status": "local-Commander-art-patch",
+  "amends": "1.0.1",
+  "gitBase": "f394c18b09862c064711a5581640bcb922ad8d5a",
+  "published": false,
+  "installedOverOwnerCopy": false,
+  "changes": [
+    "Ten individual painted Commander portraits replace procedural runtime portraits.",
+    "Commander Collection, choices, briefing and HUD receive restrained premium faction frames.",
+    "Wide art crops preserve heads; short-window chooser names and actions remain visible."
+  ],
+  "art": {
+    "tool": "built-in image_gen.imagegen",
+    "sourceManifest": "assets/source/commanders/portraits-v2.json",
+    "preservedSourceDirectory": "assets/source/commanders",
+    "runtimeDirectory": "assets/cards/commanders",
+    "runtimePortraits": 10,
+    "runtimeDimensions": [
+      768,
+      768
+    ],
+    "runtimeTotalBytes": 1546886,
+    "exactPromptsPreserved": true,
+    "sourceArtExcludedFromRuntime": true
+  },
+  "verification": {
+    "node": {
+      "tests": 298,
+      "passed": 298,
+      "failed": 0,
+      "evidence": "test-results/v102-node-tests.log"
+    },
+    "ordinaryArt": {
+      "ok": true,
+      "ordinaryCards": 115,
+      "exactHtmlComparisons": 345,
+      "atlasByteParity": 5,
+      "hashes": {
+        "stonewall": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20",
+        "syndicate": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf",
+        "bruiser": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419",
+        "nightwalker": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0",
+        "rogue": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "commanderPortraits": 10
+    },
+    "runtimeScope": {
+      "ok": true,
+      "previousRuntimeFiles": 83,
+      "changedExistingRuntime": [
+        "art.js",
+        "build-info.js",
+        "commander-ui.css",
+        "deck-builder.css"
+      ],
+      "newPaintedPortraits": 10,
+      "gameplayRuntimeUnchanged": true,
+      "v101ArtifactsPreserved": [
+        {
+          "file": "release/1.0.1/Frontlines-Setup-1.0.1.exe",
+          "sha256": "8277d0b8725473b535df895af232fafa4d0a2754fc8759ef07bff4fca8103ed1"
+        },
+        {
+          "file": "docs/checkpoints/sprint9-v1.0.1.zip",
+          "sha256": "00028825e163d041e4419e55d4f09434d0d60d9a4bd7fd2e216ee759c91ef0c5"
+        }
+      ]
+    },
+    "browser": {
+      "presentation": {
+        "passed": true,
+        "ordinaryImageryRestored": true,
+        "arsenal": {
+          "procedural": 0,
+          "atlases": 16,
+          "symbols": 7
+        },
+        "layouts": [
+          {
+            "width": 1920,
+            "height": 1080,
+            "cards": 31,
+            "restoredAtlas": 19,
+            "restoredSymbol": 12,
+            "battlefieldVisibleHeight": 605,
+            "hudsVisible": true,
+            "commandersVisible": true,
+            "overlap": false
+          },
+          {
+            "width": 1366,
+            "height": 768,
+            "cards": 31,
+            "restoredAtlas": 19,
+            "restoredSymbol": 12,
+            "battlefieldVisibleHeight": 293,
+            "hudsVisible": true,
+            "commandersVisible": true,
+            "overlap": false
+          },
+          {
+            "width": 1280,
+            "height": 720,
+            "cards": 31,
+            "restoredAtlas": 19,
+            "restoredSymbol": 12,
+            "battlefieldVisibleHeight": 297,
+            "hudsVisible": true,
+            "commandersVisible": true,
+            "overlap": false
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "cards": 31,
+            "restoredAtlas": 19,
+            "restoredSymbol": 12,
+            "battlefieldVisibleHeight": 173,
+            "hudsVisible": true,
+            "commandersVisible": true,
+            "overlap": false
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "cards": 31,
+            "restoredAtlas": 19,
+            "restoredSymbol": 12,
+            "battlefieldVisibleHeight": 188,
+            "hudsVisible": true,
+            "commandersVisible": true,
+            "overlap": false
+          }
+        ],
+        "normalDeployment": {
+          "authoritativeUnitPresent": true,
+          "duration": 960,
+          "frames": [
+            {
+              "offset": 0,
+              "transform": "translate(0px, 0px) scale(0.92)"
+            },
+            {
+              "offset": 0.18,
+              "transform": "translate(0px, -16px) scale(1.06)"
+            },
+            {
+              "offset": 0.42,
+              "transform": "translate(-205.825px, 0.75px) scale(1.2)"
+            },
+            {
+              "offset": 0.72,
+              "transform": "translate(-1029.12px, 113.75px) scale(0.1584)"
+            },
+            {
+              "offset": 0.84,
+              "transform": "translate(-1029.12px, 110.75px) scale(0.1872)"
+            },
+            {
+              "offset": 1,
+              "transform": "translate(-1029.12px, 113.75px) scale(0.18)"
+            }
+          ],
+          "overlays": 1
+        },
+        "authoritativeStateImmediate": true,
+        "cancellationSafe": true,
+        "portraitsLoaded": 10,
+        "errors": []
+      },
+      "premium": {
+        "ok": true,
+        "viewports": [
+          {
+            "width": 1366,
+            "height": 768,
+            "catalog": 10,
+            "choices": 2,
+            "portraitFramed": true,
+            "rulesSeparate": true,
+            "battlefieldVisibleHeight": 293,
+            "pageOverflow": false
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "catalog": 10,
+            "choices": 2,
+            "portraitFramed": true,
+            "rulesSeparate": true,
+            "battlefieldVisibleHeight": 173,
+            "pageOverflow": false
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "catalog": 10,
+            "choices": 2,
+            "portraitFramed": true,
+            "rulesSeparate": true,
+            "battlefieldVisibleHeight": 188,
+            "pageOverflow": false
+          }
+        ],
+        "errors": [],
+        "balanceRuns": 0,
+        "matchOutcomes": 0
+      },
+      "independentBriefs": {
+        "ok": true,
+        "portraits": 10,
+        "viewports": 3,
+        "briefChecks": 30,
+        "errors": [],
+        "missingRequests": [],
+        "balanceRuns": 0,
+        "results": [
+          {
+            "id": "commander_stonewall_warden",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_stonewall_marshal",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_bruiser_breaker",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_bruiser_bloodhound",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_syndicate_coordinator",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_syndicate_quartermaster",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_nightwalker_ghost",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_nightwalker_saboteur",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_rogue_scavenger",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_rogue_drifter",
+            "width": 1366,
+            "height": 768,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_stonewall_warden",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_stonewall_marshal",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_bruiser_breaker",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_bruiser_bloodhound",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_syndicate_coordinator",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_syndicate_quartermaster",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_nightwalker_ghost",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_nightwalker_saboteur",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_rogue_scavenger",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_rogue_drifter",
+            "width": 900,
+            "height": 600,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_stonewall_warden",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_stonewall_marshal",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_bruiser_breaker",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_bruiser_bloodhound",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_syndicate_coordinator",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_syndicate_quartermaster",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_nightwalker_ghost",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_nightwalker_saboteur",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_rogue_scavenger",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          },
+          {
+            "id": "commander_rogue_drifter",
+            "width": 390,
+            "height": 844,
+            "loaded768": true,
+            "briefOverflow": false,
+            "artTextOverlap": false
+          }
+        ]
+      },
+      "allFactionChoosers": {
+        "ok": true,
+        "dialogs": 15,
+        "choices": 30,
+        "errors": [],
+        "rows": [
+          {
+            "width": 1366,
+            "height": 768,
+            "faction": "stonewall",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 1366,
+            "height": 768,
+            "faction": "bruiser",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 1366,
+            "height": 768,
+            "faction": "syndicate",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 1366,
+            "height": 768,
+            "faction": "nightwalker",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 1366,
+            "height": 768,
+            "faction": "rogue",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "faction": "stonewall",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "faction": "bruiser",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "faction": "syndicate",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "faction": "nightwalker",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "faction": "rogue",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "faction": "stonewall",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "faction": "bruiser",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "faction": "syndicate",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "faction": "nightwalker",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "faction": "rogue",
+            "choices": 2,
+            "loaded": true,
+            "continueButtonVisible": true,
+            "artNameOverlap": false,
+            "position": "50% 0%"
+          }
+        ]
+      },
+      "decks": {
+        "ok": true,
+        "foundations": 10,
+        "viewports": 5,
+        "checks": [
+          "guided Commander choice and full doctrine",
+          "all foundations immediately owned",
+          "Commander undo/redo and persistence",
+          "JSON exchange and legacy migration",
+          "invalid assignment repair",
+          "same-list War Room Commander variant",
+          "historical catalog isolation"
+        ],
+        "balanceRuns": 0
+      },
+      "match": {
+        "ok": true,
+        "setupChoice": true,
+        "drifterTwoStageTargeting": true,
+        "onceSpentVisible": true,
+        "inspectRules": true,
+        "markCostPreview": true,
+        "quartermasterFreeOrderPreview": true,
+        "collectionCommanders": 10,
+        "viewports": 3,
+        "balanceRuns": 0,
+        "errors": []
+      },
+      "tutorial": {
+        "lessons": 14,
+        "commanderPassiveObserved": true,
+        "commanderActiveClicked": true,
+        "commanderDoctrineChoice": true,
+        "realClickCampaign": true,
+        "capacityDeploymentFree": true,
+        "realCombat": true,
+        "settingsPausesControlledResponse": true,
+        "forcedRetreat": true,
+        "noRetreatElimination": true,
+        "allFactionExamples": true,
+        "alternativeObjective": true,
+        "actualLearningVictory": true,
+        "lossRetryRecovery": true,
+        "playerClicks": 12,
+        "lossClicks": 2,
+        "matrix": [
+          {
+            "width": 1920,
+            "height": 1080,
+            "pageWidth": 1920,
+            "pageHeight": 1080,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 1592,
+                "y": 306,
+                "right": 1902,
+                "bottom": 1068,
+                "width": 310,
+                "height": 762
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 1605,
+                "y": 948,
+                "right": 1675,
+                "bottom": 992,
+                "width": 70,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 1683,
+                "y": 948,
+                "right": 1889,
+                "bottom": 992,
+                "width": 206,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 1605,
+                "y": 1013,
+                "right": 1743,
+                "bottom": 1057,
+                "width": 138,
+                "height": 44
+              }
+            ],
+            "huds": [
+              {
+                "x": 18,
+                "y": 70,
+                "right": 893,
+                "bottom": 162.25,
+                "width": 875,
+                "height": 92.25
+              },
+              {
+                "x": 905,
+                "y": 70,
+                "right": 1015,
+                "bottom": 162.25,
+                "width": 110,
+                "height": 92.25
+              },
+              {
+                "x": 1027,
+                "y": 70,
+                "right": 1902,
+                "bottom": 162.25,
+                "width": 875,
+                "height": 92.25
+              }
+            ],
+            "board": {
+              "x": 18,
+              "y": 306,
+              "right": 1298,
+              "bottom": 996,
+              "width": 1280,
+              "height": 690
+            },
+            "coach": {
+              "x": 1592,
+              "y": 306,
+              "right": 1902,
+              "bottom": 1068,
+              "width": 310,
+              "height": 762
+            },
+            "dock": {
+              "x": 18,
+              "y": 1008,
+              "right": 1580,
+              "bottom": 1068,
+              "width": 1562,
+              "height": 60
+            },
+            "guidance": {
+              "x": 137.734375,
+              "y": 1021.71875,
+              "right": 1397.640625,
+              "bottom": 1054.265625,
+              "width": 1259.90625,
+              "height": 32.546875
+            },
+            "commandButtons": [
+              {
+                "x": 1409.640625,
+                "y": 1016,
+                "right": 1567,
+                "bottom": 1060,
+                "width": 157.359375,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 2560,
+            "height": 1440,
+            "pageWidth": 2560,
+            "pageHeight": 1440,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 2232,
+                "y": 306,
+                "right": 2542,
+                "bottom": 1428,
+                "width": 310,
+                "height": 1122
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 2245,
+                "y": 1308,
+                "right": 2315,
+                "bottom": 1352,
+                "width": 70,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 2323,
+                "y": 1308,
+                "right": 2529,
+                "bottom": 1352,
+                "width": 206,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 2245,
+                "y": 1373,
+                "right": 2383,
+                "bottom": 1417,
+                "width": 138,
+                "height": 44
+              }
+            ],
+            "huds": [
+              {
+                "x": 18,
+                "y": 70,
+                "right": 1213,
+                "bottom": 162.25,
+                "width": 1195,
+                "height": 92.25
+              },
+              {
+                "x": 1225,
+                "y": 70,
+                "right": 1335,
+                "bottom": 162.25,
+                "width": 110,
+                "height": 92.25
+              },
+              {
+                "x": 1347,
+                "y": 70,
+                "right": 2542,
+                "bottom": 162.25,
+                "width": 1195,
+                "height": 92.25
+              }
+            ],
+            "board": {
+              "x": 18,
+              "y": 306,
+              "right": 1938,
+              "bottom": 1356,
+              "width": 1920,
+              "height": 1050
+            },
+            "coach": {
+              "x": 2232,
+              "y": 306,
+              "right": 2542,
+              "bottom": 1428,
+              "width": 310,
+              "height": 1122
+            },
+            "dock": {
+              "x": 18,
+              "y": 1368,
+              "right": 2220,
+              "bottom": 1428,
+              "width": 2202,
+              "height": 60
+            },
+            "guidance": {
+              "x": 137.734375,
+              "y": 1381.71875,
+              "right": 2037.640625,
+              "bottom": 1414.265625,
+              "width": 1899.90625,
+              "height": 32.546875
+            },
+            "commandButtons": [
+              {
+                "x": 2049.640625,
+                "y": 1376,
+                "right": 2207,
+                "bottom": 1420,
+                "width": 157.359375,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 1366,
+            "height": 768,
+            "pageWidth": 1366,
+            "pageHeight": 768,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 1038,
+                "y": 306,
+                "right": 1348,
+                "bottom": 756,
+                "width": 310,
+                "height": 450
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 1051,
+                "y": 636,
+                "right": 1121,
+                "bottom": 680,
+                "width": 70,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 1129,
+                "y": 636,
+                "right": 1335,
+                "bottom": 680,
+                "width": 206,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 1051,
+                "y": 701,
+                "right": 1189,
+                "bottom": 745,
+                "width": 138,
+                "height": 44
+              }
+            ],
+            "huds": [
+              {
+                "x": 18,
+                "y": 70,
+                "right": 616,
+                "bottom": 162.25,
+                "width": 598,
+                "height": 92.25
+              },
+              {
+                "x": 628,
+                "y": 70,
+                "right": 738,
+                "bottom": 162.25,
+                "width": 110,
+                "height": 92.25
+              },
+              {
+                "x": 750,
+                "y": 70,
+                "right": 1348,
+                "bottom": 162.25,
+                "width": 598,
+                "height": 92.25
+              }
+            ],
+            "board": {
+              "x": 18,
+              "y": 306,
+              "right": 754.46875,
+              "bottom": 684,
+              "width": 736.46875,
+              "height": 378
+            },
+            "coach": {
+              "x": 1038,
+              "y": 306,
+              "right": 1348,
+              "bottom": 756,
+              "width": 310,
+              "height": 450
+            },
+            "dock": {
+              "x": 18,
+              "y": 696,
+              "right": 1026,
+              "bottom": 756,
+              "width": 1008,
+              "height": 60
+            },
+            "guidance": {
+              "x": 137.734375,
+              "y": 709.71875,
+              "right": 843.640625,
+              "bottom": 742.265625,
+              "width": 705.90625,
+              "height": 32.546875
+            },
+            "commandButtons": [
+              {
+                "x": 855.640625,
+                "y": 704,
+                "right": 1013,
+                "bottom": 748,
+                "width": 157.359375,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 1280,
+            "height": 720,
+            "pageWidth": 1280,
+            "pageHeight": 720,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 958.8125,
+                "y": 266,
+                "right": 1266,
+                "bottom": 712,
+                "width": 307.1875,
+                "height": 446
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 971.8125,
+                "y": 604,
+                "right": 1041.8125,
+                "bottom": 644,
+                "width": 70,
+                "height": 40
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 1049.8125,
+                "y": 604,
+                "right": 1253,
+                "bottom": 644,
+                "width": 203.1875,
+                "height": 40
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 967.8125,
+                "y": 663,
+                "right": 1108.40625,
+                "bottom": 703,
+                "width": 140.59375,
+                "height": 40
+              }
+            ],
+            "huds": [
+              {
+                "x": 14,
+                "y": 66,
+                "right": 573,
+                "bottom": 155.25,
+                "width": 559,
+                "height": 89.25
+              },
+              {
+                "x": 585,
+                "y": 66,
+                "right": 695,
+                "bottom": 155.25,
+                "width": 110,
+                "height": 89.25
+              },
+              {
+                "x": 707,
+                "y": 66,
+                "right": 1266,
+                "bottom": 155.25,
+                "width": 559,
+                "height": 89.25
+              }
+            ],
+            "board": {
+              "x": 14,
+              "y": 266,
+              "right": 691.625,
+              "bottom": 648,
+              "width": 677.625,
+              "height": 382
+            },
+            "coach": {
+              "x": 958.8125,
+              "y": 266,
+              "right": 1266,
+              "bottom": 712,
+              "width": 307.1875,
+              "height": 446
+            },
+            "dock": {
+              "x": 14,
+              "y": 656,
+              "right": 946.8125,
+              "bottom": 712,
+              "width": 932.8125,
+              "height": 56
+            },
+            "guidance": {
+              "x": 133.734375,
+              "y": 667.71875,
+              "right": 764.453125,
+              "bottom": 700.265625,
+              "width": 630.71875,
+              "height": 32.546875
+            },
+            "commandButtons": [
+              {
+                "x": 776.453125,
+                "y": 662,
+                "right": 933.8125,
+                "bottom": 706,
+                "width": 157.359375,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "pageWidth": 900,
+            "pageHeight": 600,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 621,
+                "y": 270,
+                "right": 886,
+                "bottom": 592,
+                "width": 265,
+                "height": 322
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 634,
+                "y": 484,
+                "right": 704,
+                "bottom": 524,
+                "width": 70,
+                "height": 40
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 712,
+                "y": 484,
+                "right": 873,
+                "bottom": 524,
+                "width": 161,
+                "height": 40
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 630,
+                "y": 543,
+                "right": 749.5,
+                "bottom": 583,
+                "width": 119.5,
+                "height": 40
+              }
+            ],
+            "huds": [
+              {
+                "x": 14,
+                "y": 66,
+                "right": 383,
+                "bottom": 150,
+                "width": 369,
+                "height": 84
+              },
+              {
+                "x": 395,
+                "y": 66,
+                "right": 505,
+                "bottom": 150,
+                "width": 110,
+                "height": 84
+              },
+              {
+                "x": 517,
+                "y": 66,
+                "right": 886,
+                "bottom": 150,
+                "width": 369,
+                "height": 84
+              }
+            ],
+            "board": {
+              "x": 14,
+              "y": 270,
+              "right": 401,
+              "bottom": 526,
+              "width": 387,
+              "height": 256
+            },
+            "coach": {
+              "x": 621,
+              "y": 270,
+              "right": 886,
+              "bottom": 592,
+              "width": 265,
+              "height": 322
+            },
+            "dock": {
+              "x": 14,
+              "y": 536,
+              "right": 611,
+              "bottom": 592,
+              "width": 597,
+              "height": 56
+            },
+            "guidance": {
+              "x": 27,
+              "y": 555.21875,
+              "right": 428.640625,
+              "bottom": 572.765625,
+              "width": 401.640625,
+              "height": 17.546875
+            },
+            "commandButtons": [
+              {
+                "x": 440.640625,
+                "y": 542,
+                "right": 598,
+                "bottom": 586,
+                "width": 157.359375,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "pageWidth": 390,
+            "pageHeight": 844,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 6,
+                "y": 668,
+                "right": 384,
+                "bottom": 838,
+                "width": 378,
+                "height": 170
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 108,
+                "y": 765,
+                "right": 168,
+                "bottom": 797,
+                "width": 60,
+                "height": 32
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 176,
+                "y": 765,
+                "right": 377,
+                "bottom": 797,
+                "width": 201,
+                "height": 32
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 108,
+                "y": 803,
+                "right": 239.5,
+                "bottom": 835,
+                "width": 131.5,
+                "height": 32
+              }
+            ],
+            "huds": [
+              {
+                "x": 6,
+                "y": 62,
+                "right": 191,
+                "bottom": 124,
+                "width": 185,
+                "height": 62
+              },
+              {
+                "x": 6,
+                "y": 128,
+                "right": 384,
+                "bottom": 148,
+                "width": 378,
+                "height": 20
+              },
+              {
+                "x": 199,
+                "y": 62,
+                "right": 384,
+                "bottom": 124,
+                "width": 185,
+                "height": 62
+              }
+            ],
+            "board": {
+              "x": 6,
+              "y": 268,
+              "right": 384,
+              "bottom": 438,
+              "width": 378,
+              "height": 170
+            },
+            "coach": {
+              "x": 6,
+              "y": 668,
+              "right": 384,
+              "bottom": 838,
+              "width": 378,
+              "height": 170
+            },
+            "dock": {
+              "x": 6,
+              "y": 444,
+              "right": 384,
+              "bottom": 518,
+              "width": 378,
+              "height": 74
+            },
+            "guidance": {
+              "x": 14,
+              "y": 449.578125,
+              "right": 376,
+              "bottom": 464.421875,
+              "width": 362,
+              "height": 14.84375
+            },
+            "commandButtons": [
+              {
+                "x": 14,
+                "y": 468,
+                "right": 376,
+                "bottom": 512,
+                "width": 362,
+                "height": 44
+              }
+            ]
+          }
+        ],
+        "combatBounds": {
+          "width": 900,
+          "height": 600,
+          "pageWidth": 900,
+          "pageHeight": 600,
+          "controls": [
+            {
+              "selector": "#tutorial-coach",
+              "x": 621,
+              "y": 270,
+              "right": 886,
+              "bottom": 592,
+              "width": 265,
+              "height": 322
+            },
+            {
+              "selector": "[data-tutorial-action=\"hint\"]",
+              "x": 634,
+              "y": 484,
+              "right": 704,
+              "bottom": 524,
+              "width": 70,
+              "height": 40
+            },
+            {
+              "selector": "[data-tutorial-action=\"next\"]",
+              "x": 712,
+              "y": 484,
+              "right": 873,
+              "bottom": 524,
+              "width": 161,
+              "height": 40
+            },
+            {
+              "selector": "[data-tutorial-action=\"restart-lesson\"]",
+              "x": 630,
+              "y": 543,
+              "right": 749.5,
+              "bottom": 583,
+              "width": 119.5,
+              "height": 40
+            }
+          ],
+          "huds": [
+            {
+              "x": 14,
+              "y": 66,
+              "right": 383,
+              "bottom": 150,
+              "width": 369,
+              "height": 84
+            },
+            {
+              "x": 395,
+              "y": 66,
+              "right": 505,
+              "bottom": 150,
+              "width": 110,
+              "height": 84
+            },
+            {
+              "x": 517,
+              "y": 66,
+              "right": 886,
+              "bottom": 150,
+              "width": 369,
+              "height": 84
+            }
+          ],
+          "board": {
+            "x": 14,
+            "y": 270,
+            "right": 401,
+            "bottom": 526,
+            "width": 387,
+            "height": 256
+          },
+          "coach": {
+            "x": 621,
+            "y": 270,
+            "right": 886,
+            "bottom": 592,
+            "width": 265,
+            "height": 322
+          },
+          "dock": {
+            "x": 14,
+            "y": 536,
+            "right": 611,
+            "bottom": 592,
+            "width": 597,
+            "height": 56
+          },
+          "guidance": {
+            "x": 27,
+            "y": 546.453125,
+            "right": 317.609375,
+            "bottom": 581.546875,
+            "width": 290.609375,
+            "height": 35.09375
+          },
+          "commandButtons": [
+            {
+              "x": 329.609375,
+              "y": 542,
+              "right": 430.640625,
+              "bottom": 586,
+              "width": 101.03125,
+              "height": 44
+            },
+            {
+              "x": 440.640625,
+              "y": 542,
+              "right": 598,
+              "bottom": 586,
+              "width": 157.359375,
+              "height": 44
+            }
+          ]
+        },
+        "trainingBounds": {
+          "width": 1280,
+          "height": 720,
+          "pageWidth": 1280,
+          "pageHeight": 720,
+          "controls": [
+            {
+              "selector": "#tutorial-coach",
+              "x": 958.8125,
+              "y": 266,
+              "right": 1266,
+              "bottom": 712,
+              "width": 307.1875,
+              "height": 446
+            },
+            {
+              "selector": "[data-tutorial-action=\"hint\"]",
+              "x": 971.8125,
+              "y": 604,
+              "right": 1041.8125,
+              "bottom": 644,
+              "width": 70,
+              "height": 40
+            },
+            {
+              "selector": "[data-tutorial-action=\"next\"]",
+              "x": 1049.8125,
+              "y": 604,
+              "right": 1253,
+              "bottom": 644,
+              "width": 203.1875,
+              "height": 40
+            },
+            {
+              "selector": "[data-tutorial-action=\"restart-lesson\"]",
+              "x": 967.8125,
+              "y": 663,
+              "right": 1108.40625,
+              "bottom": 703,
+              "width": 140.59375,
+              "height": 40
+            }
+          ],
+          "huds": [
+            {
+              "x": 14,
+              "y": 66,
+              "right": 573,
+              "bottom": 160.1875,
+              "width": 559,
+              "height": 94.1875
+            },
+            {
+              "x": 585,
+              "y": 66,
+              "right": 695,
+              "bottom": 160.1875,
+              "width": 110,
+              "height": 94.1875
+            },
+            {
+              "x": 707,
+              "y": 66,
+              "right": 1266,
+              "bottom": 160.1875,
+              "width": 559,
+              "height": 94.1875
+            }
+          ],
+          "board": {
+            "x": 14,
+            "y": 266,
+            "right": 691.625,
+            "bottom": 648,
+            "width": 677.625,
+            "height": 382
+          },
+          "coach": {
+            "x": 958.8125,
+            "y": 266,
+            "right": 1266,
+            "bottom": 712,
+            "width": 307.1875,
+            "height": 446
+          },
+          "dock": {
+            "x": 14,
+            "y": 656,
+            "right": 946.8125,
+            "bottom": 712,
+            "width": 932.8125,
+            "height": 56
+          },
+          "guidance": {
+            "x": 150.078125,
+            "y": 667.71875,
+            "right": 921.8125,
+            "bottom": 700.265625,
+            "width": 771.734375,
+            "height": 32.546875
+          },
+          "commandButtons": []
+        },
+        "progressPersistence": true,
+        "skipAndReplay": true,
+        "errors": []
+      }
+    },
+    "native": [
+      {
+        "version": "1.0.2",
+        "page": "shell",
+        "home": true,
+        "play": true,
+        "settings": true,
+        "tutorialDeployment": true,
+        "commanderTutorialActivation": true,
+        "installedVersionVisible": true,
+        "fullscreen": true,
+        "windowed": true,
+        "shortcuts": [
+          "F11",
+          "Alt+Enter"
+        ]
+      },
+      {
+        "version": "1.0.2",
+        "page": "game",
+        "winner": 1,
+        "turns": 22,
+        "decisions": 122,
+        "units": 6,
+        "cards": 115,
+        "decks": [
+          "nightwalker-planned-exposure",
+          "rogue-field-improvisation"
+        ],
+        "commanders": [
+          {
+            "id": "commander_nightwalker_ghost",
+            "used": false
+          },
+          {
+            "id": "commander_rogue_scavenger",
+            "used": true
+          }
+        ]
+      },
+      {
+        "version": "1.0.2",
+        "page": "arsenal",
+        "commanderId": "commander_stonewall_warden",
+        "foundations": 10,
+        "cards": 115,
+        "deckSize": 26
+      },
+      {
+        "version": "1.0.2",
+        "page": "warroom",
+        "completed": 2,
+        "errors": 0,
+        "commanders": [
+          {
+            "id": "commander_stonewall_warden",
+            "activeUses": 2,
+            "passiveTriggers": 12
+          },
+          {
+            "id": "commander_bruiser_breaker",
+            "activeUses": 2,
+            "passiveTriggers": 8
+          }
+        ],
+        "runner": "cooperative"
+      },
+      {
+        "version": "1.0.2",
+        "page": "collection",
+        "summary": {
+          "commanders": {
+            "total": 10,
+            "owned": 10
+          },
+          "total": 115,
+          "uniqueOwned": 63,
+          "copiesOwned": 171,
+          "completion": 0.5478260869565217,
+          "factions": {
+            "stonewall": {
+              "total": 23,
+              "owned": 12,
+              "completion": 0.5217391304347826
+            },
+            "bruiser": {
+              "total": 23,
+              "owned": 12,
+              "completion": 0.5217391304347826
+            },
+            "syndicate": {
+              "total": 23,
+              "owned": 13,
+              "completion": 0.5652173913043478
+            },
+            "nightwalker": {
+              "total": 23,
+              "owned": 13,
+              "completion": 0.5652173913043478
+            },
+            "rogue": {
+              "total": 23,
+              "owned": 13,
+              "completion": 0.5652173913043478
+            }
+          },
+          "rarities": {
+            "common": {
+              "total": 35,
+              "owned": 31
+            },
+            "uncommon": {
+              "total": 30,
+              "owned": 20
+            },
+            "rare": {
+              "total": 20,
+              "owned": 2
+            },
+            "epic": {
+              "total": 20,
+              "owned": 9
+            },
+            "legendary": {
+              "total": 10,
+              "owned": 1
+            }
+          },
+          "credits": 300,
+          "supply": 0,
+          "packsOpened": 0,
+          "mastered": 0,
+          "recentlyAcquired": []
+        },
+        "packs": 9
+      }
+    ],
+    "package": {
+      "version": "1.0.2",
+      "verifiedRuntimeFiles": 93,
+      "sourceHashes": {
+        "ai.js": "b0a887ab2b11428ecd0971ac556935ca59e7bd280795ca78479580afef7cede3",
+        "analytics.js": "3b19d8b95770085c9ec7af04887f156d003c72802149cdea482b29c1d58414ef",
+        "app.js": "eae103c6bdb41c37de37b38b898d498450e4ca2dc39b54260a66f103e26a7f32",
+        "arsenal-match.css": "9935970d2dccac1361e1ea715bf8ea9a949763acadb17605e9bf76ad53ab0a95",
+        "arsenal.js": "9ae85fe47089edf14e5cca5a039fbd20000d7792d47dd3c5f1337233a0289ff4",
+        "art.js": "3957c991d4015dc23f92e17068bbd4fc6e1fe424b9b69f7e043304e4d8b1e1c0",
+        "assets/animations/README.md": "e4b86d3cfd76aef15fac986c0330ab69b6df24d0600ba2f868c3434a5b91e6ca",
+        "assets/audio/README.md": "3f31bed67a86123a0deda9a4e4d4d225f8a69e7ad52c5766369d94bf61eaf2ae",
+        "assets/battlefield/tactical-city.svg": "d81947802ab19f99b1ea97ab8282df7367f2d09612cb3a6ec9bff2f8e7c98ea2",
+        "assets/cards/bruiser/starter-atlas.webp": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419",
+        "assets/cards/commanders/README.md": "faf38e6f62df3eb3dabf21cdb46481b3084468f9db7eacf3c4e20119e276b512",
+        "assets/cards/commanders/commander_bruiser_bloodhound-portrait-v2.webp": "dd6128143a8511b5fce1a861dfe5fe907cd789f6b32b39e750bcebff1274a173",
+        "assets/cards/commanders/commander_bruiser_bloodhound.svg": "0fd014ac7b77ca5bc877a8f56227084ff56704912805a571dab2da3ed5968793",
+        "assets/cards/commanders/commander_bruiser_breaker-portrait-v2.webp": "96126c87bfc240cf28a8e85d09923ed5c98ed262d5eed461bc132759a78579ae",
+        "assets/cards/commanders/commander_bruiser_breaker.svg": "47ecca39dc0975024d30eca78ed875249f5864c4b4729af5f121655227f1eec5",
+        "assets/cards/commanders/commander_nightwalker_ghost-portrait-v2.webp": "c5242a4f4501a67316a34deeb57f1356d7b8dfd437f0acc9bd32cd5feed0a01b",
+        "assets/cards/commanders/commander_nightwalker_ghost.svg": "7b341411501d6168e2218986a633e45732d24cdac39618ecd441ff8cc937b243",
+        "assets/cards/commanders/commander_nightwalker_saboteur-portrait-v2.webp": "5c0f516aa03b72ad63ea4ba9ecb706f66c9932d1afb36665e798a352820ca46b",
+        "assets/cards/commanders/commander_nightwalker_saboteur.svg": "fdeb398e1c595c22f6bcb33a0e478aa3a4b6548aa108b5806f4c86844b78cd57",
+        "assets/cards/commanders/commander_rogue_drifter-portrait-v2.webp": "9e3a3836818007cad53ab8a8adab6a9ba86e513ee8f7dcbbbb9b49a047f1bceb",
+        "assets/cards/commanders/commander_rogue_drifter.svg": "81c0a8406a1050e7bdf390426f1af10d7d83381ce6770fcaf07fe7eda8a6b526",
+        "assets/cards/commanders/commander_rogue_scavenger-portrait-v2.webp": "bd1078906314271199cfba750caff835b734bef41aa8542d89d3a9995d480650",
+        "assets/cards/commanders/commander_rogue_scavenger.svg": "48fc0ccce206ba78e38ff12d6f5680e65b3f21e5129090493be3975495d628b8",
+        "assets/cards/commanders/commander_stonewall_marshal-portrait-v2.webp": "a139131a78dae4b4c45bbd90c431027bb0d40a75206465cbf91ce276cb71e3ab",
+        "assets/cards/commanders/commander_stonewall_marshal.svg": "22a35b3a7f074a5e35b9f630da584ba3befac6e4fd0da213fd00702e399cfd31",
+        "assets/cards/commanders/commander_stonewall_warden-portrait-v2.webp": "999dd73af37128c1fc5b2f0e72baa0d4985d1cbdc1d13cb75a5aabcdce67f6b3",
+        "assets/cards/commanders/commander_stonewall_warden.svg": "4f817940e5f647db1a76feb5f8541d83db57dfc751623c7c48c61e43282e03c7",
+        "assets/cards/commanders/commander_syndicate_coordinator-portrait-v2.webp": "847f60b79e769c2962a8c93bafe414f6a71362caa949b7e9836c0f9bf0e1952d",
+        "assets/cards/commanders/commander_syndicate_coordinator.svg": "2686f1a05ec91dff624eed2d83eb099cc99a6d04c5540bdfa7eddc1da3162317",
+        "assets/cards/commanders/commander_syndicate_quartermaster-portrait-v2.webp": "2bf33d0ba42abba4746e2e79066748ae3fabefdb667b677eb9eb46a3bb86f0d6",
+        "assets/cards/commanders/commander_syndicate_quartermaster.svg": "3b821a49e807948ca4b52f783ec65960d79bd13881e80a5eb16a86addf3fcf5e",
+        "assets/cards/nightwalker/starter-atlas.webp": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0",
+        "assets/cards/rogue/starter-atlas.webp": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1",
+        "assets/cards/stonewall/starter-atlas.webp": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20",
+        "assets/cards/syndicate/starter-atlas.webp": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf",
+        "assets/effects/README.md": "9787c2d97db8b4ab0a2b1ef99368b2275633ecd3f17ce64ec9e94cc4056416b8",
+        "assets/ui/faction_emblems/bruiser.svg": "81c5e32cbaed842637309ed39aea00fc47993d0a9881f22c4d15eb1ed1364c2f",
+        "assets/ui/faction_emblems/nightwalker.svg": "1f8f9895cdccdec78b9fbaa246db31d4d6c6848c32171838f4735b87e67950b9",
+        "assets/ui/faction_emblems/rogue.svg": "b905acd986b3f56e78a26707ddb1eb9cd0751a6a514ea1ae9f3df553d42cc297",
+        "assets/ui/faction_emblems/stonewall.svg": "dfa7b9913e1da786a3c03a4f4225d850a476f3cee33c4a2106e79a36a5cba6c9",
+        "assets/ui/faction_emblems/syndicate.svg": "bfa1ac959a0f899a4f8b74352c6642ff680e102ddc0b6c11fecebbb36ac1835e",
+        "assets/ui/frontlines-icon.ico": "9cbd289c6559963ae97f191aa00ed1d05a8397532368793c43cad466c9785c3d",
+        "assets/ui/frontlines-icon.png": "fffbf9cf8af9eea49032b026941e2d7fa7f7ee938d2ded7bd716fb93b1db1258",
+        "assets/ui/frontlines-icon.svg": "044069f48a4e5ac74d021e183be21dd77a9f44201ce406c6bea37194ac9d7cd1",
+        "balance.js": "bc34a14e3d4cdcda0c31986b3c5fe16f78272874ac3c70a6c371692119916873",
+        "balance/arsenal.json": "12141a7d63467b0fe73c39e99ddb7005d6c22beea029ac93e8d60b58610b352b",
+        "balance/baseline.json": "db70ea1f401251cb232cda74f9fbc2c2f8f9c6e79cce13a7c902f243f65a75ce",
+        "balance/candidate.json": "2bfcd17e81222b3de7fda52d9a11b5ba684cabb42989000a45201152aa8807af",
+        "balance/iteration01.json": "0c25173b899c97433718a104e3036c48f1b9c35032ee9343f29b58666124cbbc",
+        "balance/sprint6.json": "ed2fa25bfd9ef5d878159a960fc4319b7f5fde3c44aa28284a63441c4f6074d1",
+        "balance/sprint7.json": "445bcb4a1c55b6f07392f72ac0705e16300f4c7538819f119078f242c3da786e",
+        "balance/sprint9.json": "98a21bdb572ea75e045b902a30c87f6b3605319549f6a6637ac77aa5c59deb75",
+        "build-info.js": "c9a1da68e89ca1b063dbd4d25fd675e309123f1f2836c510de298819dd72099f",
+        "collection-app.js": "65005bded3c2be35d9321d32414722ccadc09d6effc9600ed5366510936bb9b0",
+        "collection.css": "ef285573d6ecd4adefaf48c226d954299f788b1128327e7d15369642ef27ab05",
+        "collection.html": "89e03eaed58c5f212009eab0b2cd89b88e3eadad556f3363e6a12db35342ea55",
+        "collection.js": "dd6028a5d096baf1da5b954a016fe585929b9b8554ede5e3be7a1f1aea6ac3c4",
+        "command.css": "0c6498e302b055f760368048836673c5dbdea1edf90e6889528aa04e23bc148e",
+        "commander-ui.css": "f8a10bef41ad358a14cd0f6fe412b00e8ea99047e14819abf72f959ffd5e596e",
+        "commanders.js": "522ad1c67d632fcdb36f24c517f29b0188fedbc77ad44667fb73c2ee2e9fa110",
+        "data.js": "d559c2985a7be9fec667978ec453f9694aebb5bb5efa277345072a09bd7fef95",
+        "deck-builder.css": "d320554c013bc2d972fe8620ceff6607e40e2f2d3d5f9784acb9a9c825f66552",
+        "deck-builder.html": "4d0512002b73462828a4f3047d1f075d44a2836bc79995ea2e22f3c1a756a093",
+        "deck-builder.js": "33ae25b271df6f8c0400d6363dbcc0b178ebf8c34a137d9ac35553e3bf79646e",
+        "deck-rules.js": "1db0bebe6f35aa3cc452916c208f4cf450ac5759d5f4a57df628bfe1788a6fd9",
+        "decks.js": "1f3656d297409c4182afb0db358c21ad6b6a8dc6e7fb393cc2b9e22e4ff8b27c",
+        "desktop.js": "42827393f22c441875067977f7b2380aafb08b2feb5b272c9faee1d6801186c3",
+        "effects.css": "19bd54721684d1638b07ea95fcc77d88cf914c1c9fc54e8036ea0201523c5488",
+        "effects.js": "875ce0e9cc1eefa964b8469d4a12a655952360cfb34f5af120980c5941555f48",
+        "engine.js": "297c910c7f1e65b1477b1a7ebdd331cc39df39347e3fbbf995ee0f2c125e52c4",
+        "field-manual.js": "e92795acaaea95bf8ac69fe2691c15864c62e530848056a69970294d87fc85b4",
+        "index.html": "ca0e4ecd08a271262bb4ea877c94cce541ea71227a118cc93cab4ec7d20e2b98",
+        "learning.css": "4386346cbcae1a1f269d7a5afbca2ca6b3aa8f1978f1b4194c1433e4e19838bc",
+        "live-runtime.js": "80cf7755f63ef020c951c027f5e2878918ead38e2b78dd72ef78a01ec9f6e248",
+        "main.js": "6099961a48b9cc58c1c60d16642738bbc4bfe89c6e7c240c05bea7dfdc62c901",
+        "music-data.js": "8773a2bc3ec6c9e2ddc8148a2fae18eb03db9993fe78387d5611aa1f72e70995",
+        "preload.js": "19934e15d760bd2e19601015bd9532e702d1c7ef4e39745037df9a2409b378ef",
+        "presentation.css": "34b145af2430b0732957d73ea9800c5e59a27025e65aa81707ccee22433b7993",
+        "presentation.js": "2b2605ffdbdb835b47e34d5ec74a8e6abffe92813093547fbf93735d17a1d3fe",
+        "server.js": "5e9b7e8cc4c79a202870240d00806b89ab42186e32344b4305ece0d9119efefa",
+        "shell-state.js": "6cf8d2c68d58fe02f4a20ee2f04902cae1af393360fb289ded6b12a216f3603b",
+        "shell.css": "f9fa343510835ed273503a8caa95dcd3a4a6543f1739be4124e9eab8a580848e",
+        "shell.js": "8f0d05df752fc6afc361a717ee4d7596a70d10ab5a57f5dfb47b8775f4c7cbb4",
+        "sim-core.js": "b614880579aad4442c9f07cb16e4cb44a1b8e650efbd56945ba13a961a433279",
+        "simulator-app.js": "476d4c5205cf5149f6ada876015081e9140b61c72cb21e87ddcdf0e19c7a8c5f",
+        "simulator-worker.js": "fdc4fc49b6f87f068d9a75e44679de4153fa3ba069878704464793988611f5ee",
+        "simulator.css": "7219969f76f0ec6aaccf07c897becfc817b4c4fbbde48537a8897b40fc8a4781",
+        "simulator.html": "d9f8eb837845bd64e5081cf97c8e1b0bb2b4cd7e193b8c6702a1338cca2e564e",
+        "styles.css": "b3abef0663f7a21993c42711f08ba95f04deb08a847038a93ab236779b450b45",
+        "telemetry.js": "770c855626b10eef6dad4bd1cb9b29052b05f2cc9df999e6e117a4a52af7379f",
+        "tutorial.css": "58de3bed471bc105f52670ceceb0fee57b9d70c848c5c85aaface0d5f61e1b35",
+        "tutorial.js": "d7bd9f52e09c4c09661d186d790eff64890e7c62c3fe15f6f0c60d103370eed0",
+        "war-room.css": "d6289734be47dd2825fd8f21c221499276a4d5127fb4f2fc1b40eeb7c68f7057"
+      },
+      "productionUpdaterVersion": "6.8.9",
+      "verifiedFrozenFiles": 31,
+      "developmentMaterialExcluded": true,
+      "installer": {
+        "file": "Frontlines-Setup-1.0.2.exe",
+        "bytes": 114609514,
+        "sha256": "35edc8df70f740badd82d54ab8f621bb9c70f87d3dafcfc85c7e468ac4d3c6ba"
+      },
+      "authenticode": "NotSigned"
+    }
+  },
+  "finalSourceCheckpoint": {
+    "file": "docs/checkpoints/sprint9-v1.0.2.zip",
+    "bytes": 120186809,
+    "sha256": "08e9392f8be4c495f9bf0a5919afcaa922aacf222b1643ed61fdd2de128ec412",
+    "files": 678,
+    "runtimeFiles": 93,
+    "manifestOutsideArchive": true,
+    "runtimeHashesMatchPackage": true,
+    "excluded": [
+      "dependencies",
+      "release binaries",
+      "owner saves",
+      "large historical simulation outputs",
+      "earlier checkpoint archives"
+    ],
+    "externalArtifactTestDependencies": [
+      "docs/checkpoints/sprint7-v0.8.0.zip",
+      "release/0.8.0/Frontlines-Setup-0.8.0.exe",
+      "docs/checkpoints/sprint8-v0.9.0.zip",
+      "release/0.9.0/Frontlines-Setup-0.9.0.exe"
+    ]
+  },
+  "previousReleasePreserved": [
+    {
+      "file": "release/1.0.1/Frontlines-Setup-1.0.1.exe",
+      "sha256": "8277d0b8725473b535df895af232fafa4d0a2754fc8759ef07bff4fca8103ed1"
+    },
+    {
+      "file": "docs/checkpoints/sprint9-v1.0.1.zip",
+      "sha256": "00028825e163d041e4419e55d4f09434d0d60d9a4bd7fd2e216ee759c91ef0c5"
+    }
+  ],
+  "balanceChanges": false,
+  "largeSimulationBatches": 0
+}

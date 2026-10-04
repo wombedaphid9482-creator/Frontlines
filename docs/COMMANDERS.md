@@ -131,7 +131,7 @@ The following text comes from the shared [Commander catalog](../commanders.js). 
 
 **Identity:** Salvaged value.
 
-**Passive — Nothing Wasted.** The first allied battlefield card destroyed in each offensive initiative draws you 1 card. This may also trigger alongside a surviving unit’s Scavenge ability; each has its own limit.
+**Passive — Nothing Wasted.** When an allied battlefield card is destroyed, draw 1 card if your casualty-draw allowance is unused. Nothing Wasted and all Scavenge sources share one draw per player per global turn. A surviving nearby Scavenge source receives the trigger instead; the Commander provides salvage elsewhere. This is the v1.0.3 `sprint10` rule; historical profiles retain the original separate limits.
 
 **Active — Recover the Fallen.** Once per match: return the most recent non-Order card in your discard to your hand. Redeployment pays its printed costs and starts without wounds. Cost: 2 available Capacity and 1 Command Action.
 

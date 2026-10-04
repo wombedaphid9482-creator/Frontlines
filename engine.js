@@ -27,6 +27,8 @@
   const frontlineIntegrity = RULES.frontlineIntegrity === true;
   const arsenalMechanics = RULES.arsenalMechanics === true;
   const commandersEnabled = RULES.commanders === true;
+  const salvageRecovery = RULES.salvageRecovery === true;
+  if (Commanders && Commanders.forRules) Commanders = Commanders.forRules(RULES);
   if (commandersEnabled && !Commanders) throw new Error('Commander rules catalog is unavailable.');
   const leader = (state,player) => commandersEnabled && state.players[player]?.commander;
   const leads = (state,player,id) => leader(state,player)?.id === id;
@@ -147,6 +149,20 @@
     const salvager = state.units.find(ally => ally.owner === unit.owner && ally.territory === unit.territory &&
       ally.damage < card(ally).health && trait(ally,'scavenge'));
     const owner = state.players[unit.owner];
+    // v1.0.3: printed Scavenge and Nothing Wasted share one casualty
+    // dividend. A nearby surviving source gets attribution; the Commander
+    // supplies the same salvage opportunity when no such source survives.
+    // Historical profiles keep their independent trigger budgets below.
+    if (salvageRecovery) {
+      const commander = leads(state,unit.owner,'commander_rogue_scavenger') && owner.commander.passiveTurn!==state.turn;
+      if (owner.scavengedTurn === state.turn || !salvager && !commander) return;
+      owner.scavengedTurn = state.turn;
+      if (leads(state,unit.owner,'commander_rogue_scavenger')) owner.commander.passiveTurn = state.turn;
+      const drawn = draw(state,unit.owner,1);
+      if (salvager) event(state,'passive',{player:unit.owner,uid:salvager.uid,cardId:salvager.cardId,trait:'scavenge',amount:drawn,causeUid:unit.uid});
+      else commanderPassive(state,unit.owner,drawn,{causeUid:unit.uid});
+      return;
+    }
     if (leads(state,unit.owner,'commander_rogue_scavenger') && owner.commander.passiveTurn!==state.turn) {
       owner.commander.passiveTurn=state.turn;const drawn=draw(state,unit.owner,1);
       commanderPassive(state,unit.owner,drawn,{causeUid:unit.uid});
@@ -560,9 +576,9 @@
       }
       case 'reclaim':
         state.units = state.units.filter(unit => unit.uid !== target.uid);
-        state.players[player].hand.push({ uid: target.uid, cardId: target.cardId });
-        event(state,'reclaim',{player,uid:target.uid,cardId:target.cardId,freedPresence:card(target).presence,sourceCardId:definition.id});
-        log(state, `${card(target).name} returns to hand and frees ${card(target).presence} committed Presence.`, 'order');
+        state.players[player].hand.push({ uid: target.uid, cardId: target.cardId, ...(salvageRecovery && target.damage ? {damage:target.damage} : {}) });
+        event(state,'reclaim',{player,uid:target.uid,cardId:target.cardId,freedPresence:card(target).presence,sourceCardId:definition.id,...(salvageRecovery?{retainedDamage:target.damage}:{})});
+        log(state, `${card(target).name} returns to hand${salvageRecovery && target.damage ? ` retaining ${target.damage} wounds` : ''} and frees ${card(target).presence} committed Presence.`, 'order');
         break;
     }
   }
@@ -748,7 +764,7 @@
       case 'deploy': {
         const hand = next.players[player].hand;
         const item = hand.splice(hand.findIndex(entry => entry.uid === action.handUid), 1)[0];
-        next.units.push({ uid: item.uid, cardId: item.cardId, owner: player, territory: action.territory, damage: 0, ready: true, deployedTurn: next.turn, movedTurn: -1 });
+        next.units.push({ uid: item.uid, cardId: item.cardId, owner: player, territory: action.territory, damage: salvageRecovery ? item.damage || 0 : 0, ready: true, deployedTurn: next.turn, movedTurn: -1 });
         if (leads(next,player,'commander_nightwalker_ghost')&&trait(next.units[next.units.length-1],'precision')&&leader(next,player).passiveTurn!==next.turn) {
           leader(next,player).passiveTurn=next.turn;next.units[next.units.length-1].reinforced=1;commanderPassive(next,player,1,{targetUid:item.uid});
         }
@@ -916,7 +932,10 @@
       if (commandersEnabled && (!p.commander||Commanders.get(p.commander.id)?.faction!==p.faction||typeof p.commander.used!=='boolean'||!Number.isInteger(p.commander.passiveTurn)||p.commander.passiveTurn < -1||p.commander.passiveTurn>state.turn)) fail('invalid Commander');
       if (!Number.isInteger(p.command) || !Number.isInteger(p.spent) || p.command < 0 || p.spent < 0 || presence(state, player).available < 0) fail('negative or invalid Presence economy');
       p.deck.concat(p.discard).forEach(id => { if (!card(id)) fail('unknown card'); });
-      p.hand.forEach(item => { checkUid(item.uid); if (!card(item)) fail('unknown hand card'); });
+      p.hand.forEach(item => {
+        checkUid(item.uid); if (!card(item)) fail('unknown hand card');
+        if (salvageRecovery && item.damage !== undefined && (!Number.isInteger(item.damage) || item.damage < 0 || card(item).type === 'order' || item.damage >= card(item).health)) fail('invalid reclaimed wounds');
+      });
     });
     state.territories.forEach((territory, index) => {
       if (territory.id !== index || ![null, 0, 1].includes(territory.owner)) fail('invalid territory owner or index');
@@ -951,5 +970,5 @@
     return true;
   }
 
-  return { VERSION:commandersEnabled ? 'frontlines-territory-v5-commanders' : arsenalMechanics ? 'frontlines-territory-v4-arsenal-mechanics' : separatedEconomy || frontlineIntegrity ? 'frontlines-territory-v3-command-frontline' : 'frontlines-territory-v2-arsenal',RULES:copy(RULES),withData:data => createEngine(data,Commanders),commanders:Commanders,commanderStatus,capturePressure,hasTrait:trait,createGame,dispatch,card,presence,actionCost,resolveEffect,orderTargets,combatDamage,retreatDestination,unitsAt,controlledCount,getActor,legalActions,validate,attackValue,debug,assertInvariants };
+  return { VERSION:salvageRecovery ? 'frontlines-territory-v6-salvage-recovery' : commandersEnabled ? 'frontlines-territory-v5-commanders' : arsenalMechanics ? 'frontlines-territory-v4-arsenal-mechanics' : separatedEconomy || frontlineIntegrity ? 'frontlines-territory-v3-command-frontline' : 'frontlines-territory-v2-arsenal',RULES:copy(RULES),withData:data => createEngine(data,Commanders),commanders:Commanders,commanderStatus,capturePressure,hasTrait:trait,createGame,dispatch,card,presence,actionCost,resolveEffect,orderTargets,combatDamage,retreatDestination,unitsAt,controlledCount,getActor,legalActions,validate,attackValue,debug,assertInvariants };
 });

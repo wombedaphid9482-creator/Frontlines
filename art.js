@@ -1,6 +1,5 @@
-/* Art stays outside rules state. Preserved painted atlases provide a consistent
- * faction backdrop; illustrated equipment, silhouette and staging distinguish
- * the expanded arsenal. Named Commanders have their own portable SVG portraits. */
+/* Art stays outside rules state. Ordinary cards retain their original painted
+ * faction atlases. Named Commanders use individual optimized painted portraits. */
 (function (root) {
   'use strict';
   const THEMES = {
@@ -107,7 +106,7 @@
   function commanderGet(commander){
     const id=typeof commander==='string'?commander:commander?.id,art=COMMANDER_ART[id];
     if(!art)return null;
-    return {src:'assets/cards/commanders/'+id+'.svg',alt:art.name+' — '+art.faction+' strategic Commander portrait',faction:art.faction,role:'commander',identity:art.identity};
+    return {src:'assets/cards/commanders/'+id+'-portrait-v2.webp',alt:art.name+' — '+art.faction+' strategic Commander portrait',faction:art.faction,role:'commander',identity:art.identity,width:768,height:768};
   }
   function commanderSvg(commander){
     const id=typeof commander==='string'?commander:commander?.id,c=COMMANDER_ART[id];if(!c)return '';
@@ -125,7 +124,7 @@
     const className=String(options.className||'card-portrait').split(/\s+/).filter(c=>/^[a-z][a-z0-9_-]*$/i.test(c)).join(' ');
     if(card.type==='unit'||card.type==='leader'){
       const a=get(card);
-      return '<span class="'+className+' art-illustrated art-'+identity(card)+'" role="img" aria-label="'+escape(a.alt)+'" style="background-image:url(&quot;'+escape(a.src)+'&quot;);background-position:'+a.position+'">'+illustration(card)+'</span>';
+      return '<span class="'+className+'" role="img" aria-label="'+escape(a.alt)+'" style="background-image:url(&quot;'+escape(a.src)+'&quot;);background-position:'+a.position+'"></span>';
     }
     return '<span class="art-symbol '+className+'" role="img" aria-label="'+escape(card.name+' tactical insignia')+'">'+symbol(card)+'</span>';
   }

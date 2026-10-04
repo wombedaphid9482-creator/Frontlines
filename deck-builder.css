@@ -72,3 +72,33 @@ html:has(.arsenal-page){height:100%;overflow:hidden}
 @media(max-width:520px){.deck-library-filters{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}}
 .arsenal-catalog{min-height:85px}.arsenal-filters{min-height:0;max-height:calc(100% - 190px)}.catalog-results{max-height:64px}
 @media(max-height:740px) and (min-width:1101px){.arsenal-intro{display:none}.builder-commander-banner{min-height:76px}.builder-commander-banner small{display:none}.arsenal-main{gap:8px;padding-block:9px}}
+/* Named Commanders use a collectible frame; normal Arsenal cards retain their
+ * original art and treatment. Illustration and doctrine never share a layer. */
+.builder-commander-banner,.commander-choice,.commander-doctrine{--commander-alloy:color-mix(in srgb,var(--faction-color) 20%,#c7ac79)}
+.builder-commander-banner{background:linear-gradient(110deg,#2d3b45,#14212a 75%);border-color:color-mix(in srgb,var(--commander-alloy) 65%,#4d6472);box-shadow:inset 0 1px #eddbb733,inset 0 -1px #0009,0 3px 10px #0003}
+.builder-commander-banner h2{color:#f4e7ca;text-shadow:0 1px 2px #0006}
+.builder-commander-portrait{border:2px solid var(--commander-alloy,#c7ac79);box-shadow:0 0 0 1px #071019,inset 0 0 0 1px #e8d19e66;border-radius:3px}
+.arsenal-dialog:has(.commander-flow){width:min(850px,calc(100vw - 28px));border-color:#b9a276;background:linear-gradient(140deg,#2b3943,#13222d 70%);box-shadow:inset 0 0 0 3px #071019,inset 0 0 0 4px #dcc69a27,0 15px 80px #0009}
+.commander-flow>.eyebrow{color:#d2ba89;letter-spacing:1.8px}
+.commander-flow>h2{color:#f6e9cf;line-height:1.2}
+.commander-choice-grid{gap:18px;margin:20px 0}
+.commander-choice{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:26px 8px 8px;overflow:hidden;border:1px solid var(--commander-alloy);border-top:3px solid var(--faction-color);border-radius:6px;background:linear-gradient(140deg,#374751,#182832 45%,#101c25);box-shadow:inset 0 0 0 3px #071019,0 5px 13px #0004;transition:border-color .15s,box-shadow .15s}
+.commander-choice::before{content:'LEGENDARY / COMMANDER';position:absolute;inset:5px 6px auto;height:17px;font:9px/17px var(--mono);text-align:center;letter-spacing:1.2px;color:#d3bd90}
+.commander-choice .builder-commander-portrait{width:100%;height:230px;border:1px solid #c7b58c99;flex-shrink:0;border-radius:2px;box-shadow:0 0 0 1px #09141b}
+.commander-choice .art-commander img{object-position:center top}
+.commander-choice>span:last-child{min-width:0;gap:6px;margin:0;padding:14px 9px 10px;background:linear-gradient(90deg,#c6af7b15,#06111b66);border-top:2px solid var(--faction-color);border-bottom:1px solid #ae986657}
+.commander-choice b{font-size:24px;line-height:1.15;color:#f7ead0;overflow-wrap:anywhere}
+.commander-choice small{font:11px/1.45 var(--mono);color:#b8ccd8;overflow-wrap:anywhere}
+.commander-choice:hover{border-color:#f0d49a;box-shadow:inset 0 0 0 3px #071019,0 0 0 1px #d7be8233,0 5px 15px #0005}
+.commander-choice.selected{border-color:#f0d49a;background:linear-gradient(140deg,#4b4b40,#20343d 55%,#11232f);box-shadow:inset 0 0 0 3px #071019,inset 0 0 0 4px #ecc88e77,0 0 0 2px #d9bd7e44,0 5px 15px #0005}
+.commander-choice.selected>span:last-child{background:linear-gradient(90deg,#c6af7b2b,#0d1c2566)}
+.commander-choice:focus-visible{outline:3px solid #f5deb0;outline-offset:3px}
+.commander-doctrine{border-color:color-mix(in srgb,var(--commander-alloy) 65%,#52616b);background:linear-gradient(130deg,#25343d,#10202b);box-shadow:inset 0 1px #ead5a52b}
+.commander-doctrine h3{color:#f0ddbc;line-height:1.4;font-size:18px}
+.commander-rules>div{padding:12px;background:#06131c6b;border:1px solid #8c9aa62c;border-left:2px solid var(--faction-color);border-radius:3px}
+.commander-rules dt{font-size:10px;letter-spacing:.45px;line-height:1.5}
+.commander-rules dd{line-height:1.65}
+.commander-flow .arsenal-dialog-actions{position:sticky;bottom:-24px;padding:12px 0 5px;background:#13222df5;border-top:1px solid #b4a17655;box-shadow:0 -8px 12px #13222d99;backdrop-filter:blur(5px)}
+@media(max-width:1100px){.commander-choice .builder-commander-portrait{height:220px}.commander-choice b{font-size:22px}.commander-flow .arsenal-dialog-actions{bottom:-20px}}
+@media(max-width:520px){.arsenal-dialog:has(.commander-flow){padding:15px}.commander-flow>h2{font-size:25px}.commander-choice-grid{gap:10px}.commander-choice{align-items:stretch;padding:25px 5px 5px}.commander-choice::before{font-size:7px;letter-spacing:.55px}.commander-choice .builder-commander-portrait{height:165px}.commander-choice>span:last-child{padding:11px 6px 8px}.commander-choice b{font-size:19px}.commander-choice small{font-size:10px}.commander-rules>div{padding:10px}.commander-flow .arsenal-dialog-actions{bottom:-15px;background:#13222dee;backdrop-filter:blur(5px);padding-bottom:5px}.commander-doctrine h3{font-size:16px}}
+@media(max-height:650px) and (min-width:521px){.commander-choice .builder-commander-portrait{height:160px}}

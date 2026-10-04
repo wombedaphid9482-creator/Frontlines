@@ -1,8 +1,20 @@
 # Game action roadmap
 
-The current milestone is **v1.0.0 — Commander Update**: ten named off-lane leaders, ten immediately owned foundations, a guided Commander deckbuilder, visible signature commands, fourteen tutorial lessons and stronger illustrated card/frame/motion presentation. The 115-card pool, original five starters/fifteen templates, local collection economy, difficulties, contiguous front and native fullscreen remain. [Sprint 9](SPRINT-009.md) and the [Commander reference](COMMANDERS.md) describe the implementation and validation boundaries.
+The current milestone is **v1.0.3 — Balance Recovery**, built on the stable v1.0.2 battlefield viewport and Commander portraits. Verified salvage/reclaim loops, four weak preset compositions, tactical AI and action readability are addressed before adding more mechanics or networking. The 115-card pool, ten off-lane Commanders, local progression, fourteen tutorial lessons, custom decks, contiguous front, War Room and native fullscreen remain. [Sprint 10](SPRINT-010.md), the [balance change log](balance/SPRINT-010-CHANGELOG.md) and the [Commander reference](COMMANDERS.md) define the candidate and its remaining validation work.
 
-## Next v1.0.0 game action plan
+The local [v1.0.3 candidate](RELEASE-1.0.3.md) has passed its automated, populated viewport, tutorial, presentation, random-opponent and packaged native checks. It is ready for owner-run balance validation and human playtests; it has not been published or installed over the owner's copy.
+
+## Next v1.0.3 game action plan
+
+1. **Validate the candidate's rules and interface.** Check shared casualty draws, retained reclaim wounds, legal targets, Commander state labels and normal desktop battlefield/card proportions. Compare concrete human decisions with the deterministic fixtures.
+2. **Ryken runs the recorded 100,000-match matrix.** Use the same frozen thirty-deck pool, paired seats, mirrors, seed 1209 and configuration under `sprint10`. Export all outcomes, errors/cutoffs, Commander/deck/faction results, matchup extremes and seat split. No automatic campaign is authorized.
+3. **Compare the owner-run results with the preserved v1.0.2 evidence.** Prefer a completed final baseline if supplied; otherwise identify the 46,679-match baseline explicitly as interim. Separate new deck composition, AI competence and recovery rules from claims of individual card causality.
+4. **Human-play both Commanders and repaired archetypes.** Try Stonewall Fortified Advance, Bruiser Rolling Breakthrough, Syndicate Coordinated Removal and Nightwalker Planned Exposure from both seats. Test meaningful Rogue salvage/withdrawal choices and counterplay. Track Assassination, Combined Arms and Ghost for new extremes.
+5. **Resolve remaining systemic risks with evidence.** Investigate the initiative gap, cutoffs, unplayable archetypes or near-automatic matchups before making further numerical changes. Preserve every original profile/report and document each intervention.
+6. **Tactical expansion follows trustworthy local balance.** Cover, Dodge, Grenades, Suppression, Overwatch, mines and a broader tactical pool remain deferred until the current strategic/action economy is validated. They do not belong in this recovery patch.
+7. **Private online multiplayer follows balance validation.** Revisit transport/authority, private state views, version validation, action replay, reconnects and two-client smoke tests after the local game passes the owner-run and human gates. Public matchmaking/accounts remain later scope.
+
+## Preserved v1.0.0 game action plan
 
 1. **Play both leaders within one faction.** Begin with the free Commander foundations. Compare the passive, timing of the signature active, useful card roles and counterplay. Record moments when a leader changed a decision rather than simply a result.
 2. **Complete explicit Commander onboarding.** Check passive observation, real active targeting/cost/spent state, Warden/Marshal choice and final training. Prior tutorial completion must lead through the new instruction before full completion is restored.
@@ -100,7 +112,7 @@ Actions:
 
 ## 6. Consider multiplayer only after the local rules are ready
 
-**Depends on:** phases 1–4, deterministic action/replay coverage, version compatibility, and a decision about the intended multiplayer scope.
+**Depends on:** completed v1.0.3 owner-run balance validation and human counterplay review, phases 1–4, deterministic action/replay coverage, version compatibility, and a decision about the intended multiplayer scope. The previously planned private online sprint is postponed until these checks resolve systemic dominance and dead archetypes.
 
 Actions:
 

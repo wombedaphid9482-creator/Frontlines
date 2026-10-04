@@ -46,7 +46,7 @@
     'Blackout','Once per match: suppress the printed traits of every enemy battlefield card in the contested territory until its owner’s next offensive turn, and lock up to 2 enemy available Capacity for that window.',
     'frontline-enemies','Choose Sabotage, selective damage and occupation forces. Disable a frontline’s abilities before attacking; disrupted spending clears at enemy initiative.');
   add('commander_rogue_scavenger','rogue','The Scavenger','Salvaged value','Nothing Wasted',
-    'The first allied battlefield card destroyed in each offensive initiative draws you 1 card. This may also trigger alongside a surviving unit’s Scavenge ability; each has its own limit.',
+    'When an allied battlefield card is destroyed, draw 1 card if your casualty-draw allowance is unused. Nothing Wasted and all Scavenge sources share one draw per player per global turn. A surviving nearby Scavenge source receives the trigger instead; the Commander provides salvage elsewhere.',
     'Recover the Fallen','Once per match: return the most recent non-Order card in your discard to your hand. Redeployment pays its printed costs and starts without wounds.',
     'none','Choose Scavenge, low-cost battlefield units and valuable recovery targets. Trade expendable forces while preserving tools for the next push.');
   add('commander_rogue_drifter','rogue','The Drifter','Adaptive positioning','Open Route',
@@ -70,11 +70,25 @@
       case 'commander_syndicate_quartermaster':add(card.type==='order'&&card.timing==='action'&&card.presence<=3&&card.commandCost>0,'Qualifies for a free tactical Order each turn');add(kind==='draw'||card.type==='unit'&&card.presence<=4,'Sustains efficient sequencing');break;
       case 'commander_nightwalker_ghost':add(has('precision'),'Qualifies for the protected first entry');add(kind==='ambush'||kind==='retreat'||has('mobile'),'Supports an evasive timing window');break;
       case 'commander_nightwalker_saboteur':add(kind==='sabotage'||kind==='disrupt','Disrupts enemy setup');add(has('precision')||kind==='damage','Exploits a disabled defender');break;
-      case 'commander_rogue_scavenger':add(has('scavenge'),'Adds another limited casualty draw source');add(card.type!=='order'&&(card.presence<=3||card.presence>=6),'Provides an expendable force or recovery target');break;
+      case 'commander_rogue_scavenger':add(has('scavenge'),'Shares the casualty draw allowance; provides local salvage alongside Commander coverage elsewhere');add(card.type!=='order'&&(card.presence<=3||card.presence>=6),'Provides an expendable force or recovery target');break;
       case 'commander_rogue_drifter':add(has('mobile'),'Can move without losing its first ready window');add(kind==='adapt'||kind==='rally'||kind==='reclaim','Offers another tactical plan');break;
     }
     return {score:reasons.length,reasons,reason:reasons.join('; ')};
   }
+  // Match historical profile wording to its preserved independent budgets.
+  // The current game/catalog uses the v1.0.3 shared salvage rule.
+  const originalScavengerText='The first allied battlefield card destroyed in each offensive initiative draws you 1 card. This may also trigger alongside a surviving unit’s Scavenge ability; each has its own limit.';
+  let historicalCatalog;
+  function forRules(rules){
+    if(rules?.salvageRecovery)return api;
+    if(!historicalCatalog){
+      const historical={...COMMANDERS,commander_rogue_scavenger:{...COMMANDERS.commander_rogue_scavenger,passive:{...COMMANDERS.commander_rogue_scavenger.passive,text:originalScavengerText}}};
+      freeze(historical);
+      historicalCatalog=freeze({...api,COMMANDERS:historical,get:id=>typeof id==='string'&&Object.hasOwn(historical,id)?historical[id]:null,list:faction=>Object.values(historical).filter(c=>!faction||c.faction===faction)});
+    }
+    return historicalCatalog;
+  }
   freeze(COMMANDERS);freeze(DEFAULTS);
-  return freeze({VERSION,COMMANDERS,DEFAULTS,list,get,defaultFor,synergy});
+  const api=freeze({VERSION,COMMANDERS,DEFAULTS,list,get,defaultFor,synergy,forRules});
+  return api;
 });

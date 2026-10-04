@@ -14,10 +14,13 @@
   const def = unit => D.CARDS[unit.cardId];
   const remaining = unit => def(unit).health - unit.damage;
   const arsenalMechanics = E.RULES?.arsenalMechanics === true;
+  const balanceRecovery = E.RULES?.balanceRecovery === true;
+  const salvageRecovery = E.RULES?.salvageRecovery === true;
   const effectFor = (c,action) => E.resolveEffect ? E.resolveEffect(c,action) : c?.effect;
   const distance = (state, unit) => Math.abs(unit.territory - state.contested);
   const atFront = (state, owner) => state.units.filter(u => u.owner === owner && u.territory === state.contested);
   const totalP = units => units.reduce((n, u) => n + def(u).presence, 0);
+  const pressure = (state,owner) => balanceRecovery && E.capturePressure ? E.capturePressure(state,owner).total : totalP(atFront(state,owner));
   const find = (state, uid) => state.units.find(u => u.uid === uid);
   const publicPosition = (state,units) => ({config:state.config,seed:state.seed,turn:state.turn,attacker:state.attacker,
     contested:state.contested,territories:state.territories,response:state.response,winner:state.winner,
@@ -64,14 +67,15 @@
     // Exchanging cheap specialists for an occupation unit is valuable even if
     // both die; killing a unit about to complete a capture is especially useful.
     const enemyProgress = state.territories[state.contested].progress[target.owner];
-    const enemyP = totalP(atFront(state, target.owner));
+    const enemyP = pressure(state,target.owner);
     if (target.territory === state.contested && result.defenderDies &&
         enemyProgress + enemyP >= state.config.captureThreshold) score += 8;
     if (result.attackerDies && attacker.territory === state.contested) {
-      const ownP = totalP(atFront(state, attacker.owner));
+      const ownP = pressure(state,attacker.owner);
       const ownProgress = state.territories[state.contested].progress[attacker.owner];
+      const afterLoss = balanceRecovery ? pressure(publicPosition(state,state.units.filter(u=>u.uid!==attacker.uid)),attacker.owner) : ownP-def(attacker).presence;
       if (ownProgress + ownP >= state.config.captureThreshold &&
-          ownProgress + ownP - def(attacker).presence < state.config.captureThreshold) score -= 12;
+          ownProgress + afterLoss < state.config.captureThreshold) score -= 12;
     }
     // A nonlethal exchange also sets up follow-up attacks. Without this modest
     // tempo value, equally strong armies refuse all fair fights and simply
@@ -126,20 +130,20 @@
     if(!c)return {score:-100,reason:'No Commander is available'};
     let score=-4;
     const own=state.players[actor],front=atFront(state,actor),enemy=atFront(state,1-actor);
-    const capture=state.territories[state.contested].progress[actor]+totalP(front)>=state.config.captureThreshold;
+    const capture=state.territories[state.contested].progress[actor]+pressure(state,actor)>=state.config.captureThreshold;
     const followup=(u,position=state)=>E.legalActions(position).filter(a=>a.type==='attack'&&a.unitUid===u.uid).map(a=>attackScore(position,find(position,a.unitUid),find(position,a.targetUid)));
     const readyPosition=u=>({...state,units:state.units.map(x=>x.uid===u.uid?{...x,ready:true}:x)});
     switch(c.id){
       case 'commander_stonewall_warden':score=Math.min(3,target.damage)*2.3+ (target.territory===state.contested?2:0)-2;break;
-      case 'commander_stonewall_marshal':{const pos=readyPosition(target),scores=followup(target,pos);score=scores.length?Math.max(...scores)*.8:Math.abs(target.territory-state.contested)===1?2:-4;break;}
-      case 'commander_bruiser_breaker':{const pos=readyPosition(target);find(pos,target.uid).commanderBreach=2;const scores=followup(target,pos);score=scores.length?Math.max(...scores)*.8+1:-4;break;}
+      case 'commander_stonewall_marshal':{const pos=balanceRecovery?projectPublicAction(state,action,actor):readyPosition(target),scores=pos?followup(target,pos):[];const advance=balanceRecovery?pos&&E.legalActions(pos).some(a=>a.type==='move'&&a.unitUid===target.uid&&Math.abs(a.territory-state.contested)<distance(state,target)):Math.abs(target.territory-state.contested)===1;score=scores.length?Math.max(...scores)*.8:advance?2:-4;break;}
+      case 'commander_bruiser_breaker':{const pos=balanceRecovery?projectPublicAction(state,action,actor):readyPosition(target);if(pos)find(pos,target.uid).commanderBreach=2;const scores=pos?followup(target,pos):[];score=scores.length?Math.max(...scores)*.8+1:-4;break;}
       case 'commander_bruiser_bloodhound':score=remaining(target)<=3?value(state,target)+7:Math.min(3,remaining(target))*1.8-2;break;
-      case 'commander_syndicate_coordinator':{const nearby=E.unitsAt(state,target.territory,actor).filter(u=>canAttack(state,u));score=remaining(target)<=2?value(state,target)+5:nearby.length&&state.actionsLeft>1?Math.min(8,nearby.length*2+2):-3;break;}
+      case 'commander_syndicate_coordinator':{const nearby=E.unitsAt(state,target.territory,actor).filter(u=>canAttack(state,u));if(balanceRecovery&&remaining(target)>2){const pos=projectPublicAction(state,action,actor),attacks=pos?E.legalActions(pos).filter(a=>a.type==='attack'&&a.targetUid===target.uid).map(a=>attackScore(pos,find(pos,a.unitUid),find(pos,a.targetUid))):[];const before=nearby.map(u=>attackScore(state,u,target));score=attacks.length?Math.max(...attacks)*.8-Math.max(0,...before)*.4:-4;}else score=remaining(target)<=2?value(state,target)+5:nearby.length&&state.actionsLeft>1?Math.min(8,nearby.length*2+2):-3;break;}
       case 'commander_syndicate_quartermaster':score=Math.min(4,own.spent)*1.6+(own.hand.length<=3?5:own.hand.length<=5?1:-5)-3;break;
       case 'commander_nightwalker_ghost':score=Math.min(3,target.damage)*2+(remaining(target)<=2?4:0)-2;if(target.territory===state.contested)score-=capture?12:3;break;
       case 'commander_nightwalker_saboteur':{const traits=enemy.reduce((n,u)=>n+(!u.suppressed?def(u).traits.length:0),0);score=state.actionsLeft>1&&front.some(u=>canAttack(state,u))?traits*1.4+Math.min(2,E.presence(state,1-actor).available)-2:-4;break;}
       case 'commander_rogue_scavenger':{const id=own.discard.findLast(id=>D.CARDS[id].type!=='order');score=id?(D.CARDS[id].presence>=5?6:own.hand.length<=2?4:-3):-100;break;}
-      case 'commander_rogue_drifter':{const pos={...state,units:state.units.map(u=>u.uid===target.uid?{...u,territory:action.territory,ready:true}:u)},scores=followup(target,pos);score=(Math.abs(target.territory-state.contested)-Math.abs(action.territory-state.contested))*2+(action.territory===state.contested?3:0)+(scores.length&&state.actionsLeft>1?Math.max(0,...scores)*.6:0)-2;break;}
+      case 'commander_rogue_drifter':{const pos=balanceRecovery?projectPublicAction(state,action,actor):{...state,units:state.units.map(u=>u.uid===target.uid?{...u,territory:action.territory,ready:true}:u)},scores=pos?followup(target,pos):[];score=(Math.abs(target.territory-state.contested)-Math.abs(action.territory-state.contested))*2+(action.territory===state.contested?3:0)+(scores.length&&state.actionsLeft>1?Math.max(0,...scores)*.6:0)-2;break;}
     }
     score-=cost.presence*.25;
     return {score,reason:`${c.name}: ${c.active.name}; use the once-per-match command for visible ${c.role.toLowerCase()} value`};
@@ -163,7 +167,7 @@
       ? counterScore(state, action, ownHand) : responseScore(state, action, ownHand);
     const ownFront = atFront(state, actor);
     const enemyFront = atFront(state, 1 - actor);
-    const ownP = totalP(ownFront);
+    const ownP = pressure(state,actor);
     const progress = state.territories[state.contested].progress[actor];
     const reachesCapture = progress + ownP >= state.config.captureThreshold;
     if (action.type === 'endTurn') return reachesCapture ? 2 : 0;
@@ -179,14 +183,14 @@
         return 7 + c.presence * 0.8 + allied.length * 1.2 -
           (reachesCapture ? 8 : 0) - (allied.length >= state.config.slotsPerTerritory - 1 ? 4 : 0);
       }
-      let score = 7 + c.presence * 0.75 + c.health * 0.18 + c.attack * 0.3 - dist * 4;
+      let score = 7 + c.presence * 0.75 + (c.health-(salvageRecovery?item.damage||0:0)) * 0.18 + c.attack * 0.3 - dist * 4;
       if (dist === 0) score += 8;
       if (dist === 1 && state.actionsLeft >= 2) score += 3;
       if (ownFront.length >= state.config.slotsPerTerritory && dist > 0) score -= 8;
       if (c.traits.includes('mobile')) score += 1.8;
       if (c.traits.includes('medic')) score += allied.filter(u => u.damage > 0).length;
       if (c.traits.includes('command')) score += allied.length * 0.5;
-      if (c.traits.includes('rush') && localEnemies.length && state.actionsLeft >= 2) score += 3;
+      if (c.traits.includes('rush') && localEnemies.length && hasFollowupCommand(state,action)) score += 3;
       if (allied.length >= state.config.slotsPerTerritory - 1) score -= 1.5;
       if (reachesCapture && dist > 0) score -= 6;
       return score;
@@ -200,7 +204,8 @@
       let score = 10 + (before - after) * 3 + c.presence * 0.75;
       if (after === 0) score += 4 + (has(unit, 'mobile') ? 2 : 0);
       if (before > 1 && after > 0) score -= after * 2;
-      if (after === 0 && progress + ownP + c.presence >= state.config.captureThreshold) score += 7;
+      const movedPressure=balanceRecovery?pressure(publicPosition(state,state.units.map(u=>u.uid===unit.uid?{...u,territory:action.territory}:u)),actor):ownP+c.presence;
+      if (after === 0 && progress + movedPressure >= state.config.captureThreshold) score += 7;
       if (reachesCapture) score -= 14;
       if (after === 0 && enemyFront.length && remaining(unit) <= 2 && !has(unit, 'precision')) score -= 2;
       return score;
@@ -216,7 +221,7 @@
     if (effect.kind === 'damage') {
       const lethal = effect.amount >= remaining(target);
       let score = (lethal ? value(state, target) + 3 : Math.min(remaining(target), effect.amount) * 1.2) - cost;
-      if (!lethal && state.actionsLeft > 1) {
+      if (!lethal && hasFollowupCommand(state,action)) {
         const finisher = state.units.some(u => u.owner === actor && u.territory === target.territory && u.ready &&
           def(u).type !== 'asset' && incoming(state,target,E.attackValue(state,u)) >= remaining(target)-effect.amount);
         if (finisher) score += 3;
@@ -233,7 +238,7 @@
       return heal * 1.3 + (threatened ? 5 : 0) + (target.territory === state.contested ? 2 : 0) - cost;
     }
     if (effect.kind === 'rally') {
-      if (state.actionsLeft < 2) return -5;
+      if (!hasFollowupCommand(state,action)) return -5;
       // Rally is useful only if there is time to use the restored readiness.
       const attacks = E.unitsAt(state, target.territory, 1 - actor)
         .map(enemy => attackScore(state, target, enemy));
@@ -244,7 +249,7 @@
       return Math.max(bestFight, move) - cost;
     }
     if (effect.kind === 'reclaim') {
-      if (target.damage >= def(target).health * 0.6 && distance(state, target) > 0)
+      if (!salvageRecovery && target.damage >= def(target).health * 0.6 && distance(state, target) > 0)
         return target.damage + def(target).presence * 0.4 - cost;
       if (def(target).type === 'asset' && distance(state, target) > 0)
         return 5 + def(target).presence * 0.5 - cost;
@@ -258,7 +263,7 @@
     if (effect.kind === 'disrupt') {
       const enemyAvailable = E.presence(state, 1 - actor).available;
       const attacks = legal.filter(a => a.type === 'attack');
-      const canFight = state.actionsLeft > 1 && attacks.length > 0;
+      const canFight = hasFollowupCommand(state,action) && attacks.length > 0;
       return canFight && enemyAvailable > 0 && enemyAvailable <= effect.amount + 2 ? 2.5 : -4;
     }
     if (effect.kind === 'sabotage') {
@@ -266,7 +271,7 @@
       const attackers=E.unitsAt(state,target.territory,actor).filter(u=>canAttack(state,u));
       // Suppression ends before the enemy acts. Disabling Medic, Rush or Mobile
       // in isolation therefore has no value; an attack must use this window.
-      if(!attackers.length||state.actionsLeft<2)return -5;
+      if(!attackers.length||!hasFollowupCommand(state,action))return -5;
       const aura=has(target,'command')?allies.length*1.2:0;
       const guard=has(target,'guard')&&allies.length&&attackers.some(u=>!has(u,'precision'));
       const tactical=(guard?5:0)+(fortify(state,target)?3:0)+(has(target,'retaliate')?2:0);
@@ -305,10 +310,10 @@
     return best;
   }
 
-  const VERSION=E.RULES?.commanders ? 'frontlines-ai-sprint9-v1' : arsenalMechanics ? 'frontlines-ai-sprint7-v1' : 'frontlines-ai-sprint6-v1';
+  const VERSION=balanceRecovery ? 'frontlines-ai-sprint10-v1' : E.RULES?.commanders ? 'frontlines-ai-sprint9-v1' : arsenalMechanics ? 'frontlines-ai-sprint7-v1' : 'frontlines-ai-sprint6-v1';
   const BASELINE_VERSION='frontlines-heuristic-sprint2-v1';
   const PROFILES=[
-    {id:'baseline',name:'Frozen basic heuristic',description:'Original Sprint 2 scores and tie-breaking unchanged.'},
+    {id:'baseline',name:balanceRecovery?'Basic recovery policy':'Frozen basic heuristic',description:balanceRecovery?'Basic public-board scores updated for capture pressure, retained wounds and Commander sequencing.':'Original Sprint 2 scores and tie-breaking unchanged.'},
     {id:'faction',name:'Faction-aware tactical policy',description:'Public-board tactical sequencing, response reserve, capture preservation and faction priorities.'},
     {id:'deck',name:'Deck-aware tactical policy',description:'Faction tactics plus declared own-deck archetype priorities; no hidden order or opponent hand inspection.'},
     {id:'random',name:'Seeded random legal policy',description:'Deterministic selection from legal actions; a diagnostic control rather than competitive AI.'}
@@ -337,8 +342,8 @@
     if(action.type==='commander')return commanderScore(state,action,actor);
     let score=scoreAction(state,action,actor,ownHand,legal);
     const f=state.players[actor].faction, front=atFront(state,actor), enemy=atFront(state,1-actor);
-    const p=totalP(front), progress=state.territories[state.contested].progress[actor], capture=progress+p>=state.config.captureThreshold;
-    const enemyCapture=state.territories[state.contested].progress[1-actor]+totalP(enemy)>=state.config.captureThreshold;
+    const p=pressure(state,actor), progress=state.territories[state.contested].progress[actor], capture=progress+p>=state.config.captureThreshold;
+    const enemyCapture=state.territories[state.contested].progress[1-actor]+pressure(state,1-actor)>=state.config.captureThreshold;
     const reasons=[];
     if(state.response) {
       if(action.pass)return {score,reason:'Pass: response cost does not improve the public exchange.'};
@@ -370,8 +375,9 @@
       if(c.traits.includes('scavenge')&&allied.length){score+=Math.min(2,allied.length*.6);reasons.push('Scavenge supports casualty recovery without stacking draws');}
       if(arsenalMechanics&&c.traits.includes('armor')&&dist<=1){score+=1.5;reasons.push('Armor protects a continuing occupation even on neutral ground');}
       if(c.traits.includes('mobile')&&dist===1&&state.actionsLeft>=2)reasons.push('Mobile preserves readiness after advancing');
-      if(c.traits.includes('rush')&&state.actionsLeft>=2){
-        const fake={uid:'projection',cardId:c.id,owner:actor,territory:action.territory,damage:0,ready:true,deployedTurn:state.turn,movedTurn:-1};
+      if(c.traits.includes('rush')&&hasFollowupCommand(state,action)){
+        const item=ownHand.find(h=>h.uid===action.handUid);
+        const fake={uid:'projection',cardId:c.id,owner:actor,territory:action.territory,damage:salvageRecovery?item.damage||0:0,ready:true,deployedTurn:state.turn,movedTurn:-1};
         const fights=E.unitsAt(state,action.territory,1-actor).map(u=>attackScore(state,fake,u));
         if(fights.length){score+=Math.max(0,...fights)*.35;reasons.push('Rush creates a same-turn attack opportunity');}
       }
@@ -383,9 +389,16 @@
       if(arriving&&has(u,'mobile')&&canAttack(state,u)){
         const projected=publicPosition(state,state.units.map(x=>x.uid===u.uid?{...x,territory:action.territory}:x));
         const moved=find(projected,u.uid), fights=enemy.map(t=>attackScore(projected,moved,t));
-        if(state.actionsLeft>=2&&fights.length){score+=Math.max(0,...fights)*.4;reasons.push('Mobile advance preserves a follow-up attack');}
+        if(hasFollowupCommand(state,action)&&fights.length){score+=Math.max(0,...fights)*.4;reasons.push('Mobile advance preserves a follow-up attack');}
       }
       if(arriving&&remaining(u)<=2&&enemy.some(t=>E.attackValue(state,t)>=remaining(u))&&!enemyCapture){score-=3;reasons.push('Avoid exposing a wounded commitment without urgent defense');}
+      if(balanceRecovery&&arriving&&!front.length&&!enemyCapture&&def(u).attack<=2&&['medic','command','guard'].some(trait=>has(u,trait))){
+        const projected=projectPublicAction(state,action,actor),moved=projected&&find(projected,u.uid);
+        const captures=projected&&progress+pressure(projected,actor)>=state.config.captureThreshold;
+        const safeFight=moved&&E.legalActions(projected).some(a=>a.type==='attack'&&a.unitUid===u.uid&&combat(projected,moved,find(projected,a.targetUid)).defenderDies);
+        const overwhelmed=moved&&enemy.some(t=>{const trade=combat(projected,find(projected,t.uid),moved);return trade.defenderDies&&!trade.attackerDies;});
+        if(overwhelmed&&!captures&&!safeFight){score=-6;reasons.push('Keep unsupported support behind the line until a viable advance or capture window opens');}
+      }
       return {score,reason:reasons.join('; ')||'Advance connected forces toward capture pressure'};
     }
     if(action.type==='attack') {
@@ -402,7 +415,7 @@
       const effect=effectFor(c,action);
       if(effect.kind==='damage'&&target){
         if(effect.amount>=remaining(target))reasons.push('Remove a visible target without retaliation');
-        else if(state.actionsLeft>=2){
+        else if(hasFollowupCommand(state,action)){
           const projected=publicPosition(state,state.units.map(u=>u.uid===target.uid?{...u,damage:u.damage+effect.amount}:u));
           const hurt=find(projected,target.uid);
           const guards=E.unitsAt(projected,target.territory,1-actor).filter(u=>u.uid!==target.uid&&u.ready&&has(u,'guard'));
@@ -410,22 +423,23 @@
           if(finishers.length){score+=Math.min(6,Math.max(...finishers.map(x=>x.s))*.35+2);reasons.push('Damage Order sets up a legal same-turn lethal attack, subject to hidden reactions');}
         }
       }
-      if(effect.kind==='rally'&&target&&state.actionsLeft>=2){
+      if(effect.kind==='rally'&&target&&hasFollowupCommand(state,action)){
         const ready=publicPosition(state,state.units.map(u=>u.uid===target.uid?{...u,ready:true}:u)), restored=find(ready,target.uid);
         const readyLegal=E.legalActions(ready),next=readyLegal.filter(a=>a.unitUid===target.uid&&(a.type==='move'||a.type==='attack'));
         if(next.length){const scores=next.map(a=>scoreAction(ready,a,actor,ownHand,readyLegal));score=Math.max(score,Math.max(...scores)*.8-cost);reasons.push('Rally restores a legal follow-up move or attack');}else{score=-6;reasons.push('Rally has no legal follow-up');}
       }
       if(effect.kind==='reclaim'&&target){
         const threatened=E.unitsAt(state,target.territory,1-actor).some(u=>incoming(state,target,E.attackValue(state,u))>=remaining(target));
-        const critical=target.territory===state.contested&&capture&&progress+p-def(target).presence<state.config.captureThreshold;
+        const recalled=balanceRecovery?publicPosition(state,state.units.filter(u=>u.uid!==target.uid)):null;
+        const critical=target.territory===state.contested&&capture&&progress+(recalled?pressure(recalled,actor):p-def(target).presence)<state.config.captureThreshold;
         if(critical){score-=15;reasons.push('Do not recall the Presence completing capture');}
-        else if(threatened&&target.damage>=2){score=Math.max(score,target.damage*1.5+def(target).presence*.45-cost+3);reasons.push('Recall a wounded threatened unit and release its commitment');}
+        else if(threatened&&target.damage>=2){score=Math.max(score,(salvageRecovery?remaining(target)*.5:target.damage*1.5)+def(target).presence*.45-cost+3);reasons.push(salvageRecovery?'Withdraw a threatened unit and release commitment; its wounds remain':'Recall a wounded threatened unit and release its commitment');}
       }
       if(effect.kind==='heal'&&target&&target.territory===state.contested){
         const threatened=enemy.some(u=>incoming(state,target,E.attackValue(state,u))>=remaining(target));
         if(threatened){score+=3+(capture?3:0);reasons.push('Healing protects occupation from a visible lethal threat');}
       }
-      if(effect.kind==='disrupt'&&state.actionsLeft>=2){
+      if(effect.kind==='disrupt'&&hasFollowupCommand(state,action)){
         const available=E.presence(state,1-actor).available, fights=legal.filter(a=>a.type==='attack').map(a=>attackScore(state,find(state,a.unitUid),find(state,a.targetUid)));
         if(available>0&&fights.some(s=>s>5)){score=Math.max(score,Math.min(available,effect.amount)*1.4+Math.min(12,Math.max(...fights))*.4-cost+(available<=effect.amount?10:2));reasons.push('Disruption limits affordable reactions before a favorable attack');}
       }
@@ -439,7 +453,7 @@
         const before=legal.filter(a=>a.type==='attack').map(a=>attackScore(state,find(state,a.unitUid),find(state,a.targetUid)));
         const after=legal.filter(a=>a.type==='attack').map(a=>attackScore(suppressed,find(suppressed,a.unitUid),find(suppressed,a.targetUid)));
         const gain=after.length?Math.max(...after)-Math.max(...before):0;
-        const possible=state.actionsLeft>=2&&E.unitsAt(state,target.territory,actor).some(u=>canAttack(state,u));
+        const possible=hasFollowupCommand(state,action)&&E.unitsAt(state,target.territory,actor).some(u=>canAttack(state,u));
         if(possible&&gain>0){score=Math.max(score,gain*.75-cost);reasons.push('Sabotage creates a public follow-up attack window');}
         else{score=-5;reasons.push('Do not spend Sabotage without an improved legal same-turn attack');}
       }
@@ -506,6 +520,7 @@
     return { presence:item ? def(item).presence : 0,
       commandActions:['deploy','move','attack','order'].includes(action.type) ? 1 : 0 };
   }
+  const hasFollowupCommand=(state,action)=>state.actionsLeft-(balanceRecovery?actionCost(state,action).commandActions:1)>0;
 
   // Easy and the training policy reason locally. They deliberately do not
   // search damage/rally/suppression sequences or infer concealed reactions.
@@ -517,10 +532,10 @@
     };
     if (action.type === 'endTurn') return { score:0, reason:'Finish the turn after useful local commitments' };
     const item = ownHand.find(h => h.uid === action.handUid), c = item && def(item);
-    const front = atFront(state,actor), pressure = totalP(front);
+    const front = atFront(state,actor), frontPressure = pressure(state,actor);
     if (action.type === 'deploy') {
       const dist = Math.abs(action.territory-state.contested), allied = E.unitsAt(state,action.territory,actor);
-      let score = 10 + c.health*.2 + c.attack*.2 - c.presence*.45 - dist*4;
+      let score = 10 + (c.health-(salvageRecovery?item.damage||0:0))*.2 + c.attack*.2 - c.presence*.45 - dist*4;
       if (!dist) score += 7;
       if (c.type === 'asset' && dist) score -= 8;
       if (c.traits.includes('medic') && allied.some(u => u.damage > 0)) score += 2;
@@ -531,7 +546,7 @@
     if (action.type === 'move') {
       const unit = find(state,action.unitUid), before = distance(state,unit), after = Math.abs(action.territory-state.contested);
       if (after >= before) return { score:-4, reason:'Moving away would give up useful frontline pressure' };
-      const alreadyEnough = state.territories[state.contested].progress[actor]+pressure >= state.config.captureThreshold;
+      const alreadyEnough = state.territories[state.contested].progress[actor]+frontPressure >= state.config.captureThreshold;
       return { score:alreadyEnough ? -1 : 12 + (after === 0 ? 4 : 0), reason:'Bring a ready unit toward the objective' };
     }
     if (action.type === 'attack') {
@@ -554,8 +569,8 @@
     if (['heal','reinforce'].includes(effect.kind)) return { score:Math.min(target.damage,effect.amount)*1.2+(effect.kind==='reinforce'&&E.unitsAt(state,target.territory,1-actor).length?2:0)-cost, reason:effect.kind==='reinforce'?'Repair and protect a visible ally':'Restore a wounded ally' };
     if (effect.kind === 'draw') return { score:ownHand.length <= 2 ? 5-cost : -2, reason:'Refill a small hand without predicting the cards drawn' };
     if (effect.kind === 'reclaim') return {
-      score:target.damage >= def(target).health*.6 && target.territory !== state.contested ? target.damage-cost : -3,
-      reason:'Preserve a badly wounded rear unit'
+      score:salvageRecovery?E.unitsAt(state,target.territory,1-actor).some(u=>incoming(state,target,E.attackValue(state,u))>=remaining(target))?remaining(target)*.5+def(target).presence*.25-cost+2:-3:target.damage >= def(target).health*.6 && target.territory !== state.contested ? target.damage-cost : -3,
+      reason:salvageRecovery?'Preserve a threatened unit without assuming its wounds are cleared':'Preserve a badly wounded rear unit'
     };
     return { score:-3, reason:'Keep complex tactical orders for a clear opportunity' };
   }
@@ -594,13 +609,15 @@
       territories:state.territories,response:null,winner:state.winner,actionsLeft:state.actionsLeft-cost.commandActions,
       units:state.units.map(u => ({...u})),
       players:state.players.map((p,i) => ({id:p.id,faction:p.faction,command:p.command,spent:p.spent,turns:p.turns,
-        hand:i === actor ? p.hand.map(h => ({...h})) : [],deckMeta:i === actor ? p.deckMeta : undefined}))};
+        hand:i === actor ? p.hand.map(h => ({...h})) : [],deckMeta:i === actor ? p.deckMeta : undefined,
+        ...(balanceRecovery?{commander:p.commander&&{...p.commander},discard:(p.discard||[]).slice(),deck:[]}: {})}))};
     const p = next.players[actor], unit = action.unitUid && find(next,action.unitUid);
     const target = action.targetUid && find(next,action.targetUid);
     function removeCasualties() { next.units = next.units.filter(u => u.damage < def(u).health); }
     if (action.type === 'move') {
       const retainsReady = has(unit,'mobile') && unit.movedTurn !== state.turn;
       unit.territory = action.territory; unit.ready = !!retainsReady; unit.movedTurn = state.turn;
+      if(balanceRecovery&&p.commander?.id==='commander_rogue_drifter')p.commander.passiveTurn=state.turn;
     } else if (action.type === 'attack') {
       let defender = target;
       if (!has(unit,'precision')) for (const guard of E.unitsAt(next,target.territory,target.owner)) {
@@ -611,25 +628,46 @@
       if (defender.uid !== target.uid) defender.ready = false;
       unit.damage += outcome.toAttacker; defender.damage += outcome.toDefender;
       removeCasualties();
+      if(balanceRecovery&&find(next,defender.uid)&&def(defender).type!=='asset'&&next.players[defender.owner].commander?.id==='commander_stonewall_marshal')defender.commanderCounter=1;
     } else if (action.type === 'deploy' || action.type === 'order') {
       const index = p.hand.findIndex(h => h.uid === action.handUid), item = p.hand[index], c = def(item);
       const effect=effectFor(c,action);
       if (action.type === 'order' && effect.kind === 'draw') return null;
       p.hand.splice(index,1);
-      if (action.type === 'deploy') next.units.push({uid:item.uid,cardId:item.cardId,owner:actor,territory:action.territory,damage:0,ready:true,deployedTurn:state.turn,movedTurn:-1});
+      if (action.type === 'deploy') {
+        const deployed={uid:item.uid,cardId:item.cardId,owner:actor,territory:action.territory,damage:salvageRecovery?item.damage||0:0,ready:true,deployedTurn:state.turn,movedTurn:-1};
+        if(balanceRecovery&&p.commander?.id==='commander_nightwalker_ghost'&&p.commander.passiveTurn!==state.turn&&c.traits.includes('precision')){deployed.reinforced=1;p.commander.passiveTurn=state.turn;}
+        next.units.push(deployed);
+      }
       else {
-        p.spent += c.presence;
+        p.spent += balanceRecovery?cost.presence:c.presence;
+        if(balanceRecovery&&p.commander?.id==='commander_syndicate_quartermaster'&&cost.commandActions<c.commandCost)p.commander.passiveTurn=state.turn;
         switch (effect.kind) {
           case 'damage': target.damage += effect.amount; removeCasualties(); break;
           case 'heal': target.damage = Math.max(0,target.damage-effect.amount); break;
           case 'reinforce': target.damage = Math.max(0,target.damage-effect.amount); target.reinforced=1; break;
           case 'mark': target.marked=1; break;
           case 'rally': target.ready = true; break;
-          case 'sabotage': target.suppressed = true; break;
+          case 'sabotage': target.suppressed = true;if(balanceRecovery&&p.commander?.id==='commander_nightwalker_saboteur'&&p.commander.passiveTurn!==state.turn){p.commander.passiveTurn=state.turn;next.players[1-actor].spent+=Math.min(1,E.presence(next,1-actor).available);}break;
           case 'disrupt': next.players[1-actor].spent += Math.min(effect.amount,E.presence(next,1-actor).available); break;
-          case 'reclaim': next.units = next.units.filter(u => u.uid !== target.uid); p.hand.push({uid:target.uid,cardId:target.cardId}); break;
+          case 'reclaim': next.units = next.units.filter(u => u.uid !== target.uid); p.hand.push({uid:target.uid,cardId:target.cardId,...(salvageRecovery&&target.damage?{damage:target.damage}:{})}); break;
           default: return null;
         }
+      }
+    } else if(balanceRecovery&&action.type==='commander'){
+      const c=E.commanders?.get(p.commander?.id);
+      if(!c||['commander_syndicate_quartermaster','commander_rogue_scavenger'].includes(c.id))return null;
+      p.commander.used=true;p.spent+=cost.presence;
+      switch(c.id){
+        case 'commander_stonewall_warden':target.damage=Math.max(0,target.damage-3);target.reinforced=1;break;
+        case 'commander_stonewall_marshal':target.ready=true;target.commanderCounter=1;break;
+        case 'commander_bruiser_breaker':target.ready=true;target.commanderBreach=2;break;
+        case 'commander_bruiser_bloodhound':target.damage+=3;removeCasualties();break;
+        case 'commander_syndicate_coordinator':target.marked=1;target.damage+=2;removeCasualties();break;
+        case 'commander_nightwalker_ghost':target.territory=E.retreatDestination(state,target).to;target.ready=true;target.movedTurn=state.turn;target.damage=Math.max(0,target.damage-3);break;
+        case 'commander_nightwalker_saboteur':for(const u of atFront(next,1-actor))u.suppressed=true;next.players[1-actor].spent+=Math.min(2,E.presence(next,1-actor).available);break;
+        case 'commander_rogue_drifter':target.territory=action.territory;target.ready=true;target.movedTurn=state.turn;break;
+        default:return null;
       }
     } else return null;
     return next;
@@ -673,8 +711,8 @@
     if (action.pass) return `${faction} lets the visible engagement resolve without spending more Capacity.`;
     if (action.guardUid) return `${faction} intercepts to protect the targeted ally.`;
     if (action.type === 'endTurn') {
-      const pressure = totalP(atFront(state,actor)), progress = state.territories[state.contested].progress[actor];
-      return progress+pressure >= state.config.captureThreshold ? `${faction} ends the turn to secure ${state.territories[state.contested].name}.` : `${faction} ends the turn after its current commitments.`;
+      const frontPressure = pressure(state,actor), progress = state.territories[state.contested].progress[actor];
+      return progress+frontPressure >= state.config.captureThreshold ? `${faction} ends the turn to secure ${state.territories[state.contested].name}.` : `${faction} ends the turn after its current commitments.`;
     }
     if (action.type === 'commander') {const c=E.commanders.get(state.players[actor].commander.id);return `${c.name} uses ${c.active.name}${target?' on '+def(target).name:''}. The command is spent for the rest of this match.`;}
     if (action.type === 'deploy') return `${faction} deploys ${c.name} ${action.territory === state.contested ? 'to reinforce the contested frontline' : 'to build support near the frontline'}.`;
@@ -697,7 +735,7 @@
       const index=publicRandom(state,actor,ownHand)%legal.length;
       rows=legal.map((action,i)=>({action,score:i===index?1:0,reason:'Seeded selection among legal public actions',index:i}));chosen=rows[index];
     }else{
-      rows=legal.map((action,index)=>({action,index,...(difficulty?difficultyScore(state,action,actor,ownHand,legal,profile,difficulty):profile==='baseline'?{score:scoreAction(state,action,actor,ownHand,legal),reason:'Frozen Sprint 2 public-board heuristic'}:profile==='deck'?deckScore(state,action,actor,ownHand,legal):factionScore(state,action,actor,ownHand,legal))}));
+      rows=legal.map((action,index)=>({action,index,...(difficulty?difficultyScore(state,action,actor,ownHand,legal,profile,difficulty):profile==='baseline'?{score:scoreAction(state,action,actor,ownHand,legal),reason:balanceRecovery?'Basic public-board heuristic using balance-recovery rules':'Frozen Sprint 2 public-board heuristic'}:profile==='deck'?deckScore(state,action,actor,ownHand,legal):factionScore(state,action,actor,ownHand,legal))}));
       if (E.RULES?.commanders) for (const row of rows) {const bonus=commanderPreference(state,row.action,actor);row.score+=bonus;if(bonus)row.reason+='; Commander passive supports this visible sequence';}
       if (difficulty === 'hard' || difficulty === 'expert') projected=addPlanning(state,rows,actor,profile,difficulty);
       const initial=legal.find(a=>a.pass||a.type==='endTurn')||legal[0];chosen=rows.find(r=>r.action===initial);

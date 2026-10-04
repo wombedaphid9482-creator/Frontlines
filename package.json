@@ -1,7 +1,7 @@
 {
   "name": "project-faction-frontlines",
   "productName": "Frontlines",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "private": true,
   "description": "Offline tactical territory card game and AI matchup simulator",
   "main": "main.js",
@@ -30,7 +30,7 @@
       "repo": "Frontlines"
     },
     "directories": {
-      "output": "release/1.0.0"
+      "output": "release/1.0.3"
     },
     "artifactName": "Frontlines-Setup-${version}.${ext}",
     "files": [
