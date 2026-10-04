@@ -1,6 +1,6 @@
 /* Dedicated analysis runner. The simulation engine remains authoritative. */
 'use strict';
-importScripts('build-info.js', 'data.js', 'deck-rules.js', 'decks.js', 'engine.js', 'ai.js', 'arsenal.js', 'balance.js', 'telemetry.js', 'analytics.js', 'sim-core.js');
+importScripts('build-info.js', 'data.js', 'commanders.js', 'deck-rules.js', 'decks.js', 'engine.js', 'ai.js', 'arsenal.js', 'balance.js', 'telemetry.js', 'analytics.js', 'sim-core.js');
 
 let active = null;
 function send(type, payload) {

@@ -1,12 +1,22 @@
 # Game action roadmap
 
-The current milestone is **v0.9.0 — Arsenal Economy, Collection & Presentation**: persistent ownership, five playable starters, earned Credits, packs, Supply crafting, mastery, cosmetics, distinct rarity/faction feedback and four original music themes. The 115-card combat pool, deckbuilder, tutorials, difficulties, contiguous front and native fullscreen remain.
+The current milestone is **v1.0.0 — Commander Update**: ten named off-lane leaders, ten immediately owned foundations, a guided Commander deckbuilder, visible signature commands, fourteen tutorial lessons and stronger illustrated card/frame/motion presentation. The 115-card pool, original five starters/fifteen templates, local collection economy, difficulties, contiguous front and native fullscreen remain. [Sprint 9](SPRINT-009.md) and the [Commander reference](COMMANDERS.md) describe the implementation and validation boundaries.
+
+## Next v1.0.0 game action plan
+
+1. **Play both leaders within one faction.** Begin with the free Commander foundations. Compare the passive, timing of the signature active, useful card roles and counterplay. Record moments when a leader changed a decision rather than simply a result.
+2. **Complete explicit Commander onboarding.** Check passive observation, real active targeting/cost/spent state, Warden/Marshal choice and final training. Prior tutorial completion must lead through the new instruction before full completion is restored.
+3. **Iterate your own Commander deck.** Duplicate a foundation, change quantities, use synergy hints, save, exchange JSON and test the same card list under a different Commander. Preserve old drafts and explain invalid assignments.
+4. **Assess presentation in human play.** Review role recognition, frame prestige, repeated deployment/impact pace, music/effect mix and crowded/compact battlefields. Keep Full/Reduced/Minimal and Fast usable.
+5. **Review owner-authorized evidence.** Request the exact ten-foundation campaign in [Sprint 9](SPRINT-009.md#exact-proposed-simulation-request--awaiting-owner-authorization). Treat the earlier severe balance gaps as unresolved until new evidence explains them. Commander outcomes include deck, opponent, initiative and AI effects.
+6. **Tune one supported problem at a time.** Separate Commander text/implementation, card synergy, AI timing and strategic counterplay. Preserve registered profiles and reproducible exports. Request additional campaigns explicitly.
+7. **Extend only after the base feature is tested.** Improve useful portraits, signature readability, Commander cosmetic acquisition and deck iteration. Keep accounts, matchmaking, monetization and massive content expansion deferred.
 
 ## Owner interface requirements
 
 War Room stays inside Frontlines for players to test saved decks. Central commands and bottom actions stay large and visible. Collection, library and detail scroll inside bounded panels; compact windows use tabs. Player ownership gates normal Play; every legal card remains available to AI and War Room.
 
-## Next game action plan
+## Previous v0.9.0 action plan
 
 1. **Human first session.** Follow the [release checklist](RELEASE-0.9.0.md). Build two different decks in one faction, exchange deck JSON and play Easy/Normal. Review explanations, targets and temporary status; export confusion and unfair outcomes through playtest reports.
 2. **Test progression pacing.** Review pack value, new-player loss rewards, acquisition guidance, crafting and mastery through human sessions. Report confusing ownership states and audio/readability issues.

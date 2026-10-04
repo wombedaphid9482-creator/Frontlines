@@ -95,10 +95,15 @@ function runSmoke(win) {
           document.querySelector('[data-action="hand"][data-uid="'+lesson.refs.deploy+'"]').click();
           document.querySelector('.territory[data-territory="2"] .territory-header').click();
           if(!FrontlinesApp.getTutorialState().complete)throw Error('Packaged playable tutorial deployment failed');
+          FrontlinesApp.tutorial.exit('skip');
+          localStorage.setItem(FrontlinesTutorial.STORAGE_KEY,JSON.stringify({version:2,index:11,started:true,complete:false,completedLessons:[0,1,2,3,4,5,6,7,8,9,10]}));
+          FrontlinesApp.startTutorial(true);document.querySelector('[data-action="commander"][data-player="0"]').click();
+          const commanderLesson=FrontlinesApp.getTutorialState();document.querySelector('[data-action="unit"][data-uid="'+commanderLesson.refs.activeAlly+'"]').click();
+          if(!FrontlinesApp.getState().players[0].commander.used||!FrontlinesApp.getTutorialState().complete)throw Error('Packaged Commander tutorial activation failed');
           FrontlinesApp.tutorial.exit('skip');FrontlinesApp.showScreen('home');
           const host=await FrontlinesDesktop.getState();
           if(FrontlinesBuild.version!==host.version||!document.querySelector('[data-game-version]').textContent.includes('v'+host.version))throw Error('Installed version indicator mismatch');
-          return {page:'shell',home:true,play:true,settings:true,tutorialDeployment:true,installedVersionVisible:true,fullscreen:host.fullscreen};
+          return {page:'shell',home:true,play:true,settings:true,tutorialDeployment:true,commanderTutorialActivation:true,installedVersionVisible:true,fullscreen:host.fullscreen};
         })()`);
         win.webContents.sendInputEvent({type:'keyDown',keyCode:'Enter',modifiers:['alt']});
         win.webContents.sendInputEvent({type:'keyUp',keyCode:'Enter',modifiers:['alt']});
@@ -110,18 +115,20 @@ function runSmoke(win) {
         if(location.pathname.endsWith('collection.html')) {
           const profile=FrontlinesCollection.load(),summary=FrontlinesCollection.summary(profile);
           if(!document.querySelector('#collection-app')||!profile||profile.credits<0)throw Error('Collection launch failed');
+          if(summary.commanders.owned!==10||summary.uniqueOwned!==63||summary.copiesOwned!==171)throw Error('Commander collection grant failed');
           return {page:'collection',summary,packs:Object.keys(FrontlinesCollection.PACKS).length};
         }
         if(location.pathname.endsWith('deck-builder.html')) {
           const deck=FrontlinesDeckBuilder.getDeck(),validation=FrontlinesDecks.forData(FrontlinesData).validate(deck);
           if(!validation.legal)throw Error('Illegal Arsenal starter');
-          return {page:'arsenal',cards:Object.keys(FrontlinesData.CARDS).length,deckSize:deck.cards.length};
+          if(FrontlinesDeckBuilder.getCommanderStarters().length!==10||!deck.commanderId)throw Error('Commander Arsenal failed');
+          return {page:'arsenal',commanderId:deck.commanderId,foundations:10,cards:Object.keys(FrontlinesData.CARDS).length,deckSize:deck.cards.length};
         }
         if(location.pathname.endsWith('simulator.html')) {
           FrontlinesSimulatorApp.start({mode:'duel',deckA:'stonewall-starter',deckB:'bruiser-starter',count:2,seed:7317,balanceProfile:FrontlinesBalance.DEFAULT_PROFILE,aiProfiles:['deck','deck']});
           for(let i=0;i<2000;i++) {
             const status=FrontlinesSimulatorApp.getStatus();
-            if(status.status==='completed'){const report=FrontlinesSimulatorApp.getReport();if(report.completed!==2||report.summary.errors||report.summary.unfinished)throw Error('Simulator smoke failed');return {page:'warroom',completed:report.completed,errors:report.summary.errors,runner:status.runner};}
+            if(status.status==='completed'){const report=FrontlinesSimulatorApp.getReport();if(report.completed!==2||report.summary.errors||report.summary.unfinished)throw Error('Simulator smoke failed');return {page:'warroom',completed:report.completed,errors:report.summary.errors,commanders:report.summary.byCommander.map(c=>({id:c.id,activeUses:c.activeUses,passiveTriggers:c.passiveTriggers})),runner:status.runner};}
             if(status.status==='error')throw Error('Simulator runner failed');await new Promise(resolve=>setTimeout(resolve,20));
           }
           throw Error('Simulator timeout');
@@ -130,7 +137,7 @@ function runSmoke(win) {
         FrontlinesApp.startMatch({mode:'hotseat',factions:['nightwalker','rogue'],...(expanded.every(Boolean)?{decks:expanded}:{}),seed:7317,developer:true,bothHands:true});
         let decisions=0;while(FrontlinesApp.getState().winner===null&&decisions<3000){const action=FrontlinesAI.chooseAction(FrontlinesApp.getState());if(!action)throw Error('No AI action');FrontlinesApp.dispatch(action);decisions++;}
         const final=FrontlinesApp.getState();if(final.winner===null)throw Error('Game did not finish');
-        return {page:'game',winner:final.winner,turns:final.turn,decisions,units:final.units.length,cards:Object.keys(FrontlinesData.CARDS).length,decks:final.players.map(p=>p.deckMeta.id)};
+        return {page:'game',winner:final.winner,turns:final.turn,decisions,units:final.units.length,cards:Object.keys(FrontlinesData.CARDS).length,decks:final.players.map(p=>p.deckMeta.id),commanders:final.players.map(p=>({id:p.commander.id,used:p.commander.used}))};
       })()`);
       clearTimeout(timeout);console.log('FRONTLINES_SMOKE '+JSON.stringify({version:app.getVersion(),...result}));app.exit(0);
     }catch(error){clearTimeout(timeout);console.error('FRONTLINES_SMOKE '+error.message);app.exit(1);}

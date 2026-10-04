@@ -43,7 +43,7 @@
     const ambush = effect && effect.kind === 'ambush' ? effect.amount : 0;
     const attackerDiesEarly = ambush >= remaining(attacker);
     const attackBonus = ambush > 0 && attacker.damage === 0 && has(attacker, 'berserk') ? 1 : 0;
-    const toDefender = attackerDiesEarly ? 0 : incoming(state,defender,E.attackValue(state,attacker)+attackBonus,effect && effect.kind === 'shield' ? effect.amount : 0);
+    const toDefender = attackerDiesEarly ? 0 : incoming(state,defender,E.attackValue(state,attacker,defender)+attackBonus,effect && effect.kind === 'shield' ? effect.amount : 0);
     let toAttacker = ambush + (attackerDiesEarly ? 0 : incoming(state,attacker,E.attackValue(state,defender)));
     const defenderDies = toDefender >= remaining(defender);
     if (!attackerDiesEarly && !defenderDies && toAttacker < remaining(attacker) && has(defender,'retaliate')) toAttacker += 1;
@@ -121,7 +121,44 @@
     return canceled.score - resolved.score - def(own).presence * 0.7 - 1.5;
   }
 
+  function commanderScore(state,action,actor) {
+    const c=E.commanders?.get(state.players[actor].commander?.id),target=action.targetUid&&find(state,action.targetUid),cost=E.actionCost(state,action);
+    if(!c)return {score:-100,reason:'No Commander is available'};
+    let score=-4;
+    const own=state.players[actor],front=atFront(state,actor),enemy=atFront(state,1-actor);
+    const capture=state.territories[state.contested].progress[actor]+totalP(front)>=state.config.captureThreshold;
+    const followup=(u,position=state)=>E.legalActions(position).filter(a=>a.type==='attack'&&a.unitUid===u.uid).map(a=>attackScore(position,find(position,a.unitUid),find(position,a.targetUid)));
+    const readyPosition=u=>({...state,units:state.units.map(x=>x.uid===u.uid?{...x,ready:true}:x)});
+    switch(c.id){
+      case 'commander_stonewall_warden':score=Math.min(3,target.damage)*2.3+ (target.territory===state.contested?2:0)-2;break;
+      case 'commander_stonewall_marshal':{const pos=readyPosition(target),scores=followup(target,pos);score=scores.length?Math.max(...scores)*.8:Math.abs(target.territory-state.contested)===1?2:-4;break;}
+      case 'commander_bruiser_breaker':{const pos=readyPosition(target);find(pos,target.uid).commanderBreach=2;const scores=followup(target,pos);score=scores.length?Math.max(...scores)*.8+1:-4;break;}
+      case 'commander_bruiser_bloodhound':score=remaining(target)<=3?value(state,target)+7:Math.min(3,remaining(target))*1.8-2;break;
+      case 'commander_syndicate_coordinator':{const nearby=E.unitsAt(state,target.territory,actor).filter(u=>canAttack(state,u));score=remaining(target)<=2?value(state,target)+5:nearby.length&&state.actionsLeft>1?Math.min(8,nearby.length*2+2):-3;break;}
+      case 'commander_syndicate_quartermaster':score=Math.min(4,own.spent)*1.6+(own.hand.length<=3?5:own.hand.length<=5?1:-5)-3;break;
+      case 'commander_nightwalker_ghost':score=Math.min(3,target.damage)*2+(remaining(target)<=2?4:0)-2;if(target.territory===state.contested)score-=capture?12:3;break;
+      case 'commander_nightwalker_saboteur':{const traits=enemy.reduce((n,u)=>n+(!u.suppressed?def(u).traits.length:0),0);score=state.actionsLeft>1&&front.some(u=>canAttack(state,u))?traits*1.4+Math.min(2,E.presence(state,1-actor).available)-2:-4;break;}
+      case 'commander_rogue_scavenger':{const id=own.discard.findLast(id=>D.CARDS[id].type!=='order');score=id?(D.CARDS[id].presence>=5?6:own.hand.length<=2?4:-3):-100;break;}
+      case 'commander_rogue_drifter':{const pos={...state,units:state.units.map(u=>u.uid===target.uid?{...u,territory:action.territory,ready:true}:u)},scores=followup(target,pos);score=(Math.abs(target.territory-state.contested)-Math.abs(action.territory-state.contested))*2+(action.territory===state.contested?3:0)+(scores.length&&state.actionsLeft>1?Math.max(0,...scores)*.6:0)-2;break;}
+    }
+    score-=cost.presence*.25;
+    return {score,reason:`${c.name}: ${c.active.name}; use the once-per-match command for visible ${c.role.toLowerCase()} value`};
+  }
+
+  function commanderPreference(state,action,actor){
+    if(!E.RULES?.commanders)return 0;
+    const runtime=state.players[actor].commander,c=E.commanders?.get(runtime?.id);
+    if(!c)return 0;
+    const hand=action.handUid&&state.players[actor].hand.find(h=>h.uid===action.handUid),definition=hand&&def(hand);
+    if(action.type==='deploy'&&definition)return Math.min(2,E.commanders.synergy(definition,c.id).score*.6);
+    if(action.type==='move'&&c.id==='commander_rogue_drifter'&&runtime.passiveTurn!==state.turn)return action.territory===state.contested?1.5:0;
+    if(action.type==='order'&&definition&&E.actionCost(state,action).commandActions<definition.commandCost)return 1;
+    if(action.type==='endTurn'&&c.id==='commander_bruiser_breaker'&&atFront(state,actor).some(u=>has(u,'rush')||has(u,'mobile'))&&state.territories[state.contested].progress[actor]+totalP(atFront(state,actor))+2>=state.config.captureThreshold)return 1;
+    return 0;
+  }
+
   function scoreAction(state, action, actor, ownHand, legal) {
+    if(action.type==='commander')return commanderScore(state,action,actor).score;
     if (state.response) return state.response.stage === 'counter'
       ? counterScore(state, action, ownHand) : responseScore(state, action, ownHand);
     const ownFront = atFront(state, actor);
@@ -268,7 +305,7 @@
     return best;
   }
 
-  const VERSION=arsenalMechanics ? 'frontlines-ai-sprint7-v1' : 'frontlines-ai-sprint6-v1';
+  const VERSION=E.RULES?.commanders ? 'frontlines-ai-sprint9-v1' : arsenalMechanics ? 'frontlines-ai-sprint7-v1' : 'frontlines-ai-sprint6-v1';
   const BASELINE_VERSION='frontlines-heuristic-sprint2-v1';
   const PROFILES=[
     {id:'baseline',name:'Frozen basic heuristic',description:'Original Sprint 2 scores and tie-breaking unchanged.'},
@@ -297,6 +334,7 @@
     return responders.length?Math.min(...responders.map(c=>c.presence)):0;
   }
   function factionScore(state,action,actor,ownHand,legal) {
+    if(action.type==='commander')return commanderScore(state,action,actor);
     let score=scoreAction(state,action,actor,ownHand,legal);
     const f=state.players[actor].faction, front=atFront(state,actor), enemy=atFront(state,1-actor);
     const p=totalP(front), progress=state.territories[state.contested].progress[actor], capture=progress+p>=state.config.captureThreshold;
@@ -472,6 +510,7 @@
   // Easy and the training policy reason locally. They deliberately do not
   // search damage/rally/suppression sequences or infer concealed reactions.
   function localScore(state, action, actor, ownHand, learning) {
+    if(action.type==='commander')return commanderScore(state,action,actor);
     if (state.response) return {
       score:state.response.stage === 'counter' ? counterScore(state,action,ownHand) : responseScore(state,action,ownHand),
       reason:'Resolve the visible combat using a useful affordable reaction'
@@ -637,6 +676,7 @@
       const pressure = totalP(atFront(state,actor)), progress = state.territories[state.contested].progress[actor];
       return progress+pressure >= state.config.captureThreshold ? `${faction} ends the turn to secure ${state.territories[state.contested].name}.` : `${faction} ends the turn after its current commitments.`;
     }
+    if (action.type === 'commander') {const c=E.commanders.get(state.players[actor].commander.id);return `${c.name} uses ${c.active.name}${target?' on '+def(target).name:''}. The command is spent for the rest of this match.`;}
     if (action.type === 'deploy') return `${faction} deploys ${c.name} ${action.territory === state.contested ? 'to reinforce the contested frontline' : 'to build support near the frontline'}.`;
     if (action.type === 'move') return `${faction} moves ${def(unit).name} toward the objective to increase territorial pressure.`;
     if (action.type === 'attack') return `${faction} attacks ${def(target).name} with ${def(unit).name} to weaken enemy resistance. Reactions can change the exchange.`;
@@ -658,6 +698,7 @@
       rows=legal.map((action,i)=>({action,score:i===index?1:0,reason:'Seeded selection among legal public actions',index:i}));chosen=rows[index];
     }else{
       rows=legal.map((action,index)=>({action,index,...(difficulty?difficultyScore(state,action,actor,ownHand,legal,profile,difficulty):profile==='baseline'?{score:scoreAction(state,action,actor,ownHand,legal),reason:'Frozen Sprint 2 public-board heuristic'}:profile==='deck'?deckScore(state,action,actor,ownHand,legal):factionScore(state,action,actor,ownHand,legal))}));
+      if (E.RULES?.commanders) for (const row of rows) {const bonus=commanderPreference(state,row.action,actor);row.score+=bonus;if(bonus)row.reason+='; Commander passive supports this visible sequence';}
       if (difficulty === 'hard' || difficulty === 'expert') projected=addPlanning(state,rows,actor,profile,difficulty);
       const initial=legal.find(a=>a.pass||a.type==='endTurn')||legal[0];chosen=rows.find(r=>r.action===initial);
       for(const row of rows)if(row.score>chosen.score+.001)chosen=row;

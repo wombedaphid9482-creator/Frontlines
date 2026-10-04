@@ -8,14 +8,14 @@
   const node=typeof module==='object'&&module.exports;
   const Balance=node?require('./balance.js'):root.FrontlinesBalance;
   const Decks=node?require('./decks.js'):root.FrontlinesDecks;
-  const api=factory(Balance.dataFor('sprint7'),Decks,root);
+  const api=factory(Balance.dataFor('sprint7'),Decks,root,node?require('./commanders.js'):root.FrontlinesCommanders,Balance);
   if(node)module.exports=api;else{
     root.FrontlinesCollection=api;
     // Run before shell preferences are created so a genuinely fresh profile
     // cannot be mistaken for a pre-Sprint-8 migration on its first page visit.
     api.load();
   }
-})(typeof globalThis!=='undefined'?globalThis:this,function(Data,Decks,root){
+})(typeof globalThis!=='undefined'?globalThis:this,function(Data,Decks,root,Commanders,Balance){
   'use strict';
   const VERSION='frontlines-collection-v1',STORAGE_KEY='frontlines.collection.v1',SCHEMA_VERSION=1;
   const clone=value=>JSON.parse(JSON.stringify(value));
@@ -59,6 +59,18 @@
     for(const [id,count] of Object.entries(legality.counts))STARTER_COLLECTION[id]=Math.max(STARTER_COLLECTION[id]||0,count);
   }
   freeze(STARTER_COLLECTION);
+  const CommanderDecks=Decks.forData(Balance.dataFor(Balance.DEFAULT_PROFILE));
+  const COMMANDER_STARTERS=freeze(CommanderDecks.commanderStarters?.()||[]);
+  const COMMANDER_CARD_GRANT=freeze(CommanderDecks.starterGrant?.()||STARTER_COLLECTION);
+  const COMMANDER_GRANT_VERSION=1;
+  const commanderRow=id=>({id,owned:true,variants:['standard'],preferredVariant:'standard',mastery:{matches:0,victories:0,activations:0}});
+  function grantCommanders(profile){
+    if(profile.commanderGrantVersion===COMMANDER_GRANT_VERSION)return false;
+    profile.commanders=profile.commanders||{};
+    for(const c of Commanders?.list()||[])profile.commanders[c.id]=profile.commanders[c.id]||commanderRow(c.id);
+    for(const [id,count]of Object.entries(COMMANDER_CARD_GRANT)){const row=profile.cards[id];if(row&&row.copies<count){row.copies=count;if(!row.variants.includes('standard'))row.variants.push('standard');}}
+    profile.commanderGrantVersion=COMMANDER_GRANT_VERSION;return true;
+  }
   const PACKS={};
   function pack(id,name,price,factions,odds,minRarity,description){return {id,name,price,cardsPerPack:5,factions,allowedFactions:factions,enabled:true,family:id,odds,guarantees:[{slot:4,minRarity}],pity:{...ECONOMY.pity},cosmeticOdds:{...ECONOMY.cosmeticOdds},duplicateBehavior:'excess-to-supply',commanderWeight:0,reveal:'individual-or-all',description};}
   const factions=Object.keys(Data.FACTIONS);
@@ -66,13 +78,13 @@
   for(const faction of factions)PACKS[faction]=pack(faction,Data.FACTIONS[faction].name+' Pack',140,[faction],{common:.55,uncommon:.29,rare:.11,epic:.04,legendary:.01},'uncommon','Five '+Data.FACTIONS[faction].name+' cards. At least one Uncommon or better.');
   PACKS.veteran=pack('veteran','Veteran Pack',200,factions,{common:.36,uncommon:.34,rare:.20,epic:.085,legendary:.015},'rare','Five cards with improved Rare+ odds. At least one Rare or better.');
   PACKS.elite=pack('elite','Elite Pack',350,factions,{common:.15,uncommon:.32,rare:.32,epic:.17,legendary:.04},'epic','Five cards with improved Epic/Legendary odds. At least one Epic or better.');
-  PACKS.commander={id:'commander',name:'Commander Pack',price:0,cardsPerPack:0,factions:[],allowedFactions:[],enabled:false,family:'commander',odds:{},guarantees:[],pity:{...ECONOMY.pity},commanderWeight:1,reveal:'commander',description:'Future content — dedicated Commander cards and cosmetics have not arrived.'};
+  PACKS.commander={id:'commander',name:'Commander Pack',price:0,cardsPerPack:0,factions:[],allowedFactions:[],enabled:false,family:'commander',odds:{},guarantees:[],pity:{...ECONOMY.pity},commanderWeight:1,reveal:'commander',description:'All ten launch Commanders are granted free. Commander cosmetic packs are planned for a future release.'};
   freeze(PACKS);
   const CARD_META={};
   for(const [faction,groups] of Object.entries(RARITY_GROUPS))for(const [rarity,keys] of Object.entries(groups))for(const key of keys.split(' ')){
     const id=faction+'_'+key,card=Data.CARDS[id];
     if(!card||has(CARD_META,id))throw new Error('Invalid collectible card classification: '+id);
-    CARD_META[id]={id,faction,rarity,starter:has(STARTER_COLLECTION,id),starterCopies:STARTER_COLLECTION[id]||0,packAvailable:true,pools:['standard',faction,'veteran','elite'],craftCost:ECONOMY.craftCosts[rarity],duplicateSupply:ECONOMY.duplicateSupply[rarity],copyLimit:CurrentDecks.copyLimit(card),variants:Object.keys(VARIANTS)};
+    CARD_META[id]={id,faction,rarity,starter:has(STARTER_COLLECTION,id),starterCopies:STARTER_COLLECTION[id]||0,commanderStarterCopies:COMMANDER_CARD_GRANT[id]||0,packAvailable:true,pools:['standard',faction,'veteran','elite'],craftCost:ECONOMY.craftCosts[rarity],duplicateSupply:ECONOMY.duplicateSupply[rarity],copyLimit:CurrentDecks.copyLimit(card),variants:Object.keys(VARIANTS)};
   }
   if(Object.keys(CARD_META).length!==Object.keys(Data.CARDS).length)throw new Error('Every gameplay card needs explicit collectible metadata.');
   freeze(CARD_META);
@@ -86,8 +98,8 @@
   function createProfile(options={}){
     const seed=integer(options.seed,4294967295)?options.seed||1:freshSeed();
     const cards={};
-    for(const meta of Object.values(CARD_META))cards[meta.id]={id:meta.id,faction:meta.faction,rarity:meta.rarity,copies:meta.starterCopies,variants:meta.starter?['standard']:[],preferredVariant:'standard',mastery:emptyMastery(),newlyAcquired:false,starter:meta.starter};
-    return {version:VERSION,schemaVersion:SCHEMA_VERSION,revision:0,migrated:options.migrated===true,starterGrantVersion:1,credits:options.migrated?ECONOMY.migrationCredits:ECONOMY.startingCredits,supply:ECONOMY.startingSupply,rngState:seed,cards,pity:{},packs:[],packsOpened:0,purchases:{},craftRequests:{},rewards:{},tutorials:{},firstMatchRewarded:false};
+    for(const meta of Object.values(CARD_META))cards[meta.id]={id:meta.id,faction:meta.faction,rarity:meta.rarity,copies:Math.max(meta.starterCopies,COMMANDER_CARD_GRANT[meta.id]||0),variants:meta.starter||COMMANDER_CARD_GRANT[meta.id]>0?['standard']:[],preferredVariant:'standard',mastery:emptyMastery(),newlyAcquired:false,starter:meta.starter};
+    return {version:VERSION,schemaVersion:SCHEMA_VERSION,revision:0,migrated:options.migrated===true,starterGrantVersion:1,credits:options.migrated?ECONOMY.migrationCredits:ECONOMY.startingCredits,supply:ECONOMY.startingSupply,rngState:seed,cards,pity:{},packs:[],packsOpened:0,purchases:{},craftRequests:{},rewards:{},tutorials:{},firstMatchRewarded:false,commanderGrantVersion:COMMANDER_GRANT_VERSION,commanders:Object.fromEntries((Commanders?.list()||[]).map(c=>[c.id,commanderRow(c.id)]))};
   }
   function storageFor(storage){if(storage)return storage;try{return root.localStorage||null;}catch(_){return null;}}
   function migratedProfile(storage){return ['frontlines.decks.v1','frontlines.settings.v1'].some(key=>storage.getItem(key)!==null);}
@@ -97,6 +109,11 @@
     for(const field of ['cards','pity','purchases','craftRequests','rewards','tutorials'])if(!raw[field]||typeof raw[field]!=='object'||Array.isArray(raw[field]))throw new Error('Invalid collection '+field+'.');
     if(!Array.isArray(raw.packs))throw new Error('Invalid saved packs.');
     const result=clone(raw);
+    if(result.commanderGrantVersion!==undefined&&(!integer(result.commanderGrantVersion,COMMANDER_GRANT_VERSION)))throw new Error('Unsupported Commander collection format.');
+    if(result.commanders!==undefined){
+      if(!result.commanders||typeof result.commanders!=='object'||Array.isArray(result.commanders))throw new Error('Invalid Commander collection.');
+      for(const c of Commanders?.list()||[]){const row=result.commanders[c.id]||(result.commanders[c.id]=commanderRow(c.id));if(typeof row.owned!=='boolean'||!Array.isArray(row.variants)||row.variants.some(v=>typeof v!=='string')||typeof row.preferredVariant!=='string')throw new Error('Invalid Commander cosmetics: '+c.id);if(row.mastery&&['matches','victories','activations'].some(k=>!integer(row.mastery[k]||0)))throw new Error('Invalid Commander mastery: '+c.id);}
+    }
     for(const meta of Object.values(CARD_META)){
       let row=result.cards[meta.id];
       // Missing newly introduced card entries recover as unowned, retaining all
@@ -126,7 +143,9 @@
     try{
       raw=store.getItem(STORAGE_KEY);
       if(raw===null){const profile=createProfile({migrated:migratedProfile(store)});if(initialize)store.setItem(STORAGE_KEY,JSON.stringify(profile));return {profile,blocked:false,warnings:[],raw:null};}
-      return {profile:validateProfile(JSON.parse(raw)),blocked:false,warnings:[],raw};
+      const profile=validateProfile(JSON.parse(raw)),granted=grantCommanders(profile);
+      if(granted&&initialize){profile.revision++;store.setItem(STORAGE_KEY,JSON.stringify(profile));}
+      return {profile,blocked:false,warnings:[],raw};
     }catch(error){return {profile:preview,blocked:true,warnings:['Collection save could not be read. Your original data is preserved; export recovery data before resetting it. '+error.message],raw};}
   }
   function load(storage){const record=read(storage);return record.blocked?{...record.profile,readOnly:true,storageWarning:record.warnings[0]}:record.profile;}
@@ -171,7 +190,7 @@
     return transaction(storage,profile=>{
       const requestId=requestKey(options.requestId||'purchase-'+profile.revision+'-'+profile.packs.length);
       if(has(profile.purchases,requestId)){const record=profile.packs.find(pack=>pack.id===profile.purchases[requestId]);if(!record||record.definitionId!==definitionId)throw new Error('Transaction ID was used for a different pack.');return {pack:clone(record),alreadyPurchased:true,changed:false};}
-      const def=PACKS[definitionId];if(!def?.enabled)throw new Error('This pack is unavailable. Commander content is coming in a future sprint.');
+      const def=PACKS[definitionId];if(!def?.enabled)throw new Error('This pack is unavailable. Launch Commanders are granted automatically; cosmetic packs are planned.');
       if(profile.credits<def.price)throw new Error('Not enough Credits. This pack costs '+def.price+'.');
       const generated=generatePack(definitionId,profile,profile.pity[def.family]||{}),id='pack-'+profile.revision+'-'+profile.packs.length+'-'+profile.rngState.toString(36);
       const record={id,definitionId,name:def.name,price:def.price,contents:generated.contents,pityApplied:generated.pityApplied,claimed:false,acquisitions:[],supplyGained:0};
@@ -261,7 +280,9 @@
       const sources=[{name:'Match completion',credits:ECONOMY.rewards.completion},{name:match.victory?'Victory':'Defeat',credits:match.victory?ECONOMY.rewards.victory:ECONOMY.rewards.defeat}];
       if(!profile.firstMatchRewarded){sources.push({name:'First completed match',credits:ECONOMY.rewards.firstMatch});profile.firstMatchRewarded=true;}
       const creditsEarned=sources.reduce((total,item)=>total+item.credits,0);profile.credits+=creditsEarned;
-      const receipt={eligible:true,id,creditsEarned,newBalance:profile.credits,sources,masteryGains:applyMastery(profile,match)};profile.rewards[id]=receipt;
+      const leader=profile.commanders?.[match.commanderId];let commanderMastery=null;
+      if(leader?.owned){leader.mastery=leader.mastery||{matches:0,victories:0,activations:0};leader.mastery.matches++;if(match.victory)leader.mastery.victories++;if(match.commanderActiveUsed)leader.mastery.activations++;commanderMastery={id:match.commanderId,...clone(leader.mastery)};}
+      const receipt={eligible:true,id,creditsEarned,newBalance:profile.credits,sources,masteryGains:applyMastery(profile,match),commanderMastery};profile.rewards[id]=receipt;
       return {...clone(receipt),alreadyRewarded:false};
     });
   }
@@ -282,7 +303,7 @@
     let uniqueOwned=0,copiesOwned=0,mastered=0;const recentlyAcquired=[];
     for(const meta of rows){const row=current.cards?.[meta.id],owned=(row?.copies||0)>0;factionSummary[meta.faction].total++;rarities[meta.rarity].total++;if(owned){uniqueOwned++;copiesOwned+=row.copies;factionSummary[meta.faction].owned++;rarities[meta.rarity].owned++;}if(row?.variants?.includes('veteran'))mastered++;if(row?.newlyAcquired)recentlyAcquired.push(meta.id);}
     for(const faction of Object.values(factionSummary))faction.completion=faction.owned/faction.total;
-    return {total:rows.length,uniqueOwned,copiesOwned,completion:uniqueOwned/rows.length,factions:factionSummary,rarities,credits:current.credits,supply:current.supply,packsOpened:current.packsOpened,mastered,recentlyAcquired};
+    return {commanders:{total:Commanders?.list().length||0,owned:(Commanders?.list()||[]).filter(c=>current.commanders?.[c.id]?.owned).length},total:rows.length,uniqueOwned,copiesOwned,completion:uniqueOwned/rows.length,factions:factionSummary,rarities,credits:current.credits,supply:current.supply,packsOpened:current.packsOpened,mastered,recentlyAcquired};
   }
   /* Public API: purchases save durable packs, then claimPack(instanceId) grants
    * their contents exactly once. Supply/craft and reward receipts are persisted.
@@ -292,5 +313,5 @@
    *   territoriesInfluenced,factionActions}}}. No simulation ever calls it.
    * canUseDeck is ownership-only; CurrentDecks.validate remains legality-only.
    */
-  return {VERSION,STORAGE_KEY,SCHEMA_VERSION,RARITIES,VARIANTS,ECONOMY,PACKS,CARD_META,RARITY_GROUPS,STARTER_COLLECTION,STARTER_DECKS,createProfile,load,diagnostics,storageDiagnostics:diagnostics,recoveryExport,metadata,card:metadata,copyLimit,ownedCount,canUseDeck,generatePack,purchasePack,claimPack,craft,setPreferredVariant,variantFor,markSeen,rewardEligibility,rewardMatch,completeTutorial,summary};
+  return {VERSION,STORAGE_KEY,SCHEMA_VERSION,RARITIES,VARIANTS,ECONOMY,PACKS,CARD_META,RARITY_GROUPS,STARTER_COLLECTION,STARTER_DECKS,COMMANDER_STARTERS,COMMANDER_CARD_GRANT,COMMANDER_GRANT_VERSION,createProfile,load,diagnostics,storageDiagnostics:diagnostics,recoveryExport,metadata,card:metadata,copyLimit,ownedCount,canUseDeck,generatePack,purchasePack,claimPack,craft,setPreferredVariant,variantFor,markSeen,rewardEligibility,rewardMatch,completeTutorial,summary};
 });

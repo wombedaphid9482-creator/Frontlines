@@ -1,12 +1,20 @@
 # Simulator action roadmap
 
-The **v0.9.0 War Room** remains inside Frontlines. It supports custom decks, all 15 current templates, historical profiles and explicit AI policies. Simulator 3.3.0 and telemetry v5 snapshot the 115-card pool, exact inventories, modes, rules and fingerprints. Mark/Reinforce/Adapt usage and Armor protection are recorded. Node, Worker and offline fallback share the engine; incompatible archived replays are rejected.
+The **v1.0.0 War Room** remains inside Frontlines. It supports custom Commander decks, ten owned Commander foundations, the preserved fifteen archetype/hybrid templates, historical profiles and explicit AI policies. Simulator 4.0.0 and telemetry v6 snapshot the 115-card pool, exact inventories, Commander assignments/catalog, modes, rules and fingerprints. Commander outcomes, activation timing, passive triggers and typed effect value are recorded alongside existing card/territory/economy instrumentation. Node, Worker and offline fallback share the engine; incompatible archived replays are rejected.
+
+## Next v1.0.0 simulator action plan
+
+1. **Request the ten-leader foundation screen after the release gate.** Proposed: 10,000 verified games, `--pool commanders`, `sprint9`, deck AI both sides, default rules, seed 20261003, paired reversed seats, exact mirrors off, distinct same-faction leaders included, 240-turn/10,000-decision cutoffs and JSON/HTML/matches/cards/Commander CSV. The [exact request](SPRINT-009.md#exact-proposed-simulation-request--awaiting-owner-authorization) is not authorized or executed by the sprint.
+2. **Inspect what the Commander actually did.** Read leader/deck/matchup/initiative rates with sample denominators; then inspect activation rate/timing, illegal-target failures, passive triggers, damage/healing/recovery/disruption and preserved resources. Presence saved, Command Actions saved, bonus capture pressure and card draws are separate quantities, not one efficiency sum.
+3. **Use controlled same-list comparisons.** War Room can swap a Commander while preserving a deck's card list and saving a distinct experiment identity. Keep opponents, seeds, policies, rules and counts fixed for a narrow investigation. Foundation-vs-foundation rates include intentional card-list differences.
+4. **Preserve historical meaning.** Earlier profiles disable Commander rules; older reports retain their catalogs and cannot silently become Commander replays. Comparing changed Commander assignments or opponent pools is an observational comparison with changed conditions.
+5. **Let Ryken authorize follow-up volume.** A focused same-list matchup, a larger sweep or economy campaign requires explicit settings and authorization. No automatic optimizer, background balance job or mass tuning loop is installed.
 
 ## Completed baseline
 
 Ryken authorized one Sprint 6 run: **10,000 decisive matches, zero errors or cutoffs**. Results/configuration and an independent audit are [archived](balance/SPRINT6-BASELINE.md). Cross-faction spread is 37.16 points and first-seat rate 57.05%. The Sprint 5 gate also failed. No following batch is authorized.
 
-## Next simulator action plan
+## Previous Commander-free simulator action plan
 
 1. **Request original-pool comparison.** 10,000 games with the original ten presets, sprint7, deck AI on both sides, seed 20261003, paired reversed seats, exact mirrors off, same-faction variants included, default progression, 240-turn/10,000-decision limits, verification and JSON/HTML/CSV exports. This checks the narrow correction and preserves opponent weighting; it does not cover expansion cards.
 2. **Request expansion coverage separately.** 10,000 games with all fifteen presets and identical settings. Each hybrid includes all seven faction additions. About 94–96 games per pair provides screening evidence. The changed opponent pool prevents a causal aggregate before/after claim.

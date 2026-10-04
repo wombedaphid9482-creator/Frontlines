@@ -1,10 +1,11 @@
 # Arsenal and deckbuilding
 
-Frontlines v0.9.0 retains all 115 cards, 15 archetype templates and five starters under the current sprint7 rules. Fresh players own each legal starter. Normal Play requires owned quantities; AI and War Room retain unrestricted access to legal lists. Rarity and cosmetics do not add deckbuilding restrictions.
+Frontlines v1.0.0 retains all 115 cards, 15 archetype templates and five original starters, and adds ten Commander foundations under the current sprint9 rules. Fresh and migrated players own all ten Commanders and the copies needed for every foundation. Normal Play requires owned quantities; AI and War Room retain unrestricted access to legal lists. Rarity and cosmetics do not add deckbuilding restrictions.
 
 ## Construction rules
 
-- Exactly **26 cards** from **one faction**.
+- Exactly **26 cards** from **one faction**, plus exactly **one faction Commander outside those 26 cards**.
+- Commander assignment survives export/import, drafts, undo/redo, duplication, real matches and War Room. Legacy lists receive their faction default with a visible migration explanation; unknown or mismatched explicit assignments stay visible as illegal drafts.
 - At most **four copies** of each regular card and **two copies** of each Leader.
 - Unique still means one deployed copy per player; it does not mean one deck copy.
 - No neutral or cross-faction cards and no additional type quotas.
@@ -43,17 +44,17 @@ These are candidate strategies for testing. The expansion does not certify their
 
 ## Play and measure
 
-Choose a deck for each faction on match setup. The engine validates and shuffles those exact lists. Rematch uses the same lists even if a saved deck is edited elsewhere. Match reports include the actual list and declared strategy.
+Choose a faction, deck and matching Commander on match setup. The engine validates and shuffles those exact lists. Rematch uses the same lists even if a saved deck is edited elsewhere. Match reports include the actual list and declared strategy.
 
-Use **Test in War Room** from Arsenal or open **War Room → Quick Matchup**, refresh saved decks and choose both competitors. Illegal drafts cannot run. Player runs use the current `sprint7` game profile and deck-aware AI; **Advanced view** exposes historical profiles and baseline/faction/random policies. Changing profile refreshes its actual cards and template catalog. A saved expansion deck can remain stored while being illegal under an older pool; switching profiles does not erase it. **Tournament** supports selected pools, including same-faction variants, with paired opening seats. The requested count is the total across the complete schedule. Reports retain exact lists for replay even after the local library changes.
+Use **Test in War Room** from Arsenal or open **War Room → Quick Matchup**, refresh saved decks and choose both competitors. Illegal drafts cannot run. Player runs use the current `sprint9` game profile and deck-aware AI; **Advanced view** exposes historical profiles and baseline/faction/random policies. Changing profile refreshes its actual cards and template catalog. A saved expansion deck can remain stored while being illegal under an older pool; switching profiles does not erase it. **Tournament** supports selected pools, including same-faction variants, with paired opening seats. The requested count is the total across the complete schedule. Reports retain exact lists for replay even after the local library changes.
 
-The **Decks** result tab shows a deck matchup matrix, archetype rates, composition and frequently played pairs. **Advanced → Compare** imports an older report and can compare two named variants. Pair win associations and final territory change are diagnostic correlations, not evidence that a combination caused victory. Different opponent pools, policies or rules must be considered before drawing balance conclusions.
+The **Decks** result tab includes a Commander section reporting signature/passive metrics and named leader results. JSON/HTML and Commander CSV preserve these diagnostics. The **Decks** result tab shows a deck matchup matrix, archetype rates, composition and frequently played pairs. **Advanced → Compare** imports an older report and can compare two named variants. Pair win associations and final territory change are diagnostic correlations, not evidence that a combination caused victory. Different opponent pools, policies or rules must be considered before drawing balance conclusions.
 
 CLI examples for owner-operated custom-deck experiments:
 
 ```text
-node scripts/simulate.js --deck-file-a bastion.json --deck-file-b assault.json --count 1000 --balance sprint7 --ai deck --out test-results/custom-duel.json --csv
-node scripts/simulate.js --mode matrix --pool stonewall-bastion,stonewall-counteroffensive,bruiser-shock-assault --count 1000 --balance sprint7 --ai deck
+node scripts/simulate.js --deck-file-a bastion.json --deck-file-b assault.json --count 1000 --balance sprint9 --ai deck --out test-results/custom-duel.json --csv
+node scripts/simulate.js --mode matrix --pool stonewall-bastion,stonewall-counteroffensive,bruiser-shock-assault --count 1000 --balance sprint9 --ai deck
 ```
 
 JSON, standalone HTML and optional CSV exports preserve seed, profiles, cutoffs, rules, deck lists and card metrics. Existing output files are never overwritten. Codex does not run balance batches without explicit authorization. The exact proposed original-pool and expanded-pool 10,000-game requests are in [Sprint 7](SPRINT-007.md#simulation-request--after-the-stable-candidate); each is a separate owner decision.

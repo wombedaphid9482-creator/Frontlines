@@ -8,7 +8,7 @@ function order(s,cardId){const h={uid:'fixture-hand-'+s.players[0].hand.length,c
 function dispatch(s,t,a){const r=E.dispatch(s,a,{events:true});assert.equal(r.ok,true,r.error);t.record(s,r.state,a,{events:r.events});E.assertInvariants(r.state);return r.state;}
 test('current profile, schema and construction use the same rules and preserve older pools',()=>{
   assert.equal(Decks.RULES,Rules);assert.equal(Arsenal.SCHEMA.deckRules.size,Rules.size);assert.equal(Arsenal.SCHEMA.deckRules.maxLeaderCopies,Rules.maxLeaders);
-  assert.equal(B.DEFAULT_PROFILE,'sprint7');assert.equal(Object.keys(D.CARDS).length,115);assert.equal(Decks.forData(D).presets().length,15);
+  assert.equal(B.DEFAULT_PROFILE,'sprint9');assert.equal(Object.keys(D.CARDS).length,115);assert.equal(Decks.forData(D).presets().length,15);
   for(const profile of ['baseline','iteration01','candidate','arsenal','sprint6'])assert.equal(Object.keys(B.dataFor(profile).CARDS).length,80,profile);
   for(const deck of Decks.forData(D).getDecks())assert.equal(Decks.forData(D).validate(deck).legal,true,deck.name);
   const snapshot=S.createRun({count:1,balanceProfile:'sprint7',ai:'deck'}).result().rulesSnapshot;

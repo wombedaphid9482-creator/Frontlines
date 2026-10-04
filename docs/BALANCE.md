@@ -1,6 +1,10 @@
 # Frontlines balance history and current validation policy
 
-## Current v0.9.0 collection candidate
+## Current v1.0.0 Commander candidate
+
+Sprint 9 adds ten distinct Commanders to the `sprint9` profile. All 115 battlefield card definitions remain unchanged; Commander modifiers change effective costs, targeting, capture pressure and AI priorities. Commander aggregates, per-match usage and replay fingerprints are recorded by the shared simulator. Correctness fixtures cannot certify Commander, faction or human balance. No new large balance or economy campaign has been run. The exact ten-foundation validation proposal is in [Sprint 9](SPRINT-009.md) and requires Ryken’s separate authorization.
+
+## Preserved v0.9.0 collection candidate
 
 Sprint 8 adds ownership, earned Credits, packs, Supply crafting, mastery and presentation around the existing `sprint7` combat profile. No combat statistics, effects, Command Action costs or AI policies changed since v0.8.0. Human decks require owned copies; AI and War Room retain unrestricted legal inventories. Rarity and cosmetics provide no gameplay bonuses. No new balance or economy campaign ran. [Sprint 8](SPRINT-008.md#exact-simulation-request-for-ryken--not-executed) records the exact proposed next validation, awaiting separate authorization.
 

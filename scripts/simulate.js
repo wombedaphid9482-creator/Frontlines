@@ -21,12 +21,12 @@ Usage: node scripts/simulate.js [options]
   --ai PROFILE          baseline, faction, deck, or random for both decks
   --deck-file-a FILE    Exported deck JSON for side A
   --deck-file-b FILE    Exported deck JSON for side B
-  --pool IDS            Matrix pool: archetypes, starters, or comma-separated IDs
+  --pool IDS            Matrix pool: archetypes, starters, commanders, or IDs
   --ai-a PROFILE        Override policy attached to original A deck
   --ai-b PROFILE        Override policy attached to original B deck
   --compare FILE        Compare a previous JSON report using matched seeds
   --out FILE            JSON report (default test-results/simulator-report.json)
-  --csv                 Also write sibling .matches.csv and .cards.csv files
+  --csv                 Also write sibling matches/cards/commanders CSV files
   --help                Show this help
 
 Seat-swapped pairs reuse one seed. Matrix mode always includes both seats.
@@ -59,7 +59,7 @@ function parseArgs(args) {
 function unusedOutput(requested,csv){
   const absolute=path.resolve(requested),extension=path.extname(absolute)||'.json',stem=absolute.slice(0,absolute.length-(path.extname(absolute).length));
   let candidate=absolute,index=1;
-  function exists(file){const base=file.replace(/\.json$/i,'');return fs.existsSync(file)||fs.existsSync(`${base}.html`)||(csv&&(fs.existsSync(`${base}.matches.csv`)||fs.existsSync(`${base}.cards.csv`)));}
+  function exists(file){const base=file.replace(/\.json$/i,'');return fs.existsSync(file)||fs.existsSync(`${base}.html`)||(csv&&(fs.existsSync(`${base}.matches.csv`)||fs.existsSync(`${base}.cards.csv`)||fs.existsSync(`${base}.commanders.csv`)));}
   while(exists(candidate))candidate=`${stem}-${++index}${extension}`;
   return candidate;
 }
@@ -73,7 +73,7 @@ async function main(args = process.argv.slice(2)) {
     const deck=Decks.importDeck(fs.readFileSync(file,'utf8'));deck.id='import-'+side.toLowerCase();
     (cli.options.customDecks||(cli.options.customDecks=[])).push(deck);cli.options['deck'+side]=deck.id;
   }
-  if(cli.pool)cli.options.deckPool=cli.pool==='archetypes'?Decks.presets().map(d=>d.id):cli.pool==='starters'?Decks.starters().map(d=>d.id):cli.pool.split(',');
+  if(cli.pool){if(cli.pool==='commanders'&&!Decks.commandersEnabled())throw new Error('Commander foundations require --balance sprint9.');cli.options.deckPool=cli.pool==='archetypes'?Decks.presets().map(d=>d.id):cli.pool==='starters'?Decks.starters().map(d=>d.id):cli.pool==='commanders'?Decks.commanderStarters().map(d=>d.id):cli.pool.split(',');}
   const run = Simulator.createRun(cli.options), start = performance.now();
   let stopped = false,lastProgress = start;
   const stop = () => { stopped = true; };
@@ -103,6 +103,7 @@ async function main(args = process.argv.slice(2)) {
   if (cli.csv) {
     fs.writeFileSync(`${base}.matches.csv`,Simulator.matchesCSV(report));
     fs.writeFileSync(`${base}.cards.csv`,Simulator.cardsCSV(report));
+    if(report.summary.byCommander)fs.writeFileSync(`${base}.commanders.csv`,Simulator.commandersCSV(report));
   }
   process.stdout.write(`${report.completed}/${report.total} matches saved to ${output}\n`);
   process.stdout.write(`${report.summary.decisive} decisive; ${report.summary.unfinished} cutoffs; ${report.summary.errors} errors. ${(report.elapsedMs/1000).toFixed(2)} seconds.\n`);

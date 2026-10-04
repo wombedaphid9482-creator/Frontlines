@@ -1,0 +1,75 @@
+/* Commanders lead outside the lanes; their controls stay in the command area. */
+.game{grid-template-rows:100px 112px minmax(0,1fr) 60px}
+.game>.commander-row{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:12px;min-height:0}
+.game>section[aria-label="Battlefield"]{grid-row:3}
+.game>.hand-area{grid-row:3/5}
+.game>.orders-bar{grid-row:4}
+.commander-panel{display:grid;grid-template-columns:72px minmax(0,1fr) minmax(150px,190px);gap:12px;min-width:0;min-height:0;padding:10px;background:linear-gradient(120deg,#22313c,#111d27);border:1px solid color-mix(in srgb,var(--faction-color) 55%,#5c7284);border-left:4px solid var(--faction-color);border-radius:5px;overflow:hidden;box-shadow:inset 0 1px #d9e3ed15}
+.commander-portrait-button{appearance:none;border:1px solid #8195a96b;padding:0;background:#101b25;overflow:hidden;cursor:pointer;border-radius:4px;min-width:0}
+.commander-portrait-button:focus-visible,.commander-active:focus-visible{outline:3px solid #ffe1a3;outline-offset:-3px}
+.commander-portrait-button svg,.commander-portrait-button .commander-art{display:block;width:100%;height:100%;max-height:90px}
+.commander-portrait-button{align-self:start;width:72px;height:72px}
+.commander-portrait-button .art-commander{width:100%;height:100%}
+.commander-brief>.art-commander{float:left;width:180px;height:180px;max-width:40%;margin:0 22px 16px 0;border:1px solid var(--faction-color)}
+.commander-inspector .commander-brief>.art-commander{float:none;max-width:none;width:100%;height:150px;margin:0 0 12px}
+.commander-catalog-art>.art-commander{width:100%;height:100%}
+.commander-summary{min-width:0;overflow:auto;scrollbar-width:thin}
+.commander-label{display:block;color:#a8bac6;font:9px Consolas,monospace;line-height:1.4;text-transform:uppercase}
+.commander-name{font-size:18px;line-height:1.2;display:block;color:#f5ead3;margin:3px 0 5px}
+.commander-passive{font-size:11px;line-height:1.45;margin:0;color:#d0d9e1}
+.commander-passive strong{color:var(--faction-color)}
+.commander-command{display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0}
+.commander-active{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:48px;padding:7px 9px;white-space:normal;text-align:center}
+.commander-active b{font-size:12px;line-height:1.2}
+.commander-active small{font:9px Consolas,monospace;line-height:1.3}
+.commander-availability{font-size:10px;line-height:1.3;color:#b7c6d1;max-height:28px;overflow:auto;scrollbar-width:thin}
+.commander-spent .commander-portrait-button{filter:saturate(.65)}
+.setup-commander{border:1px solid #61778970;padding:11px;margin-bottom:14px;background:#0b151e70;border-left:3px solid var(--faction-color)}
+.setup-commander select{width:100%;font-size:14px;min-height:44px}
+.setup-commander p{font-size:11px;line-height:1.5;margin:8px 0 0;color:#c2d0d9}
+.setup-commander-hook{color:#dfc59b!important}
+.commander-brief{min-width:0;line-height:1.6}.commander-brief>.commander-art,.commander-brief>svg{float:left;width:180px;height:220px;max-width:40%;margin:0 22px 16px 0;border:1px solid var(--faction-color);background:#14212c}
+.commander-brief h2{font-size:30px}.commander-brief h3{clear:both;font-size:15px;color:#e0c499;margin:16px 0 6px}.commander-brief p{font-size:13px;margin:5px 0 12px}.commander-cost{font:11px Consolas,monospace!important;color:#eca963}
+.commander-inspector .commander-brief>svg,.commander-inspector .commander-brief>.commander-art{float:none;max-width:none;width:100%;height:150px;margin:0 0 12px}
+.commander-inspector .commander-brief h2{font-size:22px}
+.tutorial-active .game>.hand-area{grid-row:3}
+.tutorial-active .tutorial-coach{grid-row:3/5}
+.tutorial-active .game>.orders-bar{grid-row:4}
+.tutorial-commander-choice{display:grid;gap:9px}.tutorial-commander-choice button{min-height:46px;border:1px solid #6e8494;background:#1c303e;color:#f5ead3;cursor:pointer;padding:10px;text-align:left}.tutorial-commander-choice button[aria-pressed="true"]{border-color:#f0ba77;background:#3b352d}.tutorial-commander-copy{border-left:3px solid #f0ba77;padding:8px 10px;margin-top:12px;background:#101e2877}.tutorial-commander-copy h3{font-size:14px;margin:5px 0 8px}.tutorial-commander-copy p{font-size:12px}
+.tutorial-active .game>.commander-row{grid-column:1/-1;grid-row:2}
+.tutorial-combat-preview{padding:5px;gap:5px;margin-bottom:6px}
+.tutorial-combat-preview span{font-size:9px;line-height:1.1;white-space:nowrap}
+.tutorial-combat-preview b{font-size:18px;line-height:1.1;margin-top:2px}
+.collection-commanders{min-height:0;overflow:auto;padding:18px}
+.commander-catalog-intro{max-width:850px;margin:0 0 24px}.commander-catalog-intro h2{font-size:28px;margin:9px 0}.commander-catalog-intro p{font-size:14px;line-height:1.6;color:#c4d0da}
+.commander-catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.commander-catalog-card{display:flex;flex-direction:column;min-width:0;padding:16px;border:1px solid color-mix(in srgb,var(--faction-color) 65%,#526577);border-top:3px solid var(--faction-color);border-radius:7px;background:linear-gradient(140deg,#263747,#11202c);box-shadow:inset 0 0 0 3px #07131c66}
+.commander-catalog-art{height:190px;margin:-6px -6px 15px;overflow:hidden;background:#101c26;border-bottom:2px solid var(--faction-color)}.commander-catalog-art svg,.commander-catalog-art .commander-art{display:block;width:100%;height:100%}
+.commander-catalog-card h3{font-size:24px;margin:7px 0}.commander-catalog-card p{font-size:12px;line-height:1.65;color:#cbd6df;margin:13px 0 0}.commander-catalog-card p strong{color:#f0d8b2}.commander-catalog-card .commander-cost{margin-top:8px}.commander-history{font:10px Consolas,monospace;color:#a8c0d0;margin:20px 0 12px}.commander-catalog-card a{margin-top:auto;text-align:center;min-height:46px;font-size:12px}
+@media(max-width:1100px){.commander-panel{grid-template-columns:48px minmax(0,1fr) minmax(135px,150px);gap:8px}.commander-portrait-button{width:48px;height:48px}.commander-name{font-size:15px}.commander-passive{font-size:10px}}
+@media(max-height:720px) and (min-width:761px){.game{grid-template-rows:84px 100px minmax(0,1fr) 56px;gap:8px 12px;padding:8px 14px}.commander-panel{padding:7px}.commander-name{font-size:15px}.commander-portrait-button svg{max-height:80px}}
+@media(max-width:760px){
+  /* Match the old mobile selector's specificity so all five rows are explicit.
+   * Without this, the Commander row occupied the former battlefield fraction. */
+  body:not(.tutorial-active) .game{grid-template-rows:86px 124px minmax(0,1fr) 84px 154px;gap:8px}
+  .game>.command-row{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(0,1fr) 20px;gap:4px 8px;overflow:hidden}
+  .game>.command-row .player-hud{min-width:0;padding:5px 7px;display:block;overflow:hidden}
+  .game>.command-row .turn-hud{grid-column:1/-1;grid-row:2;flex-direction:row;padding:0;gap:8px;min-width:0}
+  .game>.command-row .turn-hud strong{font-size:16px;margin:0}.game>.command-row .turn-hud .eyebrow{font-size:7px}
+  .game>.command-row .hud-identity{margin-bottom:4px;gap:5px;min-width:0}.game>.command-row .hud-name{font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .game>.command-row .hud-resources{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;min-width:0}
+  .game>.command-row .resource{min-width:0}.game>.command-row .resource strong{font-size:16px}.game>.command-row .resource span{font-size:6px;line-height:1.1;letter-spacing:0;margin-top:3px;overflow-wrap:anywhere}
+  .game>.command-row .resource.available{padding-left:3px}.game>.command-row .presence-capacity{display:none}
+  .game>.commander-row{gap:6px}
+  .commander-panel{grid-template-columns:44px minmax(0,1fr);grid-template-rows:minmax(0,1fr) 44px;gap:5px;padding:6px;border-left-width:2px}
+  .commander-portrait-button{width:44px;height:44px;align-self:start}
+  .commander-label{font-size:7px;line-height:1.2}.commander-name{font-size:12px;margin:2px 0 4px}.commander-passive{font-size:10px;line-height:1.3}
+  .commander-command{grid-column:1/-1;min-height:0}.commander-active{min-height:44px;height:44px;padding:4px}.commander-active b{font-size:10px}.commander-active small{font-size:8px}.commander-availability{display:none}
+  .game>.hand-area{grid-column:1;grid-row:5}.game>.orders-bar{grid-row:4;grid-template-rows:minmax(0,1fr) 44px;padding:5px 7px}
+  .game>.orders-bar .order-buttons .btn{height:44px;min-height:44px}
+  .game>section[aria-label="Battlefield"]{grid-column:1;grid-row:3;overflow:hidden}
+  .game .board-caption{line-height:1.3;font-size:6px;min-height:10px}
+  .tutorial-active .game{grid-template-columns:1fr;grid-template-rows:86px 108px minmax(0,1fr) 74px 138px 170px;gap:6px;padding:6px}
+  .tutorial-active .game>.hand-area{grid-column:1;grid-row:5}.tutorial-active .tutorial-coach{grid-column:1;grid-row:6}.tutorial-active .game>.orders-bar{grid-column:1;grid-row:4}
+  .setup-commander{padding:7px}.setup-commander p{font-size:10px}.setup-commander select{font-size:12px}.commander-brief>svg,.commander-brief>.art-commander{max-width:100%;float:none;width:150px;height:150px}.commander-brief h2{font-size:24px}
+}

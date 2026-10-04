@@ -10,8 +10,8 @@
   root.FrontlinesBalance=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(Base,Engine,AI,Arsenal,Decks){
   'use strict';
-  const VERSION='frontlines-balance-registry-v4-arsenal';
-  const DEFAULT_PROFILE='sprint7';
+  const VERSION='frontlines-balance-registry-v5-commanders';
+  const DEFAULT_PROFILE='sprint9';
   const REGISTRY=[
     {id:'baseline',name:'Sprint 3 frozen baseline',version:'sprint2-original',description:'Original cards, starter decks and Presence/territory rules, preserved for historical comparison.',changes:{cards:{},decks:{},config:{}}},
     {id:'iteration01',name:'Iteration 01 — exposed breakthrough',version:'sprint3-iteration01-v1',description:'Reduce Bruiser attrition after a failed push; strengthen selected Nightwalker timing tools and occupation anchors. Original economy and decks retained.',changes:{cards:{
@@ -65,6 +65,10 @@
     rulesText:Base.CARDS.nightwalker_silencer.rulesText+' Costs 1 Command Action in addition to Capacity.'};
   sprint7.changes.additions=JSON.parse(JSON.stringify(Arsenal.CARD_ADDITIONS));
   REGISTRY.push(sprint7);
+  const sprint9={id:'sprint9',name:'Sprint 9 — Commander Update',version:'sprint9-commanders-v1',
+    description:'Ten off-lane Commanders with distinct passive incentives and once-per-match commands. All 115 card stats, costs, traits and effects remain identical to Sprint 7. Commander balance has not received a new statistical campaign.',
+    changes:JSON.parse(JSON.stringify(sprint7.changes)),rules:{...sprint7.rules,commanders:true}};
+  REGISTRY.push(sprint9);
   const clone=value=>JSON.parse(JSON.stringify(value));
   const allowedCardFields=['presence','attack','health','traits','effect','rulesText','unique','commandCost'];
   const traits=new Set(['fortify','guard','medic','mobile','command','rush','berserk','precision','retaliate','scavenge','armor']);

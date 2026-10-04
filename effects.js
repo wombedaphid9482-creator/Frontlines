@@ -1,5 +1,5 @@
 /* Project Faction presentation. The engine state always wins; no effect mutates it.
- * All routine cues end in less than 700 ms. Public battlefield copies are the only
+ * Routine arrival cues finish within 1.1 seconds. Public battlefield copies are the only
  * DOM clones; hand snapshots contain geometry, never private artwork or text. */
 (function (root, factory) {
   'use strict';
@@ -107,6 +107,7 @@
       events.push({ type: 'phase', actor: actor(after), stage: phaseName(after), turn: after.turn });
     }
     if (before.winner == null && after.winner != null) events.push({ type: 'victory', player: after.winner });
+    for(const event of engineEvents||[])if(event.type==='commanderActivated')events.push({type:'commander',player:event.player,commanderId:event.commanderId,targetUid:event.targetUid,territory:event.territory,ability:event.ability});
     if(displaced.size){const order={capture:0,retreat:1,rout:1,move:2,resource:3,frontline:4,phase:5,victory:6};events.sort((a,b)=>(order[a.type]??2)-(order[b.type]??2));}
     return events;
   }
@@ -172,10 +173,10 @@
     if (text != null) n.textContent = text;
     parent.appendChild(n); return n;
   }
-  function animate(node, frames, ms, delay, cleanup) {
+  function animate(node, frames, ms, delay, cleanup, easing) {
     if (animations.size >= 128) { if (cleanup) cleanup(); return; }
     if (!node || !node.animate) { if (cleanup) schedule(cleanup, ms + (delay || 0)); return; }
-    const animation = node.animate(frames, { duration: duration(ms), delay: duration(delay || 0), easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'backwards' });
+    const animation = node.animate(frames, { duration: duration(ms), delay: duration(delay || 0), easing: easing||'cubic-bezier(.2,.7,.2,1)', fill: 'backwards' });
     animations.add(animation);
     animation.finished.then(() => { animations.delete(animation); if (cleanup) cleanup(); }, () => { animations.delete(animation); });
   }
@@ -221,16 +222,28 @@
   function deploy(e, snapshot, state) {
     const node = unitNode(e.unit.uid), target = rect(node), source = snapshot?.hand[e.handUid], tint = color(state, e.unit.owner);
     const card=definition(e.unit), t=treatment(card);
-    flash(node, tint, t.profile.deployment); cue('deploy',{card,channel:'card'}); particles(target,card);
+    const landing=Math.round(t.profile.deployment*.72);
+    cue('deploy',{card,channel:'card'});
     if (source && target && !reduced()) {
       const n = element('fx-deployment', source, tint), clone = publicClone(node);
       if (n && clone) {
         n.appendChild(clone);
         const dx = target.x - source.x, dy = target.y - source.y;
-        animate(n, [{ opacity: .9, transform: 'translate(0,0) scale(1)' }, { opacity: 1, offset: .65, transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.5)' }, { opacity: 0, transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.2)' }], 370, 0, () => n.remove());
+        const ratio=Math.min(target.width/source.width,target.height/source.height);
+        animate(n,P.deploymentFrames(dx,dy,ratio),t.profile.deployment,0,()=>n.remove(),'linear');
       }
+    } else if(target&&!reduced()) {
+      // AI and newly visible hot-seat deployments have no outgoing hand geometry.
+      // A public portrait still gets a readable advance, land and settle moment.
+      const r={left:target.x-52,top:target.y-70,width:104,height:140},n=element('fx-deployment fx-arrival',r,tint),clone=publicClone(node);
+      if(n&&clone){n.appendChild(clone);animate(n,P.deploymentFrames(0,0,.28),t.profile.deployment,0,()=>n.remove(),'linear');}
     }
-    if(t.particles) schedule(() => ring(rect(unitNode(e.unit.uid)), tint, 'deployment fx-'+t.faction.motif), 100);
+    schedule(()=>{const actual=unitNode(e.unit.uid),r=rect(actual);flash(actual,tint,230);particles(r,card);if(!reduced())landingPlate(r,tint,t.faction.motif);cue('land',{card,channel:'card'});},landing);
+  }
+  function landingPlate(r,tint,motif){
+    if(!r||reduced())return;
+    const n=element('fx-landing fx-'+motif,{left:r.left-7,top:r.top-5,width:r.width+14,height:r.height+10},tint);
+    if(n)animate(n,[{opacity:1,transform:'scaleX(.6) scaleY(.75)'},{opacity:.65,offset:.3,transform:'scale(1.08)'},{opacity:0,transform:'scaleX(1.18) scaleY(1.35)'}],260,0,()=>n.remove());
   }
   function movement(e, snapshot, state) {
     const node = unitNode(e.unit.uid), to = rect(node), from = snapshot?.units[e.unit.uid]?.rect;
@@ -253,38 +266,38 @@
     floatText(rect(defender), 'ENGAGED', tint, 'fx-caption'); cue('select');
   }
   function combat(e, snapshot, state) {
-    if (!e.exchanged) return;
+    if (!e.exchanged) return 0;
     const node = unitNode(e.attackerUid), target = unitNode(e.defenderUid);
     const from = rect(node) || snapshot?.units[e.attackerUid]?.rect, to = rect(target) || snapshot?.units[e.defenderUid]?.rect;
     const tint = color(state, e.owner);
     const card=definition({cardId:e.cardId})||definition(state.units.find(u=>u.uid===e.attackerUid)),t=treatment(card);
+    const plan=P.attackPlan(card,e.role),impact=plan.windup+plan.delivery;
     if (from && to && node && !reduced()) {
-      const scale = 9 / (Math.hypot(to.x - from.x, to.y - from.y) || 1);
-      animate(node, [{ transform: 'translate(0,0)' }, { transform: 'translate(' + ((to.x - from.x) * scale) + 'px,' + ((to.y - from.y) * scale) + 'px)', offset: .3 }, { transform: 'translate(0,0)' }], t.profile.attack);
+      const scale = plan.lunge / (Math.hypot(to.x - from.x, to.y - from.y) || 1),dx=(to.x-from.x)*scale,dy=(to.y-from.y)*scale;
+      animate(node,[{transform:'translate(0,0)'},{transform:'translate('+(-dx*.35)+'px,'+(-dy*.35)+'px)',offset:.23},{transform:'translate('+dx+'px,'+dy+'px)',offset:.48},{transform:'translate('+(-dx*.1)+'px,'+(-dy*.1)+'px)',offset:.7},{transform:'translate(0,0)'}],plan.duration,0,null,'linear');
     }
-    const shots = settings.presentation==='reduced'?1:e.role === 'rifleman' ? Math.min(3,1+Math.floor((t.profile.performanceTier||0)/2)) : 1;
+    const shots = settings.presentation==='reduced'?1:plan.shots;
     for (let i = 0; i < shots; i++) {
-      tracer(from, to, tint, e.role, i * 60);
-      if(t.particles) schedule(() => ring(to, tint, e.role+' fx-'+t.faction.motif), 100 + i * 60);
+      tracer(from, to, tint, e.role+' fx-'+t.faction.motif,plan.windup+i*65);
     }
     if (e.role === 'commander') floatText(from, 'FIRE COMMAND', tint, 'fx-caption');
-    if (e.role === 'heavy') shake();
-    particles(to,card,true);
-    cue(e.role === 'heavy' ? 'heavy' : e.role === 'specialist' ? 'specialist' : 'rifle',{card,channel:'card'});
+    schedule(()=>{cue(e.role==='heavy'?'heavy':e.role==='specialist'?'specialist':'rifle',{card,channel:'card'});},plan.windup);
+    schedule(()=>{if(e.role==='heavy')shake();particles(to,card,true);landingPlate(to,tint,t.faction.motif);cue('impact',{card,channel:'battlefield'});},impact);
+    return impact;
   }
-  function loss(e, snapshot, state) {
+  function loss(e, snapshot, state, combatDelay) {
     const record = snapshot?.units[e.unit.uid], r = record?.rect, tint = color(state, e.unit.owner);
-    const dead=e.type==='death'||e.type==='rout',delay=e.type==='rout'?180:0;
+    const dead=e.type==='death'||e.type==='rout',delay=(e.type==='rout'?180:0)+(combatDelay||0);
     if (r && record.clone) {
       const n = element(dead ? 'fx-casualty' : 'fx-reclaim', r, tint);
       if (n) {
         n.appendChild(record.clone);
-        animate(n, reduced() ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 1, filter: 'brightness(2)', transform: 'translateY(0)' }, { opacity: .8, filter: 'grayscale(1) brightness(1)', offset: .2 }, { opacity: 0, filter: 'grayscale(1) brightness(.3)', transform: 'translateY(' + (dead ? 15 : -20) + 'px) scale(.92)', clipPath: 'inset(45% 0 45% 0)' }], 500, 80+delay, () => n.remove());
+        animate(n, reduced() ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 1, filter: 'brightness(1)', transform: 'translateY(0)' }, {opacity:1,filter:'brightness(2)',offset:.08,transform:'translateY(0)'},{ opacity: .8, filter: 'grayscale(1) brightness(1)', offset: .25 }, { opacity: 0, filter: 'grayscale(1) brightness(.3)', transform: 'translateY(' + (dead ? 15 : -20) + 'px) scale(.92)', clipPath: 'inset(45% 0 45% 0)' }], 500, 20+delay, () => n.remove());
       }
     }
     floatText(r, e.type==='rout'?'NO RETREAT — ELIMINATED':dead?'DESTROYED':'WITHDRAWN', dead ? '#ffc4ae' : tint, 'fx-caption', 40+delay);
-    if (!reduced()) floatText(r && { ...r, y: r.y + 25 }, e.presence + 'P RELEASED', '#b7dca8', 'fx-caption', 130);
-    cue(dead ? 'death' : 'deploy');
+    if (!reduced()) floatText(r && { ...r, y: r.y + 25 }, e.presence + 'P RELEASED', '#b7dca8', 'fx-caption', 130+delay);
+    if(delay)schedule(()=>cue(dead?'death':'deploy'),delay);else cue(dead?'death':'deploy');
   }
   function captureZone(e, state) {
     const node = territoryNode(e.territory), r = rect(node), tint = color(state, e.owner);
@@ -408,7 +421,7 @@
   }
   function runEvents(events, after, snapshot, options) {
     const combatEvent = events.find(e => e.type === 'combat');
-    if (combatEvent) combat(combatEvent, snapshot, after);
+    const combatDelay=combatEvent?combat(combatEvent,snapshot,after):0;
     let gained = false;
     for (const e of events) {
       switch (e.type) {
@@ -421,12 +434,17 @@
           flash(n, tint); ring(rect(n), tint, 'fx-lockon'); floatText(rect(n), 'GUARD INTERCEPT', tint, 'fx-caption'); cue('select'); break;
         }
         case 'damage': {
-          const n = unitNode(e.unit.uid); flash(n, '#ffb397');
-          if (!reduced()) animate(n, [{ transform: 'translateX(0)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(0)' }], 220);
-          floatText(rect(n), '−' + e.amount, '#ffc4ae'); cue('damage',{card:definition(e.unit),channel:'battlefield'}); break;
+          const showDamage=()=>{const n=unitNode(e.unit.uid);flash(n,'#ffb397');
+            if(!reduced())animate(n,[{transform:'translateX(0)'},{transform:'translateX(3px)'},{transform:'translateX(-2px)'},{transform:'translateX(0)'}],220);
+            floatText(rect(n)||snapshot?.units[e.unit.uid]?.rect,'−'+e.amount,'#ffc4ae');cue('damage',{card:definition(e.unit),channel:'battlefield'});};
+          if(combatDelay)schedule(showDamage,combatDelay);else showDamage();break;
         }
         case 'heal': { const n = unitNode(e.unit.uid); flash(n, '#a7dba0'); floatText(rect(n), '+' + e.amount, '#b7e6ab'); break; }
-        case 'death': case 'rout': case 'reclaim': loss(e, snapshot, after); break;
+        case 'death': case 'rout': case 'reclaim': loss(e,snapshot,after,combatDelay);break;
+        case 'commander': {
+          const c=root.FrontlinesCommanders?.get?.(e.commanderId)||root.FrontlinesCommanders?.COMMANDERS?.[e.commanderId];
+          if(c)commanderActivate(c,commanderNode(e.player),{target:unitNode(e.targetUid)||territoryNode(e.territory),ability:e.ability});break;
+        }
         case 'draw': {
           if (options?.handPlayer != null && options.handPlayer !== e.player) break;
           drawCard(handNode(e.uid), after, e.player); break;
@@ -448,6 +466,32 @@
   function drawCard(node, state, player) {
     if (node && !reduced()) animate(node, [{ opacity: 0, transform: 'translate(22px,16px) rotate(3deg)' }, { opacity: 1, transform: 'translate(0,0) rotate(0)' }], 400);
     else flash(node, color(state, player));
+  }
+  function commanderNode(player){
+    return doc?.querySelector('[data-commander-player="'+player+'"]')||doc?.querySelector('.commander-panel[data-player="'+player+'"]');
+  }
+  function commanderIntro(commander,node,options){
+    if(!commander||blocked())return;
+    if((root.innerWidth||1366)<1000&&doc.querySelector('.fx-commander-intro')&&!options?.queued){schedule(()=>commanderIntro(commander,node,{...options,queued:true}),1360);return;}
+    const card={...commander,rarity:'legendary'},t=treatment(card);cue('commanderIntro',{card,channel:'card'});
+    flash(node,t.faction.color,520);
+    if(reduced())return;
+    const viewportWidth=root.innerWidth||440,width=Math.min(440,Math.max(280,viewportWidth-24)),player=node?.dataset?.commanderPlayer,center=viewportWidth>=1000&&player!=null?viewportWidth*(Number(player)===1?.75:.25):viewportWidth/2;
+    const n=element('fx-commander-intro',{left:Math.max(12,Math.min(viewportWidth-width-12,center-width/2)),top:Math.min(160,Math.max(70,(root.innerHeight||768)*.16)),width,height:114},t.faction.color);
+    if(!n)return;
+    n.innerHTML=root.FrontlinesArt?.commanderHtml(commander,{className:'fx-commander-portrait'})||'';
+    const words=doc.createElement('div'),eyebrow=doc.createElement('small'),name=doc.createElement('strong'),passive=doc.createElement('span');
+    eyebrow.textContent=options?.label||'OPERATION COMMANDER';name.textContent=commander.name;passive.textContent=commander.passive?.name||commander.role||'Strategic command';words.append(eyebrow,name,passive);n.appendChild(words);
+    animate(n,[{opacity:0,transform:'translateY(8px) scale(.97)'},{opacity:1,transform:'translateY(0) scale(1)',offset:.18},{opacity:1,transform:'translateY(0) scale(1)',offset:.77},{opacity:0,transform:'translateY(-6px) scale(.99)'}],1280,0,()=>n.remove());
+  }
+  function commanderActivate(commander,node,options){
+    if(!commander||blocked())return;
+    const card={...commander,rarity:'legendary'},t=treatment(card),from=rect(node),to=rect(options?.target);
+    cue('commander',{card,channel:'card'});flash(node,t.faction.color,600);
+    const art=node?.querySelector('.art-commander');
+    if(art&&!reduced())animate(art,[{transform:'scale(1)'},{transform:'scale(1.09)',offset:.25},{transform:'scale(.98)',offset:.65},{transform:'scale(1)'}],760);
+    if(from){landingPlate(from,t.faction.color,t.faction.motif);floatText({...from,y:from.top-6},String(options?.ability||commander.active?.name||'SIGNATURE COMMAND').toUpperCase(),t.faction.color,'fx-caption');}
+    if(to){tracer(from,to,t.faction.color,'commander fx-'+t.faction.motif,160);schedule(()=>{landingPlate(to,t.faction.color,t.faction.motif);particles(to,card,true);cue('impact',{card,channel:'battlefield'});},310);}
   }
 
   /* Original layered procedural audio. Adapters receive a channel gain node and
@@ -491,7 +535,7 @@
   function cue(name, options) {
     if (!settings.sound || blocked() || !audioContext || audioContext.state !== 'running') return;
     try {
-      options=options||{};const channel=channels[options.channel]?options.channel:/deploy|reveal|rifle|heavy|specialist/.test(name)?'card':/damage|death|capture|victory/.test(name)?'battlefield':'ui';
+      options=options||{};const channel=channels[options.channel]?options.channel:/deploy|land|reveal|rifle|heavy|specialist|commander/.test(name)?'card':/damage|death|capture|victory|impact/.test(name)?'battlefield':'ui';
       const now=audioContext.currentTime,last=cueTimes.get(name);if(last!=null&&now-last<.035)return;cueTimes.set(name,now);
       const card=options.card,t=treatment(card),layers=card?t.audioLayers:0,base=.12/Math.sqrt(1+layers*.35);
       if (soundAdapter) { soundAdapter({ name, context: audioContext,channel,output:channels[channel],rarity:t.profile.id||'common',faction:t.faction, layers:layers+1 }); return; }
@@ -499,11 +543,15 @@
       switch (name) {
         case 'hover': note(680,25); break;
         case 'select': case 'purchase': note(520,65,'triangle',0,840);break;
-        case 'deploy': note(150,150,'triangle',0,520);note(700,70,'sine',.08);break;
+        case 'deploy': note(340,170,'sine',0,160);note(510,90,'triangle',.06,420);break;
+        case 'land': hit(115,740);note(84,220,'triangle',0,38);note(1250,70,'sine',.015,730);break;
         case 'reveal': note(330,130,'sine',0,660);break;
         case 'rifle': hit(75,4200);note(130,70,'square',0,60);note(115,60,'square',.075,55);break;
-        case 'heavy': hit(180,600);note(90,200,'triangle',0,35);break;
+        case 'heavy': hit(190,820);note(72,250,'triangle',0,29);note(148,125,'sine',.035,62);break;
         case 'specialist': note(920,160,'sine',0,140);break;
+        case 'impact': hit(85,1150);note(145,130,'triangle',0,55);break;
+        case 'commanderIntro': [1,1.5,2].forEach((ratio,i)=>note(t.faction.pitch*ratio,200,'triangle',i*.1));note(t.faction.pitch*3,240,'sine',.27);break;
+        case 'commander': note(t.faction.pitch,240,t.faction.tone,0,t.faction.pitch*2);hit(110,1100);note(t.faction.pitch*3,170,'sine',.16);break;
         case 'damage': hit(45,2100);break;
         case 'death': hit(210,1300);note(180,180,'sawtooth',0,45);break;
         case 'capture': [330,440,660].forEach((f,i)=>note(f,130,'triangle',i*.08));break;
@@ -632,7 +680,7 @@
     });
     doc.addEventListener('click', e => { if (e.isTrusted && e.target.closest?.('.hand-card,.unit,.btn,.command,.home-command,[data-settings-tab]')) cue('select',{channel:'ui'}); });
   }
-  return { configure, capture, play, clear, phase, cue, unlockAudio, deriveEvents, reveal, setMusicState,
+  return { configure, capture, play, clear, phase, cue, unlockAudio, deriveEvents, reveal, setMusicState,commanderIntro,commanderActivate,
     audioState:()=>({enabled:!!settings.sound,unlocked:!!audioContext,state:musicState,track:activeTrack,looping:musicSources.filter(v=>!v.fading).every(v=>v.source.loop),musicVoices:musicSources.length,effectVoices:sounds.size,channels:{master:settings.masterVolume,music:settings.musicVolume,ui:settings.uiVolume,card:settings.cardEffectsVolume,battlefield:settings.battlefieldVolume}}),
     setSoundAdapter: adapter => { soundAdapter = typeof adapter === 'function' ? adapter : null; } };
 });

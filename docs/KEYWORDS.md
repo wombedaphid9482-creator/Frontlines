@@ -1,4 +1,6 @@
-# Arsenal keyword rules — v0.8.0
+# Arsenal keyword rules — v1.0.0
+
+[Commander rules](COMMANDERS.md) add named off-lane passives and once-per-match actives under sprint9. They reuse Armor, Mark, Sabotage, draw, heal, movement and direct damage; they do not create new flavor-only keywords. Printed Command aura and deployable Leader units remain distinct from the named Commander. Historical profiles disable Commanders.
 
 The in-game Field Manual and card detail views use the selected profile's glossary, built from `data.js` and current rule definitions. Existing Guard, Fortify, Rush, Mobile, Precision, Berserk, Command aura and Medic rules remain intact. **Command aura** is the allied Attack bonus; **Command Actions** are the separate tactical resource.
 

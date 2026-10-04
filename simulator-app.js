@@ -2,6 +2,7 @@
   'use strict';
   const Simulator = root.FrontlinesSimulator;
   const Balance = root.FrontlinesBalance;
+  const Commanders = root.FrontlinesCommanders;
   const Data = Balance?Balance.dataFor(Balance.DEFAULT_PROFILE):root.FrontlinesData;
   let catalogProfile=Balance?.DEFAULT_PROFILE||'baseline';
   const $ = id => document.getElementById(id);
@@ -53,14 +54,22 @@
   }
   function readOptions() {
     const config = Object.fromEntries(Object.keys(ruleDefinitions).map(key => [key, Number($(`rule-${key}`).value)]));
+    const customDecks=decks.filter(d=>d.source==='saved').map(d=>({...d,cards:d.cards.slice()}));
+    const selectedIds=['a','b'].map(side=>{
+      const base=deckById[$('deck-'+side).value],id=$('commander-'+side)?.value;
+      if(!base||!Commanders?.get(id)||base.commanderId===id||!commanderRulesEnabled())return base?.id;
+      let hash=2166136261;for(const ch of base.id){hash^=ch.charCodeAt(0);hash=Math.imul(hash,16777619);}
+      const variant={...base,id:'cmd-'+id+'-'+(hash>>>0).toString(36),name:base.name+' ['+Commanders.get(id).name+']',commanderId:id,source:'saved'};
+      if(!customDecks.some(d=>d.id===variant.id))customDecks.push(variant);return variant.id;
+    });
     return Simulator.normalizeOptions({
       mode: document.querySelector('input[name="mode"]:checked').value,
-      count: Number($('match-count').value), deckA: $('deck-a').value, deckB: $('deck-b').value,
+      count: Number($('match-count').value), deckA: selectedIds[0], deckB: selectedIds[1],
       swapSeats: $('swap-seats').checked, includeMirrors: $('include-mirrors').checked,
       seed: Number($('seed').value), maxTurns: Number($('max-turns').value),
       maxDecisions: Number($('max-decisions').value), verify: $('verify').checked, config,
       balanceProfile: $('balance-profile').value, aiProfiles: [$('ai-a').value,$('ai-b').value],
-      customDecks:decks.filter(d=>d.source==='saved'),deckPool:[...$('matrix-deck-pool').selectedOptions].map(o=>o.value),
+      customDecks,deckPool:[...$('matrix-deck-pool').selectedOptions].map(o=>o.value),
       thresholds:Object.fromEntries(Object.entries(thresholdDefinitions).map(([key,[,percentage]]) => [key,Number($(`threshold-${key}`).value)/(percentage?100:1)]))
     });
   }
@@ -72,6 +81,10 @@
   }
   function applyOptions(options) {
     $('balance-profile').value=options.balanceProfile||(Balance && Balance.DEFAULT_PROFILE)||'arsenal';balanceNote(false);
+    if(options.customDecks?.length){
+      decks=Simulator.getDeckCatalog(Balance?Balance.dataFor(catalogProfile):Data,options.customDecks);deckById=Object.fromEntries(decks.map(d=>[d.id,d]));
+      $('matrix-deck-pool').innerHTML=decks.map(d=>'<option value="'+escape(d.id)+'">'+escape(d.name)+'</option>').join('');
+    }
     const radio=document.querySelector(`input[name="mode"][value="${options.mode}"]`);if(radio)radio.checked=true;
     ['a','b'].forEach((side,index)=>{const id=options[index===0?'deckA':'deckB'];if(deckById[id]){$(`faction-${side}`).value=deckById[id].faction;fillDeck(side,id);}if(options.aiProfiles)$(`ai-${side}`).value=options.aiProfiles[index];});
     $('balance-profile').value=options.balanceProfile||(Balance && Balance.DEFAULT_PROFILE)||'arsenal';
@@ -94,7 +107,7 @@
     decks=Simulator.getDeckCatalog(compiled,valid);deckById=Object.fromEntries(decks.map(d=>[d.id,d]));catalogProfile=profileId;
     for(const side of ['a','b'])if($('faction-'+side))fillDeck(side,requested[side]);
     $('matrix-deck-pool').innerHTML=decks.map(d=>'<option value="'+escape(d.id)+'" '+(selected.has(d.id)?'selected':'')+'>'+escape(d.name)+'</option>').join('');
-    $('pool-archetypes').textContent=decks.filter(d=>d.source==='preset').length+' archetypes';
+    $('pool-archetypes').textContent=decks.filter(d=>d.source==='preset').length+' archetypes';if($('pool-commanders')){$('pool-commanders').hidden=!commanderRulesEnabled();$('pool-commanders').textContent=decks.filter(d=>d.source==='commander-starter').length+' Commander foundations';}
     $('deck-library-note').textContent=valid.length+' legal saved decks loaded · '+(saved.length-valid.length)+' drafts unavailable under these rules';
     $('deck-library-note').title='Drafts remain in Arsenal for repair. Historical profiles exclude expansion cards; results retain their exact inventories.';
     const prior=$('matchup-filter').value,pairs=[];for(let a=0;a<decks.length;a++)for(let b=a;b<decks.length;b++)pairs.push({id:[decks[a].id,decks[b].id].sort().join('|'),name:decks[a].name+' vs '+decks[b].name});
@@ -106,6 +119,19 @@
     const eligible = decks.filter(deck => deck.faction === faction);
     $(`deck-${side}`).innerHTML = eligible.map(deck => `<option value="${escape(deck.id)}">${escape(deck.name)}</option>`).join('');
     if (requested && eligible.some(deck => deck.id === requested)) $(`deck-${side}`).value = requested;
+    fillCommander(side);
+  }
+  function commanderRulesEnabled(){return (Balance?Balance.dataFor(catalogProfile):Data).RULES?.commanders===true;}
+  function fillCommander(side){
+    const controls=$('commander-controls-'+side);if(!controls)return;
+    controls.hidden=!commanderRulesEnabled();if(controls.hidden)return;
+    const faction=$('faction-'+side).value,selected=deckById[$('deck-'+side).value]?.commanderId||Commanders.defaultFor(faction);
+    $('commander-'+side).innerHTML=Commanders.list(faction).map(c=>'<option value="'+escape(c.id)+'" '+(c.id===selected?'selected':'')+'>'+escape(c.name)+'</option>').join('');renderCommanderNote(side);
+  }
+  function renderCommanderNote(side){
+    const c=Commanders?.get($('commander-'+side).value);if(!c)return;
+    $('commander-summary-'+side).textContent=c.name+' · '+c.role;
+    $('commander-note-'+side).innerHTML='<p><b>Passive · '+escape(c.passive.name)+'.</b> '+escape(c.passive.text)+'</p><p><b>Active · '+escape(c.active.name)+'.</b> '+escape(c.active.text)+' Costs '+c.active.cost.presence+' Presence / '+c.active.cost.commandActions+' Command Action. Once per match.</p><p><b>Deck direction.</b> '+escape(c.hook.text)+'</p><small>Changing the Commander tests the same card list under a different leader. Collection ownership never limits the War Room.</small>';
   }
   function setMode() {
     const matrix = document.querySelector('input[name="mode"]:checked').value === 'matrix';
@@ -138,7 +164,7 @@
     $('stop-button').hidden = !live();
     $('stop-button').disabled = status === 'stopping';
     $('refresh-decks').disabled = live();
-    ['export-html','export-json', 'export-matches', 'export-cards'].forEach(id => { $(id).disabled = !state.report; });
+    ['export-html','export-json', 'export-matches', 'export-cards','export-commanders'].forEach(id => { $(id).disabled = !state.report; });
     const labels = { idle: 'Ready to run', loading: 'Preparing experiment…', running: 'Simulations running', paused: 'Paused', stopping: 'Finishing current decision…', completed: 'Experiment complete', stopped: 'Stopped — completed results retained', error: 'Runner stopped with an error' };
     $('run-status-text').textContent = labels[status];
     $('command-summary').textContent = labels[status];
@@ -226,6 +252,9 @@
   }
   function renderDecks(summary) {
     const rows=summary.byDeck||[],pairs=summary.byMatchup||[];
+    const commanders=summary.byCommander||[];
+    $('commander-results').hidden=!commanders.length;
+    $('commander-result-rows').innerHTML=commanders.map(row=>`<tr><td>${escape(row.name)}<small class="card-submetric">${escape(factionName(row.faction))}</small></td><td>${percent(row.winRate)}<small class="card-submetric">${format(row.won)} / ${format(row.decisive)}</small></td><td>${percent(row.seats[0].winRate)} / ${percent(row.seats[1].winRate)}</td><td>${format(row.activeUses)} / ${format(row.played)}<small class="card-submetric">${percent(row.activationRate)} · mean turn ${numberMetric(row.meanActivationTurn)}</small></td><td>${format(row.passiveTriggers)}</td><td>${format(row.effectiveDamageDealt)} / ${format(row.healingDone)} / ${format(row.cardsRecovered)}</td></tr>`).join('');
     $('deck-matrix').innerHTML=`<thead><tr><th>ROW / OPPONENT</th>${rows.map(r=>`<th>${escape(r.name)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><th>${escape(r.name)}</th>${rows.map(other=>{const pair=pairs.find(p=>[p.deckA,p.deckB].sort().join('|')===[r.id,other.id].sort().join('|'));const wins=pair?(r.id===pair.deckA?pair.winsA:pair.winsB):0;return `<td>${pair&&pair.decisive?percent(wins/pair.decisive):'—'}<small>${pair?format(wins)+' / '+format(pair.decisive):'no games'}</small></td>`;}).join('')}</tr>`).join('')}</tbody>`;
     $('archetype-rows').innerHTML=(summary.byArchetype||[]).map(row=>`<tr><td>${escape(row.id)}</td><td>${format(row.won)} / ${format(row.decisive)}</td><td>${percent(row.winRate)}</td><td>${numberMetric(row.meanTurns)}</td></tr>`).join('');
     $('deck-curve-rows').innerHTML=(summary.deckCompositions||[]).map(row=>`<tr><td>${escape(row.name)}</td><td>${numberMetric(row.averageCost)}</td><td>${row.units} / ${row.leaders} / ${row.assets} / ${row.orders}</td><td>${row.curve.map(b=>escape(b.label)+': '+b.count).join(' · ')}</td></tr>`).join('');
@@ -503,7 +532,7 @@
         const match = replay.match;
         $('replay-description').textContent = `${factionName(match.factions[0])} vs ${factionName(match.factions[1])} · seed ${match.seed} · ${format(match.turns)} turns · ${format(match.decisions)} decisions`;
         $('replay-summary').innerHTML = `<span>Status <b>${escape(match.status)}</b></span><span>Winner <b>${match.winnerFaction ? escape(factionName(match.winnerFaction)) : 'Unresolved'}</b></span><span>Final territory <b>${escape((match.finalTerritories || []).join(' / '))}</b></span><span>Trace <b>${replay.truncated ? 'first 5,000 decisions (capped)' : 'complete'}</b></span>`;
-        const actions = replay.trace&&replay.trace.length ? replay.trace.map((item,decision)=>`#${String(decision+1).padStart(4,'0')}  Turn ${item.turn} / P${item.actor+1} / ${item.actionText}\nPresence before: ${tracePresence(item.presenceBefore)}\nPresence after:  ${tracePresence(item.presenceAfter)}\nTerritory: ${(item.territoryBefore||[]).join(' / ')} → ${(item.territoryAfter||[]).join(' / ')}${item.decision?`\nAI ${item.decision.profile||'baseline'} · ${item.decision.evaluated} legal actions evaluated · score ${numberMetric(item.decision.score,2)}\nReason: ${item.decision.reason||'No reason recorded.'}`:''}\nEvents: ${(item.events||[]).map(event=>`${event.type}${event.cardName?' · '+event.cardName:''}${event.sourceName?' from '+event.sourceName:''}${event.targetName?' → '+event.targetName:''}${event.amount!==undefined?' ('+event.amount+')':''}`).join('; ')||'No triggered effects'}\n`) : (replay.actions || []).map(item => `#${String(item.decision).padStart(4, '0')}  Turn ${item.turn} / P${item.actor + 1} / ${item.action.type}${item.cardName ? ` · ${item.cardName}` : ''}${item.targetName ? ` → ${item.targetName}` : ''}${item.territoryName ? ` @ ${item.territoryName}` : ''}  ${JSON.stringify(item.action)}`);
+        const actions = replay.trace&&replay.trace.length ? replay.trace.map((item,decision)=>`#${String(decision+1).padStart(4,'0')}  Turn ${item.turn} / P${item.actor+1} / ${item.actionText}\nPresence before: ${tracePresence(item.presenceBefore)}\nPresence after:  ${tracePresence(item.presenceAfter)}\nTerritory: ${(item.territoryBefore||[]).join(' / ')} → ${(item.territoryAfter||[]).join(' / ')}${item.decision?`\nAI ${item.decision.profile||'baseline'} · ${item.decision.evaluated} legal actions evaluated · score ${numberMetric(item.decision.score,2)}\nReason: ${item.decision.reason||'No reason recorded.'}`:''}\nEvents: ${(item.events||[]).map(event=>`${event.type}${event.cardName?' · '+event.cardName:''}${event.commanderName?' · '+event.commanderName:''}${event.sourceName?' from '+event.sourceName:''}${event.targetName?' → '+event.targetName:''}${event.amount!==undefined?' ('+event.amount+')':''}`).join('; ')||'No triggered effects'}\n`) : (replay.actions || []).map(item => `#${String(item.decision).padStart(4, '0')}  Turn ${item.turn} / P${item.actor + 1} / ${item.action.type}${item.cardName ? ` · ${item.cardName}` : ''}${item.targetName ? ` → ${item.targetName}` : ''}${item.territoryName ? ` @ ${item.territoryName}` : ''}  ${JSON.stringify(item.action)}`);
         const logs = (replay.log || []).map(entry => `Turn ${String(entry.turn).padStart(3, ' ')}  [${entry.type}]  ${entry.text}`);
         state.replayLines = [...(match.error ? [`ERROR: ${match.error}`, ''] : []), 'DECISION TRACE', ...actions, '', 'RECENT ENGINE LOG (engine retains up to 500 entries)', ...logs, '', 'FINAL ANALYSIS STATE (both AI hands visible)', JSON.stringify(replay.final, null, 2)];
         $('replay-copy-status').textContent='';
@@ -561,7 +590,7 @@
   function updatePoolChoices() {
     if (!$('pool-choices')) return;
     const selected = new Set([...$('matrix-deck-pool').selectedOptions].map(option => option.value));
-    $('pool-choices').innerHTML = decks.map(deck => `<label class="pool-choice"><input type="checkbox" data-pool-choice="${escape(deck.id)}" ${selected.has(deck.id) ? 'checked' : ''} ${live() ? 'disabled' : ''}><span><b>${escape(deck.name)}</b><small>${escape(factionName(deck.faction))} · ${deck.cards.length} cards</small></span></label>`).join('');
+    $('pool-choices').innerHTML = decks.map(deck => `<label class="pool-choice"><input type="checkbox" data-pool-choice="${escape(deck.id)}" ${selected.has(deck.id) ? 'checked' : ''} ${live() ? 'disabled' : ''}><span><b>${escape(deck.name)}</b><small>${escape(factionName(deck.faction))} · ${deck.cards.length} cards${deck.commanderId?' · '+escape(Commanders?.get(deck.commanderId)?.name||deck.commanderId):''}</small></span></label>`).join('');
     $('pool-count').textContent = `${selected.size} decks selected`;
   }
   function selectDeckPool(source) {
@@ -610,7 +639,7 @@
       saveOptions();
     });
     $('matrix-deck-pool').addEventListener('change', updatePoolChoices);
-    for (const id of ['pool-starters','pool-archetypes','refresh-decks']) $(id).addEventListener('click', updatePoolChoices);
+    for (const id of ['pool-starters','pool-archetypes','pool-commanders','refresh-decks']) $(id).addEventListener('click', updatePoolChoices);
     document.querySelectorAll('[data-war-room]').forEach(button => button.addEventListener('click', () => openWarRoom(button.dataset.warRoom)));
     $('war-room-home').addEventListener('click', warRoomHome);
     $('back-war-room').addEventListener('click', warRoomHome);
@@ -632,13 +661,15 @@
   function setup() {
     $('tab-overview').insertAdjacentHTML('afterend','<button type="button" id="tab-decks" role="tab" aria-selected="false" aria-controls="view-decks" data-tab="decks" tabindex="-1">Decks & pairs</button>');
     $('view-overview').insertAdjacentHTML('afterend','<section id="view-decks" role="tabpanel" aria-labelledby="tab-decks" hidden><div class="section-heading"><h3>Deck matchup matrix</h3><span>Row deck wins / decisive games</span></div><div class="table-wrap"><table class="matrix-table" id="deck-matrix"></table></div><details class="advanced" open><summary>Archetype performance</summary><div class="table-wrap"><table><thead><tr><th>Faction / archetype</th><th>Wins / resolved</th><th>Win rate</th><th>Mean turns</th></tr></thead><tbody id="archetype-rows"></tbody></table></div></details><details class="advanced"><summary>Deck composition</summary><div class="table-wrap"><table><thead><tr><th>Deck</th><th>Mean Presence</th><th>Units / Leaders / Assets / Orders</th><th>Presence curve</th></tr></thead><tbody id="deck-curve-rows"></tbody></table></div></details><details class="advanced" open><summary>Frequently played card pairs</summary><div class="table-wrap"><table><thead><tr><th>Deck</th><th>Cards</th><th>Wins / games together</th><th>Win association</th><th>Mean final control change</th></tr></thead><tbody id="synergy-rows"></tbody></table></div><p class="table-note">Both cards were played in the same decisive player-game. The top 100 pairs are shown; JSON retains all. Correlation includes deck, duration and winning-position bias. Control change from the opening three territories does not establish that the pair caused it.</p></details></section>');
+    $('view-decks').insertAdjacentHTML('afterbegin','<section id="commander-results" hidden><div class="section-heading"><h3>Commander performance</h3><span>Deck context and visible signature use</span></div><div class="table-wrap"><table><thead><tr><th>Commander</th><th>Wins / resolved</th><th>Player 1 / Player 2</th><th>Active uses / appearances</th><th>Passive triggers</th><th>Direct damage / healing / recovered cards</th></tr></thead><tbody id="commander-result-rows"></tbody></table></div><p class="table-note">Rates describe these decks and AI policies, not isolated Commander strength. Passive triggers have different meanings; JSON and Commander CSV separate resource savings, pressure and draws.</p></section>');
     $('view-compare').insertAdjacentHTML('beforeend','<h3>Deck revisions</h3><div class="table-wrap"><table><thead><tr><th>Deck</th><th>Previous rate (games)</th><th>Current rate (games)</th><th>Change</th></tr></thead><tbody id="deck-comparison"></tbody></table></div><h3>Compare named variants</h3><div class="two-fields"><label>Earlier deck<select id="compare-deck-before"></select></label><label>Current deck<select id="compare-deck-after"></select></label></div><p id="variant-comparison" class="table-note">Import a previous report and run a deck variant.</p>');
     for(const id of ['compare-deck-before','compare-deck-after'])$(id).addEventListener('change',compareVariants);
-    $('matrix-options').insertAdjacentHTML('beforeend','<label for="matrix-deck-pool">Tournament deck pool</label><select id="matrix-deck-pool" multiple size="6" aria-describedby="pool-note"></select><p id="pool-note" class="field-note">Select at least two decks. Ctrl / Command selects multiple decks.</p><div class="exports"><button type="button" id="pool-starters">Starters</button><button type="button" id="pool-archetypes">15 archetypes</button></div>');
+    $('matrix-options').insertAdjacentHTML('beforeend','<label for="matrix-deck-pool">Tournament deck pool</label><select id="matrix-deck-pool" multiple size="6" aria-describedby="pool-note"></select><p id="pool-note" class="field-note">Select at least two decks. Ctrl / Command selects multiple decks.</p><div class="exports"><button type="button" id="pool-starters">Starters</button><button type="button" id="pool-archetypes">15 archetypes</button><button type="button" id="pool-commanders">10 Commander foundations</button></div>');
     $('matrix-options').querySelector('b').textContent='Deck round robin';
     $('matrix-deck-pool').innerHTML=decks.map(d=>`<option value="${escape(d.id)}" ${d.source==='starter'?'selected':''}>${escape(d.name)}</option>`).join('');
     $('pool-starters').addEventListener('click',()=>{for(const o of $('matrix-deck-pool').options)o.selected=deckById[o.value].source==='starter';saveOptions();});
     $('pool-archetypes').addEventListener('click',()=>{for(const o of $('matrix-deck-pool').options)o.selected=deckById[o.value].source==='preset';saveOptions();});
+    $('pool-commanders').hidden=!commanderRulesEnabled();$('pool-commanders').addEventListener('click',()=>{selectDeckPool('commander-starter');saveOptions();});
     $('duel-options').insertAdjacentHTML('afterend','<button type="button" id="refresh-decks">Refresh saved decks</button><p id="deck-library-note" class="field-note">Saved legal decks appear here.</p>');
     $('refresh-decks').addEventListener('click',()=>{if(!live())refreshCatalog($('balance-profile').value);});
     for(const side of ['a','b']){$('ai-'+side).insertAdjacentHTML('afterbegin','<option value="deck">Deck-aware</option>');$('ai-'+side).value='deck';}
@@ -647,6 +678,8 @@
       $(`faction-${side}`).value = side === 'a' ? 'stonewall' : 'bruiser';
       fillDeck(side);
       $(`faction-${side}`).addEventListener('change', () => fillDeck(side));
+      $(`deck-${side}`).addEventListener('change',()=>fillCommander(side));
+      $(`commander-${side}`).addEventListener('change',()=>renderCommanderNote(side));
     });
     $('card-faction-filter').innerHTML += Object.values(Data.FACTIONS).map(faction => `<option value="${faction.id}">${escape(faction.name)}</option>`).join('');
     $('rule-fields').innerHTML = Object.entries(ruleDefinitions).map(([key, [label, min, max]]) => `<div><label for="rule-${key}">${label}</label><input id="rule-${key}" type="number" min="${min}" max="${max}" value="${Data.DEFAULT_CONFIG[key]}" step="1" required></div>`).join('');
@@ -685,6 +718,7 @@
     $('export-html').addEventListener('click',()=>{if(state.report){if(state.previousReport&&!state.comparison)renderComparison();download(Simulator.reportHTML(state.report,state.comparison||undefined),'html','text/html;charset=utf-8');}});
     $('export-matches').addEventListener('click', () => download(Simulator.matchesCSV(state.report), 'matches.csv', 'text/csv;charset=utf-8'));
     $('export-cards').addEventListener('click', () => download(Simulator.cardsCSV(state.report), 'cards.csv', 'text/csv;charset=utf-8'));
+    $('export-commanders').addEventListener('click',()=>download(Simulator.commandersCSV(state.report),'commanders.csv','text/csv;charset=utf-8'));
     document.querySelectorAll('[data-tab]').forEach(button => {
       button.addEventListener('click', () => setTab(button.dataset.tab));
       button.addEventListener('keydown', tabKeydown);
@@ -732,7 +766,7 @@
   root.FrontlinesSimulatorApp = {
     getStatus: () => ({ status: state.status, runner: state.runner, jobId: state.jobId, completed: state.snapshot ? state.snapshot.completed : 0, total: state.snapshot ? state.snapshot.total : 0, elapsedMs: elapsed() }),
     getReport: () => state.report,
-    getOptions: () => state.options,
+    getOptions: () => state.options,readOptions,getCatalog:()=>JSON.parse(JSON.stringify(decks)),
     start, pause, resume, stop,
     openWarRoom, setDeveloper, getView: () => ({room:state.room,developer:state.developer,pane:state.workspacePane,tab:state.activeTab})
   };

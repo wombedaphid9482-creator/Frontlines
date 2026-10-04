@@ -6,7 +6,7 @@
   root.FrontlinesTelemetry = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this,function(DefaultData,DefaultEngine) {
   'use strict';
-  const VERSION = 'frontlines-telemetry-v5-arsenal';
+  const VERSION = 'frontlines-telemetry-v6-commanders';
   const clone = value => JSON.parse(JSON.stringify(value));
   const CONDITIONS = ['territoryDeficit2','centerLost','enemyForward','committedDeficit','unitDeficit'];
   const CARD_METRICS = ['included','includedMatches','drawn','plays','deployments','orders','attacksInitiated','deaths',
@@ -31,7 +31,8 @@
     const aiProfiles = options.aiProfiles || ['human','human'];
     const deckIds = options.decks || [];
     let initial = null,last = null,decisions = 0,finished = null,opportunity = null;
-    const actions = {}, timeline = [], deploymentWindows = [];
+    const actions = {}, timeline = [], deploymentWindows = [],commanders=[];
+    const COMMANDER_METRICS=['activeUses','passiveTriggers','passiveAmount','presenceSpent','commandActionsSpent','damageDealt','effectiveDamageDealt','healingDone','cardsRecovered','capacityRecovered','disruptionApplied','presenceSaved','commandActionsSaved','bonusPressure','passiveCardsDrawn'];
     const economy = [0,1].map(() => ({generated:0,orderSpend:0,deploymentCommitment:0,casualtyReleased:0,reclaimedReleased:0,
       samples:0,commandSum:0,availableSum:0,committedSum:0,unitCountSum:0,unusedEndTurnSum:0,endTurns:0,
       noMeaningfulAffordableTurns:0,meaningfulOpportunityTurns:0,playedCostSum:0,plays:0,costStrandedObservations:0,
@@ -98,6 +99,7 @@
       initial = state;last = state;
       for (let seat = 0; seat < 2; seat++) {
         const player = state.players[seat];
+        if(E.RULES?.commanders){const c=E.commanders.get(player.commander.id);commanders[seat]={player:seat,id:c.id,name:c.name,faction:c.faction,deckId:typeof deckIds[seat]==='string'?deckIds[seat]:player.deckMeta.id,activeTurn:null};for(const metric of COMMANDER_METRICS)commanders[seat][metric]=0;}
         const inventory = player.deck.concat(player.discard,player.hand.map(item => item.cardId),state.units.filter(unit => unit.owner === seat).map(unit => unit.cardId));
         for (const id of inventory) { const card = row(seat,id);card.included++;card.copiesPerDeck++;card.includedMatches = 1; }
         for (const item of player.hand) observeDraw(seat,item,state.turn);
@@ -107,6 +109,7 @@
       sample(state,0,true);
     }
     function namedEvents(events) { return events.map(event => ({...event,cardName:event.cardId && D.CARDS[event.cardId].name || null,
+      commanderName:(event.commanderId||event.sourceCommanderId)&&E.commanders?.get(event.commanderId||event.sourceCommanderId)?.name || null,
       sourceName:event.sourceCardId && D.CARDS[event.sourceCardId].name || null,targetName:event.targetCardId && D.CARDS[event.targetCardId].name || null})); }
     function record(before,after,action,detail) {
       if (finished) throw new Error('Cannot record actions after telemetry is finalized.');
@@ -118,7 +121,7 @@
       const hand = before.players[actor].hand.find(item => item.uid === action.handUid);
       const unit = before.units.find(item => item.uid === action.unitUid || item.uid === action.guardUid);
       if (hand) {
-        const card = row(actor,hand.cardId),cost = D.CARDS[hand.cardId].presence;
+        const card = row(actor,hand.cardId),cost = E.RULES?.commanders?actionCost.presence:D.CARDS[hand.cardId].presence;
         card.plays++;card.playTurnSum += before.turn;card.presencePaid += cost;
         card.commandActionsPaid += actionCost.commandActions;
         if(!actionCost.commandActions){card.freePlays++;economy[actor].freeCardPlays++;}
@@ -132,11 +135,12 @@
       if(action.type==='attack'&&unit){const c=row(unit.owner,unit.cardId);c.attacksInitiated++;
         if(unit.deployedTurn===before.turn&&hasTrait(unit,'rush'))c.rushAttacks++;
         if(hasTrait(unit,'precision')&&before.units.some(guard=>guard.owner!==unit.owner&&guard.territory===unit.territory&&guard.ready&&guard.uid!==action.targetUid&&hasTrait(guard,'guard')))c.precisionBypasses++;}
+      const recoveredUids=new Set(events.filter(e=>e.type==='commanderRecovery'&&e.uid).map(e=>e.uid));
       const oldHand = before.players.map(player => new Set(player.hand.map(item => item.uid)));
       const oldUnits = new Set(before.units.map(item => item.uid)),newUnits = new Set(after.units.map(item => item.uid));
       for (let seat = 0; seat < 2; seat++) {
         const returned = new Set(after.players[seat].hand.map(item => item.uid));
-        for (const item of after.players[seat].hand) if (!oldHand[seat].has(item.uid) && !oldUnits.has(item.uid)) observeDraw(seat,item,after.turn);
+        for (const item of after.players[seat].hand) if (!oldHand[seat].has(item.uid) && !oldUnits.has(item.uid) && !recoveredUids.has(item.uid)) observeDraw(seat,item,after.turn);
         for (const removed of before.units) if (removed.owner === seat && !newUnits.has(removed.uid)) {
           const life = lives.get(removed.uid);lives.delete(removed.uid);
           if (!returned.has(removed.uid)) {
@@ -147,6 +151,13 @@
         economy[seat].generated += Math.max(0,after.players[seat].command-before.players[seat].command);
       }
       for (const event of events) {
+        const commander=Number.isInteger(event.player)?commanders[event.player]:null;
+        if(commander&&event.type==='commanderActivated'){commander.activeUses++;commander.activeTurn=before.turn;commander.presenceSpent+=event.presenceCost;commander.commandActionsSpent+=event.commandCost;}
+        if(commander&&event.type==='commanderPassive'){commander.passiveTriggers++;commander.passiveAmount+=event.amount;if(commander.id==='commander_syndicate_coordinator')commander.presenceSaved+=event.amount;if(['commander_syndicate_quartermaster','commander_rogue_drifter'].includes(commander.id))commander.commandActionsSaved+=event.amount;if(commander.id==='commander_bruiser_breaker')commander.bonusPressure+=event.amount;if(commander.id==='commander_rogue_scavenger')commander.passiveCardsDrawn+=event.amount;if(commander.id==='commander_nightwalker_saboteur')commander.disruptionApplied+=event.amount;}
+        if(commander&&event.type==='commanderRecovery'){commander.cardsRecovered+=event.cardId?1:event.drawn||0;commander.capacityRecovered+=event.cardId?0:event.amount;}
+        if(commander&&event.type==='commanderDisrupt')commander.disruptionApplied+=event.amount;
+        if(commander&&event.sourceCommanderId&&event.type==='damage'){commander.damageDealt+=event.amount;commander.effectiveDamageDealt+=event.effective;}
+        if(commander&&event.sourceCommanderId&&event.type==='heal')commander.healingDone+=event.amount;
         if(event.type==='mark'&&event.sourceCardId)row(event.player,event.sourceCardId).markApplications++;
         if(event.type==='reinforce'&&event.sourceCardId)row(event.player,event.sourceCardId).reinforceApplications++;
         if(event.type==='order'&&event.mode)row(event.player,event.cardId).adaptPlays++;
@@ -190,9 +201,9 @@
         }
         if (event.type === 'heal' && event.passive === 'medic') for (const support of event.supporters) { const card = row(event.player,support.cardId);card.passiveTriggers++;card.healingEnabled += event.amount/event.supporters.length; }
         if(event.type==='heal'&&event.sourceCardId)row(event.player,event.sourceCardId).healingDone+=event.amount;
-        if(event.type==='rally')row(event.player,event.sourceCardId).rallies++;
+        if(event.type==='rally'&&event.sourceCardId)row(event.player,event.sourceCardId).rallies++;
         if(event.type==='move'&&event.reason==='mobile'){const c=row(event.player,event.cardId);c.passiveTriggers++;c.mobileMoves++;}
-        if (event.type === 'disrupt') row(event.player,event.sourceCardId).disruptionApplied += event.amount;
+        if (event.type === 'disrupt'&&event.sourceCardId) row(event.player,event.sourceCardId).disruptionApplied += event.amount;
         if (event.type === 'counter') row(event.player,event.cardId).counteredOrders++;
         if(event.type==='sabotage'&&event.sourceCardId){const c=row(event.player,event.sourceCardId);c.sabotageApplications++;c.traitsSuppressed+=(event.traits||[]).length;}
         if (event.type === 'passive') {
@@ -247,7 +258,7 @@
       }
       if (options.trace && traceLimit) {
         const target = before.units.find(item => item.uid === action.targetUid),definition = hand ? D.CARDS[hand.cardId] : unit ? D.CARDS[unit.cardId] : null;
-        const name = definition ? definition.name : action.pass ? 'Pass' : action.type;
+        const name = definition ? definition.name : action.type==='commander'?E.commanders.get(before.players[actor].commander.id).active.name:action.pass ? 'Pass' : action.type;
         const destination = action.territory === undefined ? target && before.territories[target.territory].name : before.territories[action.territory].name;
         records.push({turn:before.turn,actor,action:clone(action),cardId:definition && definition.id || null,
           actionText:`${action.type}: ${name}${destination ? ` → ${destination}` : ''}${target ? ` (${D.CARDS[target.cardId].name})` : ''}`,
@@ -289,7 +300,7 @@
       const gameVersion=typeof module==='object'&&module.exports?require('./package.json').version:globalThis.FrontlinesBuild&&globalThis.FrontlinesBuild.version||globalThis.FrontlinesShellState&&globalThis.FrontlinesShellState.VERSION||globalThis.FrontlinesRuntime&&globalThis.FrontlinesRuntime.version||null;
       return {schemaVersion:1,gameVersion,telemetryVersion:VERSION,rulesVersion:E.VERSION || 'frontlines-territory-v1',rules:clone(E.RULES||{}),seed:initial.seed,
         factions:initial.players.map(player => player.faction),aiProfiles:aiProfiles.slice(),winner,turns:state.turn,decisions,actions:{...actions},
-        territory:flow,economy:economies,comeback:comebacks,cards:cardsOut,
+        territory:flow,economy:economies,comeback:comebacks,cards:cardsOut,...(E.RULES?.commanders?{commanders:clone(commanders)}:{}),
         definitions:{turn:'One offensive initiative, not a pair of initiatives.',territorySamples:'Post-offensive-end-turn state; opening sample has turn 0.',
           recapture:'Securing a contested objective already owned by that player; ownershipRecaptures separately counts zones taken from the opponent.',
           comeback:'Condition observed in an end-turn sample; recovery means a later sample no longer meets it; win is eventual victory after exposure.',

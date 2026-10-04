@@ -2,13 +2,14 @@
 (function(root,factory){
   'use strict';
   const node=typeof module==='object'&&module.exports;
-  const api=factory(node?require('./data.js'):root.FrontlinesData,root,node?require('./deck-rules.js'):root.FrontlinesDeckRules);
+  const api=factory(node?require('./data.js'):root.FrontlinesData,root,node?require('./deck-rules.js'):root.FrontlinesDeckRules,node?require('./commanders.js'):root.FrontlinesCommanders);
   if(typeof module==='object'&&module.exports)module.exports=api;
   root.FrontlinesDecks=api;
-})(typeof globalThis!=='undefined'?globalThis:this,function createDecks(Data,root,Rules){
+})(typeof globalThis!=='undefined'?globalThis:this,function createDecks(Data,root,Rules,Commanders){
   'use strict';
   const VERSION='frontlines-decks-v1',STORAGE_KEY='frontlines.decks.v1';
   const RULES=Rules;
+  const commandersEnabled=()=>Data.RULES?.commanders===true;
   const clone=v=>JSON.parse(JSON.stringify(v));
   const titles={stonewall:'Bastion',bruiser:'Breakthrough',syndicate:'Tactical Command',nightwalker:'Shadow Operations',rogue:'Improvised Warfare'};
   const archetypes={stonewall:'bastion',bruiser:'shock-assault',syndicate:'combined-arms',nightwalker:'assassination',rogue:'wildcard'};
@@ -30,15 +31,22 @@
     if(typeof raw.name!=='string'||!raw.name.trim()||raw.name.length>80)throw new Error('Deck name must contain 1–80 characters.');
     if(!Array.isArray(raw.cards)||raw.cards.length>500||raw.cards.some(id=>typeof id!=='string'||!id||id.length>100||Object.hasOwn(Object.prototype,id)||id==='prototype'))throw new Error('Cards must be a list of valid card IDs (maximum 500).');
     const id=typeof raw.id==='string'&&/^[\w-]{1,100}$/.test(raw.id)?raw.id:'';
-    return {id,name:raw.name.trim(),faction:raw.faction,cards:raw.cards.slice(),archetype:typeof raw.archetype==='string'?raw.archetype.slice(0,80):'custom',source:'saved',createdAt:typeof raw.createdAt==='string'?raw.createdAt.slice(0,40):'',updatedAt:typeof raw.updatedAt==='string'?raw.updatedAt.slice(0,40):''};
+    if(raw.commanderId!==undefined&&(typeof raw.commanderId!=='string'||raw.commanderId.length>100||Object.hasOwn(Object.prototype,raw.commanderId)||raw.commanderId==='prototype'))throw new Error('Commander must be a safe Commander ID.');
+    const commanderId=raw.commanderId===undefined&&commandersEnabled()?Commanders?.defaultFor(raw.faction):raw.commanderId;
+    return {id,name:raw.name.trim(),faction:raw.faction,cards:raw.cards.slice(),...(commanderId!==undefined?{commanderId}:{}),archetype:typeof raw.archetype==='string'?raw.archetype.slice(0,80):'custom',source:'saved',createdAt:typeof raw.createdAt==='string'?raw.createdAt.slice(0,40):'',updatedAt:typeof raw.updatedAt==='string'?raw.updatedAt.slice(0,40):''};
   }
   function validate(raw){
     const errors=[],counts={};let deck;
     try{deck=shape(raw);}catch(error){return {legal:false,errors:[error.message],size:Array.isArray(raw?.cards)?raw.cards.length:0,counts};}
     if(deck.cards.length!==RULES.size)errors.push('Use exactly '+RULES.size+' cards ('+deck.cards.length+'/'+RULES.size+').');
+    if(commandersEnabled()){
+      const commander=Commanders?.get(deck.commanderId);
+      if(!commander)errors.push(deck.commanderId?'Unavailable Commander: '+deck.commanderId+'. Choose a launch Commander.':'Choose exactly one Commander outside the 26-card deck.');
+      else if(commander.faction!==deck.faction)errors.push(commander.name+' belongs to a different faction. Choose a '+Data.FACTIONS[deck.faction].name+' Commander.');
+    }
     for(const id of deck.cards){counts[id]=(counts[id]||0)+1;const c=Data.CARDS[id];if(!c){if(counts[id]===1)errors.push('Unavailable card: '+id+'. Remove or replace it.');continue;}if(c.faction!==deck.faction&&counts[id]===1)errors.push(c.name+' belongs to a different faction.');}
     for(const [id,count] of Object.entries(counts)){const c=Data.CARDS[id];if(c&&count>copyLimit(c))errors.push(c.name+': at most '+copyLimit(c)+' copies.');}
-    return {legal:errors.length===0,errors,size:deck.cards.length,counts};
+    return {legal:errors.length===0,errors,size:deck.cards.length,counts,...(commandersEnabled()?{commanderId:deck.commanderId}: {})};
   }
   function copyLimit(card){return card?.type==='leader'?RULES.maxLeaders:RULES.maxCopies;}
   function composition(deck){
@@ -59,16 +67,31 @@
     for(const id of deck?.cards||[]){const c=Data.CARDS[id];if(!c)continue;const commandCost=Number.isInteger(c.commandCost)?c.commandCost:c.type==='order'&&c.timing!=='action'?0:1;out.commandCosts[commandCost?'paid':'free']++;for(const tag of new Set(c.archetypes||[]))tags[tag]=(tags[tag]||0)+1;}
     out.archetypeTags=Object.entries(tags).map(([tag,count])=>({tag,count})).sort((a,b)=>b.count-a.count||a.tag.localeCompare(b.tag));out.averageCost=known?cost/known:0;return out;
   }
-  function starters(){return Object.keys(Data.FACTIONS).map(faction=>({id:faction+'-starter',name:Data.FACTIONS[faction].name+' — '+titles[faction],faction,cards:Data.DECKS[faction].slice(),archetype:archetypes[faction],source:'starter'}));}
-  function presets(){return PRESETS.map(([faction,archetype,title,counts])=>({id:faction+'-'+archetype,name:Data.FACTIONS[faction].name+' — '+title,faction,archetype,cards:Object.entries(counts).flatMap(([id,count])=>Array(count).fill(faction+'_'+id)),source:'preset'})).concat((Data.ARSENAL_PRESETS||[]).map(d=>({...clone(d),source:'preset'})));}
+  function assignCommander(deck){return commandersEnabled()?{...deck,commanderId:deck.commanderId||Commanders?.defaultFor(deck.faction)}:deck;}
+  function starters(){return Object.keys(Data.FACTIONS).map(faction=>assignCommander({id:faction+'-starter',name:Data.FACTIONS[faction].name+' — '+titles[faction],faction,cards:Data.DECKS[faction].slice(),archetype:archetypes[faction],source:'starter'}));}
+  function presets(){return PRESETS.map(([faction,archetype,title,counts])=>assignCommander({id:faction+'-'+archetype,name:Data.FACTIONS[faction].name+' — '+title,faction,archetype,cards:Object.entries(counts).flatMap(([id,count])=>Array(count).fill(faction+'_'+id)),source:'preset'})).concat((Data.ARSENAL_PRESETS||[]).map(d=>assignCommander({...clone(d),source:'preset'})));}
+  // The launch foundations use original designs already taught by each faction's
+  // starter. Quantity choices emphasize each leader without replacing old lists.
+  const COMMANDER_FOUNDATIONS={
+    stonewall:[['bastion',{rifles:3,defender:4,medic:3,heavy:2,escort:3,pathfinder:1,commander:2,aid_station:1,triage:3,brace:2,rally:1,fire_support:1}],['counteroffensive',{rifles:4,defender:2,medic:1,heavy:3,escort:2,pathfinder:3,commander:2,aid_station:1,triage:1,brace:1,rally:3,fire_support:3}]],
+    bruiser:[['shock-assault',{assault:4,heavy:4,brawler:2,breacher:4,vanguard:1,gunner:1,commander:2,banner:1,bombard:2,rally:2,ambush:2,resupply:1}],['shock-assault',{assault:3,heavy:2,brawler:3,breacher:2,vanguard:2,gunner:3,commander:2,banner:1,bombard:3,rally:1,ambush:3,resupply:1}]],
+    syndicate:[['combined-arms',{security:3,enforcer:2,observer:1,target_designator:2,courier:1,coordinator:4,contractor:2,commander:2,relay:1,intel:2,disrupt:1,counter:2,precision_strike:3}],['combined-arms',{security:4,enforcer:3,observer:2,courier:4,coordinator:1,contractor:1,commander:2,relay:1,intel:3,disrupt:2,counter:2,precision_strike:1}]],
+    nightwalker:[['assassination',{blade:4,stalker:3,marksman:3,assault:1,saboteur:1,scout:3,commander:2,beacon:1,ambush:3,strike:2,withdraw:1,recon:2}],['sabotage',{blade:2,stalker:2,marksman:1,blackout:2,saboteur:4,scout:2,commander:2,beacon:1,ambush:2,strike:3,withdraw:2,recon:3}]],
+    rogue:[['scavenger',{outrider:3,skirmisher:2,scrapper:3,salvage:4,trailguard:2,raider:1,commander:2,workshop:1,reclaim:3,rally:1,retreat:2,raid:2}],['wildcard',{outrider:4,skirmisher:4,scrapper:1,salvage:1,trailguard:3,raider:3,commander:2,workshop:1,reclaim:1,field_options:2,retreat:2,raid:2}]]
+  };
+  function commanderStarters(){return Object.keys(Data.FACTIONS).flatMap(faction=>(Commanders?.list(faction)||[]).map((commander,index)=>{
+    const [archetype,counts]=COMMANDER_FOUNDATIONS[faction][index];
+    return {id:commander.id+'-foundation',name:Data.FACTIONS[faction].name+' — '+commander.name+' / '+(index?'Tactical doctrine':'Frontline doctrine'),faction,commanderId:commander.id,archetype,cards:Object.entries(counts).flatMap(([id,count])=>Array(count).fill(faction+'_'+id)),source:'commander-starter'};
+  }));}
+  function starterGrant(){const counts={};for(const deck of starters().concat(commanderStarters())){const own={};for(const id of deck.cards)own[id]=(own[id]||0)+1;for(const[id,count]of Object.entries(own))counts[id]=Math.max(counts[id]||0,count);}return counts;}
   function storageFor(storage){if(storage)return storage;try{return root.localStorage||null;}catch(_){return null;}}
   function readLibrary(storage){
     const result={decks:[],warnings:[],rejected:[],recovered:0,blocked:false};const store=storageFor(storage);if(!store)return result;
     let value;try{value=JSON.parse(store.getItem(STORAGE_KEY)||'[]');if(!Array.isArray(value))throw new Error('The saved library is not a deck list.');}catch(error){result.blocked=true;result.warnings.push('Saved library could not be read. Your original data is preserved; export a recovery copy before resetting it. '+error.message);return result;}
-    const ids=new Set(),builtinIds=new Set(starters().concat(presets()).map(d=>d.id));
+    const ids=new Set(),builtinIds=new Set(starters().concat(presets(),commanderStarters()).map(d=>d.id));
     value.forEach((raw,index)=>{try{
       let candidate=raw;if(raw&&typeof raw==='object'&&!Array.isArray(raw)&&typeof raw.faction==='string'&&Object.hasOwn(Data.FACTIONS,raw.faction)&&Array.isArray(raw.cards)&&(!raw.name||typeof raw.name!=='string')){candidate={...raw,name:'Recovered '+Data.FACTIONS[raw.faction].name+' deck '+(index+1)};result.recovered++;}
-      const deck=shape(candidate);if(!deck.id||ids.has(deck.id)||builtinIds.has(deck.id)){deck.id='recovered-'+index;while(ids.has(deck.id))deck.id+='-copy';result.recovered++;}ids.add(deck.id);result.decks.push(deck);
+      const deck=shape(candidate);if(commandersEnabled()&&candidate.commanderId===undefined)result.warnings.push(deck.name+': assigned '+(Commanders?.get(deck.commanderId)?.name||deck.commanderId)+' as its faction Commander. Save to keep this migration; cards were preserved.');if(!deck.id||ids.has(deck.id)||builtinIds.has(deck.id)){deck.id='recovered-'+index;while(ids.has(deck.id))deck.id+='-copy';result.recovered++;}ids.add(deck.id);result.decks.push(deck);
       const legality=validate(deck);if(!legality.legal)result.warnings.push(deck.name+': '+legality.errors.join(' '));
     }catch(error){result.rejected.push({index,reason:error.message,record:clone(raw)});}});
     if(result.recovered)result.warnings.unshift(result.recovered+' saved field(s) recovered. Save the recovered decks to keep their repaired names and IDs.');
@@ -80,14 +103,14 @@
   function recoveryExport(storage){const store=storageFor(storage);if(!store)throw new Error('Local storage is unavailable.');return store.getItem(STORAGE_KEY)||'[]';}
   function persist(list,storage){const store=storageFor(storage);if(!store)throw new Error('Local storage is unavailable. Export your deck to keep a copy.');const previous=readLibrary(storage);if(previous.blocked)throw new Error('The existing library is unreadable. Export recovery data before replacing it.');store.setItem(STORAGE_KEY,JSON.stringify(list.concat(previous.rejected.map(r=>r.record))));}
   function save(raw,storage){
-    try{const deck=shape(raw),list=load(storage),now=new Date().toISOString();if(!deck.id||deck.id.endsWith('-starter')||presets().some(d=>d.id===deck.id))deck.id='deck-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);const index=list.findIndex(d=>d.id===deck.id);deck.createdAt=index>=0?list[index].createdAt||now:deck.createdAt||now;deck.updatedAt=now;if(index>=0)list[index]=deck;else{if(list.length>=200)throw new Error('The local library holds 200 decks. Export or remove a deck first.');list.push(deck);}persist(list,storage);return {ok:true,deck:clone(deck)};}catch(error){return {ok:false,error:error.message};}
+    try{const deck=shape(raw),list=load(storage),now=new Date().toISOString();if(!deck.id||deck.id.endsWith('-starter')||presets().concat(commanderStarters()).some(d=>d.id===deck.id))deck.id='deck-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);const index=list.findIndex(d=>d.id===deck.id);deck.createdAt=index>=0?list[index].createdAt||now:deck.createdAt||now;deck.updatedAt=now;if(index>=0)list[index]=deck;else{if(list.length>=200)throw new Error('The local library holds 200 decks. Export or remove a deck first.');list.push(deck);}persist(list,storage);return {ok:true,deck:clone(deck)};}catch(error){return {ok:false,error:error.message};}
   }
   function remove(id,storage){try{const list=load(storage);if(!list.some(d=>d.id===id))throw new Error('Saved deck not found. Starter decks remain available.');persist(list.filter(d=>d.id!==id),storage);return {ok:true};}catch(error){return {ok:false,error:error.message};}}
   function duplicate(raw,name,storage){try{const deck=shape(raw);deck.id='';deck.createdAt='';deck.updatedAt='';deck.name=(name||deck.name+' copy').slice(0,80);return save(deck,storage);}catch(error){return {ok:false,error:error.message};}}
   function importDeck(text){if(typeof text!=='string'||text.length>100000)throw new Error('Deck JSON must be smaller than 100 KB.');let raw;try{raw=JSON.parse(text);}catch(_){throw new Error('Invalid deck JSON.');}if(raw.format&&raw.format!=='frontlines-deck-v1')throw new Error('Unsupported deck format.');const deck=shape(raw.deck||raw);deck.id='';deck.createdAt='';deck.updatedAt='';return deck;}
-  function exportDeck(raw){const deck=shape(raw);return JSON.stringify({format:'frontlines-deck-v1',deck:{name:deck.name,faction:deck.faction,cards:deck.cards,archetype:deck.archetype}},null,2);}
+  function exportDeck(raw){const deck=shape(raw);return JSON.stringify({format:'frontlines-deck-v1',deck:{name:deck.name,faction:deck.faction,cards:deck.cards,...(deck.commanderId!==undefined?{commanderId:deck.commanderId}:{}),archetype:deck.archetype}},null,2);}
   function random(faction,seed){
-    if(!Object.hasOwn(Data.FACTIONS,faction))throw new Error('Unknown faction.');let n=(Number(seed)>>>0)||1;const rng=()=>{n^=n<<13;n^=n>>>17;n^=n<<5;return (n>>>0)/4294967296;};const pool=Object.values(Data.CARDS).filter(c=>c.faction===faction),cards=[],counts={};while(cards.length<RULES.size){const available=pool.filter(c=>(counts[c.id]||0)<copyLimit(c));if(!available.length)throw new Error('Not enough cards to build a legal deck.');const c=available[Math.floor(rng()*available.length)];cards.push(c.id);counts[c.id]=(counts[c.id]||0)+1;}return {id:'',name:Data.FACTIONS[faction].name+' random '+(Number(seed)>>>0),faction,cards,archetype:'custom',source:'saved'};
+    if(!Object.hasOwn(Data.FACTIONS,faction))throw new Error('Unknown faction.');let n=(Number(seed)>>>0)||1;const rng=()=>{n^=n<<13;n^=n>>>17;n^=n<<5;return (n>>>0)/4294967296;};const pool=Object.values(Data.CARDS).filter(c=>c.faction===faction),cards=[],counts={};while(cards.length<RULES.size){const available=pool.filter(c=>(counts[c.id]||0)<copyLimit(c));if(!available.length)throw new Error('Not enough cards to build a legal deck.');const c=available[Math.floor(rng()*available.length)];cards.push(c.id);counts[c.id]=(counts[c.id]||0)+1;}return assignCommander({id:'',name:Data.FACTIONS[faction].name+' random '+(Number(seed)>>>0),faction,cards,archetype:'custom',source:'saved'});
   }
-  return {VERSION,STORAGE_KEY,RULES,copyLimit,validate,composition,starters,presets,load,storageDiagnostics,recoveryExport,save,remove,duplicate,importDeck,exportDeck,random,getDecks:storage=>starters().concat(presets(),load(storage)),forData:data=>createDecks(data,root,Rules)};
+  return {VERSION,STORAGE_KEY,RULES,commandersEnabled,copyLimit,validate,composition,starters,presets,commanderStarters,starterGrant,load,storageDiagnostics,recoveryExport,save,remove,duplicate,importDeck,exportDeck,random,getDecks:storage=>starters().concat(presets(),commandersEnabled()?commanderStarters():[],load(storage)),forData:data=>createDecks(data,root,Rules,Commanders)};
 });

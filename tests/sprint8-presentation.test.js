@@ -4,7 +4,7 @@ const Data=require('../balance').dataFor('sprint7'),Collection=require('../colle
 
 test('all collectible card metadata inherit immutable centralized rarity profiles',()=>{
   assert.equal(Object.keys(Data.CARDS).length,115);
-  for(const card of Object.values(Data.CARDS)){const profile=P.profile(card);assert.equal(profile.id,Collection.metadata(card).rarity);assert.ok(Object.isFrozen(profile));assert.ok(profile.deployment<=800);assert.ok(profile.packReveal<=800);assert.ok(profile.particleLimit<=10);}
+  for(const card of Object.values(Data.CARDS)){const profile=P.profile(card);assert.equal(profile.id,Collection.metadata(card).rarity);assert.ok(Object.isFrozen(profile));assert.ok(profile.deployment<=1100);assert.ok(profile.packReveal<=800);assert.ok(profile.particleLimit<=10);}
   assert.deepEqual(Object.keys(P.PROFILES),['common','uncommon','rare','epic','legendary']);
   assert.equal(P.profile({rarity:'invalid'}).id,'common');
 });
@@ -61,6 +61,7 @@ test('channel adapters receive faction and rarity layers while independent mixer
   const f=audioFixture(),heard=[];f.fx.configure({sound:true,musicVolume:0,uiVolume:.4,cardEffectsVolume:0,battlefieldVolume:.6});f.fx.unlockAudio({isTrusted:true});await f.flush();f.fx.setSoundAdapter(event=>heard.push(event));
   const card={rarity:'legendary',faction:'nightwalker'};f.fx.cue('deploy',{card,channel:'card'});assert.equal(heard[0].channel,'card');assert.equal(heard[0].output.gain.value,0);assert.equal(heard[0].rarity,'legendary');assert.equal(heard[0].faction.motif,'distortion');assert.equal(heard[0].layers,5);
   f.fx.configure({presentation:'minimal'});f.contexts[0].currentTime+=1;f.fx.cue('deploy',{card,channel:'card'});assert.equal(heard[1].layers,1);assert.equal(f.fx.audioState().channels.music,0);assert.equal(f.fx.audioState().channels.card,0);assert.equal(f.fx.audioState().channels.ui,.4);
+  f.fx.configure({presentation:'full'});for(const name of ['commanderIntro','commander','land','impact']){f.contexts[0].currentTime+=1;f.fx.cue(name,{card,channel:name==='impact'?'battlefield':'card'});const event=heard.at(-1);assert.equal(event.name,name);assert.equal(event.layers,5);assert.equal(event.output.gain.value,name==='impact'?.6:0);}
 });
 test('effect audio caps live voices and optional audio failures never escape into actions',async()=>{
   const f=audioFixture();f.fx.configure({sound:true});f.fx.unlockAudio({isTrusted:true});await f.flush();

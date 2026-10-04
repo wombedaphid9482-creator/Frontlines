@@ -10,7 +10,7 @@
   root.FrontlinesSimulator = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (Data, Engine, AI, Telemetry, Analytics) {
   'use strict';
-  const VERSION = '3.3.0';
+  const VERSION = '4.0.0';
   const AI_VERSION = AI.VERSION || 'frontlines-heuristic-sprint2-v1';
   const copy = value => JSON.parse(JSON.stringify(value));
   function gameVersion() {
@@ -51,11 +51,11 @@
     return api.forData(data||Data);
   }
   function getDeckCatalog(data,customDecks) {
-    const library=deckAPI(data),catalog=library.starters().concat(library.presets());
+    const library=deckAPI(data),catalog=library.starters().concat(library.presets(),data?.RULES?.commanders&&library.commanderStarters?library.commanderStarters():[]);
     for(const raw of customDecks||[]) {
       if(!raw||typeof raw.id!=='string'||!/^[-\w]{1,100}$/.test(raw.id)||catalog.some(d=>d.id===raw.id))throw new Error('Custom decks need distinct valid IDs.');
       const result=library.validate(raw);if(!result.legal)throw new Error('Illegal deck '+String(raw.name||raw.id)+': '+result.errors.join(' '));
-      catalog.push({id:raw.id,name:raw.name.trim(),faction:raw.faction,cards:raw.cards.slice(),archetype:typeof raw.archetype==='string'?raw.archetype.slice(0,80):'custom',source:'saved'});
+      catalog.push({id:raw.id,name:raw.name.trim(),faction:raw.faction,cards:raw.cards.slice(),archetype:typeof raw.archetype==='string'?raw.archetype.slice(0,80):'custom',source:'saved',...(data?.RULES?.commanders?{commanderId:raw.commanderId||library.starters().find(d=>d.faction===raw.faction).commanderId}: {})});
     }
     return catalog;
   }
@@ -176,6 +176,7 @@
     return {
       index: current.spec.index, seed: current.spec.seed, deckIds: current.spec.deckIds.slice(),
       factions: current.spec.deckIds.map(id => current.decks[id].faction),
+      ...(current.runtime.data.RULES?.commanders?{commanderIds:current.spec.deckIds.map(id=>current.decks[id].commanderId)}:{}),
       aiProfiles:current.spec.aiProfiles ? current.spec.aiProfiles.slice() : current.options.aiProfiles.slice(),balanceProfile:current.options.balanceProfile,
       status, winner, winnerDeck: winner === null ? null : current.spec.deckIds[winner],
       winnerFaction: winner === null ? null : current.decks[current.spec.deckIds[winner]].faction,
@@ -221,6 +222,7 @@
     const separated = D.RULES && D.RULES.actionEconomy === 'capacity-command';
     const retreat = D.RULES && D.RULES.frontlineIntegrity === true;
     return { gameVersion:gameVersion(),rules:copy(D.RULES || {}),config:copy(options.config),factions:copy(D.FACTIONS),cards:copy(D.CARDS),decks:copy(Object.values(decks)),
+      ...(D.RULES?.commanders?{commanders:copy(E.commanders.COMMANDERS),commanderVersion:E.commanders.VERSION}:{}),
       balanceProfile:copy(runtime.profile),aiProfiles:options.aiProfiles.slice(),telemetryVersion:Telemetry && Telemetry.VERSION,
       territoryNames:D.TERRITORY_NAMES.slice(),glossary:copy(D.GLOSSARY),
       mechanics:{
@@ -233,13 +235,14 @@
         retreat:retreat?'After capture, enemy survivors resolve in ascending UID order before the frontline moves. Units retreat exactly one territory toward home into friendly-owned ground with a free friendly slot. Wounds remain and retreat exhausts; immobile assets and units with no legal retreat are eliminated, freeing commitment.':'Historical rule: surviving defenders stay in the captured territory and may later move toward the objective.',
         victory:'A player wins by capturing the opponent home sector or controlling the configured number of territories. No player health total determines victory.',
         reserves:'Draw configured opening and own-turn cards. Empty reserves recycle casualty and spent Order discards; if both reserve and discard are empty, drawing safely stops.',
+        ...(D.RULES?.commanders?{commanders:'Exactly one off-lane Commander per deck, outside the 26 cards and battlefield Presence. Each has a catalog-defined passive and a once-per-match active requiring 1 Command Action and its printed available Capacity. Same public rules and legal targets apply to human and AI. Historical profiles disable Commander effects.'}:{}),
         ...(D.RULES?.arsenalMechanics?{arsenal:'Armor reduces regular combat damage by 1 anywhere (maximum with temporary Reinforce Armor, plus positional Fortify). Mark adds 1 to positive incoming regular combat until the target owner’s next offensive turn; Reinforce heals and protects until the friendly owner’s next turn. Direct Orders, Ambush and separate Retaliate ignore Armor/Mark. Adapt requires an explicit mode; only the chosen ordinary effect resolves at the shared printed cost.'}:{})
       },
-      rulesVersion:D.RULES?.arsenalMechanics?'sprint7-arsenal-v1':separated || retreat?'sprint6-command-frontline-v1':'sprint4-territory-arsenal-v1',
+      rulesVersion:D.RULES?.commanders?'sprint9-commanders-v1':D.RULES?.arsenalMechanics?'sprint7-arsenal-v1':separated || retreat?'sprint6-command-frontline-v1':'sprint4-territory-arsenal-v1',
       engineVersion:E.VERSION || 'frontlines-territory-v1',aiVersion:A.VERSION || AI_VERSION,
-      engineFingerprint:fingerprint(String(E.createGame)+String(E.dispatch)+String(E.legalActions)+String(E.validate)+String(E.actionCost)+String(E.retreatDestination)+(D.RULES?.arsenalMechanics?String(E.resolveEffect)+String(E.combatDamage):'')),
+      engineFingerprint:fingerprint(String(E.createGame)+String(E.dispatch)+String(E.legalActions)+String(E.validate)+String(E.actionCost)+String(E.retreatDestination)+(D.RULES?.commanders?String(E.commanderStatus):'')+(D.RULES?.arsenalMechanics?String(E.resolveEffect)+String(E.combatDamage):'')),
       aiFingerprint:fingerprint(String(A.chooseAction)),
-      dataFingerprint:fingerprint(JSON.stringify({cards:D.CARDS,decks:D.DECKS,config:D.DEFAULT_CONFIG,rules:D.RULES||{}})) };
+      dataFingerprint:fingerprint(JSON.stringify({cards:D.CARDS,decks:D.DECKS,config:D.DEFAULT_CONFIG,rules:D.RULES||{},...(D.RULES?.commanders?{commanders:E.commanders.COMMANDERS}: {})})) };
   }
   function fingerprint(text) {
     let hash = 2166136261;
@@ -253,9 +256,10 @@
     const schedule = scheduleFor(options);
     const activeIds=options.mode==='matrix'?options.deckPool:[options.deckA,options.deckB];
     const decks = Object.fromEntries(getDeckCatalog(runtime.data,options.customDecks).filter(d=>activeIds.includes(d.id)).map(deck => [deck.id,deck]));
-    const matches = [], aggregateCards = {}, byDeck = {}, byFaction = {}, byFactionCross = {}, byMatchup = {},byArchetype={},synergies={};
+    const matches = [], aggregateCards = {}, byDeck = {}, byFaction = {}, byFactionCross = {}, byMatchup = {},byArchetype={},byCommander={},synergies={};
     for (const deck of Object.values(decks)) {
       byDeck[deck.id] = entry(deck.id,deck.name,deck.faction);
+      if(runtime.data.RULES?.commanders){const c=E.commanders.get(deck.commanderId);byDeck[deck.id].commanderId=c.id;byCommander[c.id]=byCommander[c.id]||{...entry(c.id,c.name,c.faction),activeUses:0,passiveTriggers:0,passiveAmount:0,presenceSpent:0,commandActionsSpent:0,damageDealt:0,effectiveDamageDealt:0,healingDone:0,cardsRecovered:0,capacityRecovered:0,disruptionApplied:0,presenceSaved:0,commandActionsSaved:0,bonusPressure:0,passiveCardsDrawn:0,activationTurnSum:0};}
       byFaction[deck.faction] = entry(deck.faction,Data.FACTIONS[deck.faction].name,deck.faction);
       byFactionCross[deck.faction] = entry(deck.faction,Data.FACTIONS[deck.faction].name,deck.faction);
       const strategy=deck.faction+':'+(deck.archetype||'custom');byArchetype[strategy]=entry(strategy,deck.archetype||'custom',deck.faction);
@@ -268,7 +272,7 @@
       const match = matchSummary(current,status,error);
       const metrics=current.tracker&&current.state?current.tracker.finish(current.state):null;
       advanced.add(match,metrics);
-      if(metrics)match.diagnostics=compactDiagnostics(metrics);
+      if(metrics){match.diagnostics=compactDiagnostics(metrics);if(metrics.commanders)match.commanderUsage=copy(metrics.commanders);}
       matches.push(match); tally.matches++;
       if (status === 'win') {
         tally.decisive++; tally.wins[match.winner]++; if (match.winner === 0) tally.firstPlayerWins++;
@@ -280,6 +284,7 @@
       for (const type of Object.keys(match.actions)) tally.actions[type] = (tally.actions[type] || 0) + match.actions[type];
       for (let seat = 0; seat < 2; seat++) {
         bumpEntry(byDeck[match.deckIds[seat]],match,seat);
+        if(match.commanderIds){const commander=byCommander[match.commanderIds[seat]],usage=metrics?.commanders?.[seat];bumpEntry(commander,match,seat);if(usage){for(const key of ['activeUses','passiveTriggers','passiveAmount','presenceSpent','commandActionsSpent','damageDealt','effectiveDamageDealt','healingDone','cardsRecovered','capacityRecovered','disruptionApplied','presenceSaved','commandActionsSaved','bonusPressure','passiveCardsDrawn'])commander[key]+=usage[key];if(usage.activeTurn!==null)commander.activationTurnSum+=usage.activeTurn;}}
         bumpEntry(byFaction[match.factions[seat]],match,seat);
         if(match.factions[0]!==match.factions[1])bumpEntry(byFactionCross[match.factions[seat]],match,seat);
         const deck=decks[match.deckIds[seat]],strategy=deck.faction+':'+(deck.archetype||'custom');bumpEntry(byArchetype[strategy],match,seat);
@@ -329,6 +334,7 @@
           winRateA:row.decisive?row.winsA/row.decisive:null,winIntervalA:interval(row.winsA,row.decisive),
           meanTurns:row.decisive?row.turnSum/row.decisive:null,firstPlayerWinRate:row.decisive?row.firstPlayerWins/row.decisive:null})),
         byArchetype:Object.values(byArchetype).map(decorateEntry),
+        ...(runtime.data.RULES?.commanders?{byCommander:Object.values(byCommander).map(row=>({...decorateEntry(row),activationRate:row.played?row.activeUses/row.played:null,meanActivationTurn:row.activeUses?row.activationTurnSum/row.activeUses:null}))}:{}),
         deckCompositions:Object.values(decks).map(d=>({id:d.id,name:d.name,archetype:d.archetype||'custom',...deckAPI(runtime.data).composition(d)})),
         synergies:Object.values(synergies).map(row=>({...row,winRate:row.wins/row.matches,winInterval:interval(row.wins,row.matches),averageFinalTerritorySwing:row.territorySwingSum/row.matches})).sort((a,b)=>b.matches-a.matches),cards:[]
       };
@@ -404,7 +410,7 @@
     if (!report.rulesSnapshot || report.aiVersion !== (A.VERSION||AI_VERSION) || report.simulatorVersion !== VERSION
       || report.rulesSnapshot.rulesVersion !== currentRules.rulesVersion
       || ['engineFingerprint','aiFingerprint','dataFingerprint'].some(key => report.rulesSnapshot[key] !== currentRules[key])
-      || ['cards','decks','config','rules'].some(key => JSON.stringify(report.rulesSnapshot[key]) !== JSON.stringify(currentRules[key]))) {
+      || ['cards','decks','config','rules',...(currentRules.rules.commanders?['commanders']:[])].some(key => JSON.stringify(report.rulesSnapshot[key]) !== JSON.stringify(currentRules[key]))) {
       throw new Error('This report uses different rules, cards, or AI. Replay it with its original build.');
     }
     const original=report.matches[matchIndex],spec={index:original.index,seed:original.seed,deckIds:original.deckIds.slice(),aiProfiles:(original.aiProfiles||options.aiProfiles).slice()};
@@ -426,7 +432,7 @@
           || current.state.units.find(unit => unit.uid === action.unitUid || unit.uid === action.guardUid);
         const target = current.state.units.find(unit => unit.uid === action.targetUid);
         actions.push({decision:current.decisions+1,turn:current.state.turn,actor,action:copy(action),
-          cardId:item ? item.cardId : null,cardName:item ? runtime.data.CARDS[item.cardId].name : null,
+          cardId:item ? item.cardId : null,cardName:item ? runtime.data.CARDS[item.cardId].name : null,...(action.type==='commander'?{commanderId:current.state.players[actor].commander.id,commanderName:E.commanders.get(current.state.players[actor].commander.id).name}:{}),
           targetCardId:target ? target.cardId : null,targetName:target ? runtime.data.CARDS[target.cardId].name : null,
           territoryName:action.territory !== undefined ? current.state.territories[action.territory].name : target ? current.state.territories[target.territory].name : null});
         const before=current.state,dispatched=E.dispatch(before,action,{events:true});
@@ -437,11 +443,11 @@
         current.actions[action.type] = (current.actions[action.type] || 0) + 1;
       } catch (problem) { status='error';error=String(problem && problem.message || problem);break; }
     }
-    const metrics=tracker.finish(current.state),match=matchSummary(current,status,error);match.diagnostics=compactDiagnostics(metrics);
+    const metrics=tracker.finish(current.state),match=matchSummary(current,status,error);match.diagnostics=compactDiagnostics(metrics);if(metrics.commanders)match.commanderUsage=copy(metrics.commanders);
     return {match,metrics,trace:tracker.trace(),actions,log:copy(current.state.log),truncated:status==='replayLimit',
       final:{turn:current.state.turn,contested:current.state.contested,winner:current.state.winner,response:copy(current.state.response),
         territories:copy(current.state.territories),units:copy(current.state.units),
-        players:current.state.players.map((player,seat) => ({id:player.id,faction:player.faction,deckCount:player.deck.length,hand:copy(player.hand),discard:copy(player.discard),presence:E.presence(current.state,seat)}))} };
+        players:current.state.players.map((player,seat) => ({id:player.id,faction:player.faction,deckCount:player.deck.length,hand:copy(player.hand),discard:copy(player.discard),presence:E.presence(current.state,seat),...(E.RULES?.commanders?{commander:copy(player.commander)}:{})}))} };
   }
   function csvValue(value) {
     let text = value === null || value === undefined ? '' : String(value);
@@ -452,8 +458,8 @@
   }
   function csv(headers,rows) { return [headers.join(','),...rows.map(row => row.map(csvValue).join(','))].join('\r\n') + '\r\n'; }
   function matchesCSV(report) {
-    return csv(['index','seed','p1_deck','p2_deck','p1_faction','p2_faction','status','winner_seat','winner_deck','turns','decisions','p1_captures','p2_captures','p1_kills','p2_kills','p1_damage','p2_damage','p1_territories','p2_territories','error','game_version'],
-      report.matches.map(match => [match.index,match.seed,...match.deckIds,...match.factions,match.status,match.winner === null ? '' : match.winner+1,match.winnerDeck,match.turns,match.decisions,...match.captures,...match.kills,...match.damage,...match.finalTerritories,match.error,report.gameVersion||report.rulesSnapshot?.gameVersion||'']));
+    return csv(['index','seed','p1_deck','p2_deck','p1_faction','p2_faction','status','winner_seat','winner_deck','turns','decisions','p1_captures','p2_captures','p1_kills','p2_kills','p1_damage','p2_damage','p1_territories','p2_territories','error','game_version','p1_commander','p2_commander'],
+      report.matches.map(match => [match.index,match.seed,...match.deckIds,...match.factions,match.status,match.winner === null ? '' : match.winner+1,match.winnerDeck,match.turns,match.decisions,...match.captures,...match.kills,...match.damage,...match.finalTerritories,match.error,report.gameVersion||report.rulesSnapshot?.gameVersion||'',...(match.commanderIds||['',''])]));
   }
   function cardsCSV(report) {
     const headers=['deckId','cardId','name','faction','type','copiesPerDeck',...Telemetry.CARD_METRICS,'drawnDecisiveMatches','playedDecisiveMatches',
@@ -462,6 +468,11 @@
       'notDrawnDecisiveMatches','multiplePlayedDecisiveMatches','winRateNotDrawn','winRateMultiplePlayed','averageAIPlayScore','averageAIPriorityMargin','averageDeploymentControlDelta','averageDeploymentCaptureDelta','game_version'];
     return csv(headers,report.summary.cards.map(row => headers.map(key => key==='game_version'?report.gameVersion||report.rulesSnapshot?.gameVersion||'':row[key])));
   }
-  return {VERSION,AI_VERSION,DEFAULT_THRESHOLDS,getBalanceProfiles,getDecks,getDeckCatalog,normalizeOptions,createRun,replayMatch,matchesCSV,cardsCSV,
+  function commandersCSV(report) {
+    const headers=['id','name','faction','played','decisive','won','lost','winRate','meanTurns','p1WinRate','p2WinRate','activeUses','activationRate','meanActivationTurn','passiveTriggers','passiveAmount',
+      'presenceSpent','commandActionsSpent','damageDealt','effectiveDamageDealt','healingDone','cardsRecovered','capacityRecovered','disruptionApplied','presenceSaved','commandActionsSaved','bonusPressure','passiveCardsDrawn','game_version'];
+    return csv(headers,(report.summary.byCommander||[]).map(row=>headers.map(key=>key==='game_version'?report.gameVersion||report.rulesSnapshot?.gameVersion||'':key==='p1WinRate'?row.seats[0].winRate:key==='p2WinRate'?row.seats[1].winRate:row[key])));
+  }
+  return {VERSION,AI_VERSION,DEFAULT_THRESHOLDS,getBalanceProfiles,getDecks,getDeckCatalog,normalizeOptions,createRun,replayMatch,matchesCSV,cardsCSV,commandersCSV,
     compareReports:Analytics.compareReports,reportHTML:Analytics.reportHTML};
 });
