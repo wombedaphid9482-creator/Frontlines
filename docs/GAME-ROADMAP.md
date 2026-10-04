@@ -1,28 +1,22 @@
 # Game action roadmap
 
-The current milestone is **v0.6.0 Command Interface**. Territory, continuing Presence commitment and the shared authoritative engine remain the foundation. The central command menu, viewport-bounded game/Arsenal/War Room, persistent primary actions, shared Settings and native fullscreen are implemented. Deckbuilding, 80 cards, custom live/simulated decks and advanced analysis remain available. Competitive stabilization is still subject to the final simulation release gate; interface completion does not certify balance.
+The current milestone is **v0.9.0 — Arsenal Economy, Collection & Presentation**: persistent ownership, five playable starters, earned Credits, packs, Supply crafting, mastery, cosmetics, distinct rarity/faction feedback and four original music themes. The 115-card combat pool, deckbuilder, tutorials, difficulties, contiguous front and native fullscreen remain.
 
-## Owner interface requirements — implemented in Sprint 5
+## Owner interface requirements
 
-Owner feedback recorded October 1, 2026, with Balance Lab access corrected October 2, 2026, is now reflected in the command interface. This replaces the prior pending UI section; the historical v0.5.0 build has not been rewritten.
-
-- **Balance Lab remains in the game as War Room.** The main menu and Arsenal's Test command lead to player deck simulations. Advanced Lab and dedicated launchers remain available; access is not restricted to admins.
-- **Primary actions are larger and prominent.** Play, Arsenal, War Room and Settings are central menu commands. Match, deck and simulation actions have persistent command areas, visible focus and stronger selected/disabled states.
-- **Native display and navigation are coherent.** F11/Alt + Enter and Windowed/Fullscreen settings use Electron fullscreen, with saved display preferences and off-screen recovery. Escape closes an overlay or returns from a submenu. Bounded internal collection/list/report scrolling keeps content accessible at the minimum supported window.
+War Room stays inside Frontlines for players to test saved decks. Central commands and bottom actions stay large and visible. Collection, library and detail scroll inside bounded panels; compact windows use tabs. Player ownership gates normal Play; every legal card remains available to AI and War Room.
 
 ## Next game action plan
 
-1. **Pass the competitive release gate.** Preserve the fresh frozen v0.5.0 50,000-match baseline, use targeted hypotheses and paired screens, then validate the final current profile over at least 50,000 representative-deck matches. Gate: every faction 45–55% against other factions, preferred highest-minus-lowest spread at most 5 percentage points, with deck/archetype and extreme matchup gaps explicitly reviewed. Same-faction variants remain deck results rather than forced 50% padding. Baseline Nightwalker 66.138% / Rogue 32.472% cross-faction rates fail (64.346% / 34.419% over all appearances); these are not results for an unvalidated new profile.
-2. **Owner and external human playtests.** Use the packaged candidate, choose different same-faction decks, swap opening seats and export feedback. Check the central menu, fullscreen, card briefing, Presence tradeoffs and answers to strong enemy plays. Gate: players can explain their plan and finish without developer help; automated button/native checks do not substitute for these observations.
-3. **Deck identity and counterplay pass.** Separate AI weakness from card/preset weakness using controlled schedules and human evidence. Review mandatory cards, recovery, fragile occupation and high-commitment finishers. Gate: two credible approaches per faction with documented strengths/weaknesses; faction averages do not conceal a near-auto-win strategy.
-4. **Teach and refine the command interface.** Add optional deployment/movement/response/capture guidance; use human observations to refine internal panels, enlarged inspection and Windows display-scaling accessibility. Gate: a new player identifies a legal action, an unaffordable card and the next command without page scrolling or developer tools.
-5. **Distinct art and small scenarios.** Prioritize recognizable signature-card portraits, then documented missing strategic roles and controlled public-position fixtures. Keep new abilities, AI, simulation and counterplay tests together. Online systems and progression remain deferred until local matches demonstrate durable fun.
+1. **Human first session.** Follow the [release checklist](RELEASE-0.9.0.md). Build two different decks in one faction, exchange deck JSON and play Easy/Normal. Review explanations, targets and temporary status; export confusion and unfair outcomes through playtest reports.
+2. **Test progression pacing.** Review pack value, new-player loss rewards, acquisition guidance, crafting and mastery through human sessions. Report confusing ownership states and audio/readability issues.
+3. **Review balance evidence.** Authorize the separate jobs in [Sprint 7](SPRINT-007.md#simulation-request--after-the-stable-candidate). The v0.7.0 baseline identified severe faction, preset and initiative gaps. The expanded candidate has no new statistical certification.
+4. **Address one supported problem.** Distinguish card access, positioning, AI sequencing and capture snowball. Preserve signatures and frozen profiles; keep deterministic coverage. Do not launch autonomous tuning campaigns.
+5. **Improve visual identity.** Replace representative art for the most-used additions, improve terrain/occupation feedback and add faction sounds. Coherent temporary portraits keep mechanical work moving.
+6. **Strengthen deck iteration.** Improve exposure-aware performance comparisons, share codes and human feedback. Preserve legal drafts across content updates.
+7. **Defer online infrastructure.** Local progression is implemented. Accounts and matchmaking remain deferred.
 
-The acceptance gates below preserve the earlier roadmap context; the plan above is the active Sprint 5/follow-up priority order. Previous starter-only percentages are historical measurements of their recorded builds.
-
-This roadmap has acceptance gates rather than dates. Complete a gate before widening its scope. The separate [simulator roadmap](SIMULATOR-ROADMAP.md) supports these decisions; CPU results alone do not establish human balance.
-
-The first [1,000-match baseline is saved](simulator-baseline-1000.json) and [verified across Node, CLI, and browser](SIMULATOR-VERIFICATION.md). It supplies the starting evidence for phase 1. Human matchup testing and subsequent tuning remain outstanding.
+## Historical staged roadmap
 
 ## 1. Establish a balance baseline and collect human evidence
 

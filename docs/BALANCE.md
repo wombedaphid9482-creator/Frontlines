@@ -1,4 +1,22 @@
-# Sprint 2 balance checkpoint
+# Frontlines balance history and current validation policy
+
+## Current v0.9.0 collection candidate
+
+Sprint 8 adds ownership, earned Credits, packs, Supply crafting, mastery and presentation around the existing `sprint7` combat profile. No combat statistics, effects, Command Action costs or AI policies changed since v0.8.0. Human decks require owned copies; AI and War Room retain unrestricted legal inventories. Rarity and cosmetics provide no gameplay bonuses. No new balance or economy campaign ran. [Sprint 8](SPRINT-008.md#exact-simulation-request-for-ryken--not-executed) records the exact proposed next validation, awaiting separate authorization.
+
+### Preserved Arsenal balance evidence
+
+The authorized v0.7.0 baseline completed **10,000 decisive matches, zero errors or cutoffs**, with original ten presets, deck AI, paired opening seats and seed 20261003. Cross-faction rates: Stonewall 44.89%, Bruiser 43.67%, Syndicate 58.75%, Nightwalker 69.93%, Rogue 32.77%; first player 57.05%. Six pairings exceeded 90–10. The environment fails the standing approximately 45–55% cross-faction target; a working build does not certify competitive balance.
+
+[Preserved baseline](balance/SPRINT6-BASELINE.md) records configuration, raw results, independent audit, source checkpoint and hashes. Use byFactionCross for faction comparisons. All-appearance deck rates include same-faction variants. Card/pair winning associations are hypotheses, not causal tuning instructions. The Sprint 5 competitive gate also failed; its reports remain historical.
+
+The new sprint7 / sprint7-arsenal-v1 profile adds 35 cards, four mechanics and five hybrid templates. It preserves all 80 existing cards and original starter/preset lists. Its only correction to an existing card is **Silencer Team deployment: 0 → 1 Command Action**. Presence, stats and Rush/Precision remain. This restores an opportunity cost for a major specialist deployment; it does not establish that Silencer caused all Nightwalker dominance or that the environment is fixed.
+
+**No additional balance campaign ran after the authorized baseline.** Unit, deterministic, browser and native smoke fixtures verify correctness. Ryken controls subsequent jobs. [Sprint 7](SPRINT-007.md#simulation-request--after-the-stable-candidate) requests two separately authorized 10k jobs: original ten presets for comparison, then expanded fifteen for new content. Different opponent weighting prevents a causal aggregate comparison. No 50k run is implied.
+
+Priority risks include weak presets, initiative, late Capacity saturation, static assets trapped on capture, cheap aura/recovery compression and new combinations. Human play and exposure-aware analysis precede broad tuning. [Arsenal 007](ARSENAL-007.md) explains designs, costs and counterplay.
+
+## Historical checkpoints
 
 ## Current v0.5.0 checkpoint
 

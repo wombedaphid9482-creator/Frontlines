@@ -4,7 +4,7 @@
   const Balance = root.FrontlinesBalance;
   const originalAI = root.FrontlinesAI;
   if (!Balance || !originalAI) {
-    root.FrontlinesRuntime = { version: '0.6.0', balanceProfile: 'baseline', balanceName: 'Baseline', aiProfile: 'baseline', aiVersion: originalAI && originalAI.VERSION || 'legacy baseline' };
+    root.FrontlinesRuntime = { version: root.FrontlinesBuild.version, balanceProfile: 'baseline', balanceName: 'Baseline', aiProfile: 'baseline', aiVersion: originalAI && originalAI.VERSION || 'legacy baseline' };
     return;
   }
   const runtime = Balance.createRuntime(Balance.DEFAULT_PROFILE);
@@ -16,7 +16,7 @@
     explainAction: function (state, options) { return preparedAI.explainAction(state, Object.assign({ profile: 'deck' }, options)); }
   });
   root.FrontlinesRuntime = {
-    version: '0.6.0', balanceProfile: runtime.profile.id, balanceName: runtime.profile.name,
+    version: root.FrontlinesBuild.version, balanceProfile: runtime.profile.id, balanceName: runtime.profile.name,
     balanceVersion: runtime.profile.version, aiProfile: 'deck', aiVersion: preparedAI.VERSION || 'deck-aware',
     profile: runtime.profile
   };

@@ -1,12 +1,14 @@
 # Frontlines War Room and Advanced Balance Lab
 
-The **v0.6.0 War Room** keeps deck testing inside Frontlines. Its central landing offers **Quick Matchup**, **Tournament**, **Faction Overview** and **Advanced Lab**. Player results use clear cards and bounded tabs; the full Balance Lab remains accessible through Advanced. The simulation runs the shared authoritative engine without artwork, animation, sound or turn delays. Territory capture, Breakthrough, Presence commitment, responses and victory use the same rules as the live game.
+The **v0.9.0 War Room** keeps deck testing inside Frontlines. Its central landing offers **Quick Matchup**, **Tournament**, **Faction Overview** and **Advanced Lab**. Player results use clear cards and bounded tabs; the full Balance Lab remains accessible through Advanced. Simulator **3.3.0** runs the shared authoritative engine without artwork, animation, sound or turn delays. Capacity/Command Actions, mandatory capture retreat, Breakthrough, Presence commitment, responses, Armor, Mark, Reinforce, Adapt and victory use the same rules as the live game.
 
-Five original starter lists, ten archetype presets and saved legal custom decks are available. Open Arsenal to construct or import a list, then refresh saved decks in the Lab. Choose a duel or a selected-pool round robin, including same-faction variants. The exact total is distributed across paired opening seats; partial cycles can have unequal matchup exposures. See [deckbuilding guide](DECKBUILDING.md) for construction rules and CLI deck imports.
+**Ryken operates balance simulations unless explicitly authorizing Codex to run them.** The authorized v0.7.0 run completed 10,000 decisive games with no errors/cutoffs and is archived in the [Sprint 6 baseline report](balance/SPRINT6-BASELINE.md). No follow-up balance campaign has run under the expanded profile. [Sprint 7](SPRINT-007.md#simulation-request--after-the-stable-candidate) proposes two separate 10,000-game jobs: Job A uses the exact original ten presets for continuity; Job B uses all fifteen current presets for expanded coverage. Prioritize A if approving one initially, then review before authorizing B. No automatic tuning loop or 50,000-game confirmation is implied. Ordinary deterministic, tutorial and small stability fixtures remain expected development checks.
 
-Reports preserve exact lists, profiles, versions and seeds. **Decks** adds a deck matrix, archetype rates, curves and played-pair correlations. **Advanced → Compare** supports earlier reports and named variants; AI/rule/deck-list differences remain explicit. HTML, JSON and CSV exports accompany rich replay, card outliers, economy, territory/comeback and match-length percentiles. Current validation status is in [Sprint 5](SPRINT-005.md); [Sprint 4](SPRINT-004.md) and the older benchmark sections remain historical context.
+The current `sprint7` / `sprint7-arsenal-v1` profile includes **115 cards**, five original starters and **15 presets**: ten originals plus five hybrid templates. Saved custom decks use the same canonical 26-card, single-faction, four-ordinary/two-Leader copy limits as live play. Open Arsenal to construct or import a list, then refresh saved decks in the Lab. Choose a duel or selected-pool round robin, including same-faction variants. The exact total is distributed across paired opening seats; partial cycles can have unequal matchup exposures. See the [deckbuilding guide](DECKBUILDING.md) for editing, strategy intent, recovery and imports.
 
-Normal entry uses the current game balance profile and deck-aware AI. **Advanced view** exposes balance profiles, both AI policies, reproducible seeds, rule overrides, safeguards, diagnostic thresholds, confidence intervals, match records and comparison. The dashboard labels advanced experiment settings when those results are viewed in player mode. Experiments never change live game rules or saved decks.
+Reports preserve exact lists, profiles, versions and seeds. **Decks** adds a deck matrix, archetype rates, curves and played-pair correlations. **Advanced → Compare** supports earlier reports and named variants; AI/rule/deck-list differences remain explicit. HTML, JSON and CSV exports identify originating game version and include economy, territory/comeback, match-length, card usage and interaction metrics. Telemetry **`frontlines-telemetry-v5-arsenal`** adds Mark applications, Reinforce applications, Adapt plays and nominal/effective Armor protection. Current verification and known limits are recorded in [Sprint 7](SPRINT-007.md) and the [v0.9.0 release guide](RELEASE-0.9.0.md). Earlier sprint records remain historical context.
+
+Normal entry uses the current game balance profile and deck-aware AI. **Advanced view** exposes balance profiles, both AI policies, reproducible seeds, rule overrides, safeguards, diagnostic thresholds, confidence intervals, match records and comparison. Changing the profile rebuilds the deck catalog from that profile's compiled card pool: Sprint 7 has fifteen presets; preserved Sprint 6 has ten and does not receive the expansion. Saved expansion decks stay stored when viewing an older profile but cannot run if its cards are unavailable. The dashboard labels advanced experiment settings when those results are viewed in player mode. Experiments never change live rules or saved decks.
 
 The [saved 1,000-match baseline](simulator-baseline-1000.json) and [verification report](SIMULATOR-VERIFICATION.md) preserve the initial benchmark and launch checks. The older [Sprint 2 balance checkpoint](BALANCE.md) remains a separate historical sample.
 
@@ -35,7 +37,7 @@ Pause/resume does not provide recovery after closing or reloading the page. Stop
 
 The player faction table uses **performance against other factions** whenever those observations exist. `summary.byFactionCross` counts only games between different factions; `summary.byFaction` retains all appearances for compatibility. Same-faction deck variants remain meaningful in deck/archetype and matchup results, but each contributes a forced 50% faction total. Including them in the formal faction gate would conceal part of the spread.
 
-Sprint 5 requires every faction **45–55% against other factions** in the final representative-deck 50,000-match validation, with preferred highest-minus-lowest spread **at most 5 percentage points**. Extreme archetype and head-to-head gaps require separate review. The frozen v0.5.0 baseline failed: Nightwalker 66.138%, Rogue 32.472% against other factions (64.346% / 34.419% across all appearances). Final tuning is still being validated; no player interface or single winning-card correlation proves human competitive balance.
+The standing target is every faction approximately **45–55% against other factions**, with preferred highest-minus-lowest spread **at most 5 percentage points**. Extreme archetype and head-to-head gaps require separate review. Sprint 5's gate was not completed: the frozen v0.5.0 baseline failed at Nightwalker 66.138% / Rogue 32.472% cross-faction (64.346% / 34.419% across all appearances). The separately authorized v0.7.0 baseline also failed, with Nightwalker 69.93% and Rogue 32.77% cross-faction; the first seat won 57.05%. Keep each result with its originating rules and pool. Neither establishes the expanded v0.9.0 candidate's balance; new owner-reviewed data and human observations are needed.
 
 ## Modes, seeds, and seats
 
@@ -58,7 +60,7 @@ The nine editable game settings are saved in the report and apply only to the ex
 | Starting hand | 5 | Opening cards before ordinary turn-start drawing. |
 | Cards per turn | 1 | Cards drawn at the start of an offensive turn. |
 | Slots per side / territory | 5 | Permanent-card capacity for each player in each zone. |
-| Major actions per turn | 3 | Deploy, move, attack, or action Order allowance. |
+| Command Actions per turn | 3 | Tactical command allowance. Current rules retain free ordinary deployment/support; moves/attacks and explicitly marked major cards cost commands. Sprint 7 adds a one-command Silencer deployment and one-command cost for every Field Options mode. Historical profiles keep their own costs. |
 | Territories to win | 7 | Conquest requirement; capturing the opposing home also wins. |
 
 Default safeguards are 240 offensive turns and 10,000 AI decisions per match. They prevent an experiment from running indefinitely; reaching a safeguard does not create a game-rule draw. The optional verification setting checks state invariants and card conservation after every decision and reduces throughput.
@@ -102,6 +104,11 @@ Card rows are grouped by deck and card ID. Multiple copies and recycled cards ca
 | `handEndTurnObservations` | One observation per copy held before its owner's offensive end-turn; the same held card can appear repeatedly. |
 | `affordableHandEndTurnObservations` | Held copies whose printed Presence fits the owner's Available Presence at that observation. This does not mean they have a legal target, timing window, or unique-card permission. |
 | `playRate` | Plays divided by draws. This can exceed 1 after Reclaim and redeployment; it is a usage ratio, not a probability or card win rate. |
+| `markApplications` / `reinforceApplications` | Successful status applications credited to the source Order. |
+| `adaptPlays` | Adapt Order plays; the chosen mode is also retained in the Order event/replay. |
+| `armorAbsorbed` | Nominal regular-combat damage prevented by printed or temporary Armor, after shield and Fortify. |
+| `armorEffectiveHealthProtected` | Armor protection limited to the receiver's remaining Health; avoids counting irrelevant overkill as saved Health. |
+| `markedCombatWindows` | Positive regular attack/counterfire damage events where the receiver's Mark added its bonus. This is not a count of unique engagements or a causal win measure. |
 
 These counters include finalized unresolved/error records up to their stopping point. They describe exposure and AI behavior. High use, long field presence, or a card's appearance in winning games cannot establish causal card strength. Use controlled variants and human playtests before tuning from those observations.
 
@@ -110,32 +117,34 @@ These counters include finalized unresolved/error records up to their stopping p
 The CLI uses Node's built-in modules and needs no package installation:
 
 ```text
-node scripts/simulate.js --count 1000 --a stonewall --b bruiser --seed 1009 --out test-results/sim-report.json --csv
+node scripts/simulate.js --count 1000 --a stonewall --b bruiser --balance sprint7 --ai deck --seed 1009 --out test-results/sim-report.json --csv
 ```
 
 `--a` and `--b` accept faction IDs or registered deck IDs, such as `stonewall-starter`. The default mode is a seat-swapped duel. Without `--out`, the JSON path is `test-results/simulator-report.json`.
 
 ```text
-node scripts/simulate.js --mode matrix --count 1000 --seed 1009 --out test-results/matrix-report.json --csv --verify
-node scripts/simulate.js --mode matrix --count 1000 --mirrors --seed 1009 --out test-results/mirrors-report.json
-node scripts/simulate.js --count 100 --a rogue --b nightwalker --fixed-seats --max-turns 240 --max-decisions 10000
+node scripts/simulate.js --mode matrix --count 1000 --balance sprint7 --ai deck --seed 1009 --out test-results/matrix-report.json --csv --verify
+node scripts/simulate.js --mode matrix --count 1000 --mirrors --balance sprint7 --ai deck --seed 1009 --out test-results/mirrors-report.json
+node scripts/simulate.js --count 100 --a rogue --b nightwalker --balance sprint7 --ai deck --fixed-seats --max-turns 240 --max-decisions 10000
 ```
 
 Supported batch controls include `--count`, `--mode duel|matrix`, `--a`, `--b`, `--seed`, `--out`, `--csv`, `--max-turns`, `--max-decisions`, `--verify`, `--fixed-seats`, and `--mirrors`. The browser exposes the nine rule parameters.
 
-The CLI preserves the historical `baseline` profile/basic policy defaults. Specify **`--balance` and `--ai` explicitly** when comparing a current War Room experiment. Advanced view displays the profile ID and exported options retain it. `--pool archetypes` selects all ten presets; `--pool starters` selects the five originals. `--deck-file-a` / `--deck-file-b` accept validated exported deck JSON, and `--compare` accepts a previous report. For example, this is an explicit Arsenal-profile screen, not an automatic claim about the current selected live profile:
+The CLI preserves the historical `baseline` rules/basic-policy defaults. Specify **`--balance` and `--ai` explicitly** for a current experiment. Advanced view displays the profile ID and exported options retain it. `--pool archetypes` selects all presets available under the selected profile: fifteen under `sprint7`, ten under `sprint6` or `arsenal`. `--pool starters` selects the five originals. `--deck-file-a` / `--deck-file-b` accept validated exported deck JSON, and `--compare` accepts a previous report. For example:
 
 ```text
-node scripts/simulate.js --mode matrix --pool archetypes --count 1000 --balance arsenal --ai deck --seed 20261007 --out test-results/arsenal-screen.json --csv --verify
+node scripts/simulate.js --mode matrix --pool archetypes --count 1000 --balance sprint7 --ai deck --seed 20261007 --out test-results/arsenal-screen.json --csv --verify
 ```
 
-Use `node scripts/simulate.js --help` for flag help. Ctrl+C saves finalized CLI records as a partial report and excludes the active incomplete match. Rule/AI errors produce a nonzero exit status; reaching a safety cutoff is reported as unresolved.
+These examples explain owner-operated tool syntax; they do not authorize Codex to launch a batch. The exact proposed validation jobs, seed **20261003**, paired seats, mirror exclusions, safeguards and required exports are in the [Sprint 7 simulation request](SPRINT-007.md#simulation-request--after-the-stable-candidate). Job A retains 45 original-deck pairs with 222–224 games per pair; Job B has 105 pairs with 94–96 games per pair. Compare their different pools separately. The CLI's deck policy has no live difficulty override and is not an Expert-difficulty benchmark.
+
+Use `node scripts/simulate.js --help` for flag help. Ctrl+C saves finalized CLI records as a partial report and excludes the active incomplete match. Rule/AI errors produce a nonzero exit status; reaching a safety cutoff is reported as unresolved. There is no `--rich` or difficulty CLI flag; individual rich traces are generated by match inspection.
 
 `--csv` writes files beside the JSON using its basename: `sim-report.matches.csv` and `sim-report.cards.csv` for the first example. JSON rates and interval endpoints use 0–1 values; CSV winner seats use 1 and 2, while JSON winner indices use 0 and 1. Unresolved/error winners are empty or `null`.
 
 ## Export and reproduce
 
-JSON includes normalized options, requested/finalized totals, completion status, individual records, aggregate metrics, simulator and AI versions, and a rules snapshot containing factions, cards, decks, configuration, and fingerprints.
+JSON includes normalized options, requested/finalized totals, completion status, individual records, aggregate metrics, simulator and AI versions, and a rules snapshot containing factions, cards, decks, configuration and fingerprints. The current registry is `frontlines-balance-registry-v4-arsenal`; Sprint 7 uses engine `frontlines-territory-v4-arsenal-mechanics`, AI `frontlines-ai-sprint7-v1`, simulator `3.3.0` and telemetry `frontlines-telemetry-v5-arsenal`. Preserved historical profiles retain their own engine/AI behavior identifiers.
 
 Browser exports also add optional `execution` metadata: completion/stop/error status, runner type, active elapsed time, wall elapsed time, measured matches per second, and finish timestamp. Active time excludes pauses; wall time includes them. CLI exports record their reason and elapsed time separately. These fields describe execution and do not change deterministic match results.
 
@@ -144,3 +153,7 @@ Keep the original build with important reports. Fingerprints cover exported engi
 Match inspection uses the current build and rejects detected version/fingerprint incompatibility. Its trace is limited to 5,000 decisions; a `replayLimit` result means the inspection is truncated, not that the original batch became unresolved. Batch reports can still contain more decisions under their configured safeguard. Analysis intentionally exposes both AI hands.
 
 For a useful experiment, retain its JSON, the matching code revision, its hypothesis, and the comparison report. Use [the simulator roadmap](SIMULATOR-ROADMAP.md) for versioned comparisons, additional decks and AI policies, causality experiments, and future resumable jobs; use [the game roadmap](GAME-ROADMAP.md) for human testing and game development gates.
+
+## Sprint 8 ownership boundary
+
+Collection progression applies to human Play. The AI, Node simulator, Worker and offline fallback use the complete legal pool without opening packs, charging Credits or awarding mastery. An incomplete owned collection never alters a simulation deck or result. No new large campaign is authorized. See [Sprint 8](SPRINT-008.md#exact-simulation-request-for-ryken--not-executed) for the exact separately authorized follow-up request.

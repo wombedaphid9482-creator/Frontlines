@@ -21,7 +21,7 @@ function trustedWindow(event) {
   const win = BrowserWindow.fromWebContents(event.sender);
   if(!win || !windows.has(win) || event.senderFrame !== event.sender.mainFrame)throw Error('Untrusted desktop request');
   const url = new URL(event.senderFrame.url), file = decodeURIComponent(url.pathname);
-  const allowed = ['index.html','deck-builder.html','simulator.html'].map(name=>path.resolve(__dirname,name).replaceAll('\\','/').toLowerCase());
+  const allowed = ['index.html','deck-builder.html','simulator.html','collection.html'].map(name=>path.resolve(__dirname,name).replaceAll('\\','/').toLowerCase());
   if(url.protocol !== 'file:' || !allowed.includes(file.replace(/^\/(\w:)/,'$1').toLowerCase()))throw Error('Untrusted game page');
   return win;
 }
@@ -90,7 +90,15 @@ function runSmoke(win) {
           FrontlinesShell.openSettings();if(!document.getElementById('display-mode'))throw Error('Display settings missing');
           FrontlinesShell.closeSettings();FrontlinesApp.showScreen('play');
           if(!document.querySelector('[data-action="start"]'))throw Error('Play setup missing');
-          FrontlinesApp.showScreen('home');return {page:'shell',home:true,play:true,settings:true,fullscreen:(await FrontlinesDesktop.getState()).fullscreen};
+          FrontlinesApp.startTutorial(false);FrontlinesApp.tutorial.next();
+          const lesson=FrontlinesApp.getTutorialState();
+          document.querySelector('[data-action="hand"][data-uid="'+lesson.refs.deploy+'"]').click();
+          document.querySelector('.territory[data-territory="2"] .territory-header').click();
+          if(!FrontlinesApp.getTutorialState().complete)throw Error('Packaged playable tutorial deployment failed');
+          FrontlinesApp.tutorial.exit('skip');FrontlinesApp.showScreen('home');
+          const host=await FrontlinesDesktop.getState();
+          if(FrontlinesBuild.version!==host.version||!document.querySelector('[data-game-version]').textContent.includes('v'+host.version))throw Error('Installed version indicator mismatch');
+          return {page:'shell',home:true,play:true,settings:true,tutorialDeployment:true,installedVersionVisible:true,fullscreen:host.fullscreen};
         })()`);
         win.webContents.sendInputEvent({type:'keyDown',keyCode:'Enter',modifiers:['alt']});
         win.webContents.sendInputEvent({type:'keyUp',keyCode:'Enter',modifiers:['alt']});
@@ -99,24 +107,30 @@ function runSmoke(win) {
         clearTimeout(timeout);console.log('FRONTLINES_SMOKE '+JSON.stringify({version:app.getVersion(),...result,windowed:true,shortcuts:['F11','Alt+Enter']}));app.exit(0);return;
       }
       const result=await win.webContents.executeJavaScript(`(async()=>{
+        if(location.pathname.endsWith('collection.html')) {
+          const profile=FrontlinesCollection.load(),summary=FrontlinesCollection.summary(profile);
+          if(!document.querySelector('#collection-app')||!profile||profile.credits<0)throw Error('Collection launch failed');
+          return {page:'collection',summary,packs:Object.keys(FrontlinesCollection.PACKS).length};
+        }
         if(location.pathname.endsWith('deck-builder.html')) {
           const deck=FrontlinesDeckBuilder.getDeck(),validation=FrontlinesDecks.forData(FrontlinesData).validate(deck);
           if(!validation.legal)throw Error('Illegal Arsenal starter');
           return {page:'arsenal',cards:Object.keys(FrontlinesData.CARDS).length,deckSize:deck.cards.length};
         }
         if(location.pathname.endsWith('simulator.html')) {
-          FrontlinesSimulatorApp.start({mode:'matrix',deckPool:FrontlinesDecks.presets().map(d=>d.id),count:20,seed:7317,balanceProfile:FrontlinesBalance.DEFAULT_PROFILE,aiProfiles:['deck','deck']});
+          FrontlinesSimulatorApp.start({mode:'duel',deckA:'stonewall-starter',deckB:'bruiser-starter',count:2,seed:7317,balanceProfile:FrontlinesBalance.DEFAULT_PROFILE,aiProfiles:['deck','deck']});
           for(let i=0;i<2000;i++) {
             const status=FrontlinesSimulatorApp.getStatus();
-            if(status.status==='completed'){const report=FrontlinesSimulatorApp.getReport();if(report.completed!==20||report.summary.errors)throw Error('Simulator smoke failed');return {page:'warroom',completed:report.completed,errors:report.summary.errors,runner:status.runner};}
+            if(status.status==='completed'){const report=FrontlinesSimulatorApp.getReport();if(report.completed!==2||report.summary.errors||report.summary.unfinished)throw Error('Simulator smoke failed');return {page:'warroom',completed:report.completed,errors:report.summary.errors,runner:status.runner};}
             if(status.status==='error')throw Error('Simulator runner failed');await new Promise(resolve=>setTimeout(resolve,20));
           }
           throw Error('Simulator timeout');
         }
-        FrontlinesApp.startMatch({mode:'hotseat',factions:['nightwalker','rogue'],seed:7317,developer:true,bothHands:true});
+        const templates=FrontlinesDecks.forData(FrontlinesData).presets(),expanded=[templates.find(d=>d.archetype==='planned-exposure'),templates.find(d=>d.archetype==='field-improvisation')];
+        FrontlinesApp.startMatch({mode:'hotseat',factions:['nightwalker','rogue'],...(expanded.every(Boolean)?{decks:expanded}:{}),seed:7317,developer:true,bothHands:true});
         let decisions=0;while(FrontlinesApp.getState().winner===null&&decisions<3000){const action=FrontlinesAI.chooseAction(FrontlinesApp.getState());if(!action)throw Error('No AI action');FrontlinesApp.dispatch(action);decisions++;}
         const final=FrontlinesApp.getState();if(final.winner===null)throw Error('Game did not finish');
-        return {page:'game',winner:final.winner,turns:final.turn,decisions,units:final.units.length};
+        return {page:'game',winner:final.winner,turns:final.turn,decisions,units:final.units.length,cards:Object.keys(FrontlinesData.CARDS).length,decks:final.players.map(p=>p.deckMeta.id)};
       })()`);
       clearTimeout(timeout);console.log('FRONTLINES_SMOKE '+JSON.stringify({version:app.getVersion(),...result}));app.exit(0);
     }catch(error){clearTimeout(timeout);console.error('FRONTLINES_SMOKE '+error.message);app.exit(1);}
@@ -127,10 +141,10 @@ app.whenReady().then(()=>{
   try {savedDisplay=JSON.parse(fs.readFileSync(displayPath,'utf8'));if(!savedDisplay||typeof savedDisplay!=='object')savedDisplay={};}catch(_){savedDisplay={};}
   function navigate(page){const win=BrowserWindow.getFocusedWindow() || [...windows][0];if(win)win.webContents.send('frontlines:navigate',page);}
   Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'Frontlines',submenu:[
-    {label:'Command menu',click:()=>navigate('home')},{label:'Arsenal',click:()=>navigate('arsenal')},{label:'War Room / Balance Lab',click:()=>navigate('warroom')},
+    {label:'Command menu',click:()=>navigate('home')},{label:'Arsenal',click:()=>navigate('arsenal')},{label:'Collection / Pack Shop',click:()=>navigate('collection')},{label:'War Room / Balance Lab',click:()=>navigate('warroom')},
     {label:'Settings',click:()=>navigate('settings')},{type:'separator'},{role:'quit'}]},
     {label:'Display',submenu:[{label:'Toggle fullscreen',accelerator:'F11',click:()=>{const win=BrowserWindow.getFocusedWindow();if(win)win.setFullScreen(!win.isFullScreen());}},{role:'minimize'}]}]));
-  createWindow(process.argv.includes('--simulator')?'simulator.html':process.argv.includes('--arsenal')?'deck-builder.html':'index.html');
+  createWindow(process.argv.includes('--collection')?'collection.html':process.argv.includes('--simulator')?'simulator.html':process.argv.includes('--arsenal')?'deck-builder.html':'index.html');
   configureAutoUpdater();app.on('activate',()=>{if(!windows.size)createWindow();});
 });
 app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit();});

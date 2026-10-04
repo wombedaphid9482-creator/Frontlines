@@ -1,15 +1,16 @@
 (function (root) {
   'use strict';
-  const Data = root.FrontlinesData;
   const Simulator = root.FrontlinesSimulator;
   const Balance = root.FrontlinesBalance;
+  const Data = Balance?Balance.dataFor(Balance.DEFAULT_PROFILE):root.FrontlinesData;
+  let catalogProfile=Balance?.DEFAULT_PROFILE||'baseline';
   const $ = id => document.getElementById(id);
   const format = value => Number(value || 0).toLocaleString('en-US');
   const percent = value => value === null || value === undefined ? '—' : `${(value * 100).toFixed(1)}%`;
   const escape = value => String(value === undefined || value === null ? '' : value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
   const factionName = id => Data.FACTIONS[id] ? Data.FACTIONS[id].name : id;
   function wilson(wins,total){if(!total)return null;const z=1.959963984540054,p=wins/total,denominator=1+z*z/total,center=(p+z*z/(2*total))/denominator,margin=z*Math.sqrt(p*(1-p)/total+z*z/(4*total*total))/denominator;return {low:Math.max(0,center-margin),high:Math.min(1,center+margin)};}
-  let decks = Simulator.getDeckCatalog(Data,root.FrontlinesDecks.load().filter(d=>root.FrontlinesDecks.validate(d).legal));
+  let decks = Simulator.getDeckCatalog(Data,root.FrontlinesDecks.load().filter(d=>root.FrontlinesDecks.forData(Data).validate(d).legal));
   let deckById = Object.fromEntries(decks.map(deck => [deck.id, deck]));
   const balanceProfiles = Balance ? Balance.getProfiles() : [{id:'baseline',name:'Baseline',description:'Original registered starter rules.'}];
   const thresholdDefinitions = {
@@ -66,9 +67,11 @@
   function balanceNote(resetRules) {
     const profile=balanceProfiles.find(item=>item.id===$('balance-profile').value)||balanceProfiles[0];
     $('balance-profile-note').textContent=(profile.version?profile.version+' · ':'')+(profile.description||profile.name);
+    if(profile.id!==catalogProfile)refreshCatalog(profile.id);
     if(resetRules){const config=Balance?Balance.dataFor(profile.id).DEFAULT_CONFIG:Data.DEFAULT_CONFIG;Object.keys(ruleDefinitions).forEach(key=>{ $(`rule-${key}`).value=config[key]; });}
   }
   function applyOptions(options) {
+    $('balance-profile').value=options.balanceProfile||(Balance && Balance.DEFAULT_PROFILE)||'arsenal';balanceNote(false);
     const radio=document.querySelector(`input[name="mode"][value="${options.mode}"]`);if(radio)radio.checked=true;
     ['a','b'].forEach((side,index)=>{const id=options[index===0?'deckA':'deckB'];if(deckById[id]){$(`faction-${side}`).value=deckById[id].faction;fillDeck(side,id);}if(options.aiProfiles)$(`ai-${side}`).value=options.aiProfiles[index];});
     $('balance-profile').value=options.balanceProfile||(Balance && Balance.DEFAULT_PROFILE)||'arsenal';
@@ -79,10 +82,24 @@
     Object.entries(thresholdDefinitions).forEach(([key,[,percentage]])=>{$(`threshold-${key}`).value=(options.thresholds&&options.thresholds[key]!==undefined?options.thresholds[key]:thresholdDefaults[key])*(percentage?100:1);});
     balanceNote(false);setMode();setCountPreset();
   }
-  function saveOptions(options) {try{localStorage.setItem('frontlines.lab.settings.v2',JSON.stringify(options||readOptions()));}catch(_){/* Small configurations are optional; reports are never persisted here. */}}
+  function saveOptions(options) {try{localStorage.setItem('frontlines.lab.settings.v2',JSON.stringify({...options||readOptions(),gameVersion:root.FrontlinesBuild.version}));}catch(_){/* Small configurations are optional; reports are never persisted here. */}}
   function showError(id, message) {
     $(id).textContent = message || '';
     $(id).hidden = !message;
+  }
+  function refreshCatalog(profileId){
+    const compiled=Balance?Balance.dataFor(profileId):Data,library=root.FrontlinesDecks.forData(compiled),saved=library.load(),valid=saved.filter(d=>library.validate(d).legal);
+    const requested=Object.fromEntries(['a','b'].map(side=>[side,$('deck-'+side)?.value]));
+    const selected=new Set([...($('matrix-deck-pool')?.selectedOptions||[])].map(o=>o.value));
+    decks=Simulator.getDeckCatalog(compiled,valid);deckById=Object.fromEntries(decks.map(d=>[d.id,d]));catalogProfile=profileId;
+    for(const side of ['a','b'])if($('faction-'+side))fillDeck(side,requested[side]);
+    $('matrix-deck-pool').innerHTML=decks.map(d=>'<option value="'+escape(d.id)+'" '+(selected.has(d.id)?'selected':'')+'>'+escape(d.name)+'</option>').join('');
+    $('pool-archetypes').textContent=decks.filter(d=>d.source==='preset').length+' archetypes';
+    $('deck-library-note').textContent=valid.length+' legal saved decks loaded · '+(saved.length-valid.length)+' drafts unavailable under these rules';
+    $('deck-library-note').title='Drafts remain in Arsenal for repair. Historical profiles exclude expansion cards; results retain their exact inventories.';
+    const prior=$('matchup-filter').value,pairs=[];for(let a=0;a<decks.length;a++)for(let b=a;b<decks.length;b++)pairs.push({id:[decks[a].id,decks[b].id].sort().join('|'),name:decks[a].name+' vs '+decks[b].name});
+    $('matchup-filter').innerHTML='<option value="">All matchups</option>'+pairs.map(pair=>'<option value="'+escape(pair.id)+'">'+escape(pair.name)+'</option>').join('');if(pairs.some(pair=>pair.id===prior))$('matchup-filter').value=prior;
+    updatePoolChoices();
   }
   function fillDeck(side, requested) {
     const faction = $(`faction-${side}`).value;
@@ -194,7 +211,7 @@
       return `<td title="${escape(tooltip)}" class="${rate > .6 ? 'matrix-high' : rate !== null && rate < .4 ? 'matrix-low' : ''}">${percent(rate)}<small>${item && item.decisive ? `${format(item.wins)} / ${format(item.decisive)}` : 'no resolved samples'}</small></td>`;
     }).join('')}</tr>`).join('')}</tbody>`;
     const turns = summary.turns || {};
-    $('summary-notes').innerHTML = `<span>Mean turns <b>${turns.mean ? Number(turns.mean).toFixed(1) : '—'}</b></span><span>Turn range <b>${turns.min === null || turns.min === undefined ? '—' : `${turns.min}–${turns.max}`}</b></span><span>Captures <b>${format(Array.isArray(summary.captures) ? summary.captures.reduce((a,b) => a+b,0) : summary.captures)}</b></span><span class="developer-metric">AI <b>${escape(Simulator.AI_VERSION || 'baseline')}</b></span>`;
+    $('summary-notes').innerHTML = `<span>Mean turns <b>${turns.mean ? Number(turns.mean).toFixed(1) : '—'}</b></span><span>Turn range <b>${turns.min === null || turns.min === undefined ? '—' : `${turns.min}–${turns.max}`}</b></span><span>Captures <b>${format(Array.isArray(summary.captures) ? summary.captures.reduce((a,b) => a+b,0) : summary.captures)}</b></span><span class="developer-metric">AI <b>${escape(state.report?.aiVersion || Simulator.AI_VERSION || 'baseline')}</b></span>`;
     renderPlayerSummary(summary);
   }
   function renderCards(summary) {
@@ -617,26 +634,13 @@
     $('view-overview').insertAdjacentHTML('afterend','<section id="view-decks" role="tabpanel" aria-labelledby="tab-decks" hidden><div class="section-heading"><h3>Deck matchup matrix</h3><span>Row deck wins / decisive games</span></div><div class="table-wrap"><table class="matrix-table" id="deck-matrix"></table></div><details class="advanced" open><summary>Archetype performance</summary><div class="table-wrap"><table><thead><tr><th>Faction / archetype</th><th>Wins / resolved</th><th>Win rate</th><th>Mean turns</th></tr></thead><tbody id="archetype-rows"></tbody></table></div></details><details class="advanced"><summary>Deck composition</summary><div class="table-wrap"><table><thead><tr><th>Deck</th><th>Mean Presence</th><th>Units / Leaders / Assets / Orders</th><th>Presence curve</th></tr></thead><tbody id="deck-curve-rows"></tbody></table></div></details><details class="advanced" open><summary>Frequently played card pairs</summary><div class="table-wrap"><table><thead><tr><th>Deck</th><th>Cards</th><th>Wins / games together</th><th>Win association</th><th>Mean final control change</th></tr></thead><tbody id="synergy-rows"></tbody></table></div><p class="table-note">Both cards were played in the same decisive player-game. The top 100 pairs are shown; JSON retains all. Correlation includes deck, duration and winning-position bias. Control change from the opening three territories does not establish that the pair caused it.</p></details></section>');
     $('view-compare').insertAdjacentHTML('beforeend','<h3>Deck revisions</h3><div class="table-wrap"><table><thead><tr><th>Deck</th><th>Previous rate (games)</th><th>Current rate (games)</th><th>Change</th></tr></thead><tbody id="deck-comparison"></tbody></table></div><h3>Compare named variants</h3><div class="two-fields"><label>Earlier deck<select id="compare-deck-before"></select></label><label>Current deck<select id="compare-deck-after"></select></label></div><p id="variant-comparison" class="table-note">Import a previous report and run a deck variant.</p>');
     for(const id of ['compare-deck-before','compare-deck-after'])$(id).addEventListener('change',compareVariants);
-    $('matrix-options').insertAdjacentHTML('beforeend','<label for="matrix-deck-pool">Tournament deck pool</label><select id="matrix-deck-pool" multiple size="6" aria-describedby="pool-note"></select><p id="pool-note" class="field-note">Select at least two decks. Ctrl / Command selects multiple decks.</p><div class="exports"><button type="button" id="pool-starters">Starters</button><button type="button" id="pool-archetypes">10 archetypes</button></div>');
+    $('matrix-options').insertAdjacentHTML('beforeend','<label for="matrix-deck-pool">Tournament deck pool</label><select id="matrix-deck-pool" multiple size="6" aria-describedby="pool-note"></select><p id="pool-note" class="field-note">Select at least two decks. Ctrl / Command selects multiple decks.</p><div class="exports"><button type="button" id="pool-starters">Starters</button><button type="button" id="pool-archetypes">15 archetypes</button></div>');
     $('matrix-options').querySelector('b').textContent='Deck round robin';
     $('matrix-deck-pool').innerHTML=decks.map(d=>`<option value="${escape(d.id)}" ${d.source==='starter'?'selected':''}>${escape(d.name)}</option>`).join('');
     $('pool-starters').addEventListener('click',()=>{for(const o of $('matrix-deck-pool').options)o.selected=deckById[o.value].source==='starter';saveOptions();});
     $('pool-archetypes').addEventListener('click',()=>{for(const o of $('matrix-deck-pool').options)o.selected=deckById[o.value].source==='preset';saveOptions();});
     $('duel-options').insertAdjacentHTML('afterend','<button type="button" id="refresh-decks">Refresh saved decks</button><p id="deck-library-note" class="field-note">Saved legal decks appear here.</p>');
-    $('refresh-decks').addEventListener('click',()=>{
-      if(live())return;
-      const saved=root.FrontlinesDecks.load(),valid=saved.filter(d=>root.FrontlinesDecks.validate(d).legal);
-      decks=Simulator.getDeckCatalog(Data,valid);deckById=Object.fromEntries(decks.map(d=>[d.id,d]));
-      for(const d of state.report?.rulesSnapshot?.decks||[])deckById[d.id]=d;
-      for(const side of ['a','b'])fillDeck(side,$('deck-'+side).value);
-      const pool=new Set([...$('matrix-deck-pool').selectedOptions].map(o=>o.value));
-      $('matrix-deck-pool').innerHTML=decks.map(d=>`<option value="${escape(d.id)}" ${pool.has(d.id)?'selected':''}>${escape(d.name)}</option>`).join('');
-      const drafts=saved.length-valid.length;
-      $('deck-library-note').textContent=`${valid.length} legal decks loaded · ${drafts} draft${drafts===1?'':'s'} to repair`;
-      $('deck-library-note').title='Illegal drafts stay in Arsenal for repair. Results retain the exact deck lists used.';
-      const prior=$('matchup-filter').value,pairs=[],catalog=Object.values(deckById);for(let a=0;a<catalog.length;a++)for(let b=a;b<catalog.length;b++)pairs.push({id:[catalog[a].id,catalog[b].id].sort().join('|'),name:`${catalog[a].name} vs ${catalog[b].name}`});
-      $('matchup-filter').innerHTML='<option value="">All matchups</option>'+pairs.map(pair=>`<option value="${escape(pair.id)}">${escape(pair.name)}</option>`).join('');if(pairs.some(pair=>pair.id===prior))$('matchup-filter').value=prior;
-    });
+    $('refresh-decks').addEventListener('click',()=>{if(!live())refreshCatalog($('balance-profile').value);});
     for(const side of ['a','b']){$('ai-'+side).insertAdjacentHTML('afterbegin','<option value="deck">Deck-aware</option>');$('ai-'+side).value='deck';}
     ['a', 'b'].forEach(side => {
       $(`faction-${side}`).innerHTML = Object.values(Data.FACTIONS).map(faction => `<option value="${faction.id}">${escape(faction.name)}</option>`).join('');
@@ -718,7 +722,7 @@
       catch(error){showError('comparison-notice',error.message||String(error));}
       event.target.value='';
     });
-    try{const saved=JSON.parse(localStorage.getItem('frontlines.lab.settings.v2')||'null');if(saved)applyOptions(Simulator.normalizeOptions(saved));}catch(_){/* Older or corrupt saved settings do not prevent launch. */}
+    try{const saved=JSON.parse(localStorage.getItem('frontlines.lab.settings.v2')||'null');if(saved){if(!saved.gameVersion&&saved.balanceProfile==='arsenal'||saved.gameVersion==='0.7.0'&&saved.balanceProfile==='sprint6')saved.balanceProfile=Balance.DEFAULT_PROFILE;applyOptions(Simulator.normalizeOptions(saved));}}catch(_){/* Older or corrupt saved settings do not prevent launch. */}
     const launchDeck=deckById[new URLSearchParams(location.search).get('deck')];if(launchDeck){document.querySelector('input[name="mode"][value="duel"]').checked=true;$('faction-a').value=launchDeck.faction;fillDeck('a',launchDeck.id);}
     setMode();
     setCountPreset();

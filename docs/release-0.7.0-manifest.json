@@ -1,0 +1,2113 @@
+{
+  "version": "0.7.0",
+  "preparedDate": "2026-10-03",
+  "status": "local-playtest-candidate",
+  "published": false,
+  "installedOverOwnerCopy": false,
+  "gitBase": "a7921c07d34e66996f4055bd697b54d3ae7e71fa",
+  "workingChanges": "uncommitted",
+  "checkpoint": {
+    "file": "docs/checkpoints/sprint6-entry-a7921c0.zip",
+    "bytes": 1475046,
+    "sha256": "dcfa46a01328949e995a4492d946543b920f7ce4e820ad1a1803b3c2071e4c0e"
+  },
+  "balance": {
+    "profile": "sprint6",
+    "version": "sprint6-command-frontline-v1",
+    "rules": {
+      "actionEconomy": "capacity-command",
+      "frontlineIntegrity": true
+    },
+    "configuration": {
+      "startingCommand": 20,
+      "commandGrowth": 10,
+      "commandCap": 80,
+      "captureThreshold": 25,
+      "startingHand": 5,
+      "drawCount": 1,
+      "slotsPerTerritory": 5,
+      "actionLimit": 3,
+      "victoryTerritories": 7
+    },
+    "cardCount": 80,
+    "combatStatsRetainedFrom": "arsenal-v3",
+    "freshBalanceCampaignRun": false,
+    "competitivelyCertified": false,
+    "priorSprint5CompetitiveGate": "not completed; retained as historical evidence"
+  },
+  "runtime": {
+    "engine": "frontlines-territory-v3-command-frontline",
+    "ai": "frontlines-ai-sprint6-v1",
+    "simulator": "3.2.0",
+    "electron": "44.5.1",
+    "updater": "6.8.9",
+    "rendererSandbox": true,
+    "contextIsolation": true,
+    "nodeIntegration": false
+  },
+  "verification": {
+    "nodeTests": {
+      "total": 177,
+      "passed": 177,
+      "failed": 0,
+      "added": 35
+    },
+    "browsers": {
+      "flow": {
+        "version": "0.7.0",
+        "viewports": [
+          {
+            "screen": "home",
+            "width": 1920,
+            "height": 1080,
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "commands": [
+              {
+                "s": "[data-action=\"open-play\"]",
+                "bottom": 383.5417785644531,
+                "right": 1687,
+                "top": 303.3542785644531,
+                "left": 1197,
+                "height": 80.1875,
+                "clipped": false
+              },
+              {
+                "s": ".home-actions [data-action=\"tutorial\"]",
+                "bottom": 473.7292785644531,
+                "right": 1687,
+                "top": 393.5417785644531,
+                "left": 1197,
+                "height": 80.1875,
+                "clipped": false
+              },
+              {
+                "s": "[data-game-navigation=\"warroom\"]",
+                "bottom": 654.1043090820312,
+                "right": 1687,
+                "top": 573.9168090820312,
+                "left": 1197,
+                "height": 80.1875,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "home",
+            "width": 2560,
+            "height": 1440,
+            "scrollWidth": 2560,
+            "scrollHeight": 1440,
+            "commands": [
+              {
+                "s": "[data-action=\"open-play\"]",
+                "bottom": 562.9161987304688,
+                "right": 2178.28125,
+                "top": 482.72869873046875,
+                "left": 1688.28125,
+                "height": 80.1875,
+                "clipped": false
+              },
+              {
+                "s": ".home-actions [data-action=\"tutorial\"]",
+                "bottom": 653.1036987304688,
+                "right": 2178.28125,
+                "top": 572.9161987304688,
+                "left": 1688.28125,
+                "height": 80.1875,
+                "clipped": false
+              },
+              {
+                "s": "[data-game-navigation=\"warroom\"]",
+                "bottom": 833.4786987304688,
+                "right": 2178.28125,
+                "top": 753.2911987304688,
+                "left": 1688.28125,
+                "height": 80.1875,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "home",
+            "width": 1366,
+            "height": 768,
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "commands": [
+              {
+                "s": "[data-action=\"open-play\"]",
+                "bottom": 226.9161834716797,
+                "right": 1270.390625,
+                "top": 146.7286834716797,
+                "left": 781.484375,
+                "height": 80.1875,
+                "clipped": false
+              },
+              {
+                "s": ".home-actions [data-action=\"tutorial\"]",
+                "bottom": 317.10369873046875,
+                "right": 1270.390625,
+                "top": 236.9161834716797,
+                "left": 781.484375,
+                "height": 80.18751525878906,
+                "clipped": false
+              },
+              {
+                "s": "[data-game-navigation=\"warroom\"]",
+                "bottom": 497.47869873046875,
+                "right": 1270.390625,
+                "top": 417.29119873046875,
+                "left": 781.484375,
+                "height": 80.1875,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "home",
+            "width": 1280,
+            "height": 720,
+            "scrollWidth": 1280,
+            "scrollHeight": 720,
+            "commands": [
+              {
+                "s": "[data-action=\"open-play\"]",
+                "bottom": 215.22915649414062,
+                "right": 1190.40625,
+                "top": 143.63540649414062,
+                "left": 732.28125,
+                "height": 71.59375,
+                "clipped": false
+              },
+              {
+                "s": ".home-actions [data-action=\"tutorial\"]",
+                "bottom": 296.8229064941406,
+                "right": 1190.40625,
+                "top": 225.22915649414062,
+                "left": 732.28125,
+                "height": 71.59375,
+                "clipped": false
+              },
+              {
+                "s": "[data-game-navigation=\"warroom\"]",
+                "bottom": 460.0104064941406,
+                "right": 1190.40625,
+                "top": 388.4166564941406,
+                "left": 732.28125,
+                "height": 71.59375,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "home",
+            "width": 900,
+            "height": 600,
+            "scrollWidth": 900,
+            "scrollHeight": 600,
+            "commands": [
+              {
+                "s": "[data-action=\"open-play\"]",
+                "bottom": 156.1871795654297,
+                "right": 862,
+                "top": 84.59342956542969,
+                "left": 509.015625,
+                "height": 71.59375,
+                "clipped": false
+              },
+              {
+                "s": ".home-actions [data-action=\"tutorial\"]",
+                "bottom": 237.7809295654297,
+                "right": 862,
+                "top": 166.1871795654297,
+                "left": 509.015625,
+                "height": 71.59375,
+                "clipped": false
+              },
+              {
+                "s": "[data-game-navigation=\"warroom\"]",
+                "bottom": 400.96844482421875,
+                "right": 862,
+                "top": 329.37469482421875,
+                "left": 509.015625,
+                "height": 71.59375,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 1920,
+            "height": 1080,
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "commands": [
+              {
+                "s": "#ai-difficulty",
+                "bottom": 522.7171630859375,
+                "right": 1720.984375,
+                "top": 478.7171936035156,
+                "left": 1362.84375,
+                "height": 43.999969482421875,
+                "clipped": false
+              },
+              {
+                "s": "[data-action=\"start\"]",
+                "bottom": 982.7171630859375,
+                "right": 1720.984375,
+                "top": 928.7171630859375,
+                "left": 1362.84375,
+                "height": 54,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 2560,
+            "height": 1440,
+            "scrollWidth": 2560,
+            "scrollHeight": 1440,
+            "commands": [
+              {
+                "s": "#ai-difficulty",
+                "bottom": 522.4506225585938,
+                "right": 2040.984375,
+                "top": 478.4505920410156,
+                "left": 1682.84375,
+                "height": 44.000030517578125,
+                "clipped": false
+              },
+              {
+                "s": "[data-action=\"start\"]",
+                "bottom": 1342.4505615234375,
+                "right": 2040.984375,
+                "top": 1288.4505615234375,
+                "left": 1682.84375,
+                "height": 54,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 1366,
+            "height": 768,
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "commands": [
+              {
+                "s": "#ai-difficulty",
+                "bottom": 503.89947509765625,
+                "right": 1292.375,
+                "top": 459.89947509765625,
+                "left": 1012.84375,
+                "height": 44,
+                "clipped": false
+              },
+              {
+                "s": "[data-action=\"start\"]",
+                "bottom": 669.9307250976562,
+                "right": 1292.375,
+                "top": 615.9307250976562,
+                "left": 1012.84375,
+                "height": 54,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 1280,
+            "height": 720,
+            "scrollWidth": 1280,
+            "scrollHeight": 720,
+            "commands": [
+              {
+                "s": "#ai-difficulty",
+                "bottom": 387.93072509765625,
+                "right": 1215.796875,
+                "top": 343.93072509765625,
+                "left": 944.796875,
+                "height": 44,
+                "clipped": false
+              },
+              {
+                "s": "[data-action=\"start\"]",
+                "bottom": 640.9307250976562,
+                "right": 1215.796875,
+                "top": 586.9307250976562,
+                "left": 944.796875,
+                "height": 54,
+                "clipped": false
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 900,
+            "height": 600,
+            "scrollWidth": 900,
+            "scrollHeight": 600,
+            "commands": [
+              {
+                "s": "#ai-difficulty",
+                "bottom": 354.44500732421875,
+                "right": 833.5,
+                "top": 310.44500732421875,
+                "left": 659.5,
+                "height": 44,
+                "clipped": false
+              },
+              {
+                "s": "[data-action=\"start\"]",
+                "bottom": 520.4450073242188,
+                "right": 838.578125,
+                "top": 466.44500732421875,
+                "left": 654.40625,
+                "height": 54,
+                "clipped": false
+              }
+            ]
+          }
+        ],
+        "freeDeployment": true,
+        "difficultyPersistence": true,
+        "deliberateCadence": true,
+        "settingsPauseAI": true,
+        "manualSections": true,
+        "completeMatch": {
+          "winner": 1,
+          "decisions": 84,
+          "turns": 16
+        },
+        "errors": []
+      },
+      "preferences": {
+        "passed": true,
+        "onboardingAndTutorialDifficultySync": true,
+        "explicitMatchDifficultySync": true,
+        "activeMatchDifficultyFixed": true,
+        "pausedTutorialDoesNotRelabelNormalMatch": true,
+        "explanationToggleImmediate": true,
+        "tipResetImmediate": true,
+        "settingsCloseRestoresCommands": true,
+        "newLessonClearsStaleToast": true,
+        "deploymentAndCommandCostsDistinct": true,
+        "aiDecisionFixture": true,
+        "errors": []
+      },
+      "command": {
+        "matrix": [
+          {
+            "screen": "home",
+            "width": 1920,
+            "height": 1080,
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "controls": [
+              {
+                "selector": "[data-action=\"open-play\"]",
+                "x": 1197,
+                "y": 305.03125,
+                "width": 490,
+                "height": 80.1875,
+                "bottom": 385.21875,
+                "right": 1687
+              },
+              {
+                "selector": "[data-action=\"settings\"]",
+                "x": 1197,
+                "y": 665.78125,
+                "width": 490,
+                "height": 80.1875,
+                "bottom": 745.96875,
+                "right": 1687
+              },
+              {
+                "selector": "[data-game-navigation=\"arsenal\"]",
+                "x": 1197,
+                "y": 485.40625,
+                "width": 490,
+                "height": 80.1875,
+                "bottom": 565.59375,
+                "right": 1687
+              },
+              {
+                "selector": "[data-game-navigation=\"warroom\"]",
+                "x": 1197,
+                "y": 575.59375,
+                "width": 490,
+                "height": 80.1875,
+                "bottom": 655.78125,
+                "right": 1687
+              }
+            ]
+          },
+          {
+            "screen": "home",
+            "width": 2560,
+            "height": 1440,
+            "scrollWidth": 2560,
+            "scrollHeight": 1440,
+            "controls": [
+              {
+                "selector": "[data-action=\"open-play\"]",
+                "x": 1688.28125,
+                "y": 485.03125,
+                "width": 490,
+                "height": 80.1875,
+                "bottom": 565.21875,
+                "right": 2178.28125
+              },
+              {
+                "selector": "[data-action=\"settings\"]",
+                "x": 1688.28125,
+                "y": 845.78125,
+                "width": 490,
+                "height": 80.1875,
+                "bottom": 925.96875,
+                "right": 2178.28125
+              },
+              {
+                "selector": "[data-game-navigation=\"arsenal\"]",
+                "x": 1688.28125,
+                "y": 665.40625,
+                "width": 490,
+                "height": 80.1875,
+                "bottom": 745.59375,
+                "right": 2178.28125
+              },
+              {
+                "selector": "[data-game-navigation=\"warroom\"]",
+                "x": 1688.28125,
+                "y": 755.59375,
+                "width": 490,
+                "height": 80.1875,
+                "bottom": 835.78125,
+                "right": 2178.28125
+              }
+            ]
+          },
+          {
+            "screen": "home",
+            "width": 1366,
+            "height": 768,
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "controls": [
+              {
+                "selector": "[data-action=\"open-play\"]",
+                "x": 781.484375,
+                "y": 148.30010986328125,
+                "width": 488.90625,
+                "height": 80.1875,
+                "bottom": 228.48760986328125,
+                "right": 1270.390625
+              },
+              {
+                "selector": "[data-action=\"settings\"]",
+                "x": 781.484375,
+                "y": 509.05010986328125,
+                "width": 488.90625,
+                "height": 80.1875,
+                "bottom": 589.2376098632812,
+                "right": 1270.390625
+              },
+              {
+                "selector": "[data-game-navigation=\"arsenal\"]",
+                "x": 781.484375,
+                "y": 328.67510986328125,
+                "width": 488.90625,
+                "height": 80.1875,
+                "bottom": 408.86260986328125,
+                "right": 1270.390625
+              },
+              {
+                "selector": "[data-game-navigation=\"warroom\"]",
+                "x": 781.484375,
+                "y": 418.86260986328125,
+                "width": 488.90625,
+                "height": 80.1875,
+                "bottom": 499.05010986328125,
+                "right": 1270.390625
+              }
+            ]
+          },
+          {
+            "screen": "home",
+            "width": 1280,
+            "height": 720,
+            "scrollWidth": 1280,
+            "scrollHeight": 720,
+            "controls": [
+              {
+                "selector": "[data-action=\"open-play\"]",
+                "x": 732.28125,
+                "y": 145.0323028564453,
+                "width": 458.125,
+                "height": 71.59375,
+                "bottom": 216.6260528564453,
+                "right": 1190.40625
+              },
+              {
+                "selector": "[data-action=\"settings\"]",
+                "x": 732.28125,
+                "y": 471.40728759765625,
+                "width": 458.125,
+                "height": 71.59375,
+                "bottom": 543.0010375976562,
+                "right": 1190.40625
+              },
+              {
+                "selector": "[data-game-navigation=\"arsenal\"]",
+                "x": 732.28125,
+                "y": 308.21978759765625,
+                "width": 458.125,
+                "height": 71.59375,
+                "bottom": 379.81353759765625,
+                "right": 1190.40625
+              },
+              {
+                "selector": "[data-game-navigation=\"warroom\"]",
+                "x": 732.28125,
+                "y": 389.81353759765625,
+                "width": 458.125,
+                "height": 71.59375,
+                "bottom": 461.40728759765625,
+                "right": 1190.40625
+              }
+            ]
+          },
+          {
+            "screen": "home",
+            "width": 900,
+            "height": 600,
+            "scrollWidth": 900,
+            "scrollHeight": 600,
+            "controls": [
+              {
+                "selector": "[data-action=\"open-play\"]",
+                "x": 509.015625,
+                "y": 85.87726593017578,
+                "width": 352.984375,
+                "height": 71.59374237060547,
+                "bottom": 157.47100830078125,
+                "right": 862
+              },
+              {
+                "selector": "[data-action=\"settings\"]",
+                "x": 509.015625,
+                "y": 412.25225830078125,
+                "width": 352.984375,
+                "height": 71.59375,
+                "bottom": 483.84600830078125,
+                "right": 862
+              },
+              {
+                "selector": "[data-game-navigation=\"arsenal\"]",
+                "x": 509.015625,
+                "y": 249.06475830078125,
+                "width": 352.984375,
+                "height": 71.59375,
+                "bottom": 320.65850830078125,
+                "right": 862
+              },
+              {
+                "selector": "[data-game-navigation=\"warroom\"]",
+                "x": 509.015625,
+                "y": 330.65850830078125,
+                "width": 352.984375,
+                "height": 71.59375,
+                "bottom": 402.25225830078125,
+                "right": 862
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 1920,
+            "height": 1080,
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "controls": [
+              {
+                "selector": "[data-action=\"start\"]",
+                "x": 1362.84375,
+                "y": 924,
+                "width": 358.140625,
+                "height": 54,
+                "bottom": 978,
+                "right": 1720.984375
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 1699.1875,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 1819.46875
+              },
+              {
+                "selector": "#faction-0",
+                "x": 199,
+                "y": 439,
+                "width": 527.921875,
+                "height": 45,
+                "bottom": 484,
+                "right": 726.921875
+              },
+              {
+                "selector": "#faction-1",
+                "x": 780.921875,
+                "y": 439,
+                "width": 527.921875,
+                "height": 45,
+                "bottom": 484,
+                "right": 1308.84375
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 2560,
+            "height": 1440,
+            "scrollWidth": 2560,
+            "scrollHeight": 1440,
+            "controls": [
+              {
+                "selector": "[data-action=\"start\"]",
+                "x": 1682.84375,
+                "y": 1284,
+                "width": 358.140625,
+                "height": 54,
+                "bottom": 1338,
+                "right": 2040.984375
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 2339.1875,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 2459.46875
+              },
+              {
+                "selector": "#faction-0",
+                "x": 519,
+                "y": 439,
+                "width": 527.921875,
+                "height": 45,
+                "bottom": 484,
+                "right": 1046.921875
+              },
+              {
+                "selector": "#faction-1",
+                "x": 1100.921875,
+                "y": 439,
+                "width": 527.921875,
+                "height": 45,
+                "bottom": 484,
+                "right": 1628.84375
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 1366,
+            "height": 768,
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "controls": [
+              {
+                "selector": "[data-action=\"start\"]",
+                "x": 1012.84375,
+                "y": 612,
+                "width": 279.53125,
+                "height": 54,
+                "bottom": 666,
+                "right": 1292.375
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 1145.1875,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 1265.46875
+              },
+              {
+                "selector": "#faction-0",
+                "x": 73.625,
+                "y": 420.96875,
+                "width": 415.609375,
+                "height": 45,
+                "bottom": 465.96875,
+                "right": 489.234375
+              },
+              {
+                "selector": "#faction-1",
+                "x": 543.234375,
+                "y": 420.96875,
+                "width": 415.609375,
+                "height": 45,
+                "bottom": 465.96875,
+                "right": 958.84375
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 1280,
+            "height": 720,
+            "scrollWidth": 1280,
+            "scrollHeight": 720,
+            "controls": [
+              {
+                "selector": "[data-action=\"start\"]",
+                "x": 944.796875,
+                "y": 583,
+                "width": 271,
+                "height": 54,
+                "bottom": 637,
+                "right": 1215.796875
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 1059.1875,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 1179.46875
+              },
+              {
+                "selector": "#faction-0",
+                "x": 70.1875,
+                "y": 312,
+                "width": 386.296875,
+                "height": 45,
+                "bottom": 357,
+                "right": 456.484375
+              },
+              {
+                "selector": "#faction-1",
+                "x": 510.484375,
+                "y": 312,
+                "width": 386.3125,
+                "height": 45,
+                "bottom": 357,
+                "right": 896.796875
+              }
+            ]
+          },
+          {
+            "screen": "setup",
+            "width": 900,
+            "height": 600,
+            "scrollWidth": 900,
+            "scrollHeight": 600,
+            "controls": [
+              {
+                "selector": "[data-action=\"start\"]",
+                "x": 654.40625,
+                "y": 463,
+                "width": 184.171875,
+                "height": 54,
+                "bottom": 517,
+                "right": 838.578125
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 685.1875,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 805.46875
+              },
+              {
+                "selector": "#faction-0",
+                "x": 51,
+                "y": 275,
+                "width": 254.5,
+                "height": 45,
+                "bottom": 320,
+                "right": 305.5
+              },
+              {
+                "selector": "#faction-1",
+                "x": 347.5,
+                "y": 275,
+                "width": 254.5,
+                "height": 45,
+                "bottom": 320,
+                "right": 602
+              }
+            ]
+          },
+          {
+            "screen": "match",
+            "width": 1920,
+            "height": 1080,
+            "scrollWidth": 1920,
+            "scrollHeight": 1080,
+            "controls": [
+              {
+                "selector": "[data-action=\"end-turn\"]",
+                "x": 1342.234375,
+                "y": 1016,
+                "width": 150.765625,
+                "height": 44,
+                "bottom": 1060,
+                "right": 1493
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 1509.03125,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 1629.3125
+              }
+            ]
+          },
+          {
+            "screen": "match",
+            "width": 2560,
+            "height": 1440,
+            "scrollWidth": 2560,
+            "scrollHeight": 1440,
+            "controls": [
+              {
+                "selector": "[data-action=\"end-turn\"]",
+                "x": 1982.234375,
+                "y": 1376,
+                "width": 150.765625,
+                "height": 44,
+                "bottom": 1420,
+                "right": 2133
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 2149.03125,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 2269.3125
+              }
+            ]
+          },
+          {
+            "screen": "match",
+            "width": 1366,
+            "height": 768,
+            "scrollWidth": 1366,
+            "scrollHeight": 768,
+            "controls": [
+              {
+                "selector": "[data-action=\"end-turn\"]",
+                "x": 854.0625,
+                "y": 704,
+                "width": 150.765625,
+                "height": 44,
+                "bottom": 748,
+                "right": 1004.828125
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 955.03125,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 1075.3125
+              }
+            ]
+          },
+          {
+            "screen": "match",
+            "width": 1280,
+            "height": 720,
+            "scrollWidth": 1280,
+            "scrollHeight": 720,
+            "controls": [
+              {
+                "selector": "[data-action=\"end-turn\"]",
+                "x": 797.84375,
+                "y": 660,
+                "width": 150.765625,
+                "height": 44,
+                "bottom": 704,
+                "right": 948.609375
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 869.03125,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 989.3125
+              }
+            ]
+          },
+          {
+            "screen": "match",
+            "width": 900,
+            "height": 600,
+            "scrollWidth": 900,
+            "scrollHeight": 600,
+            "controls": [
+              {
+                "selector": "[data-action=\"end-turn\"]",
+                "x": 468.234375,
+                "y": 540,
+                "width": 150.765625,
+                "height": 44,
+                "bottom": 584,
+                "right": 619
+              },
+              {
+                "selector": "[data-action=\"home\"]",
+                "x": 495.03125,
+                "y": 9.5,
+                "width": 120.28125,
+                "height": 38,
+                "bottom": 47.5,
+                "right": 615.3125
+              }
+            ]
+          }
+        ],
+        "completeMatch": {
+          "winner": 1,
+          "decisions": 226
+        },
+        "errors": []
+      },
+      "tutorial": {
+        "lessons": 11,
+        "realClickCampaign": true,
+        "capacityDeploymentFree": true,
+        "realCombat": true,
+        "settingsPausesControlledResponse": true,
+        "forcedRetreat": true,
+        "noRetreatElimination": true,
+        "allFactionExamples": true,
+        "alternativeObjective": true,
+        "actualLearningVictory": true,
+        "lossRetryRecovery": true,
+        "playerClicks": 12,
+        "lossClicks": 2,
+        "matrix": [
+          {
+            "width": 1920,
+            "height": 1080,
+            "pageWidth": 1920,
+            "pageHeight": 1080,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 1592,
+                "y": 182,
+                "right": 1902,
+                "bottom": 1068,
+                "width": 310,
+                "height": 886
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 1605,
+                "y": 948,
+                "right": 1675,
+                "bottom": 992,
+                "width": 70,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 1683,
+                "y": 948,
+                "right": 1889,
+                "bottom": 992,
+                "width": 206,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 1605,
+                "y": 1013,
+                "right": 1743,
+                "bottom": 1057,
+                "width": 138,
+                "height": 44
+              }
+            ],
+            "huds": [
+              {
+                "x": 18,
+                "y": 70,
+                "right": 893,
+                "bottom": 162.25,
+                "width": 875,
+                "height": 92.25
+              },
+              {
+                "x": 905,
+                "y": 70,
+                "right": 1015,
+                "bottom": 162.25,
+                "width": 110,
+                "height": 92.25
+              },
+              {
+                "x": 1027,
+                "y": 70,
+                "right": 1902,
+                "bottom": 162.25,
+                "width": 875,
+                "height": 92.25
+              }
+            ],
+            "board": {
+              "x": 18,
+              "y": 182,
+              "right": 1298,
+              "bottom": 996,
+              "width": 1280,
+              "height": 814
+            },
+            "coach": {
+              "x": 1592,
+              "y": 182,
+              "right": 1902,
+              "bottom": 1068,
+              "width": 310,
+              "height": 886
+            },
+            "dock": {
+              "x": 18,
+              "y": 1008,
+              "right": 1580,
+              "bottom": 1068,
+              "width": 1562,
+              "height": 60
+            },
+            "guidance": {
+              "x": 137.734375,
+              "y": 1021.71875,
+              "right": 1402.734375,
+              "bottom": 1054.265625,
+              "width": 1265,
+              "height": 32.546875
+            },
+            "commandButtons": [
+              {
+                "x": 1414.734375,
+                "y": 1016,
+                "right": 1567,
+                "bottom": 1060,
+                "width": 152.265625,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 2560,
+            "height": 1440,
+            "pageWidth": 2560,
+            "pageHeight": 1440,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 2232,
+                "y": 182,
+                "right": 2542,
+                "bottom": 1428,
+                "width": 310,
+                "height": 1246
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 2245,
+                "y": 1308,
+                "right": 2315,
+                "bottom": 1352,
+                "width": 70,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 2323,
+                "y": 1308,
+                "right": 2529,
+                "bottom": 1352,
+                "width": 206,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 2245,
+                "y": 1373,
+                "right": 2383,
+                "bottom": 1417,
+                "width": 138,
+                "height": 44
+              }
+            ],
+            "huds": [
+              {
+                "x": 18,
+                "y": 70,
+                "right": 1213,
+                "bottom": 162.25,
+                "width": 1195,
+                "height": 92.25
+              },
+              {
+                "x": 1225,
+                "y": 70,
+                "right": 1335,
+                "bottom": 162.25,
+                "width": 110,
+                "height": 92.25
+              },
+              {
+                "x": 1347,
+                "y": 70,
+                "right": 2542,
+                "bottom": 162.25,
+                "width": 1195,
+                "height": 92.25
+              }
+            ],
+            "board": {
+              "x": 18,
+              "y": 182,
+              "right": 1938,
+              "bottom": 1356,
+              "width": 1920,
+              "height": 1174
+            },
+            "coach": {
+              "x": 2232,
+              "y": 182,
+              "right": 2542,
+              "bottom": 1428,
+              "width": 310,
+              "height": 1246
+            },
+            "dock": {
+              "x": 18,
+              "y": 1368,
+              "right": 2220,
+              "bottom": 1428,
+              "width": 2202,
+              "height": 60
+            },
+            "guidance": {
+              "x": 137.734375,
+              "y": 1381.71875,
+              "right": 2042.734375,
+              "bottom": 1414.265625,
+              "width": 1905,
+              "height": 32.546875
+            },
+            "commandButtons": [
+              {
+                "x": 2054.734375,
+                "y": 1376,
+                "right": 2207,
+                "bottom": 1420,
+                "width": 152.265625,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 1366,
+            "height": 768,
+            "pageWidth": 1366,
+            "pageHeight": 768,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 1038,
+                "y": 182,
+                "right": 1348,
+                "bottom": 756,
+                "width": 310,
+                "height": 574
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 1051,
+                "y": 636,
+                "right": 1121,
+                "bottom": 680,
+                "width": 70,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 1129,
+                "y": 636,
+                "right": 1335,
+                "bottom": 680,
+                "width": 206,
+                "height": 44
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 1051,
+                "y": 701,
+                "right": 1189,
+                "bottom": 745,
+                "width": 138,
+                "height": 44
+              }
+            ],
+            "huds": [
+              {
+                "x": 18,
+                "y": 70,
+                "right": 616,
+                "bottom": 162.25,
+                "width": 598,
+                "height": 92.25
+              },
+              {
+                "x": 628,
+                "y": 70,
+                "right": 738,
+                "bottom": 162.25,
+                "width": 110,
+                "height": 92.25
+              },
+              {
+                "x": 750,
+                "y": 70,
+                "right": 1348,
+                "bottom": 162.25,
+                "width": 598,
+                "height": 92.25
+              }
+            ],
+            "board": {
+              "x": 18,
+              "y": 182,
+              "right": 754.46875,
+              "bottom": 684,
+              "width": 736.46875,
+              "height": 502
+            },
+            "coach": {
+              "x": 1038,
+              "y": 182,
+              "right": 1348,
+              "bottom": 756,
+              "width": 310,
+              "height": 574
+            },
+            "dock": {
+              "x": 18,
+              "y": 696,
+              "right": 1026,
+              "bottom": 756,
+              "width": 1008,
+              "height": 60
+            },
+            "guidance": {
+              "x": 137.734375,
+              "y": 709.71875,
+              "right": 848.734375,
+              "bottom": 742.265625,
+              "width": 711,
+              "height": 32.546875
+            },
+            "commandButtons": [
+              {
+                "x": 860.734375,
+                "y": 704,
+                "right": 1013,
+                "bottom": 748,
+                "width": 152.265625,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 1280,
+            "height": 720,
+            "pageWidth": 1280,
+            "pageHeight": 720,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 958.8125,
+                "y": 162,
+                "right": 1266,
+                "bottom": 710,
+                "width": 307.1875,
+                "height": 548
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 971.8125,
+                "y": 602,
+                "right": 1041.8125,
+                "bottom": 642,
+                "width": 70,
+                "height": 40
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 1049.8125,
+                "y": 602,
+                "right": 1253,
+                "bottom": 642,
+                "width": 203.1875,
+                "height": 40
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 967.8125,
+                "y": 661,
+                "right": 1108.40625,
+                "bottom": 701,
+                "width": 140.59375,
+                "height": 40
+              }
+            ],
+            "huds": [
+              {
+                "x": 14,
+                "y": 68,
+                "right": 573,
+                "bottom": 157.25,
+                "width": 559,
+                "height": 89.25
+              },
+              {
+                "x": 585,
+                "y": 68,
+                "right": 695,
+                "bottom": 157.25,
+                "width": 110,
+                "height": 89.25
+              },
+              {
+                "x": 707,
+                "y": 68,
+                "right": 1266,
+                "bottom": 157.25,
+                "width": 559,
+                "height": 89.25
+              }
+            ],
+            "board": {
+              "x": 14,
+              "y": 162,
+              "right": 691.625,
+              "bottom": 644,
+              "width": 677.625,
+              "height": 482
+            },
+            "coach": {
+              "x": 958.8125,
+              "y": 162,
+              "right": 1266,
+              "bottom": 710,
+              "width": 307.1875,
+              "height": 548
+            },
+            "dock": {
+              "x": 14,
+              "y": 654,
+              "right": 946.8125,
+              "bottom": 710,
+              "width": 932.8125,
+              "height": 56
+            },
+            "guidance": {
+              "x": 133.734375,
+              "y": 665.71875,
+              "right": 769.546875,
+              "bottom": 698.265625,
+              "width": 635.8125,
+              "height": 32.546875
+            },
+            "commandButtons": [
+              {
+                "x": 781.546875,
+                "y": 660,
+                "right": 933.8125,
+                "bottom": 704,
+                "width": 152.265625,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "pageWidth": 900,
+            "pageHeight": 600,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 621,
+                "y": 162,
+                "right": 886,
+                "bottom": 590,
+                "width": 265,
+                "height": 428
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 634,
+                "y": 482,
+                "right": 704,
+                "bottom": 522,
+                "width": 70,
+                "height": 40
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 712,
+                "y": 482,
+                "right": 873,
+                "bottom": 522,
+                "width": 161,
+                "height": 40
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 630,
+                "y": 541,
+                "right": 749.5,
+                "bottom": 581,
+                "width": 119.5,
+                "height": 40
+              }
+            ],
+            "huds": [
+              {
+                "x": 14,
+                "y": 68,
+                "right": 383,
+                "bottom": 152,
+                "width": 369,
+                "height": 84
+              },
+              {
+                "x": 395,
+                "y": 68,
+                "right": 505,
+                "bottom": 152,
+                "width": 110,
+                "height": 84
+              },
+              {
+                "x": 517,
+                "y": 68,
+                "right": 886,
+                "bottom": 152,
+                "width": 369,
+                "height": 84
+              }
+            ],
+            "board": {
+              "x": 14,
+              "y": 162,
+              "right": 401,
+              "bottom": 524,
+              "width": 387,
+              "height": 362
+            },
+            "coach": {
+              "x": 621,
+              "y": 162,
+              "right": 886,
+              "bottom": 590,
+              "width": 265,
+              "height": 428
+            },
+            "dock": {
+              "x": 14,
+              "y": 534,
+              "right": 611,
+              "bottom": 590,
+              "width": 597,
+              "height": 56
+            },
+            "guidance": {
+              "x": 27,
+              "y": 553.21875,
+              "right": 433.734375,
+              "bottom": 570.765625,
+              "width": 406.734375,
+              "height": 17.546875
+            },
+            "commandButtons": [
+              {
+                "x": 445.734375,
+                "y": 540,
+                "right": 598,
+                "bottom": 584,
+                "width": 152.265625,
+                "height": 44
+              }
+            ]
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "pageWidth": 390,
+            "pageHeight": 844,
+            "controls": [
+              {
+                "selector": "#tutorial-coach",
+                "x": 6,
+                "y": 678,
+                "right": 384,
+                "bottom": 838,
+                "width": 378,
+                "height": 160
+              },
+              {
+                "selector": "[data-tutorial-action=\"hint\"]",
+                "x": 108,
+                "y": 765,
+                "right": 168,
+                "bottom": 797,
+                "width": 60,
+                "height": 32
+              },
+              {
+                "selector": "[data-tutorial-action=\"next\"]",
+                "x": 176,
+                "y": 765,
+                "right": 377,
+                "bottom": 797,
+                "width": 201,
+                "height": 32
+              },
+              {
+                "selector": "[data-tutorial-action=\"restart-lesson\"]",
+                "x": 108,
+                "y": 803,
+                "right": 239.5,
+                "bottom": 835,
+                "width": 131.5,
+                "height": 32
+              }
+            ],
+            "huds": [
+              {
+                "x": 6,
+                "y": 62,
+                "right": 165,
+                "bottom": 109.453125,
+                "width": 159,
+                "height": 47.453125
+              },
+              {
+                "x": 6,
+                "y": 114.453125,
+                "right": 384,
+                "bottom": 140,
+                "width": 378,
+                "height": 25.546875
+              },
+              {
+                "x": 170,
+                "y": 62,
+                "right": 220,
+                "bottom": 109.453125,
+                "width": 50,
+                "height": 47.453125
+              }
+            ],
+            "board": {
+              "x": 6,
+              "y": 146,
+              "right": 384,
+              "bottom": 468,
+              "width": 378,
+              "height": 322
+            },
+            "coach": {
+              "x": 6,
+              "y": 678,
+              "right": 384,
+              "bottom": 838,
+              "width": 378,
+              "height": 160
+            },
+            "dock": {
+              "x": 6,
+              "y": 474,
+              "right": 384,
+              "bottom": 526,
+              "width": 378,
+              "height": 52
+            },
+            "guidance": {
+              "x": 19,
+              "y": 488.15625,
+              "right": 215.546875,
+              "bottom": 517.84375,
+              "width": 196.546875,
+              "height": 29.6875
+            },
+            "commandButtons": [
+              {
+                "x": 227.546875,
+                "y": 483,
+                "right": 371,
+                "bottom": 523,
+                "width": 143.453125,
+                "height": 40
+              }
+            ]
+          }
+        ],
+        "combatBounds": {
+          "width": 900,
+          "height": 600,
+          "pageWidth": 900,
+          "pageHeight": 600,
+          "controls": [
+            {
+              "selector": "#tutorial-coach",
+              "x": 621,
+              "y": 162,
+              "right": 886,
+              "bottom": 590,
+              "width": 265,
+              "height": 428
+            },
+            {
+              "selector": "[data-tutorial-action=\"hint\"]",
+              "x": 634,
+              "y": 482,
+              "right": 704,
+              "bottom": 522,
+              "width": 70,
+              "height": 40
+            },
+            {
+              "selector": "[data-tutorial-action=\"next\"]",
+              "x": 712,
+              "y": 482,
+              "right": 873,
+              "bottom": 522,
+              "width": 161,
+              "height": 40
+            },
+            {
+              "selector": "[data-tutorial-action=\"restart-lesson\"]",
+              "x": 630,
+              "y": 541,
+              "right": 749.5,
+              "bottom": 581,
+              "width": 119.5,
+              "height": 40
+            }
+          ],
+          "huds": [
+            {
+              "x": 14,
+              "y": 68,
+              "right": 383,
+              "bottom": 152,
+              "width": 369,
+              "height": 84
+            },
+            {
+              "x": 395,
+              "y": 68,
+              "right": 505,
+              "bottom": 152,
+              "width": 110,
+              "height": 84
+            },
+            {
+              "x": 517,
+              "y": 68,
+              "right": 886,
+              "bottom": 152,
+              "width": 369,
+              "height": 84
+            }
+          ],
+          "board": {
+            "x": 14,
+            "y": 162,
+            "right": 401,
+            "bottom": 524,
+            "width": 387,
+            "height": 362
+          },
+          "coach": {
+            "x": 621,
+            "y": 162,
+            "right": 886,
+            "bottom": 590,
+            "width": 265,
+            "height": 428
+          },
+          "dock": {
+            "x": 14,
+            "y": 534,
+            "right": 611,
+            "bottom": 590,
+            "width": 597,
+            "height": 56
+          },
+          "guidance": {
+            "x": 27,
+            "y": 544.453125,
+            "right": 320.703125,
+            "bottom": 579.546875,
+            "width": 293.703125,
+            "height": 35.09375
+          },
+          "commandButtons": [
+            {
+              "x": 332.703125,
+              "y": 540,
+              "right": 433.734375,
+              "bottom": 584,
+              "width": 101.03125,
+              "height": 44
+            },
+            {
+              "x": 445.734375,
+              "y": 540,
+              "right": 598,
+              "bottom": 584,
+              "width": 152.265625,
+              "height": 44
+            }
+          ]
+        },
+        "trainingBounds": {
+          "width": 1280,
+          "height": 720,
+          "pageWidth": 1280,
+          "pageHeight": 720,
+          "controls": [
+            {
+              "selector": "#tutorial-coach",
+              "x": 958.8125,
+              "y": 162,
+              "right": 1266,
+              "bottom": 710,
+              "width": 307.1875,
+              "height": 548
+            },
+            {
+              "selector": "[data-tutorial-action=\"hint\"]",
+              "x": 971.8125,
+              "y": 602,
+              "right": 1041.8125,
+              "bottom": 642,
+              "width": 70,
+              "height": 40
+            },
+            {
+              "selector": "[data-tutorial-action=\"next\"]",
+              "x": 1049.8125,
+              "y": 602,
+              "right": 1253,
+              "bottom": 642,
+              "width": 203.1875,
+              "height": 40
+            },
+            {
+              "selector": "[data-tutorial-action=\"restart-lesson\"]",
+              "x": 967.8125,
+              "y": 661,
+              "right": 1108.40625,
+              "bottom": 701,
+              "width": 140.59375,
+              "height": 40
+            }
+          ],
+          "huds": [
+            {
+              "x": 14,
+              "y": 68,
+              "right": 573,
+              "bottom": 162.1875,
+              "width": 559,
+              "height": 94.1875
+            },
+            {
+              "x": 585,
+              "y": 68,
+              "right": 695,
+              "bottom": 162.1875,
+              "width": 110,
+              "height": 94.1875
+            },
+            {
+              "x": 707,
+              "y": 68,
+              "right": 1266,
+              "bottom": 162.1875,
+              "width": 559,
+              "height": 94.1875
+            }
+          ],
+          "board": {
+            "x": 14,
+            "y": 162,
+            "right": 691.625,
+            "bottom": 644,
+            "width": 677.625,
+            "height": 482
+          },
+          "coach": {
+            "x": 958.8125,
+            "y": 162,
+            "right": 1266,
+            "bottom": 710,
+            "width": 307.1875,
+            "height": 548
+          },
+          "dock": {
+            "x": 14,
+            "y": 654,
+            "right": 946.8125,
+            "bottom": 710,
+            "width": 932.8125,
+            "height": 56
+          },
+          "guidance": {
+            "x": 150.078125,
+            "y": 665.71875,
+            "right": 933.8125,
+            "bottom": 698.265625,
+            "width": 783.734375,
+            "height": 32.546875
+          },
+          "commandButtons": []
+        },
+        "progressPersistence": true,
+        "skipAndReplay": true,
+        "errors": []
+      },
+      "settings": {
+        "fullscreenControl": true,
+        "escapePreservesFullscreen": true,
+        "updateNeverRestartsActiveMatch": true,
+        "pausedMatchProtected": true,
+        "manualRestartAfterMatch": true,
+        "settingsPauseAI": true,
+        "emulatedDisplayScaling": [
+          {
+            "factor": 1.25,
+            "width": 1536,
+            "height": 864,
+            "docWidth": 1536,
+            "docHeight": 864,
+            "close": 711
+          },
+          {
+            "factor": 1.5,
+            "width": 1280,
+            "height": 720,
+            "docWidth": 1280,
+            "docHeight": 720,
+            "close": 639
+          }
+        ],
+        "errors": []
+      },
+      "arsenalWarRoom": {
+        "passed": true,
+        "version": "0.7.0",
+        "savedDeckUpgrade": true,
+        "legacyLabDefaultMigrated": true,
+        "versionedHistoricalProfilePreserved": true,
+        "invalidDraftRetained": true,
+        "commandCostsVisible": true,
+        "deckCrudImportExport": true,
+        "customDeckFixtureMatches": 1,
+        "workerNodeOfflineAgreement": true,
+        "reportOriginVersion": true,
+        "viewports": [
+          [
+            1366,
+            768
+          ],
+          [
+            900,
+            600
+          ]
+        ],
+        "errors": []
+      }
+    },
+    "native": {
+      "shell": {
+        "version": "0.7.0",
+        "page": "shell",
+        "home": true,
+        "play": true,
+        "settings": true,
+        "tutorialDeployment": true,
+        "installedVersionVisible": true,
+        "fullscreen": true,
+        "windowed": true,
+        "shortcuts": [
+          "F11",
+          "Alt+Enter"
+        ]
+      },
+      "game": {
+        "version": "0.7.0",
+        "page": "game",
+        "winner": 0,
+        "turns": 37,
+        "decisions": 165,
+        "units": 4
+      },
+      "arsenal": {
+        "version": "0.7.0",
+        "page": "arsenal",
+        "cards": 80,
+        "deckSize": 26
+      },
+      "warroom": {
+        "version": "0.7.0",
+        "page": "warroom",
+        "completed": 2,
+        "errors": 0,
+        "runner": "cooperative"
+      }
+    },
+    "releasePayload": {
+      "verifiedRuntimeFiles": 58,
+      "sourceHashes": {
+        "ai.js": "4f2be9eace0ec2ed8a8aa1f0f903546abbcf985afc354a06e762000d8e4a8bdc",
+        "analytics.js": "730f2b889fa56141ef97457ced75e325542a08bdd24a80e511bc683d24a05ea7",
+        "app.js": "bfd772f77967ca7e608d7f5ed42aa7b422b63ddad72a905c35d55d72e77d9d7d",
+        "art.js": "402ddb032f0cf6f7602aef96df33e72f1ddc8a8c15fa44366722a8479e9f3b02",
+        "assets/animations/README.md": "e4b86d3cfd76aef15fac986c0330ab69b6df24d0600ba2f868c3434a5b91e6ca",
+        "assets/audio/README.md": "3f31bed67a86123a0deda9a4e4d4d225f8a69e7ad52c5766369d94bf61eaf2ae",
+        "assets/battlefield/tactical-city.svg": "d81947802ab19f99b1ea97ab8282df7367f2d09612cb3a6ec9bff2f8e7c98ea2",
+        "assets/cards/bruiser/starter-atlas.webp": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419",
+        "assets/cards/nightwalker/starter-atlas.webp": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0",
+        "assets/cards/rogue/starter-atlas.webp": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1",
+        "assets/cards/stonewall/starter-atlas.webp": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20",
+        "assets/cards/syndicate/starter-atlas.webp": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf",
+        "assets/effects/README.md": "9787c2d97db8b4ab0a2b1ef99368b2275633ecd3f17ce64ec9e94cc4056416b8",
+        "assets/ui/faction_emblems/bruiser.svg": "81c5e32cbaed842637309ed39aea00fc47993d0a9881f22c4d15eb1ed1364c2f",
+        "assets/ui/faction_emblems/nightwalker.svg": "1f8f9895cdccdec78b9fbaa246db31d4d6c6848c32171838f4735b87e67950b9",
+        "assets/ui/faction_emblems/rogue.svg": "b905acd986b3f56e78a26707ddb1eb9cd0751a6a514ea1ae9f3df553d42cc297",
+        "assets/ui/faction_emblems/stonewall.svg": "dfa7b9913e1da786a3c03a4f4225d850a476f3cee33c4a2106e79a36a5cba6c9",
+        "assets/ui/faction_emblems/syndicate.svg": "bfa1ac959a0f899a4f8b74352c6642ff680e102ddc0b6c11fecebbb36ac1835e",
+        "assets/ui/frontlines-icon.ico": "9cbd289c6559963ae97f191aa00ed1d05a8397532368793c43cad466c9785c3d",
+        "assets/ui/frontlines-icon.png": "fffbf9cf8af9eea49032b026941e2d7fa7f7ee938d2ded7bd716fb93b1db1258",
+        "assets/ui/frontlines-icon.svg": "044069f48a4e5ac74d021e183be21dd77a9f44201ce406c6bea37194ac9d7cd1",
+        "balance.js": "069e10aa25194b5e1d0d9313c08f16dad98200df0a70f0f653dc64c3785017c9",
+        "balance/arsenal.json": "12141a7d63467b0fe73c39e99ddb7005d6c22beea029ac93e8d60b58610b352b",
+        "balance/baseline.json": "db70ea1f401251cb232cda74f9fbc2c2f8f9c6e79cce13a7c902f243f65a75ce",
+        "balance/candidate.json": "2bfcd17e81222b3de7fda52d9a11b5ba684cabb42989000a45201152aa8807af",
+        "balance/iteration01.json": "0c25173b899c97433718a104e3036c48f1b9c35032ee9343f29b58666124cbbc",
+        "balance/sprint6.json": "ed2fa25bfd9ef5d878159a960fc4319b7f5fde3c44aa28284a63441c4f6074d1",
+        "build-info.js": "db77b6e2b68651908599c8bce6985402cb451cdaa95b41bc9cf2269a53b51623",
+        "command.css": "0c6498e302b055f760368048836673c5dbdea1edf90e6889528aa04e23bc148e",
+        "data.js": "d559c2985a7be9fec667978ec453f9694aebb5bb5efa277345072a09bd7fef95",
+        "deck-builder.css": "b572a35d80864905887185c8753fa7cd51d23432a50988a58e07b3511b9b9e66",
+        "deck-builder.html": "6a29e007f4d815077f8597755d80e397d025be0c1e1bcb51d984b58903ac8595",
+        "deck-builder.js": "5167b522496d40cae8c90b4fd9c1e5c5c19b2ceff1f303f46de684b097389bd8",
+        "decks.js": "cdf31506858adac19dcbfd0e62c133b62e9b1d7fe9ca5879fc10c4c8b0722e96",
+        "desktop.js": "3bc0d76744613bdb520c8abb5c5635f7ae33b4d67bb7e0f51485ddcbe5b0232a",
+        "effects.css": "39e2f1adf3ba35203e014f65808e2dd9a098edbd940e4d13082b8ab9d7edcb46",
+        "effects.js": "300098ad808c7dfbe38f0df7b73f17e3d6f8ab1b94b22b6650d5f0364ea6bdf2",
+        "engine.js": "622e80edc57ab2b5352bc30036892074ed0d00d7d9e66cd9e11515e4756c72e3",
+        "field-manual.js": "c3cb39b6f3ed47acc6a0a8dcbbee48c9e3dd9a3c4be756b5f60a781714203352",
+        "index.html": "e7fc5933b32fc25c6c8f744ae6d3da17f3572c2e171783474af177dce319b567",
+        "learning.css": "4386346cbcae1a1f269d7a5afbca2ca6b3aa8f1978f1b4194c1433e4e19838bc",
+        "live-runtime.js": "80cf7755f63ef020c951c027f5e2878918ead38e2b78dd72ef78a01ec9f6e248",
+        "main.js": "6099961a48b9cc58c1c60d16642738bbc4bfe89c6e7c240c05bea7dfdc62c901",
+        "preload.js": "19934e15d760bd2e19601015bd9532e702d1c7ef4e39745037df9a2409b378ef",
+        "server.js": "5e9b7e8cc4c79a202870240d00806b89ab42186e32344b4305ece0d9119efefa",
+        "shell-state.js": "76aac6b4bd890c55a6c87b0ec50a8da27a3934f72c266c1657596c7641805798",
+        "shell.css": "f9fa343510835ed273503a8caa95dcd3a4a6543f1739be4124e9eab8a580848e",
+        "shell.js": "7a00ec0f32392dbd7f67f86e19bc4e45e0ac0f093602f8ddcdfe218109869e97",
+        "sim-core.js": "be8dc7275b953d92e2c64ee755ae3145ed1f9127d239195a8a450ee6ce9d73c8",
+        "simulator-app.js": "12360056f2e4ec19b867b4ba6ab7671dc0d7f53843cdbe1c0441e0cf62524785",
+        "simulator-worker.js": "412344664b1c61015763e16169bd9103da0749ab75db9972a40f334acb5c8533",
+        "simulator.css": "7219969f76f0ec6aaccf07c897becfc817b4c4fbbde48537a8897b40fc8a4781",
+        "simulator.html": "f1ba672f86ad6c2b1cbc332a72f1ce1b7d6b0cd0b5c0ad1f3eb1c586460d425a",
+        "styles.css": "b3abef0663f7a21993c42711f08ba95f04deb08a847038a93ab236779b450b45",
+        "telemetry.js": "5c18ab89f43a68be34890e18529e130d1ce7b013607d6c2a1e2f434b43b37027",
+        "tutorial.css": "58de3bed471bc105f52670ceceb0fee57b9d70c848c5c85aaface0d5f61e1b35",
+        "tutorial.js": "1ae7f30333a1ca17551ba4e32b06ee9d6d4da6a683279035ff163bc05bee13d9",
+        "war-room.css": "f300dcced04e702285c7a986a9f1ff1c0a11af31bac1e4fbcffa3010f860ee3e"
+      },
+      "verifiedHistoricalFiles": 31,
+      "developmentMaterialExcluded": true
+    }
+  },
+  "installer": {
+    "file": "Frontlines-Setup-0.7.0.exe",
+    "bytes": 112978100,
+    "sha256": "e4eecca184d8a96fdca99662db1c0b2dc78a725dcfd687c7553941b987f87746",
+    "relativePath": "release/0.7.0/Frontlines-Setup-0.7.0.exe",
+    "authenticode": "NotSigned"
+  },
+  "knownLimits": [
+    "No inexperienced human has completed the new tutorial yet.",
+    "Competitive validation awaits owner-run data.",
+    "Tutorial progress resumes a lesson, not an exact mid-lesson save.",
+    "Direct executable smoke does not validate installer installation or actual release-server update delivery.",
+    "Browser, offline-file and native origins have separate local storage; deck JSON provides transfer."
+  ],
+  "simulationRequest": {
+    "operator": "Ryken",
+    "purpose": "Measure the new action economy and frontline baseline before any stat tuning.",
+    "count": 10000,
+    "mode": "matrix",
+    "pool": "archetypes (ten presets)",
+    "seats": "paired reversed seats",
+    "mirrors": false,
+    "profile": "sprint6",
+    "ai": "deck / deck; no live difficulty override",
+    "seed": 20261003,
+    "verify": true,
+    "maxTurns": 240,
+    "maxDecisions": 10000,
+    "richTraces": false,
+    "command": "npm run simulate -- --mode matrix --pool archetypes --count 10000 --balance sprint6 --ai deck --seed 20261003 --verify --max-turns 240 --max-decisions 10000 --out test-results/sprint6-owner-10000.json --csv",
+    "outputs": [
+      "JSON",
+      "HTML",
+      "matches CSV",
+      "cards CSV"
+    ],
+    "measurements": [
+      "errors and cutoffs",
+      "cross-faction and deck/archetype matchup rates",
+      "first-seat impact",
+      "match length",
+      "economy and free-play/command spending",
+      "capture/retreat/elimination flow",
+      "comeback rates",
+      "card opportunities and outliers"
+    ]
+  }
+}

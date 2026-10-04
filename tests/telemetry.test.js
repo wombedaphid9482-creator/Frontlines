@@ -135,6 +135,7 @@ test('comparisons match exact seeds/decks, describe AI confounding, and HTML esc
   const r=finished({count:4,seed:601}),same=S.compareReports(r,r);assert.equal(same.paired.matched,4);assert.equal(same.paired.changedWinners,0);assert.ok(same.factions.every(row=>row.delta===0||row.delta===null));
   const changed=JSON.parse(JSON.stringify(r));changed.options.aiProfiles=['faction','faction'];assert.equal(S.compareReports(r,changed).controlledBalanceComparison,false);
   changed.summary.byFaction[0].name='<script>alert(1)</script>';
+  if(changed.summary.byFactionCross?.length)changed.summary.byFactionCross[0].name='<script>alert(1)</script>';
   const html=S.reportHTML(changed);assert.ok(!html.includes('<script>alert(1)</script>'));assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));assert.ok(html.includes('Casualty commitment released'));
 });
 test('diagnostic thresholds are validated and only flag after sufficient samples',()=>{

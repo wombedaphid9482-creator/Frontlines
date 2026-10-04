@@ -22,6 +22,11 @@
   const controlledCount = (state, player) => state.territories.filter(territory => territory.owner === player).length;
   const getActor = state => state.response && state.response.stage === 'response' ? state.response.responder : state.attacker;
   const direction = player => player === 0 ? 1 : -1;
+  const RULES = Data.RULES || {};
+  const separatedEconomy = RULES.actionEconomy === 'capacity-command';
+  const frontlineIntegrity = RULES.frontlineIntegrity === true;
+  const arsenalMechanics = RULES.arsenalMechanics === true;
+  const actionEffects = arsenalMechanics ? ACTION_EFFECTS.concat('mark','reinforce','adapt') : ACTION_EFFECTS;
   let activeEvents = null;
   function event(state, type, detail) { if (activeEvents) activeEvents.push({ type, turn:state.turn, ...detail }); }
 
@@ -31,10 +36,47 @@
     return { command: p.command, committed, spent: p.spent, available: p.command - committed - p.spent };
   }
 
+  // Costs are public rules data. Legality and execution both use this exact
+  // function so free deployments remain available after the last command.
+  function actionCost(state, action) {
+    if (!action || typeof action.type !== 'string') return { presence:0, commandActions:0 };
+    if (['deploy','order','respond','counter'].includes(action.type)) {
+      const item = handById(state,getActor(state),action.handUid);
+      const definition = item && card(item);
+      const presenceCost = definition ? definition.presence : 0;
+      if (action.type === 'respond' || action.type === 'counter') return { presence:presenceCost, commandActions:0 };
+      return { presence:presenceCost, commandActions:separatedEconomy && definition ? definition.commandCost ?? 0 : 1 };
+    }
+    return { presence:0, commandActions:['move','attack'].includes(action.type) ? 1 : 0 };
+  }
+
   function attackValue(state, unit) {
     if (!unit || card(unit).type === 'asset') return 0;
     return card(unit).attack + (trait(unit, 'berserk') && unit.damage > 0 ? 1 : 0)
       + unitsAt(state, unit.territory, unit.owner).filter(ally => ally.uid !== unit.uid && trait(ally, 'command')).length;
+  }
+
+  // Every mode resolves to an ordinary reusable effect. Invalid Adapt choices
+  // remain invalid rather than silently choosing an effect for the player.
+  function resolveEffect(definition, action) {
+    const effect = definition && definition.effect;
+    if (!effect) return null;
+    if (effect.kind !== 'adapt') return effect;
+    if (!arsenalMechanics || !action || typeof action.mode !== 'string') return null;
+    return Array.isArray(effect.modes) ? effect.modes.find(mode => mode.id === action.mode) || null : null;
+  }
+
+  function combatProtection(state, unit) {
+    const fortify = trait(unit,'fortify') && state.territories[unit.territory].owner === unit.owner ? 1 : 0;
+    const armor = arsenalMechanics ? Math.max(trait(unit,'armor') ? 1 : 0,unit.reinforced ? 1 : 0) : 0;
+    return {fortify,armor};
+  }
+
+  function combatDamage(state, unit, amount, shield = 0) {
+    if (!unit) return 0;
+    const protection = combatProtection(state,unit);
+    const mark = arsenalMechanics && unit.marked && amount > 0 ? 1 : 0;
+    return Math.max(0,amount + mark - shield - protection.fortify - protection.armor);
   }
 
   function log(state, text, type) {
@@ -100,17 +142,23 @@
 
   function dealDamage(state, unit, amount, sourcePlayer, combat, source) {
     if (!unit || !unitById(state, unit.uid)) return 0;
-    const reduction = combat && trait(unit, 'fortify') && state.territories[unit.territory].owner === unit.owner ? 1 : 0;
-    const actual = Math.max(0, amount - reduction);
+    const protection = combat ? combatProtection(state,unit) : {fortify:0,armor:0};
+    const reduction = protection.fortify;
+    const shield = combat && source && source.shield || 0;
+    const mark = combat && arsenalMechanics && unit.marked && amount > 0 ? 1 : 0;
+    const actual = combat ? combatDamage(state,unit,amount,shield) : Math.max(0,amount);
     const remainingHealth=Math.max(0,card(unit).health-unit.damage);
     const effective=Math.min(actual,remainingHealth);
     unit.damage += actual;
     if (sourcePlayer !== undefined) state.stats.damage[sourcePlayer] += actual;
     event(state,'damage',{player:sourcePlayer === undefined ? null : sourcePlayer,targetOwner:unit.owner,targetUid:unit.uid,targetCardId:unit.cardId,
-      territory:unit.territory,amount:actual,effective,fortifyAbsorbed:Math.min(amount,reduction),combat:!!combat,...source,
-      fortifyEffectiveProtected:Math.min(amount,remainingHealth)-effective,
+      territory:unit.territory,amount:actual,effective,fortifyAbsorbed:Math.min(Math.max(0,amount+mark-shield),reduction),combat:!!combat,...source,
+      fortifyEffectiveProtected:Math.min(Math.max(0,amount+mark-shield-protection.armor),remainingHealth)-effective,
+      ...(arsenalMechanics ? {armorAbsorbed:Math.min(Math.max(0,amount+mark-shield-reduction),protection.armor),markBonus:mark,
+        armorEffectiveProtected:Math.min(Math.max(0,amount+mark-shield-reduction),remainingHealth)-effective} : {}),
       commandEffectiveEnabled:source&&source.commandSupporters?effective-Math.min(Math.max(0,actual-source.commandSupporters.length),remainingHealth):0});
-    log(state, `${card(unit).name} takes ${actual} damage${reduction ? ' (Fortify absorbs 1)' : ''}.`, 'damage');
+    const feedback = [mark ? 'Mark adds 1' : '',reduction ? 'Fortify absorbs 1' : '',protection.armor ? 'Armor absorbs 1' : ''].filter(Boolean);
+    log(state, `${card(unit).name} takes ${actual} damage${feedback.length ? ' ('+feedback.join('; ')+')' : ''}.`, 'damage');
     return actual;
   }
 
@@ -172,6 +220,13 @@
     state.stats.turns[player]++;
     state.actionsLeft = state.config.actionLimit;
     state.units.filter(unit => unit.owner === player).forEach(unit => { unit.ready = true; });
+    if (arsenalMechanics) for (const unit of state.units.filter(unit => unit.owner === player)) {
+      for (const status of ['marked','reinforced']) if (unit[status]) {
+        delete unit[status];
+        event(state,status === 'marked' ? 'markEnd' : 'reinforceEnd',{player,uid:unit.uid,cardId:unit.cardId});
+        log(state, `${card(unit).name}'s ${status === 'marked' ? 'Mark' : 'temporary Armor'} expires.`, 'order');
+      }
+    }
     // Sabotage is a tactical window, ending before this owner's Medic/aura
     // effects are evaluated. Printed stats and commitment never change.
     state.units.filter(unit => unit.owner === player && unit.suppressed).forEach(unit => {
@@ -189,7 +244,7 @@
         log(state, `${card(unit).name} recovers ${actual} damage from Medic support.`, 'heal');
       }
     }
-    log(state, `Player ${player + 1} takes initiative: ${p.command} Command Presence, ${state.actionsLeft} actions.`, 'turn');
+    log(state, separatedEconomy ? `Player ${player + 1} takes initiative: ${p.command} total Capacity, ${presence(state,player).available} available Capacity, ${state.actionsLeft} Command Actions.` : `Player ${player + 1} takes initiative: ${p.command} Command Presence, ${state.actionsLeft} actions.`, 'turn');
     draw(state, player, state.config.drawCount);
   }
 
@@ -212,12 +267,22 @@
 
   function affordableError(state, player, definition) {
     const available = presence(state, player).available;
-    return definition.presence > available ? `Requires ${definition.presence} Presence. You currently have ${available} available.` : null;
+    return definition.presence > available ? separatedEconomy ? `Not enough Capacity. Requires ${definition.presence} Presence; you have ${available} available Capacity.` : `Requires ${definition.presence} Presence. You currently have ${available} available.` : null;
   }
 
   function orderTargetError(state, player, definition, action) {
     const target = unitById(state, action.targetUid);
-    switch (definition.effect.kind) {
+    const effect = resolveEffect(definition,action);
+    if (!effect) return 'Choose a valid Adapt mode before selecting a target.';
+    switch (effect.kind) {
+      case 'mark':
+        if (!target || target.owner === player) return 'Choose an enemy battlefield card to Mark.';
+        if (target.marked) return 'That card is already Marked until its next offensive turn.';
+        break;
+      case 'reinforce':
+        if (!target || target.owner !== player) return 'Choose an allied battlefield card to Reinforce.';
+        if (!target.damage && (target.reinforced || trait(target,'armor'))) return 'That card is healthy and already protected by Armor.';
+        break;
       case 'damage':
         if (!target || target.owner === player) return 'Choose an enemy battlefield card to damage.';
         break;
@@ -242,6 +307,12 @@
         break;
     }
     return null;
+  }
+
+  function orderTargets(state, player, definition, action = {}) {
+    const effect = resolveEffect(definition,action);
+    if (!effect || !['damage','heal','rally','reclaim','sabotage','mark','reinforce'].includes(effect.kind)) return [];
+    return state.units.filter(unit => !orderTargetError(state,player,definition,{...action,targetUid:unit.uid})).map(unit => unit.uid);
   }
 
   function validate(state, action) {
@@ -284,7 +355,8 @@
     }
     if (action.type === 'respond' || action.type === 'counter') return 'There is no pending response window.';
     if (action.type === 'endTurn') return null;
-    if (state.actionsLeft <= 0) return 'No major actions remain. End your offensive turn.';
+    const cost = actionCost(state,action);
+    if (cost.commandActions > state.actionsLeft) return separatedEconomy ? 'No Command Actions remaining for this action. You may still deploy Free Action cards if you have enough Capacity.' : 'No major actions remain. End your offensive turn.';
     if (action.type === 'deploy' || action.type === 'order') {
       const item = handById(state, player, action.handUid);
       if (!item) return 'That card is no longer in your hand.';
@@ -296,7 +368,7 @@
         if (unitsAt(state, territory.id, player).length >= state.config.slotsPerTerritory) return 'All allied slots in that territory are occupied.';
         if (definition.unique && state.units.some(unit => unit.owner === player && unit.cardId === item.cardId)) return 'You already control this unique card.';
       } else {
-        if (definition.type !== 'order' || (definition.timing || 'action') !== 'action' || !definition.effect || !ACTION_EFFECTS.includes(definition.effect.kind)) return 'This card is not an offensive Order.';
+        if (definition.type !== 'order' || (definition.timing || 'action') !== 'action' || !definition.effect || !actionEffects.includes(definition.effect.kind)) return 'This card is not an offensive Order.';
         const error = orderTargetError(state, player, definition, action);
         if (error) return error;
       }
@@ -317,7 +389,7 @@
     return 'Unknown action.';
   }
 
-  function playOrder(state, player, handUid) {
+  function playOrder(state, player, handUid, action) {
     const p = state.players[player];
     const index = p.hand.findIndex(item => item.uid === handUid);
     const item = p.hand.splice(index, 1)[0];
@@ -325,15 +397,30 @@
     p.spent += definition.presence;
     p.discard.push(item.cardId);
     state.stats.orders[player]++;
-    event(state,'order',{player,uid:item.uid,cardId:item.cardId,presence:definition.presence,effect:definition.effect.kind,timing:definition.timing || 'action'});
+    event(state,'order',{player,uid:item.uid,cardId:item.cardId,presence:definition.presence,commandActions:definition.timing==='action'?(separatedEconomy?definition.commandCost??0:1):0,effect:resolveEffect(definition,action)?.kind || definition.effect.kind,timing:definition.timing || 'action',
+      ...(definition.effect.kind === 'adapt' ? {mode:action.mode} : {})});
     log(state, `Player ${player + 1} plays ${definition.name}, spending ${definition.presence} Presence until their next offensive turn.`, 'order');
     return item;
   }
 
-  function resolveOrder(state, player, definition, targetUid) {
-    const target = unitById(state, targetUid);
-    const amount = definition.effect.amount || 0;
-    switch (definition.effect.kind) {
+  function resolveOrder(state, player, definition, action) {
+    const target = unitById(state, action.targetUid);
+    const effect = resolveEffect(definition,action);
+    const amount = effect.amount || 0;
+    switch (effect.kind) {
+      case 'mark':
+        target.marked = 1;
+        event(state,'mark',{player,targetOwner:target.owner,uid:target.uid,targetUid:target.uid,cardId:target.cardId,sourceCardId:definition.id,amount:1});
+        log(state, `${card(target).name} is Marked: +1 incoming combat damage until its owner's next offensive turn.`, 'order');
+        break;
+      case 'reinforce': {
+        const healed = Math.min(target.damage,amount);
+        target.damage -= healed;target.reinforced = 1;
+        event(state,'heal',{player,uid:target.uid,cardId:target.cardId,amount:healed,sourceCardId:definition.id});
+        event(state,'reinforce',{player,uid:target.uid,cardId:target.cardId,sourceCardId:definition.id,amount:1,healed});
+        log(state, `${card(target).name} heals ${healed} damage and gains temporary Armor until its owner's next offensive turn.`, 'heal');
+        break;
+      }
       case 'damage': dealDamage(state, target, amount, player, false,{sourceCardId:definition.id,sourceUid:null}); removeDead(state, player); break;
       case 'sabotage':
         target.suppressed = true;
@@ -404,12 +491,12 @@
     const retaliation = attackValue(state, defender);
     event(state,'combat',{player:attacker.owner,attackerUid:attacker.uid,attackerCardId:attacker.cardId,defenderUid:defender.uid,defenderCardId:defender.cardId,
       incoming,retaliation,shield,shieldCardId:response.order && !canceled && shield ? response.order.cardId : null,
-      shieldAbsorbed:Math.min(incoming,shield),shieldEffectiveProtected:Math.min(Math.max(0,incoming-(trait(defender,'fortify')&&state.territories[defender.territory].owner===defender.owner?1:0)),card(defender).health-defender.damage)
-        -Math.min(Math.max(0,incoming-shield-(trait(defender,'fortify')&&state.territories[defender.territory].owner===defender.owner?1:0)),card(defender).health-defender.damage),
+      shieldAbsorbed:Math.min(incoming+(arsenalMechanics&&defender.marked&&incoming>0?1:0),shield),shieldEffectiveProtected:Math.min(combatDamage(state,defender,incoming),card(defender).health-defender.damage)
+        -Math.min(combatDamage(state,defender,incoming,shield),card(defender).health-defender.damage),
       commandSupporters:[attacker,defender].map(unit => unitsAt(state,unit.territory,unit.owner).filter(ally => ally.uid !== unit.uid && trait(ally,'command')).map(ally => ({player:ally.owner,uid:ally.uid,cardId:ally.cardId}))),
       berserk:[attacker,defender].map(unit => trait(unit,'berserk') && unit.damage > 0)});
     if (shield) log(state, `The defensive Order absorbs up to ${shield} incoming damage.`, 'combat');
-    dealDamage(state,defender,Math.max(0,incoming-shield),attacker.owner,true,{sourceUid:attacker.uid,sourceCardId:attacker.cardId,
+    dealDamage(state,defender,arsenalMechanics?incoming:Math.max(0,incoming-shield),attacker.owner,true,{sourceUid:attacker.uid,sourceCardId:attacker.cardId,...(arsenalMechanics?{shield}:{}),
       commandSupporters:unitsAt(state,attacker.territory,attacker.owner).filter(unit=>unit.uid!==attacker.uid&&trait(unit,'command')).map(unit=>({player:unit.owner,cardId:unit.cardId}))});
     dealDamage(state,attacker,retaliation,defender.owner,true,{sourceUid:defender.uid,sourceCardId:defender.cardId,
       commandSupporters:unitsAt(state,defender.territory,defender.owner).filter(unit=>unit.uid!==defender.uid&&trait(unit,'command')).map(unit=>({player:unit.owner,cardId:unit.cardId}))});
@@ -423,6 +510,54 @@
     }
   }
 
+  function compareUid(left, right) {
+    const a = /^(.*?)(\d+)$/.exec(left.uid), b = /^(.*?)(\d+)$/.exec(right.uid);
+    if (a && b && a[1] === b[1] && Number(a[2]) !== Number(b[2])) return Number(a[2])-Number(b[2]);
+    return left.uid < right.uid ? -1 : left.uid > right.uid ? 1 : 0;
+  }
+
+  // A dedicated forced-movement query keeps future withdrawal modifiers in
+  // one rules boundary, separate from player-issued moves and response Orders.
+  function retreatDestination(state, unit) {
+    const to = unit.territory - direction(unit.owner);
+    if (card(unit).type === 'asset') return { to:null, reason:'immobile asset' };
+    if (!state.territories[to]) return { to:null, reason:'no territory beyond home' };
+    if (state.territories[to].owner !== unit.owner) return { to:null, reason:'no friendly territory' };
+    if (unitsAt(state,to,unit.owner).length >= state.config.slotsPerTerritory) return { to:null, reason:'friendly territory is full' };
+    return { to, reason:null };
+  }
+
+  function resolveForcedRetreat(state, territory, capturedBy) {
+    const defenders = unitsAt(state,territory,1-capturedBy).slice().sort(compareUid);
+    // Reserve destinations in UID order before removing casualties. A source
+    // that is itself routed cannot scavenge another simultaneous routed ally.
+    const plans = [], reserved = new Map();
+    for (const unit of defenders) {
+      const destination = retreatDestination(state,unit);
+      if (destination.to !== null) {
+        const reservedSlots = reserved.get(destination.to)||0;
+        if (unitsAt(state,destination.to,unit.owner).length+reservedSlots >= state.config.slotsPerTerritory) {
+          destination.to = null;destination.reason = 'friendly territory is full';
+        } else reserved.set(destination.to,reservedSlots+1);
+      }
+      plans.push({unit,...destination});
+    }
+    for (const plan of plans) if (plan.to === null) plan.unit.damage = card(plan.unit).health;
+    for (const {unit,to,reason} of plans) {
+      if (to === null) {
+        event(state,'forcedElimination',{player:unit.owner,uid:unit.uid,cardId:unit.cardId,territory,reason,freedPresence:card(unit).presence,capturedBy});
+        log(state,`NO RETREAT — ${card(unit).name} is eliminated (${reason}); the captured territory cannot shelter enemy forces.`,'retreat');
+        destroy(state,unit,capturedBy);
+        continue;
+      }
+      unit.territory = to;
+      unit.ready = false;
+      unit.movedTurn = state.turn;
+      event(state,'forcedRetreat',{player:unit.owner,uid:unit.uid,cardId:unit.cardId,from:territory,to,capturedBy});
+      log(state,`${card(unit).name} retreats from ${state.territories[territory].name} to friendly ${state.territories[to].name} because the territory was captured.`,'retreat');
+    }
+  }
+
   function capture(state, player, forced) {
     const territory = state.territories[state.contested];
     const held = territory.owner === player;
@@ -433,14 +568,18 @@
     event(state,'capture',{player,territory:territory.id,previousOwner,recapture:held,forced:!!forced,
       contributors:unitsAt(state,territory.id,player).map(unit => ({uid:unit.uid,cardId:unit.cardId,presence:card(unit).presence}))});
     log(state, `Player ${player + 1} ${held ? 'secures' : 'captures'} ${territory.name}${forced ? ' [DEBUG]' : ''}.`, 'capture');
+    if (frontlineIntegrity) resolveForcedRetreat(state,territory.id,player);
     const opponentHome = player === 0 ? 6 : 0;
     if (territory.id === opponentHome || controlledCount(state, player) >= state.config.victoryTerritories) {
       state.winner = player;
       state.response = null;
+      if (frontlineIntegrity) event(state,'frontline',{player,from:state.contested,to:state.contested,victory:true});
       log(state, `Player ${player + 1} wins by conquest!`, 'victory');
       return;
     }
+    const previousFrontline = state.contested;
     state.contested = Math.max(0, Math.min(6, state.contested + direction(player)));
+    if (frontlineIntegrity) event(state,'frontline',{player,from:previousFrontline,to:state.contested});
     log(state, `The frontline shifts to ${state.territories[state.contested].name}.`, 'frontline');
     // A breakthrough creates contact before the defender's initiative. Without
     // this adjacent advance, two stationary stacks can endlessly secure their
@@ -483,10 +622,10 @@
         const hand = next.players[player].hand;
         const item = hand.splice(hand.findIndex(entry => entry.uid === action.handUid), 1)[0];
         next.units.push({ uid: item.uid, cardId: item.cardId, owner: player, territory: action.territory, damage: 0, ready: true, deployedTurn: next.turn, movedTurn: -1 });
-        next.actionsLeft--;
+        next.actionsLeft -= actionCost(state,action).commandActions;
         next.stats.deployments[player]++;
-        event(next,'deploy',{player,uid:item.uid,cardId:item.cardId,territory:action.territory,presence:card(item).presence});
-        log(next, `${card(item).name} deploys to ${next.territories[action.territory].name}, committing ${card(item).presence} Presence.`, 'deploy');
+        event(next,'deploy',{player,uid:item.uid,cardId:item.cardId,territory:action.territory,presence:card(item).presence,commandActions:actionCost(state,action).commandActions});
+        log(next, `${card(item).name} deploys to ${next.territories[action.territory].name}, committing ${card(item).presence} Presence${separatedEconomy?` and using ${actionCost(state,action).commandActions} Command Actions`:''}.`, 'deploy');
         break;
       }
       case 'move': {
@@ -496,7 +635,7 @@
         unit.territory = action.territory;
         unit.ready = freeReady;
         unit.movedTurn = next.turn;
-        next.actionsLeft--;
+        next.actionsLeft -= actionCost(state,action).commandActions;
         event(next,'move',{player,uid:unit.uid,cardId:unit.cardId,from:origin,to:action.territory,reason:freeReady ? 'mobile' : 'action'});
         log(next, `${card(unit).name} moves to ${next.territories[action.territory].name}${freeReady ? ' and remains ready (Mobile)' : ''}.`, 'move');
         break;
@@ -505,16 +644,16 @@
         const unit = unitById(next, action.unitUid);
         const target = unitById(next, action.targetUid);
         unit.ready = false;
-        next.actionsLeft--;
+        next.actionsLeft -= actionCost(state,action).commandActions;
         next.stats.attacks[player]++;
         next.response = { stage: 'response', attackerUid: unit.uid, defenderUid: target.uid, originalDefenderUid: target.uid, responder: target.owner };
         log(next, `${card(unit).name} attacks ${card(target).name}. Player ${target.owner + 1} may respond.`, 'attack');
         break;
       }
       case 'order': {
-        const item = playOrder(next, player, action.handUid);
-        next.actionsLeft--;
-        resolveOrder(next, player, card(item), action.targetUid);
+        const item = playOrder(next, player, action.handUid, action);
+        next.actionsLeft -= actionCost(state,action).commandActions;
+        resolveOrder(next, player, card(item), action);
         break;
       }
       case 'respond':
@@ -571,12 +710,19 @@
       if (type === 'respond') state.units.forEach(unit => candidates.push({ type, guardUid: unit.uid }));
     } else {
       candidates.push({ type: 'endTurn' });
-      if (state.actionsLeft > 0) {
+      if (state.actionsLeft > 0 || separatedEconomy) {
         state.players[player].hand.forEach(item => {
           const definition = card(item);
           if (definition.type !== 'order') state.territories.forEach(territory => candidates.push({ type: 'deploy', handUid: item.uid, territory: territory.id }));
-          else if (definition.effect && ['damage', 'heal', 'rally', 'reclaim', 'sabotage'].includes(definition.effect.kind)) state.units.forEach(unit => candidates.push({ type: 'order', handUid: item.uid, targetUid: unit.uid }));
-          else candidates.push({ type: 'order', handUid: item.uid });
+          else {
+            const modes = arsenalMechanics && definition.effect?.kind === 'adapt' ? definition.effect.modes.map(mode => mode.id) : [null];
+            for (const mode of modes) {
+              const action = {type:'order',handUid:item.uid,...(mode === null ? {} : {mode})};
+              const effect = resolveEffect(definition,action);
+              if (effect && ['damage','heal','rally','reclaim','sabotage','mark','reinforce'].includes(effect.kind)) state.units.forEach(unit => candidates.push({...action,targetUid:unit.uid}));
+              else candidates.push(action);
+            }
+          }
         });
         state.units.filter(unit => unit.owner === player).forEach(unit => {
           [unit.territory - 1, unit.territory + 1].forEach(territory => candidates.push({ type: 'move', unitUid: unit.uid, territory }));
@@ -640,12 +786,15 @@
       if (territory.id !== index || ![null, 0, 1].includes(territory.owner)) fail('invalid territory owner or index');
       if (territory.progress.length !== 2 || territory.progress.some(value => !Number.isInteger(value) || value < 0)) fail('invalid capture progress');
       [0, 1].forEach(player => { if (unitsAt(state, index, player).length > state.config.slotsPerTerritory) fail('territory slot capacity exceeded'); });
+      if (frontlineIntegrity && ((index < state.contested && territory.owner !== 0) || (index > state.contested && territory.owner !== 1))) fail('non-contiguous frontline ownership');
     });
     state.units.forEach(unit => {
       checkUid(unit.uid);
       const definition = card(unit);
       if (!definition || definition.type === 'order' || ![0, 1].includes(unit.owner) || !Number.isInteger(unit.territory) || unit.territory < 0 || unit.territory > 6) fail('invalid battlefield card');
       if (!Number.isInteger(unit.damage) || unit.damage < 0 || unit.damage >= definition.health || typeof unit.ready !== 'boolean') fail('dead or invalid battlefield card');
+      if (arsenalMechanics && ['marked','reinforced'].some(status => unit[status] !== undefined && unit[status] !== 1)) fail('invalid temporary arsenal status');
+      if (frontlineIntegrity && (unit.territory-state.contested)*direction(unit.owner)>0) fail('enemy unit stranded behind frontline');
       if (definition.unique) {
         const key = `${unit.owner}:${unit.cardId}`;
         if (unique.has(key)) fail('duplicate unique card');
@@ -665,5 +814,5 @@
     return true;
   }
 
-  return { VERSION:'frontlines-territory-v2-arsenal',withData:data => createEngine(data),hasTrait:trait,createGame,dispatch,card,presence,unitsAt,controlledCount,getActor,legalActions,validate,attackValue,debug,assertInvariants };
+  return { VERSION:arsenalMechanics ? 'frontlines-territory-v4-arsenal-mechanics' : separatedEconomy || frontlineIntegrity ? 'frontlines-territory-v3-command-frontline' : 'frontlines-territory-v2-arsenal',RULES:copy(RULES),withData:data => createEngine(data),hasTrait:trait,createGame,dispatch,card,presence,actionCost,resolveEffect,orderTargets,combatDamage,retreatDestination,unitsAt,controlledCount,getActor,legalActions,validate,attackValue,debug,assertInvariants };
 });

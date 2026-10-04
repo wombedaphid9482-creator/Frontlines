@@ -1,0 +1,60 @@
+/* Artwork is a separate paint region. Every treatment below is confined to that
+ * region or the outer border; no rarity/cosmetic layer paints over game text. */
+.card-art,.inspect-art,.full-card-art,.unit-art,.arsenal-art,.collection-art,.pack-card-art{position:relative;overflow:hidden;isolation:isolate;contain:paint;flex-shrink:0}
+.card-art .card-portrait,.inspect-art .card-portrait,.full-card-art .card-portrait,.unit-art .card-portrait,.arsenal-art .arsenal-portrait,.collection-art .card-portrait,.pack-card-art .card-portrait{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;transform:none;background-size:200% 200%;background-repeat:no-repeat}
+.card-art .art-symbol,.inspect-art .art-symbol,.full-card-art .art-symbol{position:absolute;inset:0;width:100%;height:100%}
+.hand-card{height:auto;min-height:300px;max-height:none;overflow:hidden;flex-shrink:0}
+.hand-card .card-art{flex:0 0 78px;min-height:78px;height:78px}
+.hand-card .card-name{height:auto;min-height:34px;font-size:clamp(11px,.9vw,13px);line-height:1.25;overflow-wrap:anywhere;flex-shrink:0}
+.hand-card .card-rules{min-height:48px;font-size:10px;line-height:1.45;overflow:visible;overflow-wrap:anywhere;flex:1 0 auto;padding-top:4px;padding-bottom:7px}
+.hand-card .card-top,.hand-card .card-faction,.hand-card .command-price,.hand-card .card-stats{flex-shrink:0}
+@media(min-width:761px){.game .hand-cards{grid-auto-rows:max-content;grid-template-rows:none;align-items:start}}
+.hand-card .card-faction{height:auto;min-height:22px;flex-wrap:wrap;line-height:1.4}
+.card-top,.card-cost,.card-stats,.unit-info,.full-card-briefing>div{min-width:0}
+.inspector h3,.full-card-briefing h3,.full-card-briefing p,.card-rules,.arsenal-card-title,.collection-card h3{overflow-wrap:anywhere}
+.inspector p{font-size:11px;line-height:1.55}
+.inspect-art{overflow:hidden;max-width:100%}
+.full-card-art{min-height:200px}
+.unit-art{flex-shrink:0}.unit-info{overflow:hidden}.unit-name{max-width:100%}
+.rarity-badge{display:inline-block;font:600 9px/1.3 var(--mono,monospace);letter-spacing:.3px;padding:2px 5px;border:1px solid currentColor;border-radius:2px;white-space:nowrap;vertical-align:middle;color:var(--rarity-color,#98a6ae);background:#101921}
+.rarity-common{--rarity-color:#98a6ae}.rarity-uncommon{--rarity-color:#8cbc99}.rarity-rare{--rarity-color:#82b5df}.rarity-epic{--rarity-color:#bc9ad9}.rarity-legendary{--rarity-color:#e1bf79}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card)[class*="rarity-"]{border-color:var(--rarity-color);box-shadow:0 3px 12px #0005,inset 0 0 0 1px color-mix(in srgb,var(--rarity-color) 12%,transparent)}
+:is(.unit,.inspector)[class*="rarity-"]{border-right-color:var(--rarity-color)}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).rarity-legendary{border-top-width:3px}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).rarity-epic{border-top-width:2px}
+[class*="variant-"] :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{content:'';display:block;position:absolute;inset:0;pointer-events:none;z-index:2;opacity:1}
+.variant-field-worn :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{background:repeating-linear-gradient(124deg,transparent 0 31px,#e1d8c318 32px 33px,transparent 34px 55px),linear-gradient(0deg,#594c3426,transparent 35%);box-shadow:inset 0 0 14px #40351f77}
+.variant-battle-hardened :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{background:radial-gradient(ellipse at 15% 75%,#130c09a3,transparent 35%),repeating-linear-gradient(132deg,transparent 0 20px,#d9c5a829 21px 23px,transparent 24px 54px);box-shadow:inset 0 0 0 3px #725f4733,inset 0 0 18px #160b0866}
+.variant-veteran :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{background:repeating-linear-gradient(90deg,#d0bc77b3 0 2px,transparent 2px 5px) 9px 10px/22px 9px no-repeat,linear-gradient(120deg,transparent 82%,#d7c48550 83% 87%,transparent 88%);box-shadow:inset 0 0 0 2px #ccb77544}
+.variant-foil :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{background:linear-gradient(115deg,transparent 18%,#6fbadd16 35%,#e6a4da26 48%,#fff8ca22 58%,transparent 76%);background-size:240% 100%;animation:frontlines-foil 7s ease-in-out infinite;opacity:var(--foil-intensity,.24)}
+.variant-full-art :is(.card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art){margin-left:0;margin-right:0;border-left:0;border-right:0}
+.variant-full-art.hand-card .card-art{flex-basis:100px;height:100px;min-height:100px}
+.fx-particle{width:4px!important;height:4px!important;background:var(--fx-color);border-radius:50%;box-shadow:0 0 4px var(--fx-color)}
+.fx-particle.fx-target{border-radius:0;width:3px!important;height:9px!important}.fx-particle.fx-distortion{border-radius:0;width:10px!important;height:2px!important}.fx-particle.fx-shield{border-radius:1px}.fx-particle.fx-shockwave{background:#d9baa0}
+.fx-ring.fx-shield{border-radius:3px;border-style:double;border-width:3px}.fx-ring.fx-target{border-radius:0;border-style:dashed}.fx-ring.fx-distortion{border-radius:2px;border-width:1px}.fx-ring.fx-spark{border-radius:15%;border-style:dotted}
+.fx-reveal{border:1px solid var(--fx-color);border-radius:3px;background:transparent;box-shadow:0 0 18px color-mix(in srgb,var(--fx-color) 32%,transparent)}
+.hand-card:is(.rarity-rare,.rarity-epic,.rarity-legendary):before{background:linear-gradient(100deg,var(--rarity-color) 10%,var(--faction-color,#82b8cf) 40%,#ffffffb3 50%,var(--rarity-color) 60%);background-size:220% 100%;animation:frontlines-foil 9s ease-in-out infinite}
+body[data-presentation="reduced"] .hand-card:before,body[data-presentation="minimal"] .hand-card:before{animation:none}
+.game .hand-area .inspector>p{font-size:11px;line-height:1.55}
+.reduce-effects .variant-foil :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after,body[data-presentation="minimal"] .variant-foil :after,body[data-presentation="reduced"] .variant-foil :after{animation:none}
+@keyframes frontlines-foil{0%,100%{background-position:150% 0}50%{background-position:-70% 0}}
+@media(min-width:1100px) and (min-height:650px){.game>.hand-area .hand-card{min-height:290px}.game>.hand-area .card-art{height:70px;min-height:70px;flex-basis:70px}.game>.hand-area .hand-cards{align-items:start}.game>.hand-area .card-stats{font-size:10px}.game>.hand-area .card-stats small{font-size:6px}}
+@media(min-width:761px){.game>.hand-area .variant-full-art .card-art{height:100px;min-height:100px;flex-basis:100px}}
+@media(max-width:650px){.hand-card{min-height:310px}.hand-area .inspect-art{position:relative;width:100%;height:150px}.hand-area .inspect-art .card-portrait{position:absolute;inset:0;height:100%;width:100%;transform:none}.full-card-briefing{display:grid;grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.variant-foil :after,.hand-card:before{animation:none!important}}
+/* Compact match hands retain the established 132px strip. Full rules and cosmetic
+ * details remain available from the visible Inspect action and card dialog. */
+@media(max-width:760px){
+  .game .hand-cards .hand-card{height:132px;min-height:132px;max-height:132px;flex:0 0 132px}
+  .game .hand-card .card-top{height:20px;min-height:20px;flex-basis:20px;padding:2px 6px}
+  .game .hand-card .card-type{font-size:7px;line-height:1.2;letter-spacing:0}
+  .game .hand-card .card-cost{font-size:13px}.game .hand-card .card-cost small{font-size:7px}
+  .game .hand-card .card-art,.game .hand-card.variant-full-art .card-art{height:34px;min-height:34px;flex-basis:34px;margin:0 4px 2px}
+  .game .hand-card .card-art .art-symbol svg{height:28px;width:42px}
+  .game .hand-card .command-price{height:13px;min-height:13px;font-size:8px;line-height:10px;padding:1px 4px;white-space:nowrap}
+  .game .hand-card .card-name{font-size:10px;height:32px;min-height:32px;max-height:32px;line-height:1.25;padding:3px 6px 1px;overflow:hidden}
+  .game .hand-card .card-faction,.game .hand-card .card-rules{display:none}
+  .game .hand-card .card-stats{height:24px;min-height:24px;flex-basis:24px;font-size:10px;padding:3px 6px;gap:5px;margin-top:auto}
+  .game .hand-card .card-stats small{font-size:6px}.game .hand-card .card-stats .card-ready{font-size:6px}
+}
+.match-rewards{margin:16px 0;padding:12px 14px;border:1px solid #638a715c;background:#101e1a;text-align:left;max-width:100%;overflow-wrap:anywhere}.match-rewards h3{font-size:13px;margin:0 0 7px;color:#b5d3ba}.match-rewards p{margin:5px 0;font-size:11px;line-height:1.5}.match-rewards b{color:#d3e9d8}.match-rewards small{display:block;font-size:10px;line-height:1.5;color:#9fb4a7}.match-rewards .command{margin-top:8px}

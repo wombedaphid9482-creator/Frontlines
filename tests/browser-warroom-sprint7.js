@@ -1,0 +1,19 @@
+'use strict';
+// One seeded parity fixture; no balance campaign or matchup-rate estimation.
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),S=require('../sim-core');
+const {chromium}=require(process.argv[2]||'playwright');
+(async()=>{const browser=await chromium.launch({headless:true,channel:'msedge'});try{
+  const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('http://127.0.0.1:4173/deck-builder.html');
+  const custom=await page.evaluate(()=>{const deck=FrontlinesDecks.forData(FrontlinesData).presets().find(d=>d.archetype==='field-improvisation');return FrontlinesDecks.forData(FrontlinesData).duplicate(deck,'Expanded saved fixture').deck;});
+  await page.goto('http://127.0.0.1:4173/simulator.html?deck='+encodeURIComponent(custom.id));await page.waitForFunction(()=>!!window.FrontlinesSimulatorApp);
+  assert.equal(await page.locator('#deck-a').inputValue(),custom.id);assert.equal(await page.locator('#pool-archetypes').innerText(),'15 archetypes');
+  assert.equal(await page.locator('#deck-b option[value="bruiser-rolling-breakthrough"]').count(),1);assert.equal(await page.evaluate(()=>FrontlinesSimulatorApp.getStatus().status),'idle');
+  await page.locator('#toggle-developer').click();await page.locator('#balance-profile').selectOption('sprint6');assert.equal(await page.locator('#pool-archetypes').innerText(),'10 archetypes');assert.equal(await page.locator('#deck-a option[value="'+custom.id+'"]').count(),0);
+  assert.equal(await page.evaluate(id=>FrontlinesDecks.load().some(d=>d.id===id),custom.id),true);await page.locator('#balance-profile').selectOption('sprint7');assert.equal(await page.locator('#pool-archetypes').innerText(),'15 archetypes');await page.locator('#deck-a').selectOption(custom.id);
+  await page.locator('#faction-b').selectOption('nightwalker');await page.locator('#deck-b').selectOption('nightwalker-planned-exposure');await page.locator('#match-count').fill('1');await page.locator('#seed').fill('708001');await page.locator('details:has(#verify) > summary').click();await page.locator('#verify').check();await page.locator('#run-button').click();
+  await page.waitForFunction(()=>FrontlinesSimulatorApp.getStatus().status==='completed',{},{timeout:60000});const report=await page.evaluate(()=>FrontlinesSimulatorApp.getReport());assert.equal(report.summary.errors,0);assert.equal(report.summary.unfinished,0);assert.equal(report.completed,1);assert.equal(Object.keys(report.rulesSnapshot.cards).length,115);assert.equal(report.rulesSnapshot.rulesVersion,'sprint7-arsenal-v1');assert.equal(report.execution.runner,'worker');assert.equal(report.simulatorVersion,'3.3.0');
+  const run=S.createRun(report.options);while(!run.done)run.step();const node=run.result();assert.deepEqual(report.matches,node.matches);assert.deepEqual(report.rulesSnapshot,node.rulesSnapshot);assert.deepEqual(report.rulesSnapshot.decks.find(d=>d.id===custom.id).cards,custom.cards);
+  await page.goto('http://127.0.0.1:4173/simulator.html');assert.equal(await page.locator('#balance-profile').inputValue(),'sprint7');assert.equal(await page.locator('#deck-a').inputValue(),custom.id);
+  await page.evaluate(()=>localStorage.setItem('frontlines.lab.settings.v2',JSON.stringify({gameVersion:'0.7.0',balanceProfile:'sprint6',count:1,aiProfiles:['deck','deck']})));await page.reload();assert.equal(await page.locator('#balance-profile').inputValue(),'sprint7');assert.deepEqual(errors,[]);
+  const result={passed:true,expandedProfileCatalog:15,historicalProfileCatalog:10,savedExpansionDeckPreserved:true,workerNodeExactAgreement:true,seededFixtureMatches:1,legacyDefaultMigration:true,errors};fs.writeFileSync(path.resolve(__dirname,'../test-results/sprint7-warroom.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

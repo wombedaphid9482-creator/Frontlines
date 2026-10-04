@@ -1,26 +1,22 @@
 # Simulator action roadmap
 
-The **v0.6.0 War Room** is the player-facing AI-versus-AI screen inside Frontlines. Its **Advanced Lab** retains the full developer Balance Lab. Dedicated launchers remain supported. Delivered: prominent Quick Matchup/Tournament/Faction Overview/Advanced commands, bounded result tabs, persistent Run/Pause/Stop, deterministic policies, exact saved-deck snapshots, round robin, faction/deck/archetype/seat statistics, curves, pair associations, diagnostics, comparison and HTML/JSON/CSV export. The shared authoritative engine remains unchanged by presentation.
+The **v0.9.0 War Room** remains inside Frontlines. It supports custom decks, all 15 current templates, historical profiles and explicit AI policies. Simulator 3.3.0 and telemetry v5 snapshot the 115-card pool, exact inventories, modes, rules and fingerprints. Mark/Reinforce/Adapt usage and Armor protection are recorded. Node, Worker and offline fallback share the engine; incompatible archived replays are rejected.
 
-## Owner access and UI requirements — implemented
+## Completed baseline
 
-Owner feedback recorded October 1, 2026, with Balance Lab access corrected October 2, 2026, is reflected in Sprint 5.
-
-- War Room is accessible through the central game menu and Arsenal's Test command. Players can test their own decks without admin access; the earlier removal request is canceled.
-- Large landing commands and the fixed simulation command bar make primary actions easy to find. Setup and result content scroll inside bounded panels; smaller browser windows offer Setup/Results panel switches.
-- Engineering profiles, AI choices, seeds, safeguards, diagnostic thresholds, confidence intervals, traces and comparison stay available through Advanced rather than dominating the initial player view.
+Ryken authorized one Sprint 6 run: **10,000 decisive matches, zero errors or cutoffs**. Results/configuration and an independent audit are [archived](balance/SPRINT6-BASELINE.md). Cross-faction spread is 37.16 points and first-seat rate 57.05%. The Sprint 5 gate also failed. No following batch is authorized.
 
 ## Next simulator action plan
 
-1. **Validate competitive stabilization.** Start from the preserved current-Arsenal 50,000-match baseline, not older starter percentages. Targeted 10,000-match hypotheses precede the final 50,000-match gate: every faction 45–55% against other factions, preferred spread at most 5 percentage points, and viable archetypes with reviewed extreme pairings. Use `byFactionCross` for this gate; `byFaction` preserves all appearances and same-faction deck tests separately. Baseline Nightwalker 66.138% / Rogue 32.472% cross-faction rates fail (all appearances: 64.346% / 34.419%). Final current-profile results remain pending until recorded.
-2. **Diagnose before tuning.** Investigate rule bugs, AI sequencing, single-card outliers and combinations before broad faction changes. Use Silent Blade's actual draws, repeated plays, efficiency, kills, deployment timing, tactical priority and matchup context. Gate: control-versus-variant outcomes and censored observations are explicit; raw winning-card associations are not causal conclusions.
-3. **Human deck experiments and controlled campaigns.** Use identical versions/seeds/opponent pools for one revision, keep reports immutable, and compare both deck rates and gameplay behavior. Gate: humans confirm useful choices and counterplay; the War Room remains understandable while Advanced retains full provenance.
-4. **Scenario fixtures and bounded AI refinement.** Add public-position tests for pressure, salvage, defense conversion and responses; improve the relevant policy only with evidence. Gate: legal deterministic actions and hidden-information independence hold, and live/Worker/Node/offline results agree.
-5. **Pair/usage exploration and durable jobs.** Add exposure-aware heatmaps or persistent resumable batches after competitive/human validation. Gate: biases, sample sizes and partial completion remain visible; correlation never automatically nerfs a card, and a reloaded job cannot omit or duplicate records.
+1. **Request original-pool comparison.** 10,000 games with the original ten presets, sprint7, deck AI on both sides, seed 20261003, paired reversed seats, exact mirrors off, same-faction variants included, default progression, 240-turn/10,000-decision limits, verification and JSON/HTML/CSV exports. This checks the narrow correction and preserves opponent weighting; it does not cover expansion cards.
+2. **Request expansion coverage separately.** 10,000 games with all fifteen presets and identical settings. Each hybrid includes all seven faction additions. About 94–96 games per pair provides screening evidence. The changed opponent pool prevents a causal aggregate before/after claim.
+3. **Review context.** Inspect faction/deck/archetype/seat rates, extreme pairings, duration, territory/retreat, commands, free plays, commitment and card access. Winning associations, comeback exposure and final-territory metrics have known limitations.
+4. **Authorize larger work only after review.** Seeded investigations or 50k confirmation require explicit authorization. Use the frozen source checkpoint for original v0.7.0 replay. No background scheduler or batch loop is installed.
+5. **Improve evidence quality.** Add preterminal comeback exposure, event-level territory measures, saved-deck comparisons and resumable jobs when useful. Preserve bounded traces and hidden-information independence.
 
-The previous staged plan below is retained as historical context. Shared registry/deck support, report comparison and the integrated player interface are implemented; deeper resumable-job and causal-analysis work remains future scope.
+[Exact requests/settings](SPRINT-007.md#simulation-request--after-the-stable-candidate) are ready for approval. Run/Pause/Resume/Stop remain central and visible. Small rule, deck, browser and native fixtures are correctness checks, separate from balance campaigns.
 
-Each phase below has a concrete acceptance gate and no calendar commitment. See [simulator usage](SIMULATOR.md) for the delivered interface and metric definitions.
+## Historical staged roadmap
 
 ## 0. Deliver a standalone fast baseline
 
@@ -107,3 +103,7 @@ Actions:
 **Gate:** one-worker and multi-worker runs produce identical ordered result records; interrupted jobs resume without omissions or duplicates; merged aggregates equal a fresh complete run; and failure reporting survives checkpoint recovery.
 
 This roadmap does not create scheduled runs, monitors, or recurring automations. Those would require a separate request and an explicit run policy.
+
+## Sprint 8 ownership boundary
+
+Collection progression applies to human Play. The AI, Node simulator, Worker and offline fallback use the complete legal pool without opening packs, charging Credits or awarding mastery. An incomplete owned collection never alters a simulation deck or result. No new large campaign is authorized. See [Sprint 8](SPRINT-008.md#exact-simulation-request-for-ryken--not-executed) for the exact separately authorized follow-up request.

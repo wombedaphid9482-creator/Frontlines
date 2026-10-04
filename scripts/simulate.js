@@ -67,7 +67,7 @@ function unusedOutput(requested,csv){
 async function main(args = process.argv.slice(2)) {
   const cli = parseArgs(args);
   if (cli.help) { process.stdout.write(HELP); return null; }
-  const Decks=require('../decks.js');
+  const Decks=require('../decks.js').forData(require('../balance.js').dataFor(cli.options.balanceProfile||'baseline'));
   for(const side of ['A','B'])if(cli['deckFile'+side]){
     const file=path.resolve(cli['deckFile'+side]);if(fs.statSync(file).size>100000)throw new Error('Deck files must be smaller than 100 KB.');
     const deck=Decks.importDeck(fs.readFileSync(file,'utf8'));deck.id='import-'+side.toLowerCase();

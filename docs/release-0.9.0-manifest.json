@@ -1,0 +1,433 @@
+{
+  "version": "0.9.0",
+  "preparedDate": "2026-10-03",
+  "status": "local-playtest-candidate",
+  "published": false,
+  "installedOverOwnerCopy": false,
+  "workingChanges": "uncommitted",
+  "gitBase": "a7921c07d34e66996f4055bd697b54d3ae7e71fa",
+  "combat": {
+    "profile": "sprint7",
+    "version": "sprint7-arsenal-v1",
+    "cardCount": 115,
+    "changedSinceSprint7": false,
+    "presets": 15,
+    "starters": 5,
+    "competitivelyCertified": false,
+    "freshBalanceCampaignRun": false
+  },
+  "collection": {
+    "version": "frontlines-collection-v1",
+    "cards": 115,
+    "starterUnique": 60,
+    "starterCopies": 130,
+    "packs": 9,
+    "enabledPacks": 8,
+    "commanderFuture": true,
+    "startingCredits": 300,
+    "migrationCredits": 500,
+    "winReward": 70,
+    "lossReward": 50,
+    "tutorialReward": 100,
+    "firstMatchBonus": 50,
+    "ownershipSeparateFromLegality": true,
+    "simulationBypass": true
+  },
+  "runtime": {
+    "engine": "frontlines-territory-v4-arsenal-mechanics",
+    "ai": "frontlines-ai-sprint7-v1",
+    "simulator": "3.3.0",
+    "electron": "44.5.1",
+    "updater": "6.8.9",
+    "rendererSandbox": true,
+    "contextIsolation": true,
+    "nodeIntegration": false
+  },
+  "verification": {
+    "nodeTests": {
+      "passed": 250,
+      "total": 250,
+      "failed": 0,
+      "added": 35
+    },
+    "browserSuites": [
+      "browser-command-sprint6",
+      "browser-flow-sprint6",
+      "browser-preferences-sprint6",
+      "browser-tutorial-sprint6",
+      "browser-arsenal-warroom-sprint6",
+      "browser-arsenal-sprint7",
+      "browser-arsenal-match-sprint7",
+      "browser-warroom-sprint7",
+      "browser-collection-sprint8",
+      "browser-progression-sprint8",
+      "browser-presentation-sprint8"
+    ],
+    "browserEvidence": {
+      "collection": {
+        "ok": true,
+        "cards": 115,
+        "checks": [
+          "fresh collection",
+          "unowned inspection",
+          "data-driven shop",
+          "future Commander disabled",
+          "insufficient credits",
+          "durable pending pack",
+          "individual reveal",
+          "reveal all",
+          "skip and atomic claim",
+          "crafting",
+          "variant persistence",
+          "starter ownership",
+          "incomplete templates and preserved decks",
+          "owned quantity cap",
+          "responsive art/rules regions"
+        ],
+        "viewports": 3,
+        "balanceRuns": 0,
+        "errors": []
+      },
+      "progression": {
+        "passed": true,
+        "freshGrant": 300,
+        "allStartersOwned": true,
+        "incompleteDeckBlocked": true,
+        "legalitySeparate": true,
+        "unrestrictedAI": true,
+        "match": {
+          "winner": 0,
+          "turns": 37,
+          "steps": 156,
+          "creditsEarned": 120,
+          "masteryCards": 12
+        },
+        "developerExcluded": true,
+        "assistanceExclusionPersists": true,
+        "persistent": true,
+        "collectionNavigation": true,
+        "errors": []
+      },
+      "presentation": {
+        "passed": true,
+        "layouts": [
+          {
+            "width": 1920,
+            "height": 1080,
+            "cards": 31,
+            "overlap": false
+          },
+          {
+            "width": 1366,
+            "height": 768,
+            "cards": 31,
+            "overlap": false
+          },
+          {
+            "width": 1280,
+            "height": 720,
+            "cards": 31,
+            "overlap": false
+          },
+          {
+            "width": 900,
+            "height": 600,
+            "cards": 31,
+            "overlap": false
+          },
+          {
+            "width": 390,
+            "height": 844,
+            "cards": 31,
+            "overlap": false
+          }
+        ],
+        "longTextNoOverlap": true,
+        "musicStates": [
+          {
+            "state": "menu",
+            "track": "command",
+            "looping": true
+          },
+          {
+            "state": "arsenal",
+            "track": "arsenal",
+            "looping": true
+          },
+          {
+            "state": "shop",
+            "track": "supply",
+            "looping": true
+          },
+          {
+            "state": "match",
+            "track": "battlefield",
+            "looping": true
+          }
+        ],
+        "independentMixer": true,
+        "presentationPresets": true,
+        "persisted": true,
+        "errors": []
+      }
+    },
+    "native": {
+      "shell": {
+        "version": "0.9.0",
+        "page": "shell",
+        "home": true,
+        "play": true,
+        "settings": true,
+        "tutorialDeployment": true,
+        "installedVersionVisible": true,
+        "fullscreen": true,
+        "windowed": true,
+        "shortcuts": [
+          "F11",
+          "Alt+Enter"
+        ]
+      },
+      "game": {
+        "version": "0.9.0",
+        "page": "game",
+        "winner": 1,
+        "turns": 18,
+        "decisions": 98,
+        "units": 5,
+        "cards": 115,
+        "decks": [
+          "nightwalker-planned-exposure",
+          "rogue-field-improvisation"
+        ]
+      },
+      "arsenal": {
+        "version": "0.9.0",
+        "page": "arsenal",
+        "cards": 115,
+        "deckSize": 26
+      },
+      "warroom": {
+        "version": "0.9.0",
+        "page": "warroom",
+        "completed": 2,
+        "errors": 0,
+        "runner": "cooperative"
+      },
+      "collection": {
+        "version": "0.9.0",
+        "page": "collection",
+        "summary": {
+          "total": 115,
+          "uniqueOwned": 60,
+          "copiesOwned": 130,
+          "completion": 0.5217391304347826,
+          "factions": {
+            "stonewall": {
+              "total": 23,
+              "owned": 12,
+              "completion": 0.5217391304347826
+            },
+            "bruiser": {
+              "total": 23,
+              "owned": 12,
+              "completion": 0.5217391304347826
+            },
+            "syndicate": {
+              "total": 23,
+              "owned": 12,
+              "completion": 0.5217391304347826
+            },
+            "nightwalker": {
+              "total": 23,
+              "owned": 12,
+              "completion": 0.5217391304347826
+            },
+            "rogue": {
+              "total": 23,
+              "owned": 12,
+              "completion": 0.5217391304347826
+            }
+          },
+          "rarities": {
+            "common": {
+              "total": 35,
+              "owned": 31
+            },
+            "uncommon": {
+              "total": 30,
+              "owned": 20
+            },
+            "rare": {
+              "total": 20,
+              "owned": 0
+            },
+            "epic": {
+              "total": 20,
+              "owned": 9
+            },
+            "legendary": {
+              "total": 10,
+              "owned": 0
+            }
+          },
+          "credits": 300,
+          "supply": 0,
+          "packsOpened": 0,
+          "mastered": 0,
+          "recentlyAcquired": []
+        },
+        "packs": 9
+      }
+    },
+    "package": {
+      "version": "0.9.0",
+      "verifiedRuntimeFiles": 69,
+      "sourceHashes": {
+        "ai.js": "794fa80d8736b79ba17e260bb38b4bba7e572bbe073c6f32e742550e490df948",
+        "analytics.js": "b67c59c4381390e29fa52046b5fdd3fd2c8e20e176b45cf1769fb330c0250f81",
+        "app.js": "c88e164b10fa33212b9e2d0931b08799c4e60e9411c91b3dc2b2b32785a2f16a",
+        "arsenal-match.css": "9935970d2dccac1361e1ea715bf8ea9a949763acadb17605e9bf76ad53ab0a95",
+        "arsenal.js": "9ae85fe47089edf14e5cca5a039fbd20000d7792d47dd3c5f1337233a0289ff4",
+        "art.js": "ae8388f736b8840f09c715505ac15da1f77c0d6d0451cd8e4d427d596c3fd2eb",
+        "assets/animations/README.md": "e4b86d3cfd76aef15fac986c0330ab69b6df24d0600ba2f868c3434a5b91e6ca",
+        "assets/audio/README.md": "3f31bed67a86123a0deda9a4e4d4d225f8a69e7ad52c5766369d94bf61eaf2ae",
+        "assets/battlefield/tactical-city.svg": "d81947802ab19f99b1ea97ab8282df7367f2d09612cb3a6ec9bff2f8e7c98ea2",
+        "assets/cards/bruiser/starter-atlas.webp": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419",
+        "assets/cards/nightwalker/starter-atlas.webp": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0",
+        "assets/cards/rogue/starter-atlas.webp": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1",
+        "assets/cards/stonewall/starter-atlas.webp": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20",
+        "assets/cards/syndicate/starter-atlas.webp": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf",
+        "assets/effects/README.md": "9787c2d97db8b4ab0a2b1ef99368b2275633ecd3f17ce64ec9e94cc4056416b8",
+        "assets/ui/faction_emblems/bruiser.svg": "81c5e32cbaed842637309ed39aea00fc47993d0a9881f22c4d15eb1ed1364c2f",
+        "assets/ui/faction_emblems/nightwalker.svg": "1f8f9895cdccdec78b9fbaa246db31d4d6c6848c32171838f4735b87e67950b9",
+        "assets/ui/faction_emblems/rogue.svg": "b905acd986b3f56e78a26707ddb1eb9cd0751a6a514ea1ae9f3df553d42cc297",
+        "assets/ui/faction_emblems/stonewall.svg": "dfa7b9913e1da786a3c03a4f4225d850a476f3cee33c4a2106e79a36a5cba6c9",
+        "assets/ui/faction_emblems/syndicate.svg": "bfa1ac959a0f899a4f8b74352c6642ff680e102ddc0b6c11fecebbb36ac1835e",
+        "assets/ui/frontlines-icon.ico": "9cbd289c6559963ae97f191aa00ed1d05a8397532368793c43cad466c9785c3d",
+        "assets/ui/frontlines-icon.png": "fffbf9cf8af9eea49032b026941e2d7fa7f7ee938d2ded7bd716fb93b1db1258",
+        "assets/ui/frontlines-icon.svg": "044069f48a4e5ac74d021e183be21dd77a9f44201ce406c6bea37194ac9d7cd1",
+        "balance.js": "819bcf3f38276db89ce7c576775be420d3a0eaa9d8b3b43641a6b3c3fa6705dd",
+        "balance/arsenal.json": "12141a7d63467b0fe73c39e99ddb7005d6c22beea029ac93e8d60b58610b352b",
+        "balance/baseline.json": "db70ea1f401251cb232cda74f9fbc2c2f8f9c6e79cce13a7c902f243f65a75ce",
+        "balance/candidate.json": "2bfcd17e81222b3de7fda52d9a11b5ba684cabb42989000a45201152aa8807af",
+        "balance/iteration01.json": "0c25173b899c97433718a104e3036c48f1b9c35032ee9343f29b58666124cbbc",
+        "balance/sprint6.json": "ed2fa25bfd9ef5d878159a960fc4319b7f5fde3c44aa28284a63441c4f6074d1",
+        "balance/sprint7.json": "445bcb4a1c55b6f07392f72ac0705e16300f4c7538819f119078f242c3da786e",
+        "build-info.js": "4f9a40f38e875cf46fb3730bd6cbcc3dfffffc1166c808fc41d4b21d3b44808f",
+        "collection-app.js": "fb23daa61fdff8849830470fa04f3ad5a54263b9bfdc02f57c3fbd64a6d248fe",
+        "collection.css": "ef285573d6ecd4adefaf48c226d954299f788b1128327e7d15369642ef27ab05",
+        "collection.html": "815e9930a55b5f9d3665e0b23c387f63731a628dcb6f42e266780f0d2edf0fe2",
+        "collection.js": "d8168e42710f01f7b53a192afb3afa2500db851bce53342ad08ab7aecc4a0b92",
+        "command.css": "0c6498e302b055f760368048836673c5dbdea1edf90e6889528aa04e23bc148e",
+        "data.js": "d559c2985a7be9fec667978ec453f9694aebb5bb5efa277345072a09bd7fef95",
+        "deck-builder.css": "a06d3ef99413bd76fd18ac606fa68e54dac554eb3c75e09a720d3e10e3a66f5e",
+        "deck-builder.html": "db1642251888cc135beb11d74ae0543d13bf0982c0c685f3d4d394f497b415d4",
+        "deck-builder.js": "95e596904bc8480acc5fa2d1c375077b0ea128d3dd07c70cb9575cd9b3384f37",
+        "deck-rules.js": "c223bef4efda367aaf60482196134cac7d1167d20c592bf8f1044309d38f407b",
+        "decks.js": "82acb8335bd24c605222612ae4e2b24658ab87222f253dfa736736d1a13339c9",
+        "desktop.js": "4a9688ac6da60f9e685df8dc223bc8eb7f90b45cf7d2e4dc89f851afa5c96003",
+        "effects.css": "39e2f1adf3ba35203e014f65808e2dd9a098edbd940e4d13082b8ab9d7edcb46",
+        "effects.js": "c03662b6c8f266a39ff0ce24a77c79bc593a268e10eed59dbb9120b0d8b6c381",
+        "engine.js": "6fd529eca1366e799c3a40ae8183d04f204f182416674ed4a933d6fe36236f1c",
+        "field-manual.js": "626724108c977717808f09147d85a9e19e26b2f6947d2ae314d7b9c2afe40da7",
+        "index.html": "d8834d0184e6f766b691002f9b69102750e26177c9157069a856420364b0bd6b",
+        "learning.css": "4386346cbcae1a1f269d7a5afbca2ca6b3aa8f1978f1b4194c1433e4e19838bc",
+        "live-runtime.js": "80cf7755f63ef020c951c027f5e2878918ead38e2b78dd72ef78a01ec9f6e248",
+        "main.js": "6099961a48b9cc58c1c60d16642738bbc4bfe89c6e7c240c05bea7dfdc62c901",
+        "music-data.js": "8773a2bc3ec6c9e2ddc8148a2fae18eb03db9993fe78387d5611aa1f72e70995",
+        "preload.js": "19934e15d760bd2e19601015bd9532e702d1c7ef4e39745037df9a2409b378ef",
+        "presentation.css": "c7a4d2599fb13af25751c2958f5275a969ff03f7242e402a6e7df396375c0b50",
+        "presentation.js": "fbfe01ed2e8a499814dcba7c60e2a3b51b6642adeba0fd1aa00b31a49c112fd3",
+        "server.js": "5e9b7e8cc4c79a202870240d00806b89ab42186e32344b4305ece0d9119efefa",
+        "shell-state.js": "6cf8d2c68d58fe02f4a20ee2f04902cae1af393360fb289ded6b12a216f3603b",
+        "shell.css": "f9fa343510835ed273503a8caa95dcd3a4a6543f1739be4124e9eab8a580848e",
+        "shell.js": "8f0d05df752fc6afc361a717ee4d7596a70d10ab5a57f5dfb47b8775f4c7cbb4",
+        "sim-core.js": "bf75cdfe51788a7743f81dd60d3ac99784b16cc7ea08e463117ed483535817c3",
+        "simulator-app.js": "901ec4e44b3ca4f31f559a4be5078e52675fc37706115a69821b6cfbf6d5ef73",
+        "simulator-worker.js": "ce42d000c316d0fcc64cbcfacac5acf879dd626411a3469ce5bd819f0d0ffebd",
+        "simulator.css": "7219969f76f0ec6aaccf07c897becfc817b4c4fbbde48537a8897b40fc8a4781",
+        "simulator.html": "3c5e3dfb5cc01622f852014282555e06849705fec94c8e5532041fb12dbe8e1b",
+        "styles.css": "b3abef0663f7a21993c42711f08ba95f04deb08a847038a93ab236779b450b45",
+        "telemetry.js": "e61bbdfd3a1c8278e4e71f3552ff38c25d571b99d31f1834c59ebe616c9c4d6d",
+        "tutorial.css": "58de3bed471bc105f52670ceceb0fee57b9d70c848c5c85aaface0d5f61e1b35",
+        "tutorial.js": "1ae7f30333a1ca17551ba4e32b06ee9d6d4da6a683279035ff163bc05bee13d9",
+        "war-room.css": "f300dcced04e702285c7a986a9f1ff1c0a11af31bac1e4fbcffa3010f860ee3e"
+      },
+      "productionUpdaterVersion": "6.8.9",
+      "verifiedFrozenFiles": 31,
+      "developmentMaterialExcluded": true,
+      "installer": {
+        "file": "Frontlines-Setup-0.9.0.exe",
+        "bytes": 113031305,
+        "sha256": "52a20c031417dbb96c4796ad480c67ec0198ccd37d60131ae2f9025413c6f0c8"
+      }
+    },
+    "signature": "NotSigned"
+  },
+  "entryCheckpoint": {
+    "file": "docs/checkpoints/sprint7-v0.8.0.zip",
+    "bytes": 55973772,
+    "sha256": "d2e5e8432e5ebb531f45dbca7a51899906517e9d729e3d4f15a23275ac2c828e"
+  },
+  "previousInstaller": {
+    "file": "release/0.8.0/Frontlines-Setup-0.8.0.exe",
+    "bytes": 113004679,
+    "sha256": "8fa3e97bc0baf4ee9218511a27a4fb1c30faef7c45e5890d23e1c60119b693ee"
+  },
+  "previousManifestUnchanged": true,
+  "baselineArchive": {
+    "file": "docs/balance/sprint6-baseline-v070.zip",
+    "bytes": 1178387,
+    "sha256": "e014cfa0554de8ef182d565d1bf566947b07caa7561524e31af91e3f472522a7"
+  },
+  "knownLimits": [
+    "No fresh balance/economy campaign; historical severe faction/preset/initiative skew remains identified.",
+    "Human progression pacing and soundtrack quality need owner playtests.",
+    "Local browser/native/file saves have separate origins.",
+    "Unsigned installer; owner-copy install/update delivery untested."
+  ],
+  "nextSimulationRequest": {
+    "status": "not authorized and not run",
+    "source": "docs/SPRINT-008.md",
+    "count": 10000,
+    "pool": "original ten presets",
+    "profile": "sprint7",
+    "aiProfiles": [
+      "deck",
+      "deck"
+    ],
+    "difficultyOverride": null,
+    "seed": 20261003,
+    "swapSeats": true,
+    "includeMirrors": false,
+    "sameFactionVariants": true,
+    "maxTurns": 240,
+    "maxDecisions": 10000,
+    "verify": true,
+    "exports": [
+      "json",
+      "html",
+      "matches.csv",
+      "cards.csv"
+    ]
+  },
+  "finalSourceCheckpoint": {
+    "file": "docs/checkpoints/sprint8-v0.9.0.zip",
+    "bytes": 46093245,
+    "sha256": "398800a501a84d4cde8fc8cf7e54fd607d47bfe069ed6555697d14d06d3acd65",
+    "files": 449,
+    "runtimeFiles": 69,
+    "manifestOutsideArchive": true,
+    "excluded": [
+      "dependencies",
+      "release binaries",
+      "owner saves",
+      "large historical simulation outputs",
+      "earlier checkpoint archives"
+    ],
+    "externalArtifactTestDependencies": [
+      "docs/checkpoints/sprint7-v0.8.0.zip",
+      "release/0.8.0/Frontlines-Setup-0.8.0.exe"
+    ]
+  }
+}

@@ -10,9 +10,13 @@
   root.FrontlinesSimulator = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (Data, Engine, AI, Telemetry, Analytics) {
   'use strict';
-  const VERSION = '3.1.0';
+  const VERSION = '3.3.0';
   const AI_VERSION = AI.VERSION || 'frontlines-heuristic-sprint2-v1';
   const copy = value => JSON.parse(JSON.stringify(value));
+  function gameVersion() {
+    if(typeof module==='object'&&module.exports)return require('./package.json').version;
+    return globalThis.FrontlinesBuild && globalThis.FrontlinesBuild.version || globalThis.FrontlinesShellState && globalThis.FrontlinesShellState.VERSION || globalThis.FrontlinesRuntime && globalThis.FrontlinesRuntime.version || null;
+  }
   const CONFIG_LIMITS = {
     startingCommand: [1,1000], commandGrowth: [0,100], commandCap: [1,1000],
     captureThreshold: [1,1000], startingHand: [1,50], drawCount: [0,20],
@@ -214,24 +218,28 @@
   function rulesSnapshot(options, decks, runtime) {
     runtime = runtime || {data:Data,engine:Engine,ai:AI,profile:{id:'baseline',version:'sprint2-original'}};
     const D = runtime.data,E = runtime.engine,A = runtime.ai;
-    return { config:copy(options.config),factions:copy(D.FACTIONS),cards:copy(D.CARDS),decks:copy(Object.values(decks)),
+    const separated = D.RULES && D.RULES.actionEconomy === 'capacity-command';
+    const retreat = D.RULES && D.RULES.frontlineIntegrity === true;
+    return { gameVersion:gameVersion(),rules:copy(D.RULES || {}),config:copy(options.config),factions:copy(D.FACTIONS),cards:copy(D.CARDS),decks:copy(Object.values(decks)),
       balanceProfile:copy(runtime.profile),aiProfiles:options.aiProfiles.slice(),telemetryVersion:Telemetry && Telemetry.VERSION,
       territoryNames:D.TERRITORY_NAMES.slice(),glossary:copy(D.GLOSSARY),
       mechanics:{
         economy:'Available Presence = Command minus deployed card Presence minus spent Orders. Subsequent own offensive turns grow Command to the configured cap and clear spent Presence. Casualties immediately free commitment.',
         battlefield:'Seven territories: Player 1 initially owns sectors 0–2, sector 3 is neutral, and Player 2 initially owns sectors 4–6. The contested objective moves one territory on capture.',
-        actions:'Deploy, move, attack and action Orders each consume one major action. Responses and counters consume no major action but card Orders spend Presence. Units normally cannot attack on their deployment turn without Rush.',
+        actions:separated?'Card deployment/action Orders pay their explicit commandCost (ordinary deployments and heal/draw/reclaim support: 0; leaders, listed Heavy/command assets and tactical Orders: 1). Moves and attacks cost 1 Command Action. Responses/counters cost 0 commands. All card plays require Capacity. Zero commands still permits Free Actions. Deployment-turn attack restrictions remain.':'Deploy, move, attack and action Orders each consume one major action. Responses and counters consume no major action but card Orders spend Presence. Units normally cannot attack on their deployment turn without Rush.',
         combat:'Same-territory attacks open response and optional counter windows. Combat damage is simultaneous after those windows, with persistent wounds and card-defined traits. Lethal ambush can remove the attacker before combat.',
         capture:'Only the ending offensive player adds printed frontline unit Presence to their progress, including when enemies are present. At the configured threshold they secure the objective, reset progress, and move the frontline.',
         breakthrough:'After a nonwinning capture, surviving non-assets advance one adjacent into the new objective, filling friendly slots in unit order and preserving wounds/readiness. Assets and overflow remain.',
+        retreat:retreat?'After capture, enemy survivors resolve in ascending UID order before the frontline moves. Units retreat exactly one territory toward home into friendly-owned ground with a free friendly slot. Wounds remain and retreat exhausts; immobile assets and units with no legal retreat are eliminated, freeing commitment.':'Historical rule: surviving defenders stay in the captured territory and may later move toward the objective.',
         victory:'A player wins by capturing the opponent home sector or controlling the configured number of territories. No player health total determines victory.',
-        reserves:'Draw configured opening and own-turn cards. Empty reserves recycle casualty and spent Order discards; if both reserve and discard are empty, drawing safely stops.'
+        reserves:'Draw configured opening and own-turn cards. Empty reserves recycle casualty and spent Order discards; if both reserve and discard are empty, drawing safely stops.',
+        ...(D.RULES?.arsenalMechanics?{arsenal:'Armor reduces regular combat damage by 1 anywhere (maximum with temporary Reinforce Armor, plus positional Fortify). Mark adds 1 to positive incoming regular combat until the target owner’s next offensive turn; Reinforce heals and protects until the friendly owner’s next turn. Direct Orders, Ambush and separate Retaliate ignore Armor/Mark. Adapt requires an explicit mode; only the chosen ordinary effect resolves at the shared printed cost.'}:{})
       },
-      rulesVersion:'sprint4-territory-arsenal-v1',
+      rulesVersion:D.RULES?.arsenalMechanics?'sprint7-arsenal-v1':separated || retreat?'sprint6-command-frontline-v1':'sprint4-territory-arsenal-v1',
       engineVersion:E.VERSION || 'frontlines-territory-v1',aiVersion:A.VERSION || AI_VERSION,
-      engineFingerprint:fingerprint(String(E.createGame)+String(E.dispatch)+String(E.legalActions)+String(E.validate)),
+      engineFingerprint:fingerprint(String(E.createGame)+String(E.dispatch)+String(E.legalActions)+String(E.validate)+String(E.actionCost)+String(E.retreatDestination)+(D.RULES?.arsenalMechanics?String(E.resolveEffect)+String(E.combatDamage):'')),
       aiFingerprint:fingerprint(String(A.chooseAction)),
-      dataFingerprint:fingerprint(JSON.stringify({cards:D.CARDS,decks:D.DECKS,config:D.DEFAULT_CONFIG})) };
+      dataFingerprint:fingerprint(JSON.stringify({cards:D.CARDS,decks:D.DECKS,config:D.DEFAULT_CONFIG,rules:D.RULES||{}})) };
   }
   function fingerprint(text) {
     let hash = 2166136261;
@@ -370,7 +378,7 @@
           recentMatches:copy(matches.slice(-50)),summary:summary() };
       },
       result() {
-        return {schemaVersion:1,simulatorVersion:VERSION,aiVersion:A.VERSION||AI_VERSION,balanceVersion:runtime.profile.version,
+        return {schemaVersion:1,gameVersion:gameVersion(),simulatorVersion:VERSION,aiVersion:A.VERSION||AI_VERSION,balanceVersion:runtime.profile.version,
           telemetryVersion:Telemetry.VERSION,options:copy(options),total:options.count,
           completed:matches.length,complete:run.done,rulesSnapshot:rulesSnapshot(options,decks,runtime),summary:summary(),matches:copy(matches),
           method:'Deterministic selected AI policies. Cutoffs and errors are excluded from decisive win rates. Card and pair metrics describe usage and winning-side association, not causal strength. Pair observations require both cards played in the same decisive player-game. Mirrors count two deck/faction appearances and one matchup game. Wilson 95% intervals are descriptive; paired deterministic trials are not independent human samples.',
@@ -396,7 +404,7 @@
     if (!report.rulesSnapshot || report.aiVersion !== (A.VERSION||AI_VERSION) || report.simulatorVersion !== VERSION
       || report.rulesSnapshot.rulesVersion !== currentRules.rulesVersion
       || ['engineFingerprint','aiFingerprint','dataFingerprint'].some(key => report.rulesSnapshot[key] !== currentRules[key])
-      || ['cards','decks','config'].some(key => JSON.stringify(report.rulesSnapshot[key]) !== JSON.stringify(currentRules[key]))) {
+      || ['cards','decks','config','rules'].some(key => JSON.stringify(report.rulesSnapshot[key]) !== JSON.stringify(currentRules[key]))) {
       throw new Error('This report uses different rules, cards, or AI. Replay it with its original build.');
     }
     const original=report.matches[matchIndex],spec={index:original.index,seed:original.seed,deckIds:original.deckIds.slice(),aiProfiles:(original.aiProfiles||options.aiProfiles).slice()};
@@ -444,15 +452,15 @@
   }
   function csv(headers,rows) { return [headers.join(','),...rows.map(row => row.map(csvValue).join(','))].join('\r\n') + '\r\n'; }
   function matchesCSV(report) {
-    return csv(['index','seed','p1_deck','p2_deck','p1_faction','p2_faction','status','winner_seat','winner_deck','turns','decisions','p1_captures','p2_captures','p1_kills','p2_kills','p1_damage','p2_damage','p1_territories','p2_territories','error'],
-      report.matches.map(match => [match.index,match.seed,...match.deckIds,...match.factions,match.status,match.winner === null ? '' : match.winner+1,match.winnerDeck,match.turns,match.decisions,...match.captures,...match.kills,...match.damage,...match.finalTerritories,match.error]));
+    return csv(['index','seed','p1_deck','p2_deck','p1_faction','p2_faction','status','winner_seat','winner_deck','turns','decisions','p1_captures','p2_captures','p1_kills','p2_kills','p1_damage','p2_damage','p1_territories','p2_territories','error','game_version'],
+      report.matches.map(match => [match.index,match.seed,...match.deckIds,...match.factions,match.status,match.winner === null ? '' : match.winner+1,match.winnerDeck,match.turns,match.decisions,...match.captures,...match.kills,...match.damage,...match.finalTerritories,match.error,report.gameVersion||report.rulesSnapshot?.gameVersion||'']));
   }
   function cardsCSV(report) {
     const headers=['deckId','cardId','name','faction','type','copiesPerDeck',...Telemetry.CARD_METRICS,'drawnDecisiveMatches','playedDecisiveMatches',
       'earlyPlayedDecisiveMatches','latePlayedDecisiveMatches','playRate','averageTurnDrawn','averageTurnPlayed','averagePresencePaid','averageSurvival',
       'affordablePlayRate','strandedRate','pressurePerPresence','damagePerPresence','winRateDrawn','winRatePlayed','winRateEarly','winRateLate',
-      'notDrawnDecisiveMatches','multiplePlayedDecisiveMatches','winRateNotDrawn','winRateMultiplePlayed','averageAIPlayScore','averageAIPriorityMargin','averageDeploymentControlDelta','averageDeploymentCaptureDelta'];
-    return csv(headers,report.summary.cards.map(row => headers.map(key => row[key])));
+      'notDrawnDecisiveMatches','multiplePlayedDecisiveMatches','winRateNotDrawn','winRateMultiplePlayed','averageAIPlayScore','averageAIPriorityMargin','averageDeploymentControlDelta','averageDeploymentCaptureDelta','game_version'];
+    return csv(headers,report.summary.cards.map(row => headers.map(key => key==='game_version'?report.gameVersion||report.rulesSnapshot?.gameVersion||'':row[key])));
   }
   return {VERSION,AI_VERSION,DEFAULT_THRESHOLDS,getBalanceProfiles,getDecks,getDeckCatalog,normalizeOptions,createRun,replayMatch,matchesCSV,cardsCSV,
     compareReports:Analytics.compareReports,reportHTML:Analytics.reportHTML};

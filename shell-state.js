@@ -5,12 +5,18 @@
   else root.FrontlinesShellState = api;
 })(typeof globalThis === 'object' ? globalThis : this, function () {
   'use strict';
-  const VERSION = '0.6.0';
+  const VERSION = (typeof module === 'object' && module.exports ? require('./build-info.js') : globalThis.FrontlinesBuild).version;
   function preferences(value) {
     const saved = value && typeof value === 'object' ? value : {};
+    const volume=(key,fallback)=>Number.isFinite(saved[key])?Math.max(0,Math.min(1,saved[key])):fallback;
     return { animationSpeed: saved.animationSpeed === 'fast' ? 'fast' : 'normal',
+      presentation:['full','reduced','minimal'].includes(saved.presentation)?saved.presentation:'full',
       reducedEffects: saved.reducedEffects === true, reducedShake: saved.reducedShake === true,
-      sound: saved.sound === true, masterVolume: Number.isFinite(saved.masterVolume) ? Math.max(0, Math.min(1, saved.masterVolume)) : .7 };
+      sound: saved.sound === true, masterVolume: volume('masterVolume',.7),
+      musicVolume:volume('musicVolume',.3),uiVolume:volume('uiVolume',.65),cardEffectsVolume:volume('cardEffectsVolume',.8),battlefieldVolume:volume('battlefieldVolume',.7),
+      aiDifficulty:['easy','normal','hard','expert'].includes(saved.aiDifficulty)?saved.aiDifficulty:'normal',
+      aiSpeed:['fast','normal','deliberate'].includes(saved.aiSpeed)?saved.aiSpeed:'normal',
+      tutorialHints:saved.tutorialHints!==false,actionExplanations:saved.actionExplanations!==false };
   }
   function fullscreenShortcut(input) {
     return input.type === 'keyDown' && !input.isAutoRepeat && !input.control && !input.meta &&

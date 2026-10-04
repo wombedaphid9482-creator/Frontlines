@@ -11,8 +11,12 @@
   'use strict';
   const hasDOM = !!root.document;
   const doc = root.document;
-  let settings = { animationSpeed: 'normal', reducedEffects: false, reducedShake: false, sound: false };
+  const P = root.FrontlinesPresentation || (typeof require === 'function' ? require('./presentation.js') : null);
+  const Music = root.FrontlinesMusic || (typeof require === 'function' ? require('./music-data.js') : null);
+  let settings = { animationSpeed: 'normal', presentation: 'full', reducedEffects: false, reducedShake: false, sound: false, masterVolume:.7, musicVolume:.3, uiVolume:.65, cardEffectsVolume:.8, battlefieldVolume:.7 };
   let overlay = null, epoch = 0, counterFrame = null, audioContext = null, master = null, soundAdapter = null, deferredPublic = null;
+  let channels = {}, musicState = 'menu', activeTrack = null, pendingTrack = null, musicTimer = null, musicToken = 0, musicRequest = 0, musicSources = [], musicBuffers = new Map();
+  const cueTimes = new Map();
   let viewport = { x: 0, y: 0 };
   const timers = new Set(), animations = new Set(), tweens = new Set(), sounds = new Set();
   const motionQuery = hasDOM && root.matchMedia ? root.matchMedia('(prefers-reduced-motion: reduce)') : null;
@@ -36,22 +40,23 @@
 
   /* Pure diff for tests and future canvas renderers. It neither dispatches actions
    * nor advances rules after a timer. Reclaim and retreat must never look like kills. */
-  function deriveEvents(before, after, action) {
+  function deriveEvents(before, after, action, engineEvents) {
     if (!before || !after) return [];
     action = action || {};
     const events = [], prior = new Map(before.units.map(u => [u.uid, u])), next = new Map(after.units.map(u => [u.uid, u]));
+    const displaced=new Map((engineEvents||[]).filter(e=>e.type==='forcedRetreat'||e.type==='forcedElimination').map(e=>[e.uid,e]));
     const nextHands = new Set(after.players.flatMap(p => p.hand.map(h => h.uid)));
     for (const unit of after.units) {
       const old = prior.get(unit.uid);
       if (!old) events.push({ type: 'deploy', unit, handUid: unit.uid });
       else {
-        if (old.territory !== unit.territory) events.push({ type: 'move', unit, from: old.territory, to: unit.territory });
+        if (old.territory !== unit.territory) events.push({ type: displaced.get(unit.uid)?.type==='forcedRetreat'?'retreat':'move', unit, from: old.territory, to: unit.territory });
         const delta = unit.damage - old.damage;
         if (delta) events.push({ type: delta > 0 ? 'damage' : 'heal', unit, amount: Math.abs(delta) });
       }
     }
     for (const unit of before.units) if (!next.has(unit.uid)) {
-      events.push({ type: nextHands.has(unit.uid) ? 'reclaim' : 'death', unit, presence: definition(unit)?.presence || 0 });
+      events.push({ type: displaced.get(unit.uid)?.type==='forcedElimination'?'rout':nextHands.has(unit.uid) ? 'reclaim' : 'death', unit, presence: definition(unit)?.presence || 0 });
     }
     after.players.forEach((p, player) => {
       const old = new Set(before.players[player].hand.map(h => h.uid));
@@ -78,7 +83,7 @@
       // authoritative even when old and new log arrays have the same length.
       const terminal = after.log[after.log.length - 1];
       const exchanged = !(terminal?.type === 'combat' && /without combat damage/i.test(terminal.text));
-      events.push({ type: 'combat', attackerUid: r.attackerUid, defenderUid: r.defenderUid, role: role(u), owner: u?.owner, exchanged });
+      events.push({ type: 'combat', attackerUid: r.attackerUid, defenderUid: r.defenderUid, cardId:u?.cardId, role: role(u), owner: u?.owner, exchanged });
       if (r.order && !action.handUid) {
         const c = definition(r.order);
         if (c?.effect) events.push({ type: 'ability', player: r.responder, cardId: r.order.cardId, kind: c.effect.kind, targetUid: c.effect.kind === 'ambush' ? r.attackerUid : r.defenderUid });
@@ -102,11 +107,12 @@
       events.push({ type: 'phase', actor: actor(after), stage: phaseName(after), turn: after.turn });
     }
     if (before.winner == null && after.winner != null) events.push({ type: 'victory', player: after.winner });
+    if(displaced.size){const order={capture:0,retreat:1,rout:1,move:2,resource:3,frontline:4,phase:5,victory:6};events.sort((a,b)=>(order[a.type]??2)-(order[b.type]??2));}
     return events;
   }
 
-  const reduced = () => !!(settings.reducedEffects || motionQuery?.matches);
-  const duration = ms => reduced() ? Math.min(ms, 120) : Math.round(ms * (settings.animationSpeed === 'fast' ? .55 : 1));
+  const reduced = () => !!(settings.reducedEffects || settings.presentation === 'minimal' || motionQuery?.matches);
+  const duration = ms => reduced() ? Math.min(ms, 120) : Math.round(ms * (settings.animationSpeed === 'fast' ? .55 : 1) * (settings.presentation === 'reduced' ? .65 : 1));
   const blocked = () => !hasDOM || doc.hidden || !!doc.querySelector('.privacy');
   const color = (state, player) => D?.FACTIONS[state.players[player]?.faction]?.color || (player === 0 ? '#86afcc' : '#e47d59');
   const rect = node => {
@@ -184,7 +190,7 @@
   }
   function ring(r, tint, variant) {
     if (!r || reduced()) return;
-    const size = Math.max(30, Math.min(110, r.width));
+    const size = Math.max(24, Math.min(110, r.width, r.height+20));
     const n = element('fx-ring ' + (variant || ''), { left: r.x - size / 2, top: r.y - size / 2, width: size, height: size }, tint);
     if (n) animate(n, [{ opacity: .95, transform: 'scale(.3)' }, { opacity: 0, transform: 'scale(1.6)' }], 410, 0, () => n.remove());
   }
@@ -197,13 +203,25 @@
     animate(n, [{ opacity: 0, clipPath: 'inset(0 100% 0 0)' }, { opacity: .95, offset: .3, clipPath: 'inset(0 5% 0 15%)' }, { opacity: 0, clipPath: 'inset(0 0 0 100%)' }], 210, delay, () => n.remove());
   }
   function shake() {
-    if (reduced() || settings.reducedShake) return;
+    if (reduced() || settings.presentation === 'reduced' || settings.reducedShake) return;
     const board = doc.querySelector('.battlefield');
     animate(board, [{ transform: 'translate(0,0)' }, { transform: 'translate(2px,-1px)' }, { transform: 'translate(-2px,1px)' }, { transform: 'translate(1px,0)' }, { transform: 'translate(0,0)' }], 200);
   }
+  function treatment(card) { return P?.limits(card,settings,motionQuery?.matches) || {profile:{deployment:340,attack:300,impact:220,packReveal:260},faction:{motif:'shield',color:'#82b8cf',spread:1},particles:0,audioLayers:0}; }
+  function particles(r, card, impact) {
+    if(!r||reduced())return;
+    const t=treatment(card),count=t.particles;
+    for(let i=0;i<count;i++){
+      const angle=(i/count)*Math.PI*2,spread=Math.min(35,r.width*.3)*t.faction.spread;
+      // Emit from the card perimeter, leaving the name, stats and rules unobscured.
+      const n=element('fx-particle fx-'+t.faction.motif,{left:r.x+Math.cos(angle)*(r.width/2+4)-2,top:r.y+Math.sin(angle)*(r.height/2+4)-2,width:4,height:4},t.faction.color);
+      if(n)animate(n,[{opacity:.75,transform:'translate(0,0)'},{opacity:0,transform:'translate('+(Math.cos(angle)*spread)+'px,'+(Math.sin(angle)*spread)+'px)'}],impact?t.profile.impact:t.profile.deployment,0,()=>n.remove());
+    }
+  }
   function deploy(e, snapshot, state) {
     const node = unitNode(e.unit.uid), target = rect(node), source = snapshot?.hand[e.handUid], tint = color(state, e.unit.owner);
-    flash(node, tint, 440); cue('deploy');
+    const card=definition(e.unit), t=treatment(card);
+    flash(node, tint, t.profile.deployment); cue('deploy',{card,channel:'card'}); particles(target,card);
     if (source && target && !reduced()) {
       const n = element('fx-deployment', source, tint), clone = publicClone(node);
       if (n && clone) {
@@ -212,7 +230,7 @@
         animate(n, [{ opacity: .9, transform: 'translate(0,0) scale(1)' }, { opacity: 1, offset: .65, transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.5)' }, { opacity: 0, transform: 'translate(' + dx + 'px,' + dy + 'px) scale(.2)' }], 370, 0, () => n.remove());
       }
     }
-    schedule(() => ring(rect(unitNode(e.unit.uid)), tint, 'deployment'), 180);
+    if(t.particles) schedule(() => ring(rect(unitNode(e.unit.uid)), tint, 'deployment fx-'+t.faction.motif), 100);
   }
   function movement(e, snapshot, state) {
     const node = unitNode(e.unit.uid), to = rect(node), from = snapshot?.units[e.unit.uid]?.rect;
@@ -220,6 +238,14 @@
       animate(node, [{ transform: 'translate(' + (from.x - to.x) + 'px,' + (from.y - to.y) + 'px)', opacity: .5 }, { transform: 'translate(0,0)', opacity: 1 }], 400);
       tracer(from, to, color(state, e.unit.owner), 'movement');
     } else flash(node, color(state, e.unit.owner));
+  }
+  function forcedRetreat(e,snapshot,state){
+    const record=snapshot?.units[e.unit.uid],from=record?.rect,node=unitNode(e.unit.uid),to=rect(node),tint=color(state,e.unit.owner);
+    if(from&&to&&record.clone&&!reduced()){
+      const n=element('fx-withdrawal',from,tint);if(n){n.appendChild(record.clone);animate(n,[{transform:'translate(0,0)',opacity:1},{transform:'translate('+(to.x-from.x)+'px,'+(to.y-from.y)+'px)',opacity:.85}],400,180,()=>n.remove());}
+      animate(node,[{opacity:0},{opacity:0,offset:.8},{opacity:1}],430,180);
+    }else flash(node,tint);
+    floatText(from||to,'RETREAT → '+(e.to+1),tint,'fx-caption',180);
   }
   function engage(e, snapshot, state) {
     const attacker = unitNode(e.attackerUid), defender = unitNode(e.defenderUid), tint = color(state, e.owner);
@@ -231,31 +257,34 @@
     const node = unitNode(e.attackerUid), target = unitNode(e.defenderUid);
     const from = rect(node) || snapshot?.units[e.attackerUid]?.rect, to = rect(target) || snapshot?.units[e.defenderUid]?.rect;
     const tint = color(state, e.owner);
+    const card=definition({cardId:e.cardId})||definition(state.units.find(u=>u.uid===e.attackerUid)),t=treatment(card);
     if (from && to && node && !reduced()) {
       const scale = 9 / (Math.hypot(to.x - from.x, to.y - from.y) || 1);
-      animate(node, [{ transform: 'translate(0,0)' }, { transform: 'translate(' + ((to.x - from.x) * scale) + 'px,' + ((to.y - from.y) * scale) + 'px)', offset: .3 }, { transform: 'translate(0,0)' }], 300);
+      animate(node, [{ transform: 'translate(0,0)' }, { transform: 'translate(' + ((to.x - from.x) * scale) + 'px,' + ((to.y - from.y) * scale) + 'px)', offset: .3 }, { transform: 'translate(0,0)' }], t.profile.attack);
     }
-    const shots = e.role === 'rifleman' ? 3 : 1;
+    const shots = settings.presentation==='reduced'?1:e.role === 'rifleman' ? Math.min(3,1+Math.floor((t.profile.performanceTier||0)/2)) : 1;
     for (let i = 0; i < shots; i++) {
       tracer(from, to, tint, e.role, i * 60);
-      schedule(() => ring(to, tint, e.role), 100 + i * 60);
+      if(t.particles) schedule(() => ring(to, tint, e.role+' fx-'+t.faction.motif), 100 + i * 60);
     }
     if (e.role === 'commander') floatText(from, 'FIRE COMMAND', tint, 'fx-caption');
     if (e.role === 'heavy') shake();
-    cue(e.role === 'heavy' ? 'heavy' : e.role === 'specialist' ? 'specialist' : 'rifle');
+    particles(to,card,true);
+    cue(e.role === 'heavy' ? 'heavy' : e.role === 'specialist' ? 'specialist' : 'rifle',{card,channel:'card'});
   }
   function loss(e, snapshot, state) {
     const record = snapshot?.units[e.unit.uid], r = record?.rect, tint = color(state, e.unit.owner);
+    const dead=e.type==='death'||e.type==='rout',delay=e.type==='rout'?180:0;
     if (r && record.clone) {
-      const n = element(e.type === 'death' ? 'fx-casualty' : 'fx-reclaim', r, tint);
+      const n = element(dead ? 'fx-casualty' : 'fx-reclaim', r, tint);
       if (n) {
         n.appendChild(record.clone);
-        animate(n, reduced() ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 1, filter: 'brightness(2)', transform: 'translateY(0)' }, { opacity: .8, filter: 'grayscale(1) brightness(1)', offset: .2 }, { opacity: 0, filter: 'grayscale(1) brightness(.3)', transform: 'translateY(' + (e.type === 'death' ? 15 : -20) + 'px) scale(.92)', clipPath: 'inset(45% 0 45% 0)' }], 500, 80, () => n.remove());
+        animate(n, reduced() ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 1, filter: 'brightness(2)', transform: 'translateY(0)' }, { opacity: .8, filter: 'grayscale(1) brightness(1)', offset: .2 }, { opacity: 0, filter: 'grayscale(1) brightness(.3)', transform: 'translateY(' + (dead ? 15 : -20) + 'px) scale(.92)', clipPath: 'inset(45% 0 45% 0)' }], 500, 80+delay, () => n.remove());
       }
     }
-    floatText(r, e.type === 'death' ? 'DESTROYED' : 'WITHDRAWN', e.type === 'death' ? '#ffc4ae' : tint, 'fx-caption', 40);
+    floatText(r, e.type==='rout'?'NO RETREAT — ELIMINATED':dead?'DESTROYED':'WITHDRAWN', dead ? '#ffc4ae' : tint, 'fx-caption', 40+delay);
     if (!reduced()) floatText(r && { ...r, y: r.y + 25 }, e.presence + 'P RELEASED', '#b7dca8', 'fx-caption', 130);
-    cue(e.type === 'death' ? 'death' : 'deploy');
+    cue(dead ? 'death' : 'deploy');
   }
   function captureZone(e, state) {
     const node = territoryNode(e.territory), r = rect(node), tint = color(state, e.owner);
@@ -348,7 +377,7 @@
   }
   function play(before, after, action, snapshot, options) {
     if (!hasDOM || !before || !after) return [];
-    const events = deriveEvents(before, after, action);
+    const events = deriveEvents(before, after, action,options?.engineEvents);
     if (options?.privacy || doc.querySelector('.privacy')) {
       clear();
       // Keep only public facts for reveal. No hand text, art, rectangles, draw UIDs,
@@ -385,6 +414,7 @@
       switch (e.type) {
         case 'deploy': deploy(e, snapshot, after); break;
         case 'move': movement(e, snapshot, after); break;
+        case 'retreat': forcedRetreat(e,snapshot,after);break;
         case 'engage': engage(e, snapshot, after); break;
         case 'intercept': {
           const n = unitNode(e.unit.uid), tint = color(after, e.unit.owner);
@@ -393,10 +423,10 @@
         case 'damage': {
           const n = unitNode(e.unit.uid); flash(n, '#ffb397');
           if (!reduced()) animate(n, [{ transform: 'translateX(0)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(0)' }], 220);
-          floatText(rect(n), '−' + e.amount, '#ffc4ae'); cue('damage'); break;
+          floatText(rect(n), '−' + e.amount, '#ffc4ae'); cue('damage',{card:definition(e.unit),channel:'battlefield'}); break;
         }
         case 'heal': { const n = unitNode(e.unit.uid); flash(n, '#a7dba0'); floatText(rect(n), '+' + e.amount, '#b7e6ab'); break; }
-        case 'death': case 'reclaim': loss(e, snapshot, after); break;
+        case 'death': case 'rout': case 'reclaim': loss(e, snapshot, after); break;
         case 'draw': {
           if (options?.handPlayer != null && options.handPlayer !== e.player) break;
           drawCard(handNode(e.uid), after, e.player); break;
@@ -408,7 +438,7 @@
         }
         case 'resource': resource(e); if (e.key === 'available' && e.to > e.from) gained = true; break;
         case 'capture': captureZone(e, after); break;
-        case 'frontline': frontier(e, after); break;
+        case 'frontline': if(events.some(item=>item.type==='retreat'||item.type==='rout'))schedule(()=>frontier(e,after),480);else frontier(e, after); break;
         case 'phase': if (!options?.suppressPhase && after.winner == null) phase(after, options); break;
         case 'victory': victory(e, after); break;
       }
@@ -420,60 +450,141 @@
     else flash(node, color(state, player));
   }
 
-  /* Replaceable audio hooks: setSoundAdapter(({name, context}) => ...) can play
-   * final licensed samples. Default cues are short procedural WebAudio placeholders,
-   * do not load files, and never create/resume a context outside a trusted gesture. */
+  /* Original layered procedural audio. Adapters receive a channel gain node and
+   * presentation metadata so replacement licensed samples obey the same mixer. */
   function unlockAudio(event) {
     if (!hasDOM || !settings.sound || (event && !event.isTrusted)) return;
-    if (root.navigator?.userActivation && !root.navigator.userActivation.isActive) return;
+    if (!event && !root.navigator?.userActivation?.isActive) return;
     try {
       if (!audioContext) {
         const Context = root.AudioContext || root.webkitAudioContext; if (!Context) return;
-        audioContext = new Context(); master = audioContext.createGain(); master.gain.value = .2 * (Number.isFinite(settings.masterVolume) ? settings.masterVolume : .7); master.connect(audioContext.destination);
+        audioContext = new Context(); master = audioContext.createGain(); master.connect(audioContext.destination);
+        for(const channel of ['music','ui','card','battlefield']){channels[channel]=audioContext.createGain();channels[channel].connect(master);}
+        applyMixer();
       }
-      if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
+      if (audioContext.state === 'suspended') audioContext.resume().then(queueMusic).catch(() => {});
+      else queueMusic();
     } catch (_) { /* Audio failure must never interrupt a legal game action. */ }
   }
-  function tone(frequency, ms, type, offset, glide) {
-    if (sounds.size >= 14) return;
+  function tone(frequency, ms, type, offset, glide, channel, level) {
+    if (sounds.size >= 24) return;
     const start = audioContext.currentTime + (offset || 0), end = start + ms / 1000;
     const source = audioContext.createOscillator(), gain = audioContext.createGain();
     source.type = type || 'sine'; source.frequency.setValueAtTime(frequency, start);
     if (glide) source.frequency.exponentialRampToValueAtTime(glide, end);
-    gain.gain.setValueAtTime(.0001, start); gain.gain.exponentialRampToValueAtTime(.13, start + .006); gain.gain.exponentialRampToValueAtTime(.0001, end);
-    source.connect(gain); gain.connect(master); sounds.add(source);
+    gain.gain.setValueAtTime(.0001, start); gain.gain.exponentialRampToValueAtTime(level||.12, start + .006); gain.gain.exponentialRampToValueAtTime(.0001, end);
+    source.connect(gain); gain.connect(channels[channel||'ui']); sounds.add(source);
     source.onended = () => { sounds.delete(source); source.disconnect(); gain.disconnect(); };
     source.start(start); source.stop(end + .01);
   }
-  function noise(ms, cutoff) {
-    if (sounds.size >= 14) return;
+  function noise(ms, cutoff, channel, level) {
+    if (sounds.size >= 24) return;
     const start = audioContext.currentTime, length = Math.ceil(audioContext.sampleRate * ms / 1000), buffer = audioContext.createBuffer(1, length, audioContext.sampleRate);
     const wave = buffer.getChannelData(0); for (let i = 0; i < length; i++) wave[i] = Math.random() * 2 - 1;
     const source = audioContext.createBufferSource(), gain = audioContext.createGain(), filter = audioContext.createBiquadFilter();
     source.buffer = buffer; filter.type = 'lowpass'; filter.frequency.value = cutoff;
-    gain.gain.setValueAtTime(.22, start); gain.gain.exponentialRampToValueAtTime(.0001, start + ms / 1000);
-    source.connect(filter); filter.connect(gain); gain.connect(master); sounds.add(source);
+    gain.gain.setValueAtTime(level||.16, start); gain.gain.exponentialRampToValueAtTime(.0001, start + ms / 1000);
+    source.connect(filter); filter.connect(gain); gain.connect(channels[channel||'battlefield']); sounds.add(source);
     source.onended = () => { sounds.delete(source); source.disconnect(); filter.disconnect(); gain.disconnect(); };
     source.start();
   }
-  function cue(name) {
+  function cue(name, options) {
     if (!settings.sound || blocked() || !audioContext || audioContext.state !== 'running') return;
     try {
-      if (soundAdapter) { soundAdapter({ name, context: audioContext }); return; }
+      options=options||{};const channel=channels[options.channel]?options.channel:/deploy|reveal|rifle|heavy|specialist/.test(name)?'card':/damage|death|capture|victory/.test(name)?'battlefield':'ui';
+      const now=audioContext.currentTime,last=cueTimes.get(name);if(last!=null&&now-last<.035)return;cueTimes.set(name,now);
+      const card=options.card,t=treatment(card),layers=card?t.audioLayers:0,base=.12/Math.sqrt(1+layers*.35);
+      if (soundAdapter) { soundAdapter({ name, context: audioContext,channel,output:channels[channel],rarity:t.profile.id||'common',faction:t.faction, layers:layers+1 }); return; }
+      const note=(f,ms,type,offset,glide)=>tone(f,ms,type,offset,glide,channel,base),hit=(ms,cutoff)=>noise(ms,cutoff,channel,base);
       switch (name) {
-        case 'hover': tone(680, 25); break;
-        case 'select': tone(520, 65, 'triangle', 0, 840); break;
-        case 'deploy': tone(150, 150, 'triangle', 0, 520); tone(700, 70, 'sine', .08); break;
-        case 'rifle': noise(75, 4200); tone(130, 70, 'square', 0, 60); tone(115, 60, 'square', .075, 55); break;
-        case 'heavy': noise(180, 600); tone(90, 200, 'triangle', 0, 35); break;
-        case 'specialist': tone(920, 160, 'sine', 0, 140); break;
-        case 'damage': noise(45, 2100); break;
-        case 'death': noise(210, 1300); tone(180, 180, 'sawtooth', 0, 45); break;
-        case 'capture': [330, 440, 660].forEach((f, i) => tone(f, 130, 'triangle', i * .08)); break;
-        case 'presence': tone(610, 70, 'sine'); tone(860, 90, 'sine', .08); break;
-        case 'victory': [261.6, 329.6, 392, 523.2].forEach((f, i) => tone(f, 330, 'triangle', i * .12)); break;
+        case 'hover': note(680,25); break;
+        case 'select': case 'purchase': note(520,65,'triangle',0,840);break;
+        case 'deploy': note(150,150,'triangle',0,520);note(700,70,'sine',.08);break;
+        case 'reveal': note(330,130,'sine',0,660);break;
+        case 'rifle': hit(75,4200);note(130,70,'square',0,60);note(115,60,'square',.075,55);break;
+        case 'heavy': hit(180,600);note(90,200,'triangle',0,35);break;
+        case 'specialist': note(920,160,'sine',0,140);break;
+        case 'damage': hit(45,2100);break;
+        case 'death': hit(210,1300);note(180,180,'sawtooth',0,45);break;
+        case 'capture': [330,440,660].forEach((f,i)=>note(f,130,'triangle',i*.08));break;
+        case 'presence': note(610,70,'sine');note(860,90,'sine',.08);break;
+        case 'victory': [261.6,329.6,392,523.2].forEach((f,i)=>note(f,330,'triangle',i*.12));break;
       }
+      for(let i=0;i<layers;i++)tone(t.faction.accent[i%3]*(i===3?2:1),110+i*35,t.faction.tone,.025+i*.035,null,channel,.045/Math.sqrt(layers));
     } catch (_) { /* Optional audio stays independent of the state machine. */ }
+  }
+  function applyMixer(){
+    if(!master)return;
+    const now=audioContext.currentTime,values={music:settings.musicVolume,ui:settings.uiVolume,card:settings.cardEffectsVolume,battlefield:settings.battlefieldVolume};
+    master.gain.setTargetAtTime(settings.sound ? .22*settings.masterVolume : 0,now,.035);
+    for(const channel of Object.keys(values))channels[channel].gain.setTargetAtTime(values[channel],now,.035);
+  }
+  function scoreBuffer(track){
+    if(musicBuffers.has(track.id))return musicBuffers.get(track.id);
+    // Synthesized fundamentals need no high-rate recording. WebAudio resamples the
+    // buffer, while bounded chunks yield between jobs so first music never stalls UI.
+    const rate=Math.min(16000,audioContext.sampleRate),beat=60/track.bpm,seconds=beat*track.bars*4,length=Math.round(rate*seconds),buffer=audioContext.createBuffer(1,length,rate),wave=buffer.getChannelData(0),jobs=[];
+    const hz=midi=>440*Math.pow(2,(midi-69)/12);
+    // Every phrase has a release before the final loop boundary, eliminating clicks.
+    const voice=(midi,start,duration,amplitude,harmonic)=>{
+      if(midi==null)return;jobs.push({frequency:hz(midi),first:Math.round(start*rate),last:Math.min(length,Math.round((start+duration)*rate)),duration,amplitude,harmonic});
+    };
+    for(let bar=0;bar<track.bars;bar++){
+      const start=bar*4*beat,bass=track.bass[bar%track.bass.length];
+      voice(bass,start,4*beat-.09,.08,.16);
+      track.pad.forEach((note,i)=>voice(note+(bass-track.bass[0]),start,4*beat-.09,.021,0));
+      for(let b=0;b<4;b++){
+        voice(track.melody[(bar*4+b)%track.melody.length],start+b*beat,beat*.7,track.energy*.13,.08);
+        voice(bass+12,start+b*beat,beat*.23,track.pulse*.13,.3);
+      }
+    }
+    const ready=(async()=>{
+      for(const job of jobs){
+        const step=2*Math.PI*job.frequency/rate,sinStep=Math.sin(step),cosStep=Math.cos(step);let sin=0,cos=1;
+        for(let i=job.first;i<job.last;i++){
+          const time=(i-job.first)/rate,envelope=Math.max(0,Math.min(1,time/.035,(job.duration-time)/.09));
+          wave[i]+=job.amplitude*envelope*(sin+job.harmonic*2*sin*cos);
+          const nextSin=sin*cosStep+cos*sinStep;cos=cos*cosStep-sin*sinStep;sin=nextSin;
+          if((i-job.first+1)%4096===0)await new Promise(resolve=>root.setTimeout(resolve,0));
+        }
+      }
+      return buffer;
+    })();
+    musicBuffers.set(track.id,ready);return ready;
+  }
+  function stopMusic(){
+    musicToken++;musicRequest++;pendingTrack=null;if(musicTimer!=null)root.clearTimeout(musicTimer);musicTimer=null;
+    for(const voice of musicSources){try{voice.source.stop();voice.source.disconnect();voice.gain.disconnect();}catch(_){}}
+    musicSources=[];activeTrack=null;
+  }
+  async function transitionMusic(){
+    if(!settings.sound||!audioContext||audioContext.state!=='running'||doc?.hidden)return;
+    const track=Music?.tracks[Music.states[musicState]];if(!track||activeTrack===track.id||pendingTrack===track.id)return;
+    const request=++musicRequest;pendingTrack=track.id;
+    try{
+      const buffer=await scoreBuffer(track);
+      if(request!==musicRequest||!settings.sound||doc.hidden||Music.states[musicState]!==track.id){if(request===musicRequest)pendingTrack=null;return;}
+      pendingTrack=null;const now=audioContext.currentTime,crossfade=Music.crossfadeSeconds;
+      // A fast route change discards any already-fading voice before starting a third.
+      if(musicSources.length>=Music.maximumVoices){const stale=musicSources.shift();try{stale.source.stop();stale.source.disconnect();stale.gain.disconnect();}catch(_){}}
+      for(const old of musicSources){if(old.fading)continue;old.fading=true;old.gain.gain.cancelScheduledValues(now);old.gain.gain.setValueAtTime(Math.max(.0001,old.gain.gain.value),now);old.gain.gain.linearRampToValueAtTime(0,now+crossfade);old.source.stop(now+crossfade+.02);}
+      const source=audioContext.createBufferSource(),gain=audioContext.createGain(),voice={source,gain,track:track.id,fading:false};source.buffer=buffer;source.loop=true;
+      gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(1,now+crossfade);source.connect(gain);gain.connect(channels.music);
+      source.onended=()=>{musicSources=musicSources.filter(v=>v!==voice);source.disconnect();gain.disconnect();};
+      musicSources.push(voice);activeTrack=track.id;source.start();
+    }catch(_){if(request===musicRequest)pendingTrack=null;/* Optional audio cannot interrupt navigation. */}
+  }
+  function queueMusic(){
+    if(!hasDOM||musicTimer!=null||!settings.sound||!audioContext||audioContext.state!=='running')return;
+    const token=musicToken;musicTimer=root.setTimeout(()=>{musicTimer=null;if(token===musicToken)transitionMusic();},0);
+  }
+  function setMusicState(state){const next=Music?.states[state]?state:'menu';musicState=next;queueMusic();return next;}
+  function reveal(card,node){
+    if(blocked())return;const t=treatment(card),r=rect(node);cue('reveal',{card,channel:'card'});
+    if(!r||reduced())return;
+    const n=element('fx-reveal',r,t.profile.border||t.faction.color);
+    if(n)animate(n,[{opacity:.8},{opacity:0}],t.profile.packReveal,0,()=>n.remove());
+    particles(r,card);
   }
   function stopSounds() {
     sounds.forEach(source => { try { source.stop(); } catch (_) {} }); sounds.clear();
@@ -491,14 +602,17 @@
   function configure(next) {
     settings = { ...settings, ...(next || {}) };
     settings.animationSpeed = settings.animationSpeed === 'fast' ? 'fast' : 'normal';
-    settings.masterVolume = Number.isFinite(settings.masterVolume) ? Math.max(0,Math.min(1,settings.masterVolume)) : .7;
-    if (master) master.gain.value = .2 * settings.masterVolume;
-    if (!settings.sound) stopSounds();
-    if (hasDOM) doc.documentElement.dataset.effectsSpeed = settings.animationSpeed;
+    settings.presentation=['full','reduced','minimal'].includes(settings.presentation)?settings.presentation:'full';
+    for(const [key,fallback]of Object.entries({masterVolume:.7,musicVolume:.3,uiVolume:.65,cardEffectsVolume:.8,battlefieldVolume:.7}))settings[key]=Number.isFinite(settings[key])?Math.max(0,Math.min(1,settings[key])):fallback;
+    applyMixer();
+    if (!settings.sound) {stopSounds();stopMusic();}else queueMusic();
+    if (hasDOM) {doc.documentElement.dataset.effectsSpeed = settings.animationSpeed;doc.body.dataset.presentation=settings.presentation;}
   }
   if (hasDOM) {
     doc.addEventListener('visibilitychange', () => { if (doc.hidden) { clear(); if (audioContext?.state === 'running') audioContext.suspend().catch(() => {}); } });
-    root.addEventListener('pagehide', clear);
+    root.addEventListener('pagehide', () => {clear();stopMusic();if(audioContext?.state==='running')audioContext.suspend().catch(()=>{});});
+    doc.addEventListener('pointerdown',unlockAudio,{passive:true});
+    doc.addEventListener('keydown',unlockAudio,{passive:true});
     // Fixed overlays are invalid after scroll or resize, so cancel them promptly.
     root.addEventListener('resize', () => clear(true), { passive: true });
     doc.addEventListener('scroll', e => {
@@ -516,7 +630,9 @@
       const now = root.performance.now(); if (now - lastHover < 85) return; lastHover = now;
       cue('hover');
     });
-    doc.addEventListener('click', e => { if (e.isTrusted && e.target.closest?.('.hand-card,.unit')) cue('select'); });
+    doc.addEventListener('click', e => { if (e.isTrusted && e.target.closest?.('.hand-card,.unit,.btn,.command,.home-command,[data-settings-tab]')) cue('select',{channel:'ui'}); });
   }
-  return { configure, capture, play, clear, phase, cue, unlockAudio, deriveEvents, setSoundAdapter: adapter => { soundAdapter = typeof adapter === 'function' ? adapter : null; } };
+  return { configure, capture, play, clear, phase, cue, unlockAudio, deriveEvents, reveal, setMusicState,
+    audioState:()=>({enabled:!!settings.sound,unlocked:!!audioContext,state:musicState,track:activeTrack,looping:musicSources.filter(v=>!v.fading).every(v=>v.source.loop),musicVoices:musicSources.length,effectVoices:sounds.size,channels:{master:settings.masterVolume,music:settings.musicVolume,ui:settings.uiVolume,card:settings.cardEffectsVolume,battlefield:settings.battlefieldVolume}}),
+    setSoundAdapter: adapter => { soundAdapter = typeof adapter === 'function' ? adapter : null; } };
 });

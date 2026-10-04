@@ -6,7 +6,7 @@
   root.FrontlinesTelemetry = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this,function(DefaultData,DefaultEngine) {
   'use strict';
-  const VERSION = 'frontlines-telemetry-v3-command';
+  const VERSION = 'frontlines-telemetry-v5-arsenal';
   const clone = value => JSON.parse(JSON.stringify(value));
   const CONDITIONS = ['territoryDeficit2','centerLost','enemyForward','committedDeficit','unitDeficit'];
   const CARD_METRICS = ['included','includedMatches','drawn','plays','deployments','orders','attacksInitiated','deaths',
@@ -19,7 +19,9 @@
     'healingEnabled','healingDone','disruptionApplied','counteredOrders','shieldAbsorbed','shieldEffectiveHealthProtected','rallies','mobileMoves','rushAttacks','precisionBypasses',
     'retaliateTriggers','retaliateEffectiveDamage','scavengeTriggers','scavengeCardsDrawn','sabotageApplications','traitsSuppressed','sabotageCombatWindows',
     'includedWins','notDrawnMatches','notDrawnWins','multiplePlayedMatches','multiplePlayedWins',
-    'aiScoredPlays','aiPlayScoreSum','aiPriorityMarginSum','deploymentWindowCount','deploymentControlDeltaSum','deploymentCaptureDeltaSum','deploymentWindowCensored'];
+    'aiScoredPlays','aiPlayScoreSum','aiPriorityMarginSum','deploymentWindowCount','deploymentControlDeltaSum','deploymentCaptureDeltaSum','deploymentWindowCensored',
+    'commandActionsPaid','freePlays','forcedRetreats','forcedEliminations',
+    'markApplications','reinforceApplications','adaptPlays','armorAbsorbed','armorEffectiveHealthProtected','markedCombatWindows'];
   function createTracker(options) {
     options = options || {};
     const D = options.data || DefaultData, E = options.engine || DefaultEngine;
@@ -33,7 +35,7 @@
     const economy = [0,1].map(() => ({generated:0,orderSpend:0,deploymentCommitment:0,casualtyReleased:0,reclaimedReleased:0,
       samples:0,commandSum:0,availableSum:0,committedSum:0,unitCountSum:0,unusedEndTurnSum:0,endTurns:0,
       noMeaningfulAffordableTurns:0,meaningfulOpportunityTurns:0,playedCostSum:0,plays:0,costStrandedObservations:0,
-      territorialPressure:0,damageDealt:0,effectiveDamageDealt:0,kills:0,finalCommitted:0}));
+      territorialPressure:0,damageDealt:0,effectiveDamageDealt:0,kills:0,finalCommitted:0,commandActionsSpent:0,freeCardPlays:0,forcedRetreats:0,forcedEliminations:0}));
     const territory = {samples:[],firstCaptureTurn:null,captures:[0,0],recaptures:[0,0],ownershipRecaptures:[0,0],
       timeCenter:[0,0],timeEnemyTerritory:[0,0],longestHold:[0,0],meanControl:[0,0],meanLead:[0,0],maxLead:[0,0],
       contestedSamples:0,winnerFirstLeadTurn:null,winnerPermanentLeadTurn:null};
@@ -111,11 +113,15 @@
       initialize(before); detail = detail || {};last = after;decisions++;
       const actor = E.getActor(before), events = detail.events || [];
       actions[action.type] = (actions[action.type] || 0)+1;
+      const actionCost=E.actionCost?E.actionCost(before,action):{presence:0,commandActions:Math.max(0,before.actionsLeft-after.actionsLeft)};
+      economy[actor].commandActionsSpent += actionCost.commandActions;
       const hand = before.players[actor].hand.find(item => item.uid === action.handUid);
       const unit = before.units.find(item => item.uid === action.unitUid || item.uid === action.guardUid);
       if (hand) {
         const card = row(actor,hand.cardId),cost = D.CARDS[hand.cardId].presence;
         card.plays++;card.playTurnSum += before.turn;card.presencePaid += cost;
+        card.commandActionsPaid += actionCost.commandActions;
+        if(!actionCost.commandActions){card.freePlays++;economy[actor].freeCardPlays++;}
         if (action.type === 'deploy') { card.deployments++;economy[actor].deploymentCommitment += cost;lives.set(hand.uid,{seat:actor,cardId:hand.cardId,turn:before.turn});
           deploymentWindows.push({seat:actor,cardId:hand.cardId,turn:before.turn,controlled:E.controlledCount(before,actor),captures:before.stats.captures[actor]}); }
         else {card.orders++;economy[actor].orderSpend += cost;}
@@ -141,9 +147,16 @@
         economy[seat].generated += Math.max(0,after.players[seat].command-before.players[seat].command);
       }
       for (const event of events) {
+        if(event.type==='mark'&&event.sourceCardId)row(event.player,event.sourceCardId).markApplications++;
+        if(event.type==='reinforce'&&event.sourceCardId)row(event.player,event.sourceCardId).reinforceApplications++;
+        if(event.type==='order'&&event.mode)row(event.player,event.cardId).adaptPlays++;
+        if(event.type==='forcedRetreat'){row(event.player,event.cardId).forcedRetreats++;economy[event.player].forcedRetreats++;}
+        if(event.type==='forcedElimination'){row(event.player,event.cardId).forcedEliminations++;economy[event.player].forcedEliminations++;}
         if (event.type === 'damage') {
           const receiver = row(event.targetOwner,event.targetCardId);receiver.damageReceived += event.amount;receiver.effectiveDamageReceived += event.effective;
           if(event.fortifyAbsorbed){receiver.fortifyAbsorbed+=event.fortifyAbsorbed;receiver.fortifyEffectiveHealthProtected+=event.fortifyEffectiveProtected;receiver.passiveTriggers++;}
+          if(event.armorAbsorbed){receiver.armorAbsorbed+=event.armorAbsorbed;receiver.armorEffectiveHealthProtected+=event.armorEffectiveProtected||0;receiver.passiveTriggers++;}
+          if(event.markBonus)receiver.markedCombatWindows++;
           if (event.player !== null) {economy[event.player].damageDealt += event.amount;economy[event.player].effectiveDamageDealt += event.effective;}
           if (event.sourceCardId && event.player !== null) { const source = row(event.player,event.sourceCardId);source.damageDealt += event.amount;source.effectiveDamageDealt += event.effective;if(event.passive==='retaliate')source.retaliateEffectiveDamage+=event.effective; }
           if(event.commandSupporters&&event.commandSupporters.length)for(const support of event.commandSupporters)row(support.player,support.cardId).commandEffectiveDamageEnabled+=event.commandEffectiveEnabled/event.commandSupporters.length;
@@ -273,7 +286,8 @@
       for (let seat = 0; seat < 2; seat++) for (const condition of CONDITIONS) comebacks[seat][condition].won = comebacks[seat][condition].experienced && winner === seat;
       const economies = clone(economy);
       for (let seat = 0; seat < 2; seat++) economies[seat].finalCommitted = E.presence(state,seat).committed;
-      return {schemaVersion:1,telemetryVersion:VERSION,rulesVersion:E.VERSION || 'frontlines-territory-v1',seed:initial.seed,
+      const gameVersion=typeof module==='object'&&module.exports?require('./package.json').version:globalThis.FrontlinesBuild&&globalThis.FrontlinesBuild.version||globalThis.FrontlinesShellState&&globalThis.FrontlinesShellState.VERSION||globalThis.FrontlinesRuntime&&globalThis.FrontlinesRuntime.version||null;
+      return {schemaVersion:1,gameVersion,telemetryVersion:VERSION,rulesVersion:E.VERSION || 'frontlines-territory-v1',rules:clone(E.RULES||{}),seed:initial.seed,
         factions:initial.players.map(player => player.faction),aiProfiles:aiProfiles.slice(),winner,turns:state.turn,decisions,actions:{...actions},
         territory:flow,economy:economies,comeback:comebacks,cards:cardsOut,
         definitions:{turn:'One offensive initiative, not a pair of initiatives.',territorySamples:'Post-offensive-end-turn state; opening sample has turn 0.',

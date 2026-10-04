@@ -1,0 +1,1226 @@
+{
+  "recordedAt": "2026-10-03",
+  "command": "npm run simulate -- --mode matrix --pool archetypes --count 10000 --balance sprint6 --ai deck --seed 20261003 --verify --max-turns 240 --max-decisions 10000 --out test-results/sprint6-owner-10000.json --csv",
+  "options": {
+    "mode": "matrix",
+    "count": 10000,
+    "deckA": "stonewall-starter",
+    "deckB": "bruiser-starter",
+    "customDecks": [],
+    "deckPool": [
+      "stonewall-bastion",
+      "stonewall-counteroffensive",
+      "bruiser-shock-assault",
+      "bruiser-heavy-breakthrough",
+      "syndicate-combined-arms",
+      "syndicate-precision-operations",
+      "nightwalker-sabotage",
+      "nightwalker-assassination",
+      "rogue-scavenger",
+      "rogue-wildcard"
+    ],
+    "swapSeats": true,
+    "includeMirrors": false,
+    "seed": 20261003,
+    "maxTurns": 240,
+    "maxDecisions": 10000,
+    "verify": true,
+    "balanceProfile": "sprint6",
+    "aiProfiles": [
+      "deck",
+      "deck"
+    ],
+    "thresholds": {
+      "minSamples": 30,
+      "healthyLow": 0.47,
+      "healthyHigh": 0.53,
+      "watchLow": 0.44,
+      "watchHigh": 0.56,
+      "criticalLow": 0.4,
+      "criticalHigh": 0.6,
+      "matchupLow": 0.35,
+      "matchupHigh": 0.65,
+      "seatLow": 0.45,
+      "seatHigh": 0.55,
+      "shortTurns": 12,
+      "longTurns": 60,
+      "rarelyPlayedRate": 0.1,
+      "strandedRate": 0.6,
+      "efficientPressure": 2
+    },
+    "config": {
+      "startingCommand": 20,
+      "commandGrowth": 10,
+      "commandCap": 80,
+      "captureThreshold": 25,
+      "startingHand": 5,
+      "drawCount": 1,
+      "slotsPerTerritory": 5,
+      "actionLimit": 3,
+      "victoryTerritories": 7
+    }
+  },
+  "versions": {
+    "game": "0.7.0",
+    "simulator": "3.2.0",
+    "ai": "frontlines-ai-sprint6-v1",
+    "balance": "sprint6-command-frontline-v1"
+  },
+  "fingerprints": {
+    "engine": "692b6427",
+    "ai": "d317860b",
+    "data": "c733c0c0"
+  },
+  "complete": true,
+  "completed": 10000,
+  "errors": 0,
+  "cutoffs": 0,
+  "elapsedMs": 122762.4751,
+  "files": [
+    {
+      "path": "docs/checkpoints/sprint7-entry-v0.7.0.zip",
+      "bytes": 1637278,
+      "sha256": "b1f382afe7b6245e38a6beeb174c887ed9ec32cf1964a32404ae2f804b2b65e1"
+    },
+    {
+      "path": "docs/balance/sprint6-baseline-v070.zip",
+      "bytes": 1178387,
+      "sha256": "e014cfa0554de8ef182d565d1bf566947b07caa7561524e31af91e3f472522a7"
+    },
+    {
+      "path": "test-results/sprint6-owner-10000.json",
+      "bytes": 14959298,
+      "sha256": "a6035efda53f27ce11a4db9883eb8a5e1b325ea5cb38a4011a4806f0e0dab49b"
+    },
+    {
+      "path": "test-results/sprint6-owner-10000.html",
+      "bytes": 145193,
+      "sha256": "5752a7277be41c335dead7167b79038a74a74dddc60ac7d75bc58d6da51521b9"
+    },
+    {
+      "path": "test-results/sprint6-owner-10000.matches.csv",
+      "bytes": 1432684,
+      "sha256": "a516fdf7fbd87001b5d408a1e3879ff4de6a8662ccab9cccf830cd331b0df0be"
+    },
+    {
+      "path": "test-results/sprint6-owner-10000.cards.csv",
+      "bytes": 83077,
+      "sha256": "fcac3ee8300f2e12312fe4affa0a78e72f441196fab50266cf810ce6aad8c62b"
+    }
+  ],
+  "audit": {
+    "allAssertionsPassed": true,
+    "provenance": {
+      "gameVersion": "0.7.0",
+      "rulesVersion": "sprint6-command-frontline-v1",
+      "profile": "sprint6",
+      "aiProfiles": [
+        "deck",
+        "deck"
+      ],
+      "seed": 20261003
+    },
+    "matches": 10000,
+    "crossMatches": 8888,
+    "sameFactionMatches": 1112,
+    "pairedSeedTrials": 5000,
+    "matchupCount": 45,
+    "matchupSamples": [
+      222,
+      224
+    ],
+    "firstSeat": {
+      "wins": 5705,
+      "rate": 0.5705
+    },
+    "totals": {
+      "turns": 263591,
+      "decisions": 1222825,
+      "captures": 79874,
+      "kills": 227324,
+      "damage": 1611258,
+      "actions": {
+        "deploy": 280338,
+        "move": 141786,
+        "endTurn": 263591,
+        "attack": 216657,
+        "respond": 216657,
+        "counter": 27490,
+        "order": 76306
+      },
+      "commandActionsSpent": 461915,
+      "cardCommandActions": 103472,
+      "freeCardPlays": 269546,
+      "totalCardPlays": 373018,
+      "forcedRetreats": 60167,
+      "forcedEliminations": 4248
+    },
+    "crossFaction": [
+      {
+        "id": "stonewall",
+        "played": 3560,
+        "won": 1598,
+        "winRate": 0.44887640449438204,
+        "seat1": 0.5084269662921348,
+        "seat2": 0.38932584269662923
+      },
+      {
+        "id": "bruiser",
+        "played": 3556,
+        "won": 1553,
+        "winRate": 0.43672665916760406,
+        "seat1": 0.5163104611923509,
+        "seat2": 0.35714285714285715
+      },
+      {
+        "id": "syndicate",
+        "played": 3556,
+        "won": 2089,
+        "winRate": 0.5874578177727784,
+        "seat1": 0.6597300337457818,
+        "seat2": 0.515185601799775
+      },
+      {
+        "id": "nightwalker",
+        "played": 3552,
+        "won": 2484,
+        "winRate": 0.6993243243243243,
+        "seat1": 0.7798423423423423,
+        "seat2": 0.6188063063063063
+      },
+      {
+        "id": "rogue",
+        "played": 3552,
+        "won": 1164,
+        "winRate": 0.3277027027027027,
+        "seat1": 0.38626126126126126,
+        "seat2": 0.26914414414414417
+      }
+    ],
+    "factionIncludingSame": [
+      {
+        "id": "stonewall",
+        "played": 4008,
+        "won": 1822,
+        "winRate": 0.4545908183632735,
+        "seat1": 0.5104790419161677,
+        "seat2": 0.39870259481037923
+      },
+      {
+        "id": "bruiser",
+        "played": 4000,
+        "won": 1775,
+        "winRate": 0.44375,
+        "seat1": 0.521,
+        "seat2": 0.3665
+      },
+      {
+        "id": "syndicate",
+        "played": 4000,
+        "won": 2311,
+        "winRate": 0.57775,
+        "seat1": 0.652,
+        "seat2": 0.5035
+      },
+      {
+        "id": "nightwalker",
+        "played": 3996,
+        "won": 2706,
+        "winRate": 0.6771771771771772,
+        "seat1": 0.7622622622622622,
+        "seat2": 0.5920920920920921
+      },
+      {
+        "id": "rogue",
+        "played": 3996,
+        "won": 1386,
+        "winRate": 0.34684684684684686,
+        "seat1": 0.4069069069069069,
+        "seat2": 0.28678678678678676
+      }
+    ],
+    "decks": [
+      {
+        "id": "nightwalker-assassination",
+        "played": 1998,
+        "won": 1572,
+        "winRate": 0.7867867867867868,
+        "seat1": 0.8658658658658659,
+        "seat2": 0.7077077077077077
+      },
+      {
+        "id": "syndicate-combined-arms",
+        "played": 2000,
+        "won": 1561,
+        "winRate": 0.7805,
+        "seat1": 0.848,
+        "seat2": 0.713
+      },
+      {
+        "id": "bruiser-heavy-breakthrough",
+        "played": 2000,
+        "won": 1361,
+        "winRate": 0.6805,
+        "seat1": 0.765,
+        "seat2": 0.596
+      },
+      {
+        "id": "stonewall-counteroffensive",
+        "played": 2000,
+        "won": 1151,
+        "winRate": 0.5755,
+        "seat1": 0.636,
+        "seat2": 0.515
+      },
+      {
+        "id": "nightwalker-sabotage",
+        "played": 1998,
+        "won": 1134,
+        "winRate": 0.5675675675675675,
+        "seat1": 0.6586586586586587,
+        "seat2": 0.47647647647647645
+      },
+      {
+        "id": "rogue-wildcard",
+        "played": 1998,
+        "won": 758,
+        "winRate": 0.3793793793793794,
+        "seat1": 0.45145145145145144,
+        "seat2": 0.3073073073073073
+      },
+      {
+        "id": "syndicate-precision-operations",
+        "played": 2000,
+        "won": 750,
+        "winRate": 0.375,
+        "seat1": 0.456,
+        "seat2": 0.294
+      },
+      {
+        "id": "stonewall-bastion",
+        "played": 2008,
+        "won": 671,
+        "winRate": 0.3341633466135458,
+        "seat1": 0.3854581673306773,
+        "seat2": 0.28286852589641437
+      },
+      {
+        "id": "rogue-scavenger",
+        "played": 1998,
+        "won": 628,
+        "winRate": 0.31431431431431434,
+        "seat1": 0.36236236236236236,
+        "seat2": 0.26626626626626626
+      },
+      {
+        "id": "bruiser-shock-assault",
+        "played": 2000,
+        "won": 414,
+        "winRate": 0.207,
+        "seat1": 0.277,
+        "seat2": 0.137
+      }
+    ],
+    "sameFaction": [
+      {
+        "deckA": "stonewall-bastion",
+        "deckB": "stonewall-counteroffensive",
+        "games": 224,
+        "winsA": 38,
+        "winRateA": 0.16964285714285715,
+        "p1WinRate": 0.5267857142857143
+      },
+      {
+        "deckA": "bruiser-heavy-breakthrough",
+        "deckB": "bruiser-shock-assault",
+        "games": 222,
+        "winsA": 191,
+        "winRateA": 0.8603603603603603,
+        "p1WinRate": 0.5585585585585585
+      },
+      {
+        "deckA": "syndicate-combined-arms",
+        "deckB": "syndicate-precision-operations",
+        "games": 222,
+        "winsA": 190,
+        "winRateA": 0.8558558558558559,
+        "p1WinRate": 0.5900900900900901
+      },
+      {
+        "deckA": "nightwalker-assassination",
+        "deckB": "nightwalker-sabotage",
+        "games": 222,
+        "winsA": 169,
+        "winRateA": 0.7612612612612613,
+        "p1WinRate": 0.6216216216216216
+      },
+      {
+        "deckA": "rogue-scavenger",
+        "deckB": "rogue-wildcard",
+        "games": 222,
+        "winsA": 94,
+        "winRateA": 0.42342342342342343,
+        "p1WinRate": 0.5720720720720721
+      }
+    ],
+    "matchupExtremes": [
+      {
+        "deckA": "bruiser-shock-assault",
+        "deckB": "nightwalker-assassination",
+        "games": 222,
+        "winsA": 5,
+        "winRateA": 0.02252252252252252,
+        "p1WinRate": 0.5135135135135135
+      },
+      {
+        "deckA": "bruiser-shock-assault",
+        "deckB": "syndicate-combined-arms",
+        "games": 222,
+        "winsA": 15,
+        "winRateA": 0.06756756756756757,
+        "p1WinRate": 0.5405405405405406
+      },
+      {
+        "deckA": "nightwalker-assassination",
+        "deckB": "syndicate-precision-operations",
+        "games": 222,
+        "winsA": 202,
+        "winRateA": 0.9099099099099099,
+        "p1WinRate": 0.527027027027027
+      },
+      {
+        "deckA": "nightwalker-assassination",
+        "deckB": "rogue-wildcard",
+        "games": 222,
+        "winsA": 201,
+        "winRateA": 0.9054054054054054,
+        "p1WinRate": 0.5675675675675675
+      },
+      {
+        "deckA": "stonewall-bastion",
+        "deckB": "syndicate-combined-arms",
+        "games": 224,
+        "winsA": 22,
+        "winRateA": 0.09821428571428571,
+        "p1WinRate": 0.5178571428571429
+      },
+      {
+        "deckA": "nightwalker-assassination",
+        "deckB": "stonewall-bastion",
+        "games": 222,
+        "winsA": 200,
+        "winRateA": 0.9009009009009009,
+        "p1WinRate": 0.5540540540540541
+      },
+      {
+        "deckA": "bruiser-shock-assault",
+        "deckB": "nightwalker-sabotage",
+        "games": 222,
+        "winsA": 26,
+        "winRateA": 0.11711711711711711,
+        "p1WinRate": 0.5990990990990991
+      },
+      {
+        "deckA": "bruiser-heavy-breakthrough",
+        "deckB": "bruiser-shock-assault",
+        "games": 222,
+        "winsA": 191,
+        "winRateA": 0.8603603603603603,
+        "p1WinRate": 0.5585585585585585
+      }
+    ],
+    "outside1090": [
+      {
+        "deckA": "stonewall-bastion",
+        "deckB": "syndicate-combined-arms",
+        "games": 224,
+        "winsA": 22,
+        "winRateA": 0.09821428571428571,
+        "p1WinRate": 0.5178571428571429
+      },
+      {
+        "deckA": "nightwalker-assassination",
+        "deckB": "stonewall-bastion",
+        "games": 222,
+        "winsA": 200,
+        "winRateA": 0.9009009009009009,
+        "p1WinRate": 0.5540540540540541
+      },
+      {
+        "deckA": "bruiser-shock-assault",
+        "deckB": "syndicate-combined-arms",
+        "games": 222,
+        "winsA": 15,
+        "winRateA": 0.06756756756756757,
+        "p1WinRate": 0.5405405405405406
+      },
+      {
+        "deckA": "bruiser-shock-assault",
+        "deckB": "nightwalker-assassination",
+        "games": 222,
+        "winsA": 5,
+        "winRateA": 0.02252252252252252,
+        "p1WinRate": 0.5135135135135135
+      },
+      {
+        "deckA": "nightwalker-assassination",
+        "deckB": "syndicate-precision-operations",
+        "games": 222,
+        "winsA": 202,
+        "winRateA": 0.9099099099099099,
+        "p1WinRate": 0.527027027027027
+      },
+      {
+        "deckA": "nightwalker-assassination",
+        "deckB": "rogue-wildcard",
+        "games": 222,
+        "winsA": 201,
+        "winRateA": 0.9054054054054054,
+        "p1WinRate": 0.5675675675675675
+      }
+    ],
+    "turns": {
+      "count": 10000,
+      "min": 9,
+      "max": 160,
+      "mean": 26.3591,
+      "median": 22,
+      "std": 13.829256928338557,
+      "p75": 31,
+      "p90": 44,
+      "p95": 53
+    },
+    "economy": [
+      {
+        "faction": "stonewall",
+        "games": 4008,
+        "meanAvailable": 52.348328594889544,
+        "meanCommitted": 13.464346889402956,
+        "unusedEndTurn": 48.426951784640416,
+        "noLegalPlay": 0.08152039336375536,
+        "forcedRetreats": 17840,
+        "forcedEliminations": 2287
+      },
+      {
+        "faction": "bruiser",
+        "games": 4000,
+        "meanAvailable": 54.837042639341085,
+        "meanCommitted": 10.077282076350523,
+        "unusedEndTurn": 50.45301120189286,
+        "noLegalPlay": 0.09830307959628821,
+        "forcedRetreats": 7568,
+        "forcedEliminations": 258
+      },
+      {
+        "faction": "syndicate",
+        "games": 4000,
+        "meanAvailable": 50.740737675236666,
+        "meanCommitted": 12.572479437173453,
+        "unusedEndTurn": 46.4900068065095,
+        "noLegalPlay": 0.039106490934966896,
+        "forcedRetreats": 12675,
+        "forcedEliminations": 503
+      },
+      {
+        "faction": "nightwalker",
+        "games": 3996,
+        "meanAvailable": 53.0563389403949,
+        "meanCommitted": 11.964756934806344,
+        "unusedEndTurn": 49.334050337359585,
+        "noLegalPlay": 0.052322909197874724,
+        "forcedRetreats": 8929,
+        "forcedEliminations": 379
+      },
+      {
+        "faction": "rogue",
+        "games": 3996,
+        "meanAvailable": 53.67803909893818,
+        "meanCommitted": 10.485452019450234,
+        "unusedEndTurn": 49.84724135865333,
+        "noLegalPlay": 0.0987839214041814,
+        "forcedRetreats": 13155,
+        "forcedEliminations": 821
+      }
+    ],
+    "comebacks": [
+      {
+        "condition": "territoryDeficit2",
+        "attempts": 10805,
+        "wins": 805,
+        "recovered": 952,
+        "winRate": 0.07450254511800093,
+        "recoveryRate": 0.08810735770476631
+      },
+      {
+        "condition": "centerLost",
+        "attempts": 14918,
+        "wins": 4918,
+        "recovered": 5656,
+        "winRate": 0.32966885641506904,
+        "recoveryRate": 0.37913929481163694
+      },
+      {
+        "condition": "enemyForward",
+        "attempts": 14918,
+        "wins": 4918,
+        "recovered": 10514,
+        "winRate": 0.32966885641506904,
+        "recoveryRate": 0.7047861643651964
+      },
+      {
+        "condition": "committedDeficit",
+        "attempts": 18036,
+        "wins": 8036,
+        "recovered": 17394,
+        "winRate": 0.44555333776890665,
+        "recoveryRate": 0.9644045242847638
+      },
+      {
+        "condition": "unitDeficit",
+        "attempts": 16891,
+        "wins": 6891,
+        "recovered": 16417,
+        "winRate": 0.40796874074951156,
+        "recoveryRate": 0.9719377183115269
+      }
+    ],
+    "territoryDeficitByFaction": [
+      {
+        "faction": "stonewall",
+        "condition": "territoryDeficit2",
+        "games": 4008,
+        "attempts": 2348,
+        "decisiveAttempts": 2348,
+        "recoveries": 214,
+        "wins": 162,
+        "attemptRate": 0.5858283433133733,
+        "recoveryRate": 0.09114139693356048,
+        "winRate": 0.06899488926746167
+      },
+      {
+        "faction": "bruiser",
+        "condition": "territoryDeficit2",
+        "games": 4000,
+        "attempts": 2346,
+        "decisiveAttempts": 2346,
+        "recoveries": 154,
+        "wins": 121,
+        "attemptRate": 0.5865,
+        "recoveryRate": 0.06564364876385337,
+        "winRate": 0.051577152600170505
+      },
+      {
+        "faction": "syndicate",
+        "condition": "territoryDeficit2",
+        "games": 4000,
+        "attempts": 1846,
+        "decisiveAttempts": 1846,
+        "recoveries": 168,
+        "wins": 157,
+        "attemptRate": 0.4615,
+        "recoveryRate": 0.09100758396533044,
+        "winRate": 0.08504875406283857
+      },
+      {
+        "faction": "nightwalker",
+        "condition": "territoryDeficit2",
+        "games": 3996,
+        "attempts": 1529,
+        "decisiveAttempts": 1529,
+        "recoveries": 257,
+        "wins": 239,
+        "attemptRate": 0.38263263263263264,
+        "recoveryRate": 0.16808371484630477,
+        "winRate": 0.15631131458469588
+      },
+      {
+        "faction": "rogue",
+        "condition": "territoryDeficit2",
+        "games": 3996,
+        "attempts": 2736,
+        "decisiveAttempts": 2736,
+        "recoveries": 159,
+        "wins": 126,
+        "attemptRate": 0.6846846846846847,
+        "recoveryRate": 0.0581140350877193,
+        "winRate": 0.046052631578947366
+      }
+    ],
+    "correlations": [
+      {
+        "deckId": "rogue-wildcard",
+        "card": "Road Raider",
+        "played": 1824,
+        "playedWinRate": 0.4100877192982456,
+        "notDrawn": 173,
+        "notDrawnWinRate": 0.05202312138728324,
+        "deckWinRate": 0.3793793793793794,
+        "deltaPlayedVsDeck": 0.030708339918866234,
+        "deltaPlayedVsNotDrawn": 0.35806459791096235,
+        "playRate": 1.172939729397294,
+        "pressurePerPresence": 1.6273070469798658
+      },
+      {
+        "deckId": "stonewall-counteroffensive",
+        "card": "Bastion Heavy",
+        "played": 1709,
+        "playedWinRate": 0.6231714452896431,
+        "notDrawn": 288,
+        "notDrawnWinRate": 0.2881944444444444,
+        "deckWinRate": 0.5755,
+        "deltaPlayedVsDeck": 0.047671445289643066,
+        "deltaPlayedVsNotDrawn": 0.33497700084519866,
+        "playRate": 0.9915522703273495,
+        "pressurePerPresence": 3.0898118565850194
+      },
+      {
+        "deckId": "rogue-scavenger",
+        "card": "Patchwork Bulwark",
+        "played": 1854,
+        "playedWinRate": 0.337108953613808,
+        "notDrawn": 142,
+        "notDrawnWinRate": 0.007042253521126761,
+        "deckWinRate": 0.31431431431431434,
+        "deltaPlayedVsDeck": 0.022794639299493658,
+        "deltaPlayedVsNotDrawn": 0.33006670009268124,
+        "playRate": 1.1719912472647702,
+        "pressurePerPresence": 1.8573562359970126
+      },
+      {
+        "deckId": "nightwalker-assassination",
+        "card": "Veil Commander",
+        "played": 1879,
+        "playedWinRate": 0.8052155401809473,
+        "notDrawn": 116,
+        "notDrawnWinRate": 0.4827586206896552,
+        "deckWinRate": 0.7867867867867868,
+        "deltaPlayedVsDeck": 0.018428753394160502,
+        "deltaPlayedVsNotDrawn": 0.3224569194912921,
+        "playRate": 1.159839587510742,
+        "pressurePerPresence": 2.428994813534206
+      },
+      {
+        "deckId": "rogue-scavenger",
+        "card": "Salvage Broker",
+        "played": 1859,
+        "playedWinRate": 0.3340505648197956,
+        "notDrawn": 136,
+        "notDrawnWinRate": 0.03676470588235294,
+        "deckWinRate": 0.31431431431431434,
+        "deltaPlayedVsDeck": 0.01973625050548128,
+        "deltaPlayedVsNotDrawn": 0.2972858589374427,
+        "playRate": 1.1066023250712875,
+        "pressurePerPresence": 2.0305252725470764
+      }
+    ],
+    "zeroPlays": [],
+    "rarelyPlayed": [
+      {
+        "deckId": "syndicate-precision-operations",
+        "name": "Signal Lock",
+        "drawn": 3056,
+        "plays": 228,
+        "playRate": 0.07460732984293193
+      }
+    ]
+  },
+  "territory": [
+    {
+      "faction": "stonewall",
+      "games": 4008,
+      "captures": 18158,
+      "recaptures": 8814,
+      "ownershipRecaptures": 7391,
+      "averageCaptures": 4.530439121756487,
+      "averageRecaptures": 2.1991017964071857,
+      "meanControlled": 3.4492927651909797,
+      "meanLead": -0.028439492133006058,
+      "centerTimeShare": 0.45669180102067847,
+      "enemyTerritoryTimeShare": 0.33056384537957584,
+      "averageLongestHold": 14.152944111776447,
+      "averageMaxLead": 3.624001996007984,
+      "firstCaptureTurns": {
+        "count": 4008,
+        "min": 3,
+        "max": 7,
+        "mean": 3.062125748502994,
+        "median": 3,
+        "std": 0.3044622761533677,
+        "p75": 3,
+        "p90": 3,
+        "p95": 3
+      },
+      "winnerFirstLeadTurns": {
+        "count": 1822,
+        "min": 3,
+        "max": 70,
+        "mean": 8.87980241492865,
+        "median": 3,
+        "std": 9.749572219748677,
+        "p75": 12,
+        "p90": 20,
+        "p95": 28
+      },
+      "winnerPermanentLeadTurns": {
+        "count": 1822,
+        "min": 3,
+        "max": 128,
+        "mean": 11.756860592755213,
+        "median": 6,
+        "std": 13.652566962137485,
+        "p75": 16,
+        "p90": 29,
+        "p95": 40
+      }
+    },
+    {
+      "faction": "bruiser",
+      "games": 4000,
+      "captures": 14387,
+      "recaptures": 5476,
+      "ownershipRecaptures": 6971,
+      "averageCaptures": 3.59675,
+      "averageRecaptures": 1.369,
+      "meanControlled": 3.368655518764815,
+      "meanLead": -0.18014037870892172,
+      "centerTimeShare": 0.4313739958126193,
+      "enemyTerritoryTimeShare": 0.29548703664419257,
+      "averageLongestHold": 12.6715,
+      "averageMaxLead": 3.5205,
+      "firstCaptureTurns": {
+        "count": 4000,
+        "min": 3,
+        "max": 8,
+        "mean": 3.2375,
+        "median": 3,
+        "std": 0.6341086263409453,
+        "p75": 3,
+        "p90": 4,
+        "p95": 5
+      },
+      "winnerFirstLeadTurns": {
+        "count": 1775,
+        "min": 3,
+        "max": 104,
+        "mean": 9.19549295774648,
+        "median": 5,
+        "std": 9.68952284305098,
+        "p75": 12,
+        "p90": 20,
+        "p95": 28
+      },
+      "winnerPermanentLeadTurns": {
+        "count": 1775,
+        "min": 3,
+        "max": 129,
+        "mean": 11.568450704225352,
+        "median": 6,
+        "std": 13.759287429130518,
+        "p75": 14,
+        "p90": 28,
+        "p95": 41
+      }
+    },
+    {
+      "faction": "syndicate",
+      "games": 4000,
+      "captures": 16562,
+      "recaptures": 5854,
+      "ownershipRecaptures": 8654,
+      "averageCaptures": 4.1405,
+      "averageRecaptures": 1.4635,
+      "meanControlled": 3.549283534219647,
+      "meanLead": 0.183715275981584,
+      "centerTimeShare": 0.48735192178366354,
+      "enemyTerritoryTimeShare": 0.3686513889607366,
+      "averageLongestHold": 11.562,
+      "averageMaxLead": 4.3275,
+      "firstCaptureTurns": {
+        "count": 4000,
+        "min": 3,
+        "max": 7,
+        "mean": 3.0575,
+        "median": 3,
+        "std": 0.2969743254895956,
+        "p75": 3,
+        "p90": 3,
+        "p95": 3
+      },
+      "winnerFirstLeadTurns": {
+        "count": 2311,
+        "min": 3,
+        "max": 86,
+        "mean": 7.925573344872349,
+        "median": 3,
+        "std": 8.70138279682857,
+        "p75": 10,
+        "p90": 16,
+        "p95": 24
+      },
+      "winnerPermanentLeadTurns": {
+        "count": 2311,
+        "min": 3,
+        "max": 88,
+        "mean": 10.051925573344873,
+        "median": 4,
+        "std": 11.764929823327218,
+        "p75": 12,
+        "p90": 25,
+        "p95": 37
+      }
+    },
+    {
+      "faction": "nightwalker",
+      "games": 3996,
+      "captures": 17815,
+      "recaptures": 5484,
+      "ownershipRecaptures": 10154,
+      "averageCaptures": 4.458208208208208,
+      "averageRecaptures": 1.3723723723723724,
+      "meanControlled": 3.6875867429078997,
+      "meanLead": 0.45588371361424157,
+      "centerTimeShare": 0.5291178593238217,
+      "enemyTerritoryTimeShare": 0.4111197468494976,
+      "averageLongestHold": 12.5492992992993,
+      "averageMaxLead": 4.992742742742743,
+      "firstCaptureTurns": {
+        "count": 3996,
+        "min": 3,
+        "max": 8,
+        "mean": 3.182932932932933,
+        "median": 3,
+        "std": 0.5688959915095763,
+        "p75": 3,
+        "p90": 4,
+        "p95": 5
+      },
+      "winnerFirstLeadTurns": {
+        "count": 2706,
+        "min": 3,
+        "max": 98,
+        "mean": 8.460827790096083,
+        "median": 3,
+        "std": 9.355829208942389,
+        "p75": 10,
+        "p90": 20,
+        "p95": 28
+      },
+      "winnerPermanentLeadTurns": {
+        "count": 2706,
+        "min": 3,
+        "max": 136,
+        "mean": 11.114190687361418,
+        "median": 4,
+        "std": 13.447328403681318,
+        "p75": 13,
+        "p90": 28,
+        "p95": 40
+      }
+    },
+    {
+      "faction": "rogue",
+      "games": 3996,
+      "captures": 12952,
+      "recaptures": 5624,
+      "ownershipRecaptures": 5452,
+      "averageCaptures": 3.2412412412412412,
+      "averageRecaptures": 1.4074074074074074,
+      "meanControlled": 3.238166120869306,
+      "meanLead": -0.439376798650392,
+      "centerTimeShare": 0.39173365088816114,
+      "enemyTerritoryTimeShare": 0.2704872481889451,
+      "averageLongestHold": 12.3008008008008,
+      "averageMaxLead": 2.829329329329329,
+      "firstCaptureTurns": {
+        "count": 3996,
+        "min": 3,
+        "max": 8,
+        "mean": 3.125625625625626,
+        "median": 3,
+        "std": 0.46631688305207286,
+        "p75": 3,
+        "p90": 3,
+        "p95": 4
+      },
+      "winnerFirstLeadTurns": {
+        "count": 1386,
+        "min": 3,
+        "max": 94,
+        "mean": 9.117604617604618,
+        "median": 3,
+        "std": 10.141347026636472,
+        "p75": 12,
+        "p90": 20,
+        "p95": 28
+      },
+      "winnerPermanentLeadTurns": {
+        "count": 1386,
+        "min": 3,
+        "max": 94,
+        "mean": 11.455266955266955,
+        "median": 6,
+        "std": 12.930989170097964,
+        "p75": 16,
+        "p90": 28,
+        "p95": 40
+      }
+    }
+  ],
+  "economy": [
+    {
+      "faction": "stonewall",
+      "games": 4008,
+      "generated": 318510,
+      "orderSpend": 47224,
+      "deploymentCommitment": 319641,
+      "casualtyReleased": 273163,
+      "reclaimedReleased": 0,
+      "samples": 113258,
+      "commandSum": 7496620,
+      "availableSum": 5928867,
+      "committedSum": 1524945,
+      "unitCountSum": 269609,
+      "unusedEndTurnSum": 2737963,
+      "endTurns": 56538,
+      "noMeaningfulAffordableTurns": 4609,
+      "meaningfulOpportunityTurns": 56538,
+      "playedCostSum": 366865,
+      "plays": 72799,
+      "costStrandedObservations": 11687,
+      "territorialPressure": 782859,
+      "damageDealt": 325279,
+      "effectiveDamageDealt": 277401,
+      "kills": 46646,
+      "finalCommitted": 46478,
+      "commandActionsSpent": 101552,
+      "freeCardPlays": 51620,
+      "forcedRetreats": 17840,
+      "forcedEliminations": 2287,
+      "averageGenerated": 79.4685628742515,
+      "averageOrderSpend": 11.782435129740518,
+      "averageDeploymentCommitment": 79.75074850299401,
+      "averageCasualtyReleased": 68.15444111776448,
+      "averageReclaimedReleased": 0,
+      "meanCommand": 66.19064436949266,
+      "meanAvailable": 52.348328594889544,
+      "meanCommitted": 13.464346889402956,
+      "meanUnits": 2.380485263734129,
+      "meanUnusedEndTurn": 48.426951784640416,
+      "meanPlayedCost": 5.039423618456297,
+      "meanUnitPresence": 5.6561353664009735,
+      "averageOrderSpendPerTurn": 0.8352612402278113,
+      "averageCommitmentPerTurn": 5.653560437228059,
+      "noMeaningfulAffordableRate": 0.08152039336375536,
+      "pressurePerCommitment": 2.449182051113593,
+      "damagePerCommitment": 1.0176385382350825,
+      "effectiveDamagePerCommitment": 0.8678517461777432,
+      "averageFinalCommitted": 11.59630738522954
+    },
+    {
+      "faction": "bruiser",
+      "games": 4000,
+      "generated": 318130,
+      "orderSpend": 79422,
+      "deploymentCommitment": 336006,
+      "casualtyReleased": 290224,
+      "reclaimedReleased": 0,
+      "samples": 108421,
+      "commandSum": 7112820,
+      "availableSum": 5945487,
+      "committedSum": 1092589,
+      "unitCountSum": 178092,
+      "unusedEndTurnSum": 2729407,
+      "endTurns": 54098,
+      "noMeaningfulAffordableTurns": 5318,
+      "meaningfulOpportunityTurns": 54098,
+      "playedCostSum": 415428,
+      "plays": 73118,
+      "costStrandedObservations": 14637,
+      "territorialPressure": 614007,
+      "damageDealt": 340313,
+      "effectiveDamageDealt": 275183,
+      "kills": 46582,
+      "finalCommitted": 45782,
+      "commandActionsSpent": 95844,
+      "freeCardPlays": 38014,
+      "forcedRetreats": 7568,
+      "forcedEliminations": 258,
+      "averageGenerated": 79.5325,
+      "averageOrderSpend": 19.8555,
+      "averageDeploymentCommitment": 84.0015,
+      "averageCasualtyReleased": 72.556,
+      "averageReclaimedReleased": 0,
+      "meanCommand": 65.60371145811236,
+      "meanAvailable": 54.837042639341085,
+      "meanCommitted": 10.077282076350523,
+      "meanUnits": 1.6425969138819971,
+      "meanUnusedEndTurn": 50.45301120189286,
+      "meanPlayedCost": 5.681610547334445,
+      "meanUnitPresence": 6.13496956629158,
+      "averageOrderSpendPerTurn": 1.4681134237864617,
+      "averageCommitmentPerTurn": 6.2110614070760475,
+      "noMeaningfulAffordableRate": 0.09830307959628821,
+      "pressurePerCommitment": 1.8273691541222479,
+      "damagePerCommitment": 1.0128182234841046,
+      "effectiveDamagePerCommitment": 0.8189823991238252,
+      "averageFinalCommitted": 11.4455
+    },
+    {
+      "faction": "syndicate",
+      "games": 4000,
+      "generated": 317490,
+      "orderSpend": 50515,
+      "deploymentCommitment": 295215,
+      "casualtyReleased": 237327,
+      "reclaimedReleased": 0,
+      "samples": 96655,
+      "commandSum": 6171370,
+      "availableSum": 4904346,
+      "committedSum": 1215193,
+      "unitCountSum": 226928,
+      "unusedEndTurnSum": 2253975,
+      "endTurns": 48483,
+      "noMeaningfulAffordableTurns": 1896,
+      "meaningfulOpportunityTurns": 48483,
+      "playedCostSum": 345730,
+      "plays": 70352,
+      "costStrandedObservations": 13373,
+      "territorialPressure": 682229,
+      "damageDealt": 302837,
+      "effectiveDamageDealt": 255354,
+      "kills": 42964,
+      "finalCommitted": 57888,
+      "commandActionsSpent": 84915,
+      "freeCardPlays": 56889,
+      "forcedRetreats": 12675,
+      "forcedEliminations": 503,
+      "averageGenerated": 79.3725,
+      "averageOrderSpend": 12.62875,
+      "averageDeploymentCommitment": 73.80375,
+      "averageCasualtyReleased": 59.33175,
+      "averageReclaimedReleased": 0,
+      "meanCommand": 63.849464590554035,
+      "meanAvailable": 50.740737675236666,
+      "meanCommitted": 12.572479437173453,
+      "meanUnits": 2.3478143913920646,
+      "meanUnusedEndTurn": 46.4900068065095,
+      "meanPlayedCost": 4.9142881510120535,
+      "meanUnitPresence": 5.354971620954664,
+      "averageOrderSpendPerTurn": 1.0419115978796691,
+      "averageCommitmentPerTurn": 6.089041519707939,
+      "noMeaningfulAffordableRate": 0.039106490934966896,
+      "pressurePerCommitment": 2.310956421591044,
+      "damagePerCommitment": 1.0258184712836407,
+      "effectiveDamagePerCommitment": 0.8649763731517708,
+      "averageFinalCommitted": 14.472
+    },
+    {
+      "faction": "nightwalker",
+      "games": 3996,
+      "generated": 318340,
+      "orderSpend": 77371,
+      "deploymentCommitment": 324015,
+      "casualtyReleased": 240627,
+      "reclaimedReleased": 19900,
+      "samples": 108078,
+      "commandSum": 7087740,
+      "availableSum": 5734223,
+      "committedSum": 1293127,
+      "unitCountSum": 234105,
+      "unusedEndTurnSum": 2683427,
+      "endTurns": 54393,
+      "noMeaningfulAffordableTurns": 2846,
+      "meaningfulOpportunityTurns": 54393,
+      "playedCostSum": 401386,
+      "plays": 83136,
+      "costStrandedObservations": 11789,
+      "territorialPressure": 709882,
+      "damageDealt": 354954,
+      "effectiveDamageDealt": 289432,
+      "kills": 50417,
+      "finalCommitted": 63488,
+      "commandActionsSpent": 92340,
+      "freeCardPlays": 66210,
+      "forcedRetreats": 8929,
+      "forcedEliminations": 379,
+      "averageGenerated": 79.66466466466467,
+      "averageOrderSpend": 19.36211211211211,
+      "averageDeploymentCommitment": 81.08483483483484,
+      "averageCasualtyReleased": 60.216966966966964,
+      "averageReclaimedReleased": 4.97997997997998,
+      "meanCommand": 65.57985899072892,
+      "meanAvailable": 53.0563389403949,
+      "meanCommitted": 11.964756934806344,
+      "meanUnits": 2.166074501748737,
+      "meanUnusedEndTurn": 49.334050337359585,
+      "meanPlayedCost": 4.828064857582756,
+      "meanUnitPresence": 5.523705175028299,
+      "averageOrderSpendPerTurn": 1.422444064493593,
+      "averageCommitmentPerTurn": 5.956924604268932,
+      "noMeaningfulAffordableRate": 0.052322909197874724,
+      "pressurePerCommitment": 2.190892396956931,
+      "damagePerCommitment": 1.0954863200777742,
+      "effectiveDamagePerCommitment": 0.8932672870083175,
+      "averageFinalCommitted": 15.887887887887889
+    },
+    {
+      "faction": "rogue",
+      "games": 3996,
+      "generated": 315530,
+      "orderSpend": 37902,
+      "deploymentCommitment": 293854,
+      "casualtyReleased": 229051,
+      "reclaimedReleased": 32433,
+      "samples": 100770,
+      "commandSum": 6501930,
+      "availableSum": 5409136,
+      "committedSum": 1056619,
+      "unitCountSum": 200915,
+      "unusedEndTurnSum": 2496300,
+      "endTurns": 50079,
+      "noMeaningfulAffordableTurns": 4947,
+      "meaningfulOpportunityTurns": 50079,
+      "playedCostSum": 331756,
+      "plays": 73613,
+      "costStrandedObservations": 6028,
+      "territorialPressure": 583973,
+      "damageDealt": 287875,
+      "effectiveDamageDealt": 246158,
+      "kills": 40715,
+      "finalCommitted": 32370,
+      "commandActionsSpent": 87264,
+      "freeCardPlays": 56813,
+      "forcedRetreats": 13155,
+      "forcedEliminations": 821,
+      "averageGenerated": 78.96146146146147,
+      "averageOrderSpend": 9.484984984984985,
+      "averageDeploymentCommitment": 73.53703703703704,
+      "averageCasualtyReleased": 57.320070070070074,
+      "averageReclaimedReleased": 8.116366366366366,
+      "meanCommand": 64.52247692765704,
+      "meanAvailable": 53.67803909893818,
+      "meanCommitted": 10.485452019450234,
+      "meanUnits": 1.9937977572690284,
+      "meanUnusedEndTurn": 49.84724135865333,
+      "meanPlayedCost": 4.50675831714507,
+      "meanUnitPresence": 5.259034915262673,
+      "averageOrderSpendPerTurn": 0.7568441861858264,
+      "averageCommitmentPerTurn": 5.867808861998043,
+      "noMeaningfulAffordableRate": 0.0987839214041814,
+      "pressurePerCommitment": 1.9872896064031798,
+      "damagePerCommitment": 0.9796531610936043,
+      "effectiveDamagePerCommitment": 0.8376881036160815,
+      "averageFinalCommitted": 8.1006006006006
+    }
+  ],
+  "caveats": [
+    "Cross-faction rates exclude 1,112 same-faction matches; deck rates include them.",
+    "Deck policy with no live difficulty override: this is not an Expert difficulty validation.",
+    "Paired deterministic seeds are descriptive trials, not independent human samples.",
+    "Card/pair winning associations do not establish causal strength.",
+    "Pair final territory swing is absolute final territory minus starting three, not an event-level swing.",
+    "Comeback exposure includes terminal observations; do not interpret as a clean pre-terminal comeback rate.",
+    "First-capture timing is match-level and copied to both participating factions.",
+    "No follow-up balance simulation is authorized."
+  ]
+}

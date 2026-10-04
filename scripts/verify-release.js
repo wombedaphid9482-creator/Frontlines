@@ -7,6 +7,7 @@ const root=path.resolve(__dirname,'..'),pkg=require('../package.json');
 const release=path.resolve(root,process.argv[2]||`release/${pkg.version}`);
 assert.ok(release.startsWith(root+path.sep),'Release must be inside this workspace.');
 const archive=path.join(release,'win-unpacked','resources','app.asar');
+const packedFile=file=>asar.extractFile(archive,file.split('/').join(path.sep));
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const runtimeFiles=[];
 function walk(relative){
@@ -23,15 +24,15 @@ const archivePaths=asar.listPackage(archive).map(name=>name.replaceAll('\\','/')
 const sourceHashes={};
 for(const file of runtimeFiles.sort()){
   assert.ok(archivePaths.includes(file),'Missing packaged runtime file: '+file);
-  const source=fs.readFileSync(path.join(root,file)),packed=asar.extractFile(archive,file);
+  const source=fs.readFileSync(path.join(root,file)),packed=packedFile(file);
   assert.ok(source.equals(packed),'Packaged runtime differs from tested source: '+file);
   sourceHashes[file]=hash(source);
 }
 for(const file of archivePaths)assert.ok(!/^(tests|docs|scripts|release|dist|assets\/source)(\/|$)/.test(file)&&!/^node_modules\/(electron|electron-builder|playwright|@playwright|@electron\/asar)(\/|$)/.test(file),'Development material entered the runtime: '+file);
-const packedPackage=JSON.parse(asar.extractFile(archive,'package.json'));
+const packedPackage=JSON.parse(packedFile('package.json'));
 assert.equal(packedPackage.version,pkg.version);assert.equal(packedPackage.main,pkg.main);
 assert.equal(packedPackage.dependencies['electron-updater'],pkg.dependencies['electron-updater']);
-const updater=JSON.parse(asar.extractFile(archive,'node_modules/electron-updater/package.json'));
+const updater=JSON.parse(packedFile('node_modules/electron-updater/package.json'));
 assert.ok(updater.version,'Production updater dependency missing.');
 const baselineDirectory=path.join(root,'docs/balance/sprint5-baseline-source');
 const baseline=JSON.parse(fs.readFileSync(path.join(baselineDirectory,'checkpoint-hashes.json')));
