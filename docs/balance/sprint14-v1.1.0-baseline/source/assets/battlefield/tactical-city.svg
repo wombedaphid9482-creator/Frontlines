@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 600" role="img" aria-labelledby="title description">
+  <title id="title">Frontlines urban tactical battlefield</title>
+  <desc id="description">Seven connected sectors: command fortifications, freight yards, industry, a river crossing and downtown plaza, transit interchange, eastern checkpoint and command.</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0v40" fill="none" stroke="#769399" stroke-width=".5" opacity=".12"/><circle cx="0" cy="0" r="1" fill="#769399" opacity=".2"/></pattern>
+    <pattern id="roof" width="8" height="8" patternUnits="userSpaceOnUse"><path d="m0 8 8-8" stroke="#809195" stroke-width=".6" opacity=".22"/></pattern>
+    <pattern id="ties" width="14" height="12" patternUnits="userSpaceOnUse"><path d="M1 0v12M5 0v12" stroke="#98a5a6" stroke-width="1" opacity=".4"/></pattern>
+    <pattern id="slats" width="9" height="9" patternUnits="userSpaceOnUse"><path d="M0 0v9" stroke="#81979b" stroke-width=".8" opacity=".4"/></pattern>
+    <linearGradient id="ground" x2="0" y2="1"><stop stop-color="#1a252a"/><stop offset=".5" stop-color="#101b20"/><stop offset="1" stop-color="#18272a"/></linearGradient>
+    <linearGradient id="water" x2="1" y2="0"><stop stop-color="#1c343e"/><stop offset=".5" stop-color="#2d4650"/><stop offset="1" stop-color="#1c333c"/></linearGradient>
+    <symbol id="warehouse" viewBox="0 0 94 58"><rect x="1" y="1" width="92" height="56" rx="2" fill="#2d3c40" stroke="#7a9399"/><rect x="7" y="7" width="80" height="44" fill="url(#roof)" stroke="#627a80" stroke-width=".7"/><path d="M12 48h70M26 7v44M48 7v44M70 7v44" fill="none" stroke="#738b90" stroke-width=".7" opacity=".6"/><path d="M14 56h12m13 0h12m13 0h12" stroke="#bac5c5" stroke-width="2" opacity=".45"/></symbol>
+    <symbol id="building" viewBox="0 0 50 62"><rect x="1" y="1" width="48" height="60" fill="#26363c" stroke="#738990"/><path d="M5 6h40v48H5zM11 12h28v36H11z" fill="none" stroke="#516d76"/><rect x="17" y="21" width="16" height="16" fill="#344b52" stroke="#819aa0" stroke-width=".7"/><path d="M24 1v5m0 48v7M1 29h5m39 0h4" stroke="#a3b3b5" opacity=".55"/></symbol>
+    <symbol id="bunker" viewBox="0 0 145 88"><path d="M4 19 22 3h99l20 16v50l-20 16H22L4 69z" fill="#34474b" stroke="#9caeb0" stroke-width="1.7"/><path d="M15 23 31 12h81l18 11v41l-18 12H31L15 64z" fill="#22363d" stroke="#627f87"/><path d="M30 21h84v44H30z" fill="url(#roof)" stroke="#788f95"/><path d="M4 31h15m-15 9h15m-15 9h15m-15 9h15m111-27h11m-11 9h11m-11 9h11m-11 9h11" stroke="#bed0d2" stroke-width="2" opacity=".7"/><circle cx="72" cy="44" r="11" fill="#3f555b" stroke="#a8bec3"/><path d="M72 29v30M57 44h30" stroke="#b6c5c8" opacity=".5"/></symbol>
+    <symbol id="barrier" viewBox="0 0 60 12"><path d="M2 3h56l-5 6H7z" fill="#5b6e72" stroke="#a2b1b3" stroke-width=".8"/><path d="m10 3 6 6m4-6 6 6m4-6 6 6m4-6 6 6" stroke="#253b42" stroke-width="2"/></symbol>
+    <symbol id="container" viewBox="0 0 60 22"><rect x="1" y="1" width="58" height="20" fill="#34494d" stroke="#7c979d" stroke-width=".8"/><rect x="4" y="4" width="52" height="14" fill="url(#slats)"/><path d="M53 4v14" stroke="#8da4aa"/></symbol>
+    <symbol id="turret" viewBox="0 0 24 24"><path d="m12 1 10 6v10l-10 6L2 17V7z" fill="#3b5055" stroke="#9cb5b8"/><circle cx="12" cy="12" r="5" fill="#20353d" stroke="#7b979d"/><path d="M12 12V2" stroke="#c2cfd1" stroke-width="2"/></symbol>
+  </defs>
+  <rect width="1400" height="600" fill="url(#ground)"/><rect width="1400" height="600" fill="url(#grid)"/>
+  <!-- The street network connects the seven background slices. -->
+  <g fill="none" stroke-linecap="square">
+    <path d="M0 304h1400M0 114h1400M0 494h1400" stroke="#40565c" stroke-width="25"/><path d="M0 304h1400M0 114h1400M0 494h1400" stroke="#18282e" stroke-width="18"/><path d="M0 304h1400M0 114h1400M0 494h1400" stroke="#a3b1b0" stroke-width=".8" stroke-dasharray="12 14" opacity=".45"/>
+    <path d="M168 0v600M370 0v600M773 0v600M970 0v600M1215 0v600" stroke="#354d54" stroke-width="17"/><path d="M168 0v600M370 0v600M773 0v600M970 0v600M1215 0v600" stroke="#15282e" stroke-width="12"/><path d="M168 0v600M370 0v600M773 0v600M970 0v600M1215 0v600" stroke="#8aa4a7" stroke-width=".7" stroke-dasharray="8 14" opacity=".35"/>
+    <path d="M8 585 1360 16" stroke="#334b53" stroke-width="18"/><path d="M8 585 1360 16" stroke="#162931" stroke-width="12"/><path d="M8 585 1360 16" stroke="#93aeb3" stroke-dasharray="6 13" stroke-width=".7" opacity=".32"/>
+  </g>
+  <!-- Western command: layered walls, reinforced roofs and gun posts. -->
+  <g>
+    <path d="M13 20h131v246H13zM13 331h131v247H13z" fill="#24373d" stroke="#789398" stroke-width="2"/><path d="M23 31h111v222H23zM23 344h111v219H23z" fill="none" stroke="#a0b1b0" stroke-width=".8" stroke-dasharray="6 5" opacity=".65"/>
+    <use href="#bunker" x="24" y="56" width="112" height="68"/><use href="#bunker" x="24" y="362" width="112" height="68"/><use href="#turret" x="18" y="21" width="21" height="21"/><use href="#turret" x="118" y="240" width="21" height="21"/><use href="#turret" x="18" y="550" width="21" height="21"/>
+    <path d="M46 162h70v62H46zM46 458h70v65H46z" fill="url(#roof)" stroke="#768e91"/><circle cx="81" cy="192" r="22" fill="none" stroke="#819da3" opacity=".6"/><path d="M68 192h26m-13-13v26" stroke="#aac1c4" opacity=".55"/>
+    <use href="#barrier" x="43" y="281" width="76" height="15"/><use href="#barrier" x="43" y="314" width="76" height="15"/>
+  </g>
+  <!-- Freight yard: cargo rows, a crane gantry and paired rail sidings. -->
+  <g>
+    <use href="#warehouse" x="204" y="31" width="139" height="60"/><path d="M200 153h143v98H200zM202 344h142v111H202z" fill="#203339" stroke="#546c74"/>
+    <use href="#container" x="210" y="165" width="58" height="21"/><use href="#container" x="281" y="165" width="52" height="21"/><use href="#container" x="210" y="194" width="58" height="21"/><use href="#container" x="281" y="194" width="52" height="21"/><use href="#container" x="210" y="223" width="58" height="21"/>
+    <use href="#container" x="210" y="355" width="58" height="21"/><use href="#container" x="281" y="355" width="52" height="21"/><use href="#container" x="210" y="386" width="58" height="21"/><use href="#container" x="281" y="417" width="52" height="21"/>
+    <path d="M215 274h125m-117-10v20m105-20v20" fill="none" stroke="#a1b5b8" stroke-width="2"/>
+    <rect x="183" y="537" width="186" height="20" fill="url(#ties)"/><path d="M183 539h186m-186 14h186" fill="none" stroke="#8fa5aa" stroke-width="1.3"/><rect x="237" y="538" width="66" height="14" fill="#3e565d" stroke="#9ab0b4" stroke-width=".8"/>
+  </g>
+  <!-- Industry: factory footprints and round processing vessels. -->
+  <g>
+    <path d="M398 24h139v70H398zM403 24v70m14-70v70m16-70v70m16-70v70m16-70v70m16-70v70m16-70v70m16-70v70" fill="#314348" stroke="#7e9398" stroke-width=".8"/>
+    <path d="M410 144h110v105H410z" fill="#263b42" stroke="#83999d"/><path d="m415 150 20 10 20-10 20 10 20-10 20 10v82H415z" fill="url(#roof)" stroke="#627f87"/>
+    <path d="M394 350h135v97H394z" fill="#2d4248" stroke="#81979b"/><path d="M410 361h102v70H410zM434 361v70m25-70v70m27-70v70" fill="none" stroke="#566f78"/>
+    <g fill="#304952" stroke="#98afb2"><circle cx="421" cy="542" r="25"/><circle cx="491" cy="542" r="25"/><circle cx="421" cy="542" r="16" fill="none"/><circle cx="491" cy="542" r="16" fill="none"/></g>
+    <path d="M421 517v-7h70v7m-52-119h92m-24 0v123" fill="none" stroke="#8ba7ae" stroke-width="2"/>
+  </g>
+  <!-- A river seam and two hard bridges make the city geography recognizable. -->
+  <path d="M568-20c-48 99 47 150 11 258s-57 132-18 215 37 88 1 167" fill="none" stroke="#536f78" stroke-width="42"/><path d="M568-20c-48 99 47 150 11 258s-57 132-18 215 37 88 1 167" fill="none" stroke="url(#water)" stroke-width="35"/><path d="M568-20c-48 99 47 150 11 258s-57 132-18 215 37 88 1 167" fill="none" stroke="#85a0a8" stroke-width=".9" stroke-dasharray="3 15" opacity=".5"/>
+  <g fill="#2e4249" stroke="#a3b3b5"><path d="M535 290h61v27h-61zM550 100h64v28h-64z"/><path d="M536 292h60m-60 22h60m-45-212h62m-62 23h62" stroke-width="2"/><path d="M542 304h48m-31-190h47" stroke-dasharray="5 8" stroke-width=".7"/></g>
+  <!-- Downtown: tall blocks, courtyards and a central octagonal plaza. -->
+  <g>
+    <use href="#building" x="621" y="27" width="51" height="66"/><use href="#building" x="695" y="22" width="52" height="72"/><use href="#building" x="609" y="155" width="42" height="91"/><use href="#building" x="700" y="143" width="55" height="103"/>
+    <path d="m670 165 22 14v32l-22 15-20-15v-32z" fill="#2c4249" stroke="#92aab0"/><path d="M661 185h21v19h-21z" fill="none" stroke="#647f88"/>
+    <path d="M610 353h145v99H610z" fill="#1e333a" stroke="#718e95"/><path d="m681 365 34 15v39l-34 17-34-17v-39z" fill="#304951" stroke="#94afb4"/><circle cx="681" cy="400" r="18" fill="none" stroke="#657f89"/><path d="M681 376v49m-24-25h49" stroke="#a2b3b5" opacity=".55"/>
+    <use href="#building" x="611" y="512" width="52" height="65"/><use href="#building" x="706" y="521" width="49" height="60"/>
+  </g>
+  <!-- Transit: circular interchange, platform canopy and rail connector. -->
+  <g>
+    <use href="#warehouse" x="805" y="22" width="130" height="65"/><circle cx="871" cy="208" r="69" fill="#253b42" stroke="#819ba0" stroke-width="2"/><circle cx="871" cy="208" r="57" fill="#14282f" stroke="#708e97"/><circle cx="871" cy="208" r="34" fill="#30464c" stroke="#9bb3b8"/><path d="M854 191h34v34h-34z" fill="url(#roof)" stroke="#718e96"/>
+    <path d="M805 380h130v62H805z" fill="#253d45" stroke="#8aa6aa"/><path d="M814 388h112m-112 10h112m-112 10h112m-112 10h112m-112 10h112" stroke="#668791"/><path d="M806 355h130m-118-10v22m106-22v22" fill="none" stroke="#a3b6b9" stroke-width="2"/>
+    <rect x="790" y="534" width="180" height="20" fill="url(#ties)"/><path d="M790 536h180m-180 15h180" fill="none" stroke="#93adb4" stroke-width="1.2"/><path d="M804 521h127v43H804z" fill="none" stroke="#66838c"/>
+  </g>
+  <!-- Checkpoint: staggered cover, watchtowers and central fortified gates. -->
+  <g>
+    <use href="#warehouse" x="1009" y="28" width="161" height="57"/><path d="M1010 150h174v108h-174zM1010 347h174v105h-174z" fill="#243b42" stroke="#729196" stroke-width="1.5"/><path d="M1021 163h150v79h-150zM1021 359h150v79h-150z" fill="none" stroke="#93a6a8" stroke-dasharray="4 5" opacity=".6"/>
+    <use href="#turret" x="1001" y="141" width="25" height="25"/><use href="#turret" x="1168" y="238" width="25" height="25"/><use href="#turret" x="1001" y="343" width="25" height="25"/><use href="#turret" x="1168" y="429" width="25" height="25"/>
+    <use href="#barrier" x="1033" y="281" width="54" height="14"/><use href="#barrier" x="1103" y="313" width="58" height="14"/><path d="M1094 281v48m-17-36h34m-34 12h34m-34 12h34" fill="none" stroke="#849ca2" stroke-width="1.3"/>
+    <path d="M1033 180h53v38h-53zM1096 375h60v46h-60z" fill="url(#roof)" stroke="#a0b2b5"/><use href="#container" x="1018" y="530" width="70" height="24"/><use href="#container" x="1101" y="530" width="70" height="24"/>
+  </g>
+  <!-- Eastern command mirrors the fortified function with a different footprint. -->
+  <g>
+    <path d="M1242 22h144v249h-144zM1242 336h144v245h-144z" fill="#23383e" stroke="#7b959b" stroke-width="2"/><path d="M1251 34h126v225h-126zM1251 349h126v219h-126z" fill="none" stroke="#a0b4b6" stroke-dasharray="6 5" opacity=".5"/>
+    <use href="#bunker" x="1249" y="49" width="128" height="76"/><use href="#bunker" x="1249" y="375" width="128" height="76"/><use href="#turret" x="1246" y="235" width="27" height="27"/><use href="#turret" x="1357" y="27" width="23" height="23"/><use href="#turret" x="1357" y="544" width="23" height="23"/>
+    <path d="M1272 159h84v70h-84zM1272 482h84v61h-84z" fill="url(#roof)" stroke="#879fa5"/><circle cx="1314" cy="194" r="24" fill="none" stroke="#9eb5b9"/><path d="M1298 194h32m-16-16v32" stroke="#afc0c3" opacity=".5"/>
+    <use href="#barrier" x="1281" y="281" width="70" height="15"/><use href="#barrier" x="1281" y="314" width="70" height="15"/>
+  </g>
+  <!-- Survey markings stay neutral: faction ownership is supplied by the UI. -->
+  <g fill="none" stroke="#b5c4c6" stroke-width=".7" opacity=".4"><path d="M192 20h12m-6-6v12M592 334h12m-6-6v12M780 474h12m-6-6v12M1188 580h12m-6-6v12"/><path d="M28 5h38m-38 0v8m38-8v8M674 584h46m-46-5v10m46-10v10M1260 5h46m-46 0v8m46-8v8"/><path d="M349 143v78m-4-78h8m-8 78h8M941 369v84m-4-84h8m-8 84h8"/></g>
+</svg>

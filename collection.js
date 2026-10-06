@@ -99,6 +99,25 @@
   freeze(CARD_META);
   const MASTER_STATS=Object.keys(ECONOMY.masteryWeights);
   const emptyMastery=()=>Object.fromEntries(['points',...MASTER_STATS].map(key=>[key,0]));
+  // Keep the original entitlement list and preferredVariant for old saves and
+  // callers. Prestige is an additive presentation/history view, never rules.
+  const PRESTIGE_VERSION=1,COSMETIC_VARIANTS=freeze(['standard','foil','fullArt']),WEAR_VARIANTS=freeze(['standard','fieldWorn','battleHardened','veteran']);
+  function validDate(value){return typeof value==='string'&&value.length<=40&&Number.isFinite(Date.parse(value))&&new Date(value).toISOString()===value;}
+  function historyFor(row,acquiredAt){
+    return {version:PRESTIGE_VERSION,firstAcquiredDate:row.copies>0&&validDate(acquiredAt)?acquiredAt:null,
+      firstAcquiredKnown:row.copies>0&&validDate(acquiredAt),matchesUsed:0,
+      deployments:row.mastery.deployments,winsIncluded:row.mastery.victories,
+      historyComplete:validDate(acquiredAt)||row.copies===0,lastProgress:null};
+  }
+  function cosmeticsFor(row){
+    const legacy=row.preferredVariant;
+    return {version:PRESTIGE_VERSION,preferredVariant:COSMETIC_VARIANTS.includes(legacy)||legacy==='random'?legacy:'standard',
+      preferredWear:WEAR_VARIANTS.includes(legacy)?legacy:'standard',favorite:false};
+  }
+  function ensurePrestige(row,acquiredAt){
+    if(!row.history)row.history=historyFor(row,acquiredAt);
+    if(!row.cosmetics)row.cosmetics=cosmeticsFor(row);
+  }
   function cardId(card){return typeof card==='string'?card:card?.cardId||card?.id;}
   function metadata(card){const id=cardId(card);return has(CARD_META,id)?CARD_META[id]:null;}
   function copyLimit(card){return metadata(card)?.copyLimit||CurrentDecks.copyLimit(card);}
@@ -108,7 +127,8 @@
     const seed=integer(options.seed,4294967295)?options.seed||1:freshSeed();
     const cards={};
     for(const meta of Object.values(CARD_META))cards[meta.id]={id:meta.id,faction:meta.faction,rarity:meta.rarity,copies:Math.max(meta.starterCopies,COMMANDER_CARD_GRANT[meta.id]||0),variants:meta.starter||COMMANDER_CARD_GRANT[meta.id]>0?['standard']:[],preferredVariant:'standard',mastery:emptyMastery(),newlyAcquired:false,starter:meta.starter};
-    return {version:VERSION,schemaVersion:SCHEMA_VERSION,revision:0,migrated:options.migrated===true,starterGrantVersion:1,credits:options.migrated?ECONOMY.migrationCredits:ECONOMY.startingCredits,supply:ECONOMY.startingSupply,rngState:seed,cards,pity:{},packs:[],packsOpened:0,purchases:{},craftRequests:{},rewards:{},tutorials:{},firstMatchRewarded:false,commanderGrantVersion:COMMANDER_GRANT_VERSION,commanders:Object.fromEntries((Commanders?.list()||[]).map(c=>[c.id,commanderRow(c.id)]))};
+    for(const row of Object.values(cards))ensurePrestige(row,options.acquiredAt);
+    return {version:VERSION,schemaVersion:SCHEMA_VERSION,prestigeVersion:PRESTIGE_VERSION,revision:0,migrated:options.migrated===true,starterGrantVersion:1,credits:options.migrated?ECONOMY.migrationCredits:ECONOMY.startingCredits,supply:ECONOMY.startingSupply,rngState:seed,cards,pity:{},packs:[],packsOpened:0,purchases:{},craftRequests:{},rewards:{},tutorials:{},firstMatchRewarded:false,commanderGrantVersion:COMMANDER_GRANT_VERSION,commanders:Object.fromEntries((Commanders?.list()||[]).map(c=>[c.id,commanderRow(c.id)]))};
   }
   function storageFor(storage){if(storage)return storage;try{return root.localStorage||null;}catch(_){return null;}}
   function migratedProfile(storage){return ['frontlines.decks.v1','frontlines.settings.v1'].some(key=>storage.getItem(key)!==null);}
@@ -118,6 +138,7 @@
     for(const field of ['cards','pity','purchases','craftRequests','rewards','tutorials'])if(!raw[field]||typeof raw[field]!=='object'||Array.isArray(raw[field]))throw new Error('Invalid collection '+field+'.');
     if(!Array.isArray(raw.packs))throw new Error('Invalid saved packs.');
     const result=clone(raw);
+    if(result.prestigeVersion!==undefined&&result.prestigeVersion!==PRESTIGE_VERSION)throw new Error('Unsupported collection prestige format.');
     if(result.commanderGrantVersion!==undefined&&(!integer(result.commanderGrantVersion,COMMANDER_GRANT_VERSION)))throw new Error('Unsupported Commander collection format.');
     if(result.commanders!==undefined){
       if(!result.commanders||typeof result.commanders!=='object'||Array.isArray(result.commanders))throw new Error('Invalid Commander collection.');
@@ -134,6 +155,18 @@
       row.id=meta.id;row.faction=meta.faction;row.rarity=meta.rarity;row.starter=meta.starter;
       if(row.preferredVariant!=='random'&&!row.variants.includes(row.preferredVariant))row.preferredVariant='standard';
       row.newlyAcquired=row.newlyAcquired===true;
+      ensurePrestige(row);
+      const history=row.history,cosmetics=row.cosmetics;
+      if(!history||typeof history!=='object'||Array.isArray(history)||history.version!==PRESTIGE_VERSION||
+        ['matchesUsed','deployments','winsIncluded'].some(key=>!integer(history[key]))||
+        (history.firstAcquiredDate!==null&&!validDate(history.firstAcquiredDate))||
+        typeof history.firstAcquiredKnown!=='boolean'||typeof history.historyComplete!=='boolean'||
+        (history.firstAcquiredKnown&&history.firstAcquiredDate===null))throw new Error('Invalid card history: '+meta.id+'.');
+      if(history.lastProgress!==null&&(!history.lastProgress||typeof history.lastProgress!=='object'||Array.isArray(history.lastProgress)||
+        !integer(history.lastProgress.points,100000)||typeof history.lastProgress.reason!=='string'||history.lastProgress.reason.length>400))throw new Error('Invalid last mastery progress: '+meta.id+'.');
+      if(!cosmetics||typeof cosmetics!=='object'||Array.isArray(cosmetics)||cosmetics.version!==PRESTIGE_VERSION||
+        !COSMETIC_VARIANTS.concat('random').includes(cosmetics.preferredVariant)||!WEAR_VARIANTS.includes(cosmetics.preferredWear)||
+        typeof cosmetics.favorite!=='boolean')throw new Error('Invalid separated cosmetics: '+meta.id+'.');
     }
     for(const counter of Object.values(result.pity))if(!counter||['rare','epic','legendary'].some(key=>!integer(counter[key])))throw new Error('Invalid saved pity counters.');
     const packIds=new Set();
@@ -151,9 +184,11 @@
     let raw;
     try{
       raw=store.getItem(STORAGE_KEY);
-      if(raw===null){const profile=createProfile({migrated:migratedProfile(store)});if(initialize)store.setItem(STORAGE_KEY,JSON.stringify(profile));return {profile,blocked:false,warnings:[],raw:null};}
+      if(raw===null){const profile=createProfile({migrated:migratedProfile(store),acquiredAt:new Date().toISOString()});if(initialize)store.setItem(STORAGE_KEY,JSON.stringify(profile));return {profile,blocked:false,warnings:[],raw:null};}
       const profile=validateProfile(JSON.parse(raw)),granted=grantCommanders(profile);
-      if(granted&&initialize){profile.revision++;store.setItem(STORAGE_KEY,JSON.stringify(profile));}
+      const prestigeMigrated=profile.prestigeVersion!==PRESTIGE_VERSION;
+      if(prestigeMigrated)profile.prestigeVersion=PRESTIGE_VERSION;
+      if((granted||prestigeMigrated)&&initialize){profile.revision++;store.setItem(STORAGE_KEY,JSON.stringify(profile));}
       return {profile,blocked:false,warnings:[],raw};
     }catch(error){return {profile:preview,blocked:true,warnings:['Collection save could not be read. Your original data is preserved; export recovery data before resetting it. '+error.message],raw};}
   }
@@ -215,6 +250,7 @@
     if(newVariant&&!row.variants.includes(item.variant))row.variants.push(item.variant);
     else if(!newVariant&&item.variant!=='standard')duplicateSupply+=ECONOMY.cosmeticDuplicateSupply;
     row.newlyAcquired=true;profile.supply+=duplicateSupply;
+    if(newCard&&row.history.firstAcquiredDate===null){row.history.firstAcquiredDate=new Date().toISOString();row.history.firstAcquiredKnown=true;row.history.historyComplete=true;}
     return {...item,newCard,newVariant:item.variant!=='standard'&&newVariant,copiesAdded,duplicateSupply};
   }
   function claimPack(id,storage){
@@ -248,8 +284,52 @@
     return transaction(storage,profile=>{
       const row=profile.cards[id];if(!metadata(id)||!row?.copies)throw new Error('Own this card before selecting its cosmetic treatment.');
       if(variant!=='random'&&(!has(VARIANTS,variant)||!row.variants.includes(variant)))throw new Error('This cosmetic variant is not owned.');
-      row.preferredVariant=variant;return {card:clone(row)};
+      row.preferredVariant=variant;
+      if(WEAR_VARIANTS.includes(variant)&&variant!=='standard')row.cosmetics.preferredWear=variant;
+      else row.cosmetics.preferredVariant=variant;
+      return {card:clone(row)};
     });
+  }
+  function setCosmeticPreferences(id,options,storage){
+    return transaction(storage,profile=>{
+      const row=profile.cards[id];if(!metadata(id))throw new Error('Unknown card.');
+      if(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(key=>!['variant','wear','favorite'].includes(key)))throw new Error('Use cosmetic variant, wear or favorite preferences.');
+      if(has(options,'variant')){
+        if(!row?.copies)throw new Error('Own this card before selecting its cosmetic treatment.');
+        if(options.variant!=='random'&&(!COSMETIC_VARIANTS.includes(options.variant)||!row.variants.includes(options.variant)))throw new Error('This cosmetic variant is not owned.');
+      }
+      if(has(options,'wear')){
+        if(!row?.copies)throw new Error('Own this card before selecting its mastery treatment.');
+        if(!WEAR_VARIANTS.includes(options.wear)||(options.wear!=='standard'&&!row.variants.includes(options.wear)))throw new Error('This mastery treatment is not unlocked.');
+      }
+      if(has(options,'favorite')&&typeof options.favorite!=='boolean')throw new Error('Favorite must be true or false.');
+      const before=JSON.stringify({cosmetics:row.cosmetics,preferredVariant:row.preferredVariant});
+      if(has(options,'variant')){row.cosmetics.preferredVariant=options.variant;row.preferredVariant=options.variant;}
+      if(has(options,'wear'))row.cosmetics.preferredWear=options.wear;
+      if(has(options,'favorite'))row.cosmetics.favorite=options.favorite;
+      return {card:clone(row),cosmeticState:cosmeticState(id,profile),changed:before!==JSON.stringify({cosmetics:row.cosmetics,preferredVariant:row.preferredVariant})};
+    });
+  }
+  function setFavorite(id,favorite,storage){return setCosmeticPreferences(id,{favorite},storage);}
+  function cosmeticState(card,profile,seed){
+    const current=profile||load(),id=cardId(card),row=current.cards?.[id],owned=(row?.copies||0)>0,preferences=row?.cosmetics||cosmeticsFor(row||{});
+    const unlockedVariants=owned?COSMETIC_VARIANTS.filter(variant=>row.variants?.includes(variant)):['standard'];
+    const unlockedWear=owned?WEAR_VARIANTS.filter(wear=>wear==='standard'||row.variants?.includes(wear)):['standard'];
+    let variant=preferences.preferredVariant;
+    if(variant==='random')variant=unlockedVariants[Math.floor(nextRandom({rngState:seed===undefined?current.rngState:Number(seed)>>>0})*unlockedVariants.length)]||'standard';
+    if(!unlockedVariants.includes(variant))variant='standard';
+    return {rarity:metadata(id)?.rarity||null,owned,variant,wear:unlockedWear.includes(preferences.preferredWear)?preferences.preferredWear:'standard',
+      favorite:preferences.favorite===true,unlockedVariants,unlockedWear};
+  }
+  function masterySummary(card,profile){
+    const current=profile||load(),row=current.cards?.[cardId(card)],mastery=row?.mastery||emptyMastery(),history=row?.history||historyFor({copies:row?.copies||0,mastery});
+    const earned=ECONOMY.masteryMilestones.filter(milestone=>mastery.points>=milestone.points||row?.variants?.includes(milestone.variant));
+    const level=earned.at(-1)?.variant||'standard',next=ECONOMY.masteryMilestones.find(milestone=>milestone.points>mastery.points&&!row?.variants?.includes(milestone.variant));
+    const lastProgressReason=history.lastProgress?.reason||(!history.historyComplete&&mastery.points>0?'Existing mastery is preserved. Detailed matches-used history starts with Arsenal Prestige.':'Deploy or play this card in a completed match to earn mastery.');
+    return {points:mastery.points,level,levelLabel:VARIANTS[level].label,matchesUsed:history.matchesUsed,deployments:history.deployments,
+      winsIncluded:history.winsIncluded,firstAcquiredDate:history.firstAcquiredDate,firstAcquiredKnown:history.firstAcquiredKnown,
+      historyComplete:history.historyComplete,legacyMatchesIncluded:mastery.matchesIncluded,lastProgressReason,
+      lastProgressPoints:history.lastProgress?.points||0,nextMilestone:next?{points:next.points,wear:next.variant,label:VARIANTS[next.variant].label,remaining:Math.max(0,next.points-mastery.points)}:null};
   }
   function variantFor(card,profile,seed){
     const current=profile||load(),row=current.cards?.[cardId(card)];if(!row?.copies)return 'standard';
@@ -275,9 +355,20 @@
       const stats=match.cardStats?.[id]||{},delta={matchesIncluded:1,victories:match.victory?1:0};
       const aliases={eliminations:'kills',territoriesInfluenced:'captureContributions',factionActions:'passiveTriggers'};
       for(const key of MASTER_STATS.filter(key=>!['matchesIncluded','victories'].includes(key))){const amount=stats[key]??stats[aliases[key]];delta[key]=integer(amount,10000)?amount:0;}
-      const points=Object.entries(delta).reduce((sum,[key,value])=>sum+value*ECONOMY.masteryWeights[key],0),unlocks=[];
+      // Deck inclusion remains a historical counter, but cannot farm wear.
+      // A real observed action is required for new mastery points/matches-used.
+      const used=Object.entries(delta).some(([key,value])=>!['matchesIncluded','victories'].includes(key)&&value>0)||['plays','orders'].some(key=>integer(stats[key],10000)&&stats[key]>0);
+      const points=used?Object.entries(delta).reduce((sum,[key,value])=>sum+value*ECONOMY.masteryWeights[key],0):0,unlocks=[];
       for(const [key,value] of Object.entries(delta))row.mastery[key]+=value;
+      row.history.winsIncluded+=delta.victories;
+      row.history.deployments+=delta.deployments;
+      if(!used)continue;
+      row.history.matchesUsed++;
       row.mastery.points+=points;
+      const details=[];
+      for(const [key,value] of Object.entries(delta))if(value>0&&!['matchesIncluded','victories'].includes(key))details.push(value+' '+({deployments:'deployment',attacks:'attack',eliminations:'elimination',territoriesInfluenced:'territory contribution',factionActions:'faction action'}[key])+(value===1?'':'s'));
+      if(!details.length)details.push('a played order');
+      row.history.lastProgress={points,reason:details.join(', ')+(match.victory?' in a victory.':' in a completed match.')};
       for(const milestone of ECONOMY.masteryMilestones)if(row.mastery.points>=milestone.points&&!row.variants.includes(milestone.variant)){row.variants.push(milestone.variant);row.newlyAcquired=true;unlocks.push(milestone.variant);}
       gains.push({cardId:id,points,totalPoints:row.mastery.points,unlocks,stats:delta});
     }
@@ -310,8 +401,7 @@
     return transaction(storage,profile=>{
       const id=requestKey('private-'+requestKey(match.id));
       if(has(profile.rewards,id))return {...clone(profile.rewards[id]),alreadyRewarded:true,changed:false};
-      const used=[...new Set(match.usedCards)].filter(card=>metadata(card)&&integer(match.cardStats?.[card]?.deployments||0,10000)&&
-        ((match.cardStats?.[card]?.deployments||0)>0||(match.cardStats?.[card]?.orders||0)>0||(match.cardStats?.[card]?.plays||0)>0));
+      const used=[...new Set(match.usedCards)].filter(card=>metadata(card)&&['deployments','orders','plays'].some(key=>integer(match.cardStats?.[card]?.[key],10000)&&match.cardStats[card][key]>0));
       const earned={...match,deckCardIds:used};
       let commanderMastery=null;const leader=profile.commanders?.[match.commanderId];
       if(used.length&&leader?.owned){leader.mastery=leader.mastery||{matches:0,victories:0,activations:0};leader.mastery.matches++;if(match.victory)leader.mastery.victories++;if(match.commanderActiveUsed===true)leader.mastery.activations++;commanderMastery={id:match.commanderId,...clone(leader.mastery)};}
@@ -348,5 +438,5 @@
    *   territoriesInfluenced,factionActions}}}. No simulation ever calls it.
    * canUseDeck is ownership-only; CurrentDecks.validate remains legality-only.
    */
-  return {VERSION,STORAGE_KEY,SCHEMA_VERSION,RARITIES,VARIANTS,ECONOMY,PACKS,CARD_META,RARITY_GROUPS,STARTER_COLLECTION,STARTER_DECKS,COMMANDER_STARTERS,COMMANDER_CARD_GRANT,COMMANDER_GRANT_VERSION,createProfile,load,diagnostics,storageDiagnostics:diagnostics,recoveryExport,metadata,card:metadata,copyLimit,ownedCount,canUseDeck,generatePack,purchasePack,claimPack,craft,setPreferredVariant,variantFor,markSeen,rewardEligibility,rewardMatch,rewardPrivateMatch,completeTutorial,summary};
+  return {VERSION,STORAGE_KEY,SCHEMA_VERSION,PRESTIGE_VERSION,RARITIES,VARIANTS,COSMETIC_VARIANTS,WEAR_VARIANTS,ECONOMY,PACKS,CARD_META,RARITY_GROUPS,STARTER_COLLECTION,STARTER_DECKS,COMMANDER_STARTERS,COMMANDER_CARD_GRANT,COMMANDER_GRANT_VERSION,createProfile,load,diagnostics,storageDiagnostics:diagnostics,recoveryExport,metadata,card:metadata,copyLimit,ownedCount,canUseDeck,generatePack,purchasePack,claimPack,craft,setPreferredVariant,setCosmeticPreferences,setFavorite,cosmeticState,masterySummary,variantFor,markSeen,rewardEligibility,rewardMatch,rewardPrivateMatch,completeTutorial,summary};
 });

@@ -40,6 +40,7 @@ for(const [file,expected]of Object.entries(baseline.files))assert.equal(hash(fs.
 let tacticalPreservation;
 let refinementPreservation;
 let multiplayerPreservation;
+let prestigePreservation;
 if(pkg.version==='1.0.4'){
   const entryDir=path.join(root,'docs/balance/sprint11-v1.0.3-baseline'),entry=JSON.parse(fs.readFileSync(path.join(entryDir,'checkpoint-hashes.json')));
   let protectedAssets=0;
@@ -83,10 +84,28 @@ if(pkg.version==='1.1.0'){
   for(const file of archivePaths)assert.ok(!/^(backend|network)(\/|$)/.test(file),'Server/tooling shipped in player build: '+file);
   multiplayerPreservation={baseBuild:'1.0.5',verifiedFrozenRuntimeFiles:Object.keys(entry.sourceHashes).length,protectedAssets,unchangedCards:155,unchangedDecks:35,unchangedCommanders:10,engineUnchanged:true,tacticalRulesUnchanged:true,artUnchanged:true,cardRatio:'5:7',backendExcluded:true};
 }
+if(pkg.version==='1.2.0'){
+  const entryDir=path.join(root,'docs/balance/sprint14-v1.1.0-baseline'),entry=JSON.parse(fs.readFileSync(path.join(entryDir,'checkpoint-hashes.json'))),frozen=JSON.parse(fs.readFileSync(path.join(entryDir,'rules-and-economy.json')));
+  let protectedAssets=0;
+  for(const [file,expected]of Object.entries(entry.sourceHashes)){
+    assert.equal(hash(fs.readFileSync(path.join(entryDir,'source',file))),expected,'Frozen v1.1.0 file changed: '+file);
+    if(file.startsWith('assets/')){assert.equal(hash(fs.readFileSync(path.join(root,file))),expected,'Approved artwork changed: '+file);protectedAssets++;}
+  }
+  for(const file of ['engine.js','ai.js','data.js','balance.js','decks.js','deck-rules.js','commanders.js','tactical-rules.js','tactical-arsenal.js','sim-core.js','simulator-worker.js','live-runtime.js','art.js','art-map012.js','multiplayer-protocol.js','multiplayer-session.js','multiplayer-controller.js','network-transport.js'])assert.equal(hash(fs.readFileSync(path.join(root,file))),entry.sourceHashes[file],'Protected authority or artwork changed: '+file);
+  for(const [file,expected]of Object.entries(entry.sourceHashes).filter(([file])=>file.startsWith('balance/')))assert.equal(hash(fs.readFileSync(path.join(root,file))),expected);
+  for(const [file,expected]of Object.entries(entry.protectedNetwork))if(file!=='backend/README.md')assert.equal(hash(fs.readFileSync(path.join(root,file))),expected,'Prepared backend changed: '+file);
+  const runtime=require('../balance').createRuntime(),C=require('../collection');
+  assert.deepEqual(runtime.data.CARDS,frozen.cards);assert.deepEqual(runtime.data.RULES,frozen.rules);assert.deepEqual(runtime.data.DEFAULT_CONFIG,frozen.config);
+  assert.deepEqual(require('../decks').forData(runtime.data).getDecks(),frozen.decks);assert.deepEqual(runtime.engine.commanders.COMMANDERS,frozen.commanders);
+  for(const [key,field]of [['ECONOMY','economy'],['PACKS','packs'],['RARITIES','rarities'],['CARD_META','cardMeta']])assert.deepEqual(C[key],frozen[field]);
+  const config=require('../multiplayer-config');assert.equal(config.serviceURL,'https://frontlines-private-relay.frontlines-private-relay.workers.dev');assert.equal(config.protocolVersion,1);assert.equal(config.privateEconomy,'mastery-only');
+  for(const file of archivePaths)assert.ok(!/^(backend|network)(\/|$)/.test(file),'Server tooling entered player build: '+file);
+  prestigePreservation={baseBuild:'1.1.0',baseCommit:entry.baseCommit,verifiedFrozenRuntimeFiles:Object.keys(entry.sourceHashes).length,protectedAssets,unchangedCards:155,unchangedDecks:35,unchangedCommanders:10,engineUnchanged:true,aiUnchanged:true,economyUnchanged:true,artUnchanged:true,networkAuthorityUnchanged:true,serviceConfigured:true,cardRatio:'5:7',backendExcluded:true};
+}
 const installerName=`Frontlines-Setup-${pkg.version}.exe`,installer=fs.readFileSync(path.join(release,installerName));
 const report={version:pkg.version,verifiedRuntimeFiles:runtimeFiles.length,sourceHashes,
   productionUpdaterVersion:updater.version,verifiedFrozenFiles:Object.keys(baseline.files).length,
-  developmentMaterialExcluded:true,...(tacticalPreservation?{tacticalPreservation}:{}),...(refinementPreservation?{refinementPreservation}:{}),...(multiplayerPreservation?{multiplayerPreservation}:{}),installer:{file:installerName,bytes:installer.length,sha256:hash(installer)}};
+  developmentMaterialExcluded:true,...(tacticalPreservation?{tacticalPreservation}:{}),...(refinementPreservation?{refinementPreservation}:{}),...(multiplayerPreservation?{multiplayerPreservation}:{}),...(prestigePreservation?{prestigePreservation}:{}),installer:{file:installerName,bytes:installer.length,sha256:hash(installer)}};
 fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
 fs.writeFileSync(path.join(root,'test-results',`release-${pkg.version}-verification.json`),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({...report,sourceHashes:undefined},null,2));

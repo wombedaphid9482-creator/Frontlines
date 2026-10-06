@@ -197,3 +197,100 @@ body[data-presentation="reduced"] .rarity-legendary :before,body[data-presentati
 .game .order-buttons{min-width:0;max-width:65%;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:thin;align-items:center}.game .order-buttons>.btn{flex-shrink:0;min-height:44px}.game .tactical-command{border-style:double;font-size:10px}
 .game .tactical-command{display:flex;flex-direction:column;justify-content:center;gap:2px}.game .tactical-command b{font-size:10px;line-height:12px}.game .tactical-command small{font:8px/10px Consolas,monospace;color:#c4d4db}
 @media(max-height:740px){.territory-status{top:42px}.unit .tactical-status b{font-size:8px;line-height:8px}}
+
+/* Forge XIV prestige: rarity is the shell, cosmetics are the art finish,
+ * mastery is a service ribbon. None of these changes card geometry or rules.
+ * Static frames retain their identity even with every effect disabled. */
+.prestige-card{--prestige-metal:#c8d5da;--prestige-dark:#263f50;--prestige-light:#eff5f5;--prestige-accent:#8cb6c8}
+.prestige-card.faction-stonewall{--prestige-metal:#b7cfda;--prestige-dark:#2c4657;--prestige-light:#edf5f5;--prestige-accent:#8ec1d5}
+.prestige-card.faction-bruiser{--prestige-metal:#c99070;--prestige-dark:#56332c;--prestige-light:#f5d5bc;--prestige-accent:#ed946b}
+.prestige-card.faction-syndicate{--prestige-metal:#c9c399;--prestige-dark:#2b4247;--prestige-light:#f0edcd;--prestige-accent:#9ad6d7}
+.prestige-card.faction-nightwalker{--prestige-metal:#a9adc5;--prestige-dark:#292c45;--prestige-light:#dce3f8;--prestige-accent:#a6bbe0}
+.prestige-card.faction-rogue{--prestige-metal:#b4b38b;--prestige-dark:#3e4835;--prestige-light:#e7e5c1;--prestige-accent:#9bc2a1}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.collection-detail,.arsenal-detail,.inspector,.unit).prestige-card{position:relative;isolation:isolate}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.pack-premium-face,.collection-inspect-face).prestige-card.rarity-common{border:2px solid #667783;border-top-color:var(--faction-color,#91b5c7);box-shadow:0 3px 10px #0005,inset 0 0 0 1px #a5bbc11d}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.pack-premium-face,.collection-inspect-face).prestige-card.rarity-uncommon{border:2px solid #819d8b;border-top-color:var(--faction-color,#91b5c7);box-shadow:0 4px 12px #0005,inset 0 0 0 1px #b6d4ba44,inset 0 3px 0 #c8dcc72c}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.pack-premium-face,.collection-inspect-face).prestige-card.rarity-rare{border:2px solid #98bed5;border-top-color:var(--faction-color,#91b5c7);border-radius:8px 2px 8px 2px;box-shadow:0 4px 13px #0006,inset 0 0 0 1px #c4e0ef74,inset 0 0 0 4px #1b3541}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.pack-premium-face,.collection-inspect-face).prestige-card.rarity-epic{border:3px solid #ac9bbb;box-shadow:0 5px 14px #0006,inset 0 0 0 1px #ddd2e96b,inset 0 0 0 4px #283043}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.pack-premium-face,.collection-inspect-face).prestige-card.rarity-legendary{border:3px solid var(--prestige-metal);border-top-color:var(--prestige-light);border-bottom-color:var(--prestige-accent);border-radius:12px 3px 12px 3px;background:linear-gradient(135deg,color-mix(in srgb,var(--prestige-metal) 22%,#20313b),#0c1822 44%,var(--prestige-dark));box-shadow:0 7px 16px #0008,inset 0 0 0 1px var(--prestige-light),inset 0 0 0 5px #101d27,inset 0 0 0 6px color-mix(in srgb,var(--prestige-metal) 48%,transparent)}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.collection-detail,.arsenal-detail,.inspector,.unit).prestige-card.rarity-legendary.faction-stonewall{border-radius:2px;background-image:repeating-linear-gradient(90deg,#b9cdd612 0 1px,transparent 1px 5px),linear-gradient(150deg,#354b58,#14212c 46%,#293f4c)}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.collection-detail,.arsenal-detail,.inspector,.unit).prestige-card.rarity-legendary.faction-bruiser{border-radius:3px 14px 3px 3px;background-image:repeating-linear-gradient(135deg,transparent 0 13px,#e6b09b13 14px 16px,transparent 17px 29px),linear-gradient(145deg,#533b31,#17232b 48%,#3f3028)}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.collection-detail,.arsenal-detail,.inspector,.unit).prestige-card.rarity-legendary.faction-syndicate{border-radius:12px 2px 12px 2px;background-image:linear-gradient(90deg,#b6d6d719 1px,transparent 1px),linear-gradient(0deg,#b6d6d710 1px,transparent 1px),linear-gradient(145deg,#384b4b,#152631 47%,#3c443c);background-size:20px 20px,20px 20px,100% 100%}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.collection-detail,.arsenal-detail,.inspector,.unit).prestige-card.rarity-legendary.faction-nightwalker{border-radius:2px 12px 2px 12px;background-image:linear-gradient(154deg,#7188aa26,transparent 35%,#353249 76%),linear-gradient(#263242,#101a26);box-shadow:0 7px 16px #0008,inset 0 0 0 1px #c9d6e9,inset 0 0 0 5px #131c2c,inset 0 0 0 6px #8590b16b}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card,.pack-reveal,.pack-result-card,.collection-detail,.arsenal-detail,.inspector,.unit).prestige-card.rarity-legendary.faction-rogue{border-radius:2px 13px 4px 8px;border-right-style:double;background-image:linear-gradient(125deg,#a6a67c1f 0 23%,transparent 24% 70%,#77977c26 71%),linear-gradient(#374236,#17242a 46%,#3f4536)}
+.prestige-card.rarity-legendary :is(.card-top,.arsenal-card-top,.collection-card-type){background:linear-gradient(105deg,var(--prestige-dark),#132531 48%,var(--prestige-dark));color:#e1eaed;border-bottom:1px solid color-mix(in srgb,var(--prestige-metal) 65%,transparent)}
+.prestige-card.rarity-legendary :is(.card-name,.arsenal-card-name,.collection-card-text h3,.pack-card>h3,.pack-result-card>h3){background:linear-gradient(112deg,var(--prestige-dark),#172936 58%,color-mix(in srgb,var(--prestige-metal) 27%,#1f313b));color:#f3f2e6;box-shadow:inset 3px 0 0 var(--prestige-metal),inset -3px 0 0 var(--prestige-metal),inset 0 1px 0 var(--prestige-light),inset 0 -1px 0 #090f18;letter-spacing:.15px;text-shadow:0 1px 2px #000}
+.prestige-card.rarity-legendary :is(.card-art,.arsenal-art,.collection-art,.pack-card-art,.inspect-art,.full-card-art){border-color:var(--prestige-metal);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--prestige-light) 50%,transparent),0 1px 4px #0005}
+.prestige-frame{position:absolute!important;inset:0;display:block;overflow:hidden;contain:paint;border-radius:inherit;pointer-events:none!important;z-index:5;opacity:1}
+.prestige-frame>*{position:absolute;display:block;pointer-events:none}
+.prestige-rail,.prestige-corner,.prestige-crest{display:none}
+.rarity-uncommon>.prestige-frame .prestige-corner,.rarity-rare>.prestige-frame .prestige-corner,.rarity-epic>.prestige-frame .prestige-corner,.rarity-legendary>.prestige-frame .prestige-corner{display:block;width:12px;height:8px;background:linear-gradient(120deg,#edf4f5a3,var(--rarity-color),#243744);clip-path:polygon(0 0,100% 0,100% 34%,34% 34%,34% 100%,0 100%)}
+.rarity-uncommon>.prestige-frame .prestige-corner{width:8px;height:5px;opacity:.7}
+.prestige-corner.north-west{top:1px;left:1px}.prestige-corner.north-east{top:1px;right:1px;transform:scaleX(-1)}.prestige-corner.south-west{bottom:1px;left:1px;transform:scaleY(-1)}.prestige-corner.south-east{bottom:1px;right:1px;transform:scale(-1)}
+.rarity-legendary>.prestige-frame .prestige-rail{display:block;top:8%;bottom:8%;width:5px;background:linear-gradient(90deg,var(--prestige-light),var(--prestige-metal) 35%,var(--prestige-dark) 80%);clip-path:polygon(0 0,100% 3%,100% 36%,45% 40%,45% 60%,100% 64%,100% 97%,0 100%)}
+.prestige-rail.rail-left{left:1px}.prestige-rail.rail-right{right:1px;transform:scaleX(-1)}
+.rarity-legendary>.prestige-frame .prestige-corner{width:22px;height:14px;background:linear-gradient(135deg,var(--prestige-light),var(--prestige-metal) 44%,var(--prestige-dark));clip-path:polygon(0 0,100% 0,100% 27%,34% 27%,34% 100%,0 100%)}
+.rarity-legendary>.prestige-frame .prestige-crest{display:grid;place-items:center;left:1px;top:21%;width:20px;height:27px;padding:3px 2px;color:var(--prestige-light);background:linear-gradient(135deg,var(--prestige-metal),var(--prestige-dark));border:1px solid var(--prestige-light);clip-path:polygon(0 0,100% 0,100% 77%,50% 100%,0 77%);box-shadow:0 1px 5px #0009}
+.prestige-crest img{width:14px;height:16px;object-fit:contain;filter:brightness(0) invert(1);opacity:.93}
+.material-forged>.prestige-frame .prestige-corner{clip-path:polygon(0 0,100% 0,100% 43%,43% 43%,43% 100%,0 100%)}
+.material-industrial>.prestige-frame .prestige-corner{clip-path:polygon(0 0,100% 0,100% 32%,55% 32%,23% 100%,0 100%)}
+.material-industrial>.prestige-frame .prestige-rail{background:repeating-linear-gradient(135deg,var(--prestige-metal) 0 5px,var(--prestige-dark) 6px 8px)}
+.material-precision>.prestige-frame .prestige-corner{clip-path:polygon(0 0,100% 0,100% 18%,28% 18%,28% 100%,0 100%)}
+.material-precision>.prestige-frame .prestige-crest{clip-path:polygon(15% 0,85% 0,100% 25%,100% 75%,85% 100%,15% 100%,0 75%,0 25%)}
+.material-spectral>.prestige-frame .prestige-corner{clip-path:polygon(0 0,100% 0,100% 16%,18% 35%,16% 100%,0 100%)}
+.material-spectral>.prestige-frame .prestige-crest{width:16px;clip-path:polygon(0 0,100% 15%,80% 83%,45% 100%,0 78%);background:linear-gradient(150deg,#8b99b8,#212a40 70%)}
+.material-salvaged>.prestige-frame .prestige-corner{clip-path:polygon(0 0,80% 0,100% 25%,40% 25%,30% 100%,0 100%)}
+.material-salvaged>.prestige-frame .prestige-rail.rail-right{width:4px;top:16%;bottom:4%;background:repeating-linear-gradient(0deg,var(--prestige-metal) 0 9px,#3a4839 10px 13px)}
+.material-salvaged>.prestige-frame .prestige-crest{transform:rotate(-5deg);clip-path:polygon(0 4%,85% 0,100% 73%,58% 100%,9% 80%)}
+/* Battlefield strips keep the original hitbox. A crest and armored nameplate
+ * carry the same signature at tiny size, without hiding combat numbers. */
+.unit.prestige-card.rarity-legendary{border-right:3px double var(--prestige-light);background:linear-gradient(110deg,var(--prestige-dark),#13232e 65%);box-shadow:inset 0 1px 0 var(--prestige-metal),inset 0 -1px 0 var(--prestige-metal),0 1px 4px #0007}
+.unit.prestige-card.rarity-legendary .unit-name{color:#f2eee0;text-shadow:0 1px 2px #000;font-weight:800}
+.unit.rarity-legendary>.prestige-frame .prestige-rail{display:none}.unit.rarity-legendary>.prestige-frame .prestige-corner{width:7px;height:5px}.unit.rarity-legendary>.prestige-frame .prestige-crest{top:1px;left:1px;width:12px;height:14px;padding:1px;border:0}.unit .prestige-crest img{width:9px;height:10px}
+.inspector.prestige-card.rarity-legendary,.arsenal-detail.prestige-card.rarity-legendary,.collection-detail.prestige-card.rarity-legendary{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--prestige-metal) 45%,transparent);background:linear-gradient(145deg,var(--prestige-dark),#13232d 30%,#12222d);border-color:var(--prestige-metal)}
+.inspector.rarity-legendary>.prestige-frame .prestige-crest,.arsenal-detail.rarity-legendary>.prestige-frame .prestige-crest,.collection-detail.rarity-legendary>.prestige-frame .prestige-crest{top:14%;width:18px;height:23px}
+.prestige-summary{display:flex;align-items:center;gap:4px 7px;flex-wrap:wrap;font:600 9px/1.4 var(--mono,monospace);color:#c6d6da}
+.rarity-symbol{display:inline-block;min-width:10px;text-align:center;font-size:12px;line-height:1;vertical-align:middle}.rarity-badge.rarity-legendary{color:var(--prestige-light,#e8ddba);border-style:double;background:linear-gradient(110deg,var(--prestige-dark,#3b3d38),#142532)}
+.cosmetic-badge,.mastery-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 4px;border:1px solid #b5cfda4a;border-radius:2px;color:#d3e4e7;background:#10242d}.mastery-badge{color:#e2d2ab;border-style:dashed}.mastery-badge>span{letter-spacing:1px}
+/* Both layers paint only inside the artwork. Service ribbons remain legible
+ * over a foil finish, and neither reuses the rarity rails or nameplate. */
+.prestige-art-layers{position:absolute;inset:0;display:block;z-index:4;pointer-events:none;overflow:hidden;contain:paint}
+.prestige-art-layers>span{position:absolute;inset:0;display:block;pointer-events:none}
+.prestige-cosmetic.cosmetic-foil{background:linear-gradient(115deg,transparent 10%,#87c4d017 30%,#eef4cf2e 47%,#aecedf21 57%,transparent 75%);background-size:220% 100%;opacity:.65}
+.prestige-cosmetic.cosmetic-holographic{background:repeating-linear-gradient(0deg,#bcdbe40d 0 1px,transparent 1px 4px),linear-gradient(116deg,transparent 15%,#9ccddb30 42%,#c9b4df25 58%,transparent 77%);background-size:100% 100%,220% 100%;opacity:.6}
+.prestige-cosmetic.cosmetic-full-art{box-shadow:inset 0 0 0 1px #d3dfe65e;background:linear-gradient(0deg,#0a182344,transparent 24%)}
+.prestige-wear.wear-field-worn{background:repeating-linear-gradient(125deg,transparent 0 41px,#d8c6a01f 42px 43px,transparent 44px 74px);box-shadow:inset 0 -8px 9px #3c342622}
+.prestige-wear.wear-battle-hardened{background:repeating-linear-gradient(127deg,transparent 0 30px,#d8c6a026 31px 32px,transparent 33px 62px);box-shadow:inset 0 -9px 12px #2b1d182f}
+.prestige-wear.wear-veteran{background:repeating-linear-gradient(90deg,#d8c78dd9 0 3px,#0d1b2799 3px 5px) right 9px top 8px/23px 7px no-repeat;box-shadow:inset 0 -1px 0 #d8c78d73}
+.prestige-wear.wear-field-worn:after,.prestige-wear.wear-battle-hardened:after,.prestige-wear.wear-veteran:after{position:absolute;right:7px;bottom:6px;padding:1px 4px;font:700 9px/12px var(--mono,monospace);color:#ecdab1;background:#0c1927df;border:1px solid #c8b9809c;border-radius:2px}
+.prestige-wear.wear-field-worn:after{content:'I'}.prestige-wear.wear-battle-hardened:after{content:'II'}.prestige-wear.wear-veteran:after{content:'III'}
+/* Stop historical infinite effects. Only a deliberate hover/focus triggers a
+ * single inexpensive sheen; offscreen Collection cards stay entirely static. */
+.prestige-card :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):before,.prestige-card :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after,.hand-card.prestige-card:before{animation:none!important;background:none}
+.prestige-card :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):before,.prestige-card :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{content:none}
+.prestige-card:is(:hover,:focus-within)>.prestige-art-layers>.prestige-cosmetic,.prestige-card:is(:hover,:focus-within) .prestige-cosmetic:is(.cosmetic-foil,.cosmetic-holographic){animation:prestige-sheen 1200ms ease-out 1}
+/* Normal consumers with no explicit art-layer markup retain safe static finish.
+ * When markup exists it is the sole owner, preventing doubled foil/wear paint. */
+.prestige-card.cosmetic-foil :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):not(:has(>.prestige-art-layers)):after{content:'';background:linear-gradient(115deg,transparent 15%,#a1cfdf19 38%,#eff2d02b 50%,transparent 72%);opacity:.65}
+.prestige-card.wear-veteran :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):not(:has(>.prestige-art-layers)):before{content:'';background:repeating-linear-gradient(90deg,#d8c78dd9 0 3px,#0d1b2799 3px 5px) right 8px top 7px/23px 7px no-repeat;z-index:4}
+.prestige-card.cosmetic-full-art :is(.card-art,.arsenal-art,.collection-art,.pack-card-art){margin-inline:0;border-inline:0}
+@keyframes prestige-sheen{from{background-position:150% 0}to{background-position:-70% 0}}
+.reduce-effects .prestige-cosmetic,body[data-presentation="minimal"] .prestige-cosmetic,body[data-presentation="reduced"] .prestige-cosmetic{animation:none!important}
+@media(prefers-reduced-motion:reduce){.prestige-cosmetic{animation:none!important}}
+@media(forced-colors:active){.prestige-card.rarity-legendary{border:3px double CanvasText}.prestige-crest,.prestige-corner,.prestige-rail{background:CanvasText!important}.prestige-crest{color:Canvas!important}.prestige-crest img{forced-color-adjust:none}.rarity-badge,.mastery-badge,.cosmetic-badge{border-color:CanvasText;color:CanvasText;background:Canvas}.rarity-symbol{forced-color-adjust:none}}
+.training-unit.prestige-card,.tutorial-example.prestige-card{position:relative;isolation:isolate}
+.training-unit.prestige-card.rarity-legendary,.tutorial-example.prestige-card.rarity-legendary{border-color:var(--prestige-metal);border-style:double;background-color:var(--prestige-dark);box-shadow:inset 0 1px 0 var(--prestige-light),inset 0 -1px 0 var(--prestige-metal)}
+.training-unit.rarity-legendary>.prestige-frame .prestige-crest{top:2px;left:2px;width:13px;height:16px;padding:1px}.training-unit .prestige-crest img{width:10px;height:11px}.training-unit>.prestige-frame .prestige-corner{width:8px;height:6px}.training-unit>.prestige-frame .prestige-rail{display:none}
+.training-unit-art,.tutorial-example-art{position:relative;isolation:isolate;overflow:hidden;contain:paint}.tutorial-example-art{background-repeat:no-repeat}
+.tutorial-example-art>.card-portrait,.training-unit-art>.card-portrait{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;background-size:200% 200%;background-repeat:no-repeat;transform:none}
+.card-collection-detail .prestige-favorite{display:flex;flex-direction:row;align-items:center;gap:8px;min-height:44px;grid-template-columns:none}.card-collection-detail .prestige-favorite input{width:18px;height:18px;flex:0 0 18px;margin:0}
+.prestige-service-record{border-top:1px solid #4c6470;margin-top:16px;padding-top:4px}.prestige-service-record p{font-size:12px;line-height:1.5;color:#bacdd7}
+#lab-card-dialog{width:min(780px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:22px;border:1px solid #4b6877;color:#dce8ed;background:#102330;border-radius:5px;overflow:auto}
+#lab-card-dialog::backdrop{background:#020b13c9}.lab-card-briefing{display:grid;grid-template-columns:minmax(190px,290px) minmax(0,1fr);gap:26px;align-items:start}
+.lab-card-face{position:relative;isolation:isolate;aspect-ratio:5/7;contain:size;min-height:0;padding:0 9px;border:1px solid #536f7c;background:#122a37;display:grid;grid-template-rows:9% 35% 12% 7% minmax(0,1fr) 8%;overflow:hidden}
+.lab-card-top{display:flex;justify-content:space-between;align-items:center;font:11px var(--mono,monospace)}.lab-card-art{position:relative;overflow:hidden;isolation:isolate;contain:paint}
+.lab-card-art>.card-portrait{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;background-size:200% 200%;background-repeat:no-repeat}
+.lab-card-face>h3{font-size:15px;line-height:1.15;align-self:center;position:relative;z-index:2}.lab-card-face>p{font-size:11px;line-height:1.4;margin:4px 0;overflow:hidden}.lab-card-stats{font:12px var(--mono,monospace);align-self:center}
+.lab-card-briefing>section p{font-size:14px;line-height:1.6}.lab-card-inspect{padding:4px 0;border:0;background:transparent;text-align:left;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+#card-rows .rarity-badge{margin-left:6px}#lab-card-dialog .replay-heading button{min-width:44px;min-height:44px}
+@media(max-width:650px){.lab-card-briefing{gap:16px;grid-template-columns:minmax(170px,1fr) minmax(0,1fr)}.lab-card-briefing>section p{font-size:12px}.lab-card-face>h3{font-size:12px}.lab-card-face>p{font-size:9px}}

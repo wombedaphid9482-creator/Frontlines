@@ -68,3 +68,13 @@ test('effect audio caps live voices and optional audio failures never escape int
   for(let i=0;i<40;i++){f.contexts[0].currentTime+=.1;f.fx.cue('deploy',{card:{rarity:'legendary',faction:'rogue'},channel:'card'});}assert.ok(f.fx.audioState().effectVoices<=24);
   f.fx.setSoundAdapter(()=>{throw new Error('missing optional audio');});assert.doesNotThrow(()=>f.fx.cue('victory'));f.fx.clear();assert.equal(f.fx.audioState().effectVoices,0);assert.ok(f.fx.audioState().musicVoices>0,'Clearing transient battlefield effects must preserve the soundtrack');
 });
+
+test('pack Rare and Legendary cues are distinct, faction-aware and bypassed by fast-open',async()=>{
+  const f=audioFixture(),heard=[];f.fx.configure({sound:true,reducedEffects:true,cardEffectsVolume:.3});f.fx.unlockAudio({isTrusted:true});await f.flush();f.fx.setSoundAdapter(e=>heard.push(e));
+  for(const [rarity,name]of [['common','reveal'],['rare','revealRare'],['epic','revealRare'],['legendary','revealLegendary']]){
+    f.contexts[0].currentTime+=1;f.fx.reveal({rarity,faction:'rogue'},null,{pack:true});assert.equal(heard.at(-1).name,name);assert.equal(heard.at(-1).channel,'card');assert.equal(heard.at(-1).output.gain.value,.3);assert.equal(heard.at(-1).faction.motif,'spark');
+  }
+  const before=heard.length;f.contexts[0].currentTime+=1;f.fx.reveal({rarity:'legendary',faction:'stonewall'},null,{pack:true,fast:true});assert.equal(heard.length,before);
+  f.fx.configure({sound:false});f.contexts[0].currentTime+=1;f.fx.reveal({rarity:'legendary',faction:'stonewall'},null,{pack:true});assert.equal(heard.length,before);
+  f.fx.configure({sound:true});f.root.document.hidden=true;f.contexts[0].currentTime+=1;f.fx.reveal({rarity:'legendary',faction:'stonewall'},null,{pack:true});assert.equal(heard.length,before);
+});

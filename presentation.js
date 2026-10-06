@@ -21,16 +21,43 @@
     rogue:{motif:'spark',tone:'triangle',pitch:190,spread:1.1,color:'#7ec3a1',accent:[190,285,475]}
   });
   const PRESETS=freeze({full:{particles:1,duration:1,audioLayers:4},reduced:{particles:.3,duration:.65,audioLayers:1},minimal:{particles:0,duration:.25,audioLayers:0}});
-  const VARIANTS=Object.freeze(['standard','field-worn','battle-hardened','veteran','foil','full-art']);
+  // These remain independent layers. Legacy wear IDs are accepted at the edge
+  // for old saves, but do not consume the chosen cosmetic material any longer.
+  const COSMETICS=Object.freeze(['standard','foil','holographic','full-art']);
+  const WEAR=Object.freeze(['standard','field-worn','battle-hardened','veteran']);
+  const VARIANTS=Object.freeze(['standard','field-worn','battle-hardened','veteran','foil','full-art','holographic']);
+  const MATERIALS=freeze({
+    stonewall:{id:'forged',label:'Forged armor',geometry:'bastion'},
+    bruiser:{id:'industrial',label:'Impact plate',geometry:'breach'},
+    syndicate:{id:'precision',label:'Precision alloy',geometry:'circuit'},
+    nightwalker:{id:'spectral',label:'Spectral composite',geometry:'veil'},
+    rogue:{id:'salvaged',label:'Hand-built prestige',geometry:'patchwork'}
+  });
   const collection=()=>root.FrontlinesCollection || (typeof require==='function'?require('./collection.js'):null);
   function metadata(card){try{return collection()?.metadata(card)||{};}catch(_){return typeof card==='object'?card:{};}}
   function profile(card){const rarity=String(typeof card==='string'&&PROFILES[card]?card:metadata(card).rarity||card?.rarity||'common').toLowerCase();return PROFILES[rarity]||PROFILES.common;}
   function variantId(value){const v=String(value||'standard').replace(/([a-z])([A-Z])/g,'$1-$2').toLowerCase().replace(/_/g,'-');return VARIANTS.includes(v)?v:'standard';}
+  function cosmeticId(value){const id=variantId(value);return COSMETICS.includes(id)?id:'standard';}
+  function wearId(value){const id=variantId(value);return WEAR.includes(id)?id:'standard';}
+  function layersFor(card,options){
+    const o=options||{};
+    // Public cards cannot inherit the viewer's private collection state. A
+    // later protocol may explicitly synchronize a public cosmetic descriptor.
+    if(o.public)return {variant:'standard',cosmetic:'standard',wear:'standard'};
+    let state={},legacy='standard';
+    try{const c=collection();if(c?.cosmeticState){state=c.cosmeticState(card,o.profile,o.seed)||{};legacy=state.variant||'standard';}else legacy=c?.variantFor?.(card,o.profile,o.seed)||'standard';}catch(_){}
+    const preferred=variantId(o.variant||legacy),explicitLegacyWear=WEAR.includes(preferred)&&preferred!=='standard';
+    const cosmetic=cosmeticId(o.cosmetic||o.variant&&!explicitLegacyWear&&o.variant||state.variant||preferred);
+    const wear=wearId(o.wear!==undefined?o.wear:explicitLegacyWear?preferred:state.wear||'standard');
+    return {variant:o.variant?preferred:cosmetic,cosmetic,wear};
+  }
   function skin(card,options){
-    options=options||{};const p=profile(card);let preferred=options.variant;
-    if(!preferred)try{preferred=collection()?.variantFor(card,options.profile);}catch(_){}
-    const variant=variantId(preferred);
-    return {rarity:p.id,variant,className:(FACTIONS[card?.faction]?'faction-'+card.faction+' ':'')+'rarity-'+p.id+' variant-'+variant,style:'--rarity-color:'+p.border+';--rarity-glow:'+p.glow+';--foil-intensity:'+p.foilIntensity+';'};
+    options=options||{};const p=PROFILES[options.rarity]||profile(card),c=typeof card==='object'?card:metadata(card),f=FACTIONS[c?.faction]?c.faction:'',material=MATERIALS[f]||MATERIALS.stonewall,{variant,cosmetic,wear}=layersFor(card,options);
+    const rarityLabel=p.label,cosmeticLabel=cosmetic==='full-art'?'Full-Art':cosmetic==='holographic'?'Holographic':cosmetic==='foil'?'Foil':'Standard',wearLabel=wear==='field-worn'?'Field-Worn':wear==='battle-hardened'?'Battle-Hardened':wear==='veteran'?'Veteran':'Unworn';
+    return {rarity:p.id,rarityLabel,variant,cosmetic,wear,cosmeticLabel,wearLabel,frame:p.frame,material:material.id,geometry:material.geometry,faction:f,
+      ariaLabel:rarityLabel+' · '+cosmeticLabel+(wear==='standard'?'':' · '+wearLabel),
+      className:'prestige-card '+(f?'faction-'+f+' ':'')+'rarity-'+p.id+' frame-'+p.frame+' material-'+material.id+' cosmetic-'+cosmetic+' wear-'+wear+' variant-'+variant,
+      style:'--rarity-color:'+p.border+';--rarity-glow:'+p.glow+';--foil-intensity:'+p.foilIntensity+';'};
   }
   function faction(card){const c=typeof card==='object'?card:metadata(card);return FACTIONS[c?.faction]||FACTIONS.stonewall;}
   function limits(card,settings,motion){
@@ -38,8 +65,7 @@
     return {profile:p,faction:faction(card),particles:Math.min(10,Math.floor(p.particleLimit*preset.particles)),audioLayers:Math.min(p.audioLayers,preset.audioLayers),duration:Math.min(tier==='minimal'?120:1100,Math.round(p.deployment*preset.duration*(s.animationSpeed==='fast'?.55:1))),preset:tier};
   }
   function commanderSkin(commander,options){
-    const base=skin(commander,options),p=PROFILES.legendary;
-    return {...base,rarity:p.id,className:base.className.replace(/rarity-[a-z]+/,'rarity-'+p.id),style:'--rarity-color:'+p.border+';--rarity-glow:'+p.glow+';--foil-intensity:'+p.foilIntensity+';'};
+    return skin(commander,{...options,rarity:'legendary'});
   }
   // Pure motion recipes are shared by animation and tests. Timing never gates an
   // engine action; canceling an effect leaves the authoritative board intact.
@@ -58,7 +84,14 @@
     const p=profile(card),f=faction(card),heavy=role==='heavy',precise=role==='specialist'||f.motif==='distortion';
     return {duration:p.attack+(heavy?100:0),windup:heavy?170:precise?150:95,delivery:heavy?125:precise?90:70,shots:heavy||precise?1:3,lunge:heavy?12:precise?5:8,recoil:heavy?4:2,motif:f.motif};
   }
-  const badge=card=>{const p=profile(card);return '<span class="rarity-badge rarity-'+p.id+'" aria-label="Rarity: '+p.label+'">'+p.label+'</span>';};
-  function reveal(node,card){return root.FrontlinesEffects?.reveal(card,node);}
-  return {PROFILES,FACTIONS,PRESETS,VARIANTS,profile,faction,skin,commanderSkin,badge,limits,variantId,reveal,deploymentFrames,attackPlan};
+  const RARITY_SYMBOLS=Object.freeze({common:'▪',uncommon:'▰',rare:'◆',epic:'◈',legendary:'✦'});
+  function badge(card,options){const s=skin(card,options);return '<span class="rarity-badge rarity-'+s.rarity+'" aria-label="Rarity: '+s.rarityLabel+'"><span class="rarity-symbol" aria-hidden="true">'+RARITY_SYMBOLS[s.rarity]+'</span> '+s.rarityLabel+'</span>';}
+  function chrome(card,options){
+    const s=skin(card,options);
+    return '<span class="prestige-frame" data-frame="'+s.frame+'" data-geometry="'+s.geometry+'" aria-hidden="true"><span class="prestige-rail rail-left"></span><span class="prestige-rail rail-right"></span>'+['north-west','north-east','south-west','south-east'].map(c=>'<span class="prestige-corner '+c+'"></span>').join('')+(s.rarity==='legendary'?'<span class="prestige-crest">'+(s.faction?'<img src="assets/ui/faction_emblems/'+s.faction+'.svg" alt="">':RARITY_SYMBOLS.legendary)+'</span>':'')+'</span>';
+  }
+  function layers(card,options){const s=skin(card,options);return '<span class="prestige-art-layers" aria-hidden="true"><span class="prestige-cosmetic cosmetic-'+s.cosmetic+'"></span><span class="prestige-wear wear-'+s.wear+'"></span></span>';}
+  function summary(card,options){const s=skin(card,options);return '<span class="prestige-summary" aria-label="'+s.ariaLabel+'">'+badge(card,options)+(s.cosmetic!=='standard'?'<span class="cosmetic-badge"><span aria-hidden="true">▱</span> '+s.cosmeticLabel+'</span>':'')+(s.wear!=='standard'?'<span class="mastery-badge"><span aria-hidden="true">'+(s.wear==='veteran'?'≋':s.wear==='battle-hardened'?'Ⅱ':'Ⅰ')+'</span> '+s.wearLabel+'</span>':'')+'</span>';}
+  function reveal(node,card,options){return root.FrontlinesEffects?.reveal(card,node,options);}
+  return {PROFILES,FACTIONS,PRESETS,VARIANTS,COSMETICS,WEAR,MATERIALS,RARITY_SYMBOLS,profile,faction,skin,commanderSkin,badge,chrome,frameMarkup:chrome,layers,summary,limits,variantId,cosmeticId,wearId,reveal,deploymentFrames,attackPlan};
 });

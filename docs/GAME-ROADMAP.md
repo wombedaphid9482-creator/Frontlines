@@ -1,24 +1,36 @@
 # Game action roadmap
 
-## v1.1.0 private-match activation gate
+## Current v1.2.0 Arsenal Prestige candidate
 
-The canonical v1.0.5 game and artwork are frozen. Private multiplayer is implemented through a secure outbound relay; protocol, privacy, tactical, Commander, reconnect and local two-client correctness checks pass. No numeric balance pass or large autonomous simulation was performed.
+Layered Legendary presentation and Collection service history are implemented over the frozen v1.1.0 game. Rarity, owned premium finish and earned wear render independently; Legendary + Foil + Veteran now coexist. All 155 accepted card-art mappings, ten Commander portraits, 35 preset decks, competitive rules, AI and economy definitions are preserved. No new content or large balance campaign belongs to this milestone.
 
-1. Activate the prepared project-owned Cloudflare service through official browser authorization. Forge handles deployment, public endpoint configuration, public two-client testing and the final installer rebuild.
-2. Verify the public relay route, then Ryken and Wyatt play from separate homes using only the normal installer and an invite code. Current local evidence does not prove this gate.
+1. Human-play the verified v1.2.0 installer across Ryken and Wyatt's homes. Public route/controller tests and two separate packaged clients already pass through the configured service; actual separate-home experience remains to be checked.
+2. Use the preserved v1.2.0 installer, update metadata, source checkpoint, hashes and candidate commit for reproducible playtests. All 590 Node tests, six native offline modes and package/source preservation checks pass. Publication remains a separate owner instruction.
+3. Human-play at actual Windows scaling. Check Legendary recognition, independent finish/wear, Collection filters, pack first/last Legendary reveals and contained scrolling.
+4. Verify ordinary win/loss Credits and actual-use mastery. Preserve old unlocks and wallets; explain unknown legacy acquisition dates and incomplete old use history honestly.
+5. After this presentation checkpoint and private playtest evidence, return to owner-run competitive validation. Diagnose policy, counterplay and rules separately before changing values.
+
+[Release status](RELEASE-1.2.0.md) · [Rarity construction](RARITY-PRESENTATION.md) · [Mastery and migration](CARD-MASTERY.md).
+
+## Private Internet multiplayer — activation complete
+
+The canonical game and artwork remain frozen. Private multiplayer uses the deployed secure outbound relay; protocol, privacy, tactical, Commander, reconnect and public two-client correctness checks pass. The ordinary configured v1.2.0 package completes a match and rematch between two separate native processes. No numeric balance pass or large autonomous simulation was performed.
+
+1. Owner-authorized Cloudflare deployment, public endpoint configuration, public route/full-match checks and final native installer verification are complete.
+2. Ryken and Wyatt play from separate homes using only the normal installer and an invite code. Development-machine public tests do not claim their home networks or physical display configuration were exercised.
 3. Review the focused player checklist and exported diagnostics. Preserve ordinary offline saves, win/loss Credits and 5:7 artwork. Private economy remains used-card mastery/wear only.
 4. After private playtest evidence, refine latency/recovery and human experience. Dedicated authority, direct P2P, public matchmaking, accounts and host migration remain later scope.
-5. Continue the owner-directed balance and HIGH PRIORITY layered Legendary presentation roadmap below after networking is stable.
+5. Layered Legendary presentation is implemented and automatically verified in the current v1.2.0 candidate. Continue owner-directed balance review after the human presentation and private-playtest feedback.
 
 [Architecture](MULTIPLAYER-ARCHITECTURE.md) · [Protocol](MULTIPLAYER-PROTOCOL.md) · [Playtest gate](MULTIPLAYER-PLAYTEST.md).
 
-## Current v1.0.5 Arsenal Refinement
+## Preserved v1.0.5 Arsenal Refinement plan
 
 The illustrated card-quality gate is complete: all 155 battlefield cards reviewed, 91 mappings replaced/repaired, coherent faction subjects and preserved premium Commander art. Continue from the local v1.0.5 candidate with human tactical/credit/save/display playtests, then the owner's [exact paired validation](BALANCE-REFINEMENT-VALIDATION.md). Competitive balance remains provisional.
 
 1. Play custom decks/showcases, read defensive status timing, try real counters and verify win/loss Credits.
 2. Owner-run validation and matched Sprint 11 policy comparison; investigate root causes before numerical changes.
-3. **HIGH PRIORITY — Legendary presentation.** Future treatments must visibly separate gameplay rarity, cosmetic variant and mastery/wear. Store/render these as independent layers: rarity frame/emblem; illustration/foil/full-art variant; wear patina/badges. Legendary + Veteran + Foil must complement each other without altering stats. Final redesign is deferred.
+3. **Legendary presentation, now implemented in v1.2.0.** Separate rarity frame/emblem, owned finish and earned wear. Legendary + Veteran + Foil complement each other without altering stats. The current candidate completes the formerly deferred redesign; remaining human verification is documented above.
 4. Paired-player turn terminology/timing migration follows the [action-window audit](TURN-TERMINOLOGY.md), not a casual display renumbering.
 5. v1.1.0 private online multiplayer follows [the authority/private-state/replay gate](MULTIPLAYER-READINESS.md). No networking was added here.
 
@@ -26,7 +38,7 @@ The previous sprint roadmaps below remain historical context.
 
 
 
-## Current v1.0.4 Tactical Arsenal plan
+## Preserved v1.0.4 Tactical Arsenal plan
 
 The current local candidate adds exactly forty tactical cards, five showcases and six optional advanced exercises to published v1.0.3. The existing thirty lists, illustrated Commanders, ordinary artwork, Rogue recovery repair, collection and fourteen beginner lessons are preserved. [Sprint 11](SPRINT-011.md), [the forty-card catalog](TACTICAL-ARSENAL.md) and [the release guide](RELEASE-1.0.4.md) describe this milestone. Publication is deferred.
 

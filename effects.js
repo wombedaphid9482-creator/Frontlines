@@ -562,6 +562,8 @@
         case 'deploy': note(340,170,'sine',0,160);note(510,90,'triangle',.06,420);break;
         case 'land': hit(115,740);note(84,220,'triangle',0,38);note(1250,70,'sine',.015,730);break;
         case 'reveal': note(330,130,'sine',0,660);break;
+        case 'revealRare': note(t.faction.pitch*2,140,'triangle',0,t.faction.pitch*3);note(t.faction.pitch*3,190,'sine',.09);break;
+        case 'revealLegendary': note(t.faction.pitch,220,t.faction.tone,0,t.faction.pitch*1.5);note(t.faction.pitch*2,250,'triangle',.10);note(t.faction.pitch*3,300,'sine',.22);break;
         case 'rifle': hit(75,4200);note(130,70,'square',0,60);note(115,60,'square',.075,55);break;
         case 'heavy': hit(190,820);note(72,250,'triangle',0,29);note(148,125,'sine',.035,62);break;
         case 'specialist': note(920,160,'sine',0,140);break;
@@ -643,8 +645,10 @@
     const token=musicToken;musicTimer=root.setTimeout(()=>{musicTimer=null;if(token===musicToken)transitionMusic();},0);
   }
   function setMusicState(state){const next=Music?.states[state]?state:'menu';musicState=next;queueMusic();return next;}
-  function reveal(card,node){
-    if(blocked())return;const t=treatment(card),r=rect(node);cue('reveal',{card,channel:'card'});
+  function reveal(card,node,options){
+    if(blocked()||options?.fast)return;const t=treatment(card),r=rect(node);
+    const name=options?.pack&&t.profile.id==='legendary'?'revealLegendary':options?.pack&&['rare','epic'].includes(t.profile.id)?'revealRare':'reveal';
+    cue(name,{card,channel:'card'});
     if(!r||reduced())return;
     const n=element('fx-reveal',r,t.profile.border||t.faction.color);
     if(n)animate(n,[{opacity:.8},{opacity:0}],t.profile.packReveal,0,()=>n.remove());

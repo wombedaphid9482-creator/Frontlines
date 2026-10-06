@@ -26,10 +26,18 @@ foreach($checkpointItem in Get-ChildItem -LiteralPath (Join-Path $checkpointWork
 foreach($checkpointItem in Get-ChildItem -LiteralPath (Join-Path $checkpointWorkspace 'test-results') -File) {
   if($checkpointItem.Name -eq ($Sprint+'-checkpoint.log')) {continue}
   # Active emulator stdout/stderr are development process handles, not test proof.
-  if($checkpointItem.Name -in @('sprint13-persistent-relay.log','sprint13-persistent-relay.err')) {continue}
+  if($checkpointItem.Name -in @('sprint13-persistent-relay.log','sprint13-persistent-relay.err','sprint14-local-wrangler.log')) {continue}
   $checkpointSprint10Evidence=$Sprint -eq 'sprint10' -and $checkpointVersion -eq '1.0.3' -and $checkpointItem.Name -in @('viewport-hotfix-browser.json','viewport-hotfix-1366x768-dpr1.png','v102-browser-presentation.json','browser-tutorial-sprint9.json')
   $checkpointSprint11Evidence=$Sprint -eq 'sprint11' -and $checkpointItem.Name -in @('viewport-hotfix-browser.json','sprint10-action-presentation.json','browser-tutorial-sprint9.json','browser-sprint11-lab-migration.json','sprint11-node-final.log')
   if($checkpointSprint10Evidence -or $checkpointSprint11Evidence -or $checkpointItem.Name -match ('^'+$Sprint+'-|^browser-tutorial-'+$Sprint+'\.|^release-'+[regex]::Escape($checkpointVersion)+'-verification\.json$|^hotfix-'+[regex]::Escape($checkpointVersion)+'-|^v'+$checkpointVersion.Replace('.','')+'-')) {$checkpointFiles.Add($checkpointItem.FullName)}
+}
+if($Sprint -eq 'sprint14') {
+  # Preserve the two packaged public reports, excluding their temporary invite
+  # coordination files. Reports are already checked for capability leakage.
+  foreach($checkpointRole in @('host','guest')) {
+    $checkpointPublicReport=Join-Path $checkpointWorkspace ('test-results/native-multiplayer/s13-s14-public-final/'+$checkpointRole+'-result.json')
+    if(Test-Path -LiteralPath $checkpointPublicReport) {$checkpointFiles.Add($checkpointPublicReport)}
+  }
 }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $checkpointArchive=[System.IO.Compression.ZipFile]::Open($checkpointTarget,[System.IO.Compression.ZipArchiveMode]::Create)

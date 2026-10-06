@@ -50,7 +50,8 @@ async function run({app,win,controller}){
   if(role==='host')await command('start');await wait(()=>controller.getState().snapshot?.status==='active','rematch active');
   if(controller.getState().localSeat!==1-firstSeat)throw Error('Rematch initiative did not alternate.');
   fs.writeFileSync(path.join(output,role+'-rematch.json'),'{}');await wait(()=>fs.existsSync(path.join(output,(role==='host'?'guest':'host')+'-rematch.json')),'peer rematch');
-  const report={version:app.getVersion(),role,twoSeparateProcesses:true,transport:'actual-local-worker-relay',publicInternetVerified:false,
+  const serviceURL=value('--relay-test-url')||require('./multiplayer-config').serviceURL,publicInternetVerified=new URL(serviceURL).protocol==='https:';
+  const report={version:app.getVersion(),role,twoSeparateProcesses:true,transport:publicInternetVerified?'actual-public-cloudflare-relay':'actual-local-worker-relay',serviceOrigin:new URL(serviceURL).origin,publicInternetVerified,differentHomeVerified:false,
     privateMatchCompleted:true,decisions:actions,sequence:final.snapshot.sequence,winner:final.snapshot.state.winner,sharedHash:final.snapshot.sharedHash,
     lobby:true,bothReady:true,openingAcknowledged:true,hiddenHand:true,hiddenReserve:true,rematch:true,initiativeAlternated:true,ui,
     diagnostics:controller.diagnostics(),failures};

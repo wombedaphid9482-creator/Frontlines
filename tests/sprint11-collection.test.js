@@ -17,7 +17,10 @@ test('v1.0.3 save migration adds unowned definitions while preserving all progre
   const s=save(old),other={'frontlines.settings.v1':'{"music":false,"avoidLastOpponent":true,"lastOpponent":"last-match"}','frontlines.tutorial.v1':'{"complete":true}','frontlines.decks.v1':'{"version":1,"decks":[]}'};
   for(const[k,v]of Object.entries(other))s.setItem(k,v);
   const migrated=C.load(s);assert.equal(migrated.readOnly,undefined);assert.equal(migrated.credits,4242);assert.equal(migrated.supply,777);assert.equal(migrated.rngState,old.rngState);assert.deepEqual(migrated.futureData,old.futureData);assert.deepEqual(migrated.commanders,old.commanders);
-  for(const id of Object.keys(Frozen.CARD_META))assert.deepEqual(migrated.cards[id],old.cards[id],id);
+  for(const id of Object.keys(Frozen.CARD_META)){
+    for(const [key,value] of Object.entries(old.cards[id]))assert.deepEqual(migrated.cards[id][key],value,id+'.'+key);
+    assert.ok(migrated.cards[id].history,id+' additive history');assert.ok(migrated.cards[id].cosmetics,id+' additive cosmetic preferences');
+  }
   for(const id of Object.keys(T.CARD_ADDITIONS)){assert.equal(migrated.cards[id].copies,0);assert.deepEqual(migrated.cards[id].variants,[]);assert.equal(migrated.cards[id].mastery.points,0);}
   assert.equal(C.craft('stonewall_dig_in',s,{requestId:'migration-proof'}).ok,true);
   const persisted=JSON.parse(s.getItem(C.STORAGE_KEY));assert.equal(Object.keys(persisted.cards).length,155);assert.equal(persisted.cards.stonewall_dig_in.copies,1);assert.equal(persisted.credits,4242);

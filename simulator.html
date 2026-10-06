@@ -20,6 +20,7 @@
   <script defer src="arsenal.js"></script>
   <script defer src="tactical-arsenal.js"></script>
   <script defer src="balance.js"></script>
+  <script defer src="collection.js"></script><script defer src="presentation.js"></script>
   <script defer src="art-map012.js"></script><script defer src="art.js"></script>
   <script defer src="telemetry.js"></script>
   <script defer src="analytics.js"></script>
@@ -97,5 +98,6 @@
     </section>
   </main>
   <dialog id="replay-dialog"><div class="replay-heading"><div><p class="eyebrow">MATCH INSPECTION</p><h2 id="replay-title">Decision trace</h2></div><button type="button" id="close-replay" aria-label="Close match inspection">✕</button></div><p id="replay-description"></p><div id="replay-summary" class="summary-notes"></div><div class="replay-actions"><button type="button" id="copy-replay-seed">Copy seed</button><button type="button" id="rerun-replay">Rerun this matchup</button><span id="replay-copy-status" role="status"></span></div><div id="territory-chart" class="territory-chart" hidden></div><div class="replay-toolbar"><label for="trace-search">Filter trace</label><input id="trace-search" type="search" placeholder="Card, action, or turn"><span id="trace-count"></span></div><pre id="replay-trace" tabindex="0"></pre><p class="table-note">Replays use the original recorded profile and AI with the current compatible build. Reports from different rules are rejected rather than silently reinterpreted.</p></dialog>
+  <dialog id="lab-card-dialog" aria-label="Card intelligence briefing"></dialog>
 </body>
 </html>

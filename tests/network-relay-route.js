@@ -2,6 +2,7 @@
 // Correctness test against Wrangler's local Worker runtime or an explicitly selected public endpoint.
 // No matches or balance simulations run here. Session capabilities are never exported.
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),T=require('../network-transport');
+const evidencePrefix=process.env.FRONTLINES_EVIDENCE_PREFIX||'sprint13';
 const endpoint=process.env.FRONTLINES_RELAY_TEST_URL||'http://127.0.0.1:8787',local=/^http:\/\/(127\.0\.0\.1|localhost):/.test(endpoint);
 const wait=(fn,ms=15000)=>new Promise((resolve,reject)=>{const start=Date.now(),timer=setInterval(()=>{if(fn()){clearInterval(timer);resolve();}else if(Date.now()-start>ms){clearInterval(timer);reject(Error('Relay test timeout'));}},20);});
 async function main(){
@@ -21,7 +22,7 @@ async function main(){
     for(const view of [host.getConnectionState(),guest.getConnectionState(),host.diagnostics(),guest.diagnostics()])assert.ok(!JSON.stringify(view).match(/reconnectToken|ticket\./));report.checks.push('transport state and diagnostics contain no capabilities');
     const invalid=await fetch(endpoint+'/v1/rooms/22222222/join',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(async r=>({status:r.status,...await r.json()}));assert.equal(invalid.status,404);assert.equal(invalid.error,'MATCH_NOT_FOUND');report.checks.push('invalid invite friendly service error');
     await host.closeSession();await wait(()=>guest.getConnectionState().status==='closed');report.checks.push('host session closure reaches guest');
-    report.completed=true;const out=path.resolve(__dirname,'../test-results/'+(local?'sprint13-relay-route.json':'sprint13-relay-public-route.json'));fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+    report.completed=true;const out=path.resolve(__dirname,'../test-results/'+(local?evidencePrefix+'-relay-route.json':evidencePrefix+'-relay-public-route.json'));fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
   }finally{host.disconnect();guest.disconnect();}
 }
 main().catch(e=>{console.error('RELAY_ROUTE_TEST_FAILED',e.code||e.message);process.exitCode=1;});

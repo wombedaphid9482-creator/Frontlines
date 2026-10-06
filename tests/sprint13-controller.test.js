@@ -35,7 +35,12 @@ test('desktop boundary rejects arbitrary requests, keeps credentials and opponen
   assert.equal((await guest.command('concede')).ok,true);await settle();assert.equal(host.getState().phase,'results');assert.equal(guest.getState().result.reason,'concede');assert.equal(guest.getState().snapshot.progression.conceded,true);
 });
 test('offline desktop can report service setup state without any networking or save changes',async()=>{
-  const controller=C.createController();assert.equal(controller.getState().available,false);assert.equal((await controller.command('host',{name:'Ryken'})).code,'SERVICE_UNCONFIGURED');assert.equal((await controller.command('leave')).ok,true);assert.equal(controller.getState().phase,'menu');
+  // Retain coverage for an unconfigured candidate after the owner activates the
+  // real default service. This isolated module never issues a network request.
+  const fs=require('node:fs'),path=require('node:path'),module={exports:{}};
+  const localRequire=id=>id==='./multiplayer-config'?{...require('../multiplayer-config'),serviceURL:''}:require(id.startsWith('.')?path.resolve(__dirname,'..',id):id);
+  new Function('require','module','exports',fs.readFileSync(path.join(__dirname,'../multiplayer-controller.js'),'utf8'))(localRequire,module,module.exports);
+  const controller=module.exports.createController();assert.equal(controller.getState().available,false);assert.equal((await controller.command('host',{name:'Ryken'})).code,'SERVICE_UNCONFIGURED');assert.equal((await controller.command('leave')).ok,true);assert.equal(controller.getState().phase,'menu');
 });
 test('a dropped intention times out into authoritative resync without replaying or locking controls',async t=>{
   const {hub,host,guest,settle}=await fixture(t),initial=guest.getState().snapshot.sequence;

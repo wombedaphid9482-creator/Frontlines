@@ -1,0 +1,199 @@
+/* Artwork is a separate paint region. Every treatment below is confined to that
+ * region or the outer border; no rarity/cosmetic layer paints over game text. */
+.art-commander{display:block;position:relative;overflow:hidden;isolation:isolate;contain:paint;min-width:0;background:#0a151e}
+.art-commander img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.card-art,.inspect-art,.full-card-art,.unit-art,.arsenal-art,.collection-art,.pack-card-art{position:relative;overflow:hidden;isolation:isolate;contain:paint;flex-shrink:0}
+.card-art .card-portrait,.inspect-art .card-portrait,.full-card-art .card-portrait,.unit-art .card-portrait,.arsenal-art .arsenal-portrait,.collection-art .card-portrait,.pack-card-art .card-portrait{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;transform:none;background-size:200% 200%;background-repeat:no-repeat}
+.card-art .art-symbol,.inspect-art .art-symbol,.full-card-art .art-symbol{position:absolute;inset:0;width:100%;height:100%}
+.hand-card{height:auto;min-height:300px;max-height:none;overflow:hidden;flex-shrink:0}
+.hand-card .card-art{flex:0 0 78px;min-height:78px;height:78px}
+.hand-card .card-name{height:auto;min-height:34px;font-size:clamp(11px,.9vw,13px);line-height:1.25;overflow-wrap:anywhere;flex-shrink:0}
+.hand-card .card-rules{min-height:48px;font-size:10px;line-height:1.45;overflow:visible;overflow-wrap:anywhere;flex:1 0 auto;padding-top:4px;padding-bottom:7px}
+.hand-card .card-top,.hand-card .card-faction,.hand-card .command-price,.hand-card .card-stats{flex-shrink:0}
+@media(min-width:761px){.game .hand-cards{grid-auto-rows:max-content;grid-template-rows:none;align-items:start}}
+.hand-card .card-faction{height:auto;min-height:22px;flex-wrap:wrap;line-height:1.4}
+.card-top,.card-cost,.card-stats,.unit-info,.full-card-briefing>div{min-width:0}
+.inspector h3,.full-card-briefing h3,.full-card-briefing p,.card-rules,.arsenal-card-title,.collection-card h3{overflow-wrap:anywhere}
+.inspector p{font-size:11px;line-height:1.55}
+.inspect-art{overflow:hidden;max-width:100%}
+.full-card-art{min-height:200px}
+.unit-art{flex-shrink:0}.unit-info{overflow:hidden}.unit-name{max-width:100%}
+.rarity-badge{display:inline-block;font:600 9px/1.3 var(--mono,monospace);letter-spacing:.3px;padding:2px 5px;border:1px solid currentColor;border-radius:2px;white-space:nowrap;vertical-align:middle;color:var(--rarity-color,#98a6ae);background:#101921}
+.rarity-common{--rarity-color:#98a6ae}.rarity-uncommon{--rarity-color:#8cbc99}.rarity-rare{--rarity-color:#82b5df}.rarity-epic{--rarity-color:#bc9ad9}.rarity-legendary{--rarity-color:#e1bf79}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card)[class*="rarity-"]{border-color:var(--rarity-color);box-shadow:0 3px 12px #0005,inset 0 0 0 1px color-mix(in srgb,var(--rarity-color) 12%,transparent)}
+:is(.unit,.inspector)[class*="rarity-"]{border-right-color:var(--rarity-color)}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).rarity-legendary{border-top-width:3px}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).rarity-epic{border-top-width:2px}
+[class*="variant-"] :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{content:'';display:block;position:absolute;inset:0;pointer-events:none;z-index:2;opacity:1}
+.variant-field-worn :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{background:repeating-linear-gradient(124deg,transparent 0 31px,#e1d8c318 32px 33px,transparent 34px 55px),linear-gradient(0deg,#594c3426,transparent 35%);box-shadow:inset 0 0 14px #40351f77}
+.variant-battle-hardened :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{background:radial-gradient(ellipse at 15% 75%,#130c09a3,transparent 35%),repeating-linear-gradient(132deg,transparent 0 20px,#d9c5a829 21px 23px,transparent 24px 54px);box-shadow:inset 0 0 0 3px #725f4733,inset 0 0 18px #160b0866}
+.variant-veteran :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{background:repeating-linear-gradient(90deg,#d0bc77b3 0 2px,transparent 2px 5px) 9px 10px/22px 9px no-repeat,linear-gradient(120deg,transparent 82%,#d7c48550 83% 87%,transparent 88%);box-shadow:inset 0 0 0 2px #ccb77544}
+.variant-foil :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after{background:linear-gradient(115deg,transparent 18%,#6fbadd16 35%,#e6a4da26 48%,#fff8ca22 58%,transparent 76%);background-size:240% 100%;animation:frontlines-foil 7s ease-in-out infinite;opacity:var(--foil-intensity,.24)}
+.variant-full-art :is(.card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art){margin-left:0;margin-right:0;border-left:0;border-right:0}
+.variant-full-art.hand-card .card-art{flex-basis:100px;height:100px;min-height:100px}
+.fx-particle{width:4px!important;height:4px!important;background:var(--fx-color);border-radius:50%;box-shadow:0 0 4px var(--fx-color)}
+.fx-particle.fx-target{border-radius:0;width:3px!important;height:9px!important}.fx-particle.fx-distortion{border-radius:0;width:10px!important;height:2px!important}.fx-particle.fx-shield{border-radius:1px}.fx-particle.fx-shockwave{background:#d9baa0}
+.fx-ring.fx-shield{border-radius:3px;border-style:double;border-width:3px}.fx-ring.fx-target{border-radius:0;border-style:dashed}.fx-ring.fx-distortion{border-radius:2px;border-width:1px}.fx-ring.fx-spark{border-radius:15%;border-style:dotted}
+.fx-reveal{border:1px solid var(--fx-color);border-radius:3px;background:transparent;box-shadow:0 0 18px color-mix(in srgb,var(--fx-color) 32%,transparent)}
+.hand-card:is(.rarity-rare,.rarity-epic,.rarity-legendary):before{background:linear-gradient(100deg,var(--rarity-color) 10%,var(--faction-color,#82b8cf) 40%,#ffffffb3 50%,var(--rarity-color) 60%);background-size:220% 100%;animation:frontlines-foil 9s ease-in-out infinite}
+body[data-presentation="reduced"] .hand-card:before,body[data-presentation="minimal"] .hand-card:before{animation:none}
+.game .hand-area .inspector>p{font-size:11px;line-height:1.55}
+.reduce-effects .variant-foil :is(.card-art,.inspect-art,.full-card-art,.arsenal-art,.collection-art,.pack-card-art,.unit-art):after,body[data-presentation="minimal"] .variant-foil :after,body[data-presentation="reduced"] .variant-foil :after{animation:none}
+@keyframes frontlines-foil{0%,100%{background-position:150% 0}50%{background-position:-70% 0}}
+@media(min-width:1100px) and (min-height:650px){.game>.hand-area .hand-card{min-height:290px}.game>.hand-area .card-art{height:70px;min-height:70px;flex-basis:70px}.game>.hand-area .hand-cards{align-items:start}.game>.hand-area .card-stats{font-size:10px}.game>.hand-area .card-stats small{font-size:6px}}
+@media(min-width:761px){.game>.hand-area .variant-full-art .card-art{height:100px;min-height:100px;flex-basis:100px}}
+@media(max-width:650px){.hand-card{min-height:310px}.hand-area .inspect-art{position:relative;width:100%;height:150px}.hand-area .inspect-art .card-portrait{position:absolute;inset:0;height:100%;width:100%;transform:none}.full-card-briefing{display:grid;grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.variant-foil :after,.hand-card:before{animation:none!important}}
+/* Compact match hands retain the established 132px strip. Full rules and cosmetic
+ * details remain available from the visible Inspect action and card dialog. */
+@media(max-width:760px){
+  .game .hand-cards .hand-card{height:132px;min-height:132px;max-height:132px;flex:0 0 132px}
+  .game .hand-card .card-top{height:20px;min-height:20px;flex-basis:20px;padding:2px 6px}
+  .game .hand-card .card-type{font-size:7px;line-height:1.2;letter-spacing:0}
+  .game .hand-card .card-cost{font-size:13px}.game .hand-card .card-cost small{font-size:7px}
+  .game .hand-card .card-art,.game .hand-card.variant-full-art .card-art{height:34px;min-height:34px;flex-basis:34px;margin:0 4px 2px}
+  .game .hand-card .card-art .art-symbol svg{height:28px;width:42px}
+  .game .hand-card .command-price{height:13px;min-height:13px;font-size:8px;line-height:10px;padding:1px 4px;white-space:nowrap}
+  .game .hand-card .card-name{font-size:10px;height:32px;min-height:32px;max-height:32px;line-height:1.25;padding:3px 6px 1px;overflow:hidden}
+  .game .hand-card .card-faction,.game .hand-card .card-rules{display:none}
+  .game .hand-card .card-stats{height:24px;min-height:24px;flex-basis:24px;font-size:10px;padding:3px 6px;gap:5px;margin-top:auto}
+  .game .hand-card .card-stats small{font-size:6px}.game .hand-card .card-stats .card-ready{font-size:6px}
+}
+.match-rewards{margin:16px 0;padding:12px 14px;border:1px solid #638a715c;background:#101e1a;text-align:left;max-width:100%;overflow-wrap:anywhere}.match-rewards h3{font-size:13px;margin:0 0 7px;color:#b5d3ba}.match-rewards p{margin:5px 0;font-size:11px;line-height:1.5}.match-rewards b{color:#d3e9d8}.match-rewards small{display:block;font-size:10px;line-height:1.5;color:#9fb4a7}.match-rewards .command{margin-top:8px}
+/* v1.0 material frames: a restrained steel shell at Common, machined faction
+ * trim, then inset gilded rails at higher rarities. Text panels are opaque. */
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card)[class*="rarity-"]{
+  position:relative;border:2px solid color-mix(in srgb,var(--rarity-color) 70%,#182731);border-top:4px solid var(--faction-color,var(--rarity-color));border-radius:6px 2px 6px 2px;
+  background:linear-gradient(120deg,#5b69751c,transparent 35%),linear-gradient(180deg,#22303b,#0d1821 68%,#192631);
+  box-shadow:0 5px 12px #0005,inset 0 0 0 1px #c9dbe025,inset 0 0 0 3px #080f1877;
+}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).rarity-uncommon{box-shadow:0 5px 13px #0005,inset 0 0 0 1px #cde9d548,inset 0 0 0 3px #080f1877}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).rarity-rare{box-shadow:0 5px 15px #0006,inset 0 0 0 1px #b4d7f76b,inset 0 0 0 3px #0b1a28,0 0 9px #82b5df13}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).rarity-epic{border-width:3px;border-top-width:5px;box-shadow:0 6px 18px #0006,inset 0 0 0 1px #e1d0f866,inset 0 0 0 3px #141528,0 0 12px #bc9ad920}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).rarity-legendary{border-width:3px;border-top-width:5px;border-bottom-color:#e4c68b;box-shadow:0 7px 19px #0007,inset 0 0 0 1px #fff0b673,inset 0 0 0 3px #1a1e24,0 0 16px #e1bf7924;background:linear-gradient(125deg,#83684720,transparent 36%,#25384838 68%,transparent),linear-gradient(#27333d,#101b23 70%,#283137)}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).faction-stonewall{border-radius:2px;box-shadow:0 5px 14px #0006,inset 0 0 0 1px #c2e1ed45,inset 4px 0 0 #8299a226,inset -4px 0 0 #8299a226}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).faction-bruiser{border-radius:2px 9px 2px 2px;background-image:repeating-linear-gradient(128deg,transparent 0 28px,#ed835c08 29px 30px),linear-gradient(#342c28,#111c24 65%,#242b30)}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).faction-syndicate{border-radius:9px 2px 9px 2px}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).faction-nightwalker{border-radius:3px;background-image:linear-gradient(125deg,#51416814,transparent 60%),linear-gradient(#242d39,#0d1620 66%,#212a35)}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card).faction-rogue{border-radius:2px 8px 3px 6px;border-right-style:double;border-right-width:4px}
+:is(.card-top,.arsenal-card-top,.collection-card-type){background:linear-gradient(110deg,#34424b,#1b2b36 48%,#263741);border-bottom:1px solid #cee0e021;color:#d1e0e5}
+:is(.card-cost,.arsenal-card-top>b,.collection-card-type>b){text-shadow:0 1px 2px #000;background:#0d1a238a;border:1px solid color-mix(in srgb,var(--faction-color,#82b8cf) 50%,transparent);padding:2px 4px;border-radius:2px;line-height:1}
+:is(.card-art,.arsenal-art,.collection-art,.pack-card-art){border:1px solid #b5cbd940;border-bottom:2px solid var(--faction-color,#82b8cf);box-shadow:inset 0 0 0 1px #071018,inset 0 0 12px #06111a}
+:is(.hand-card,.arsenal-card,.collection-card,.pack-card) :is(.card-name,.arsenal-card-name,.collection-card-inspect>h3,.pack-card>h3){color:#f1eee2;background:linear-gradient(100deg,#31414a,#1c2d37 60%,#34434a);border-top:1px solid color-mix(in srgb,var(--rarity-color,#a4b7c3) 55%,transparent);border-bottom:1px solid #07131da3;text-shadow:0 1px 2px #000;letter-spacing:.1px}
+:is(.card-rules,.arsenal-card-rules,.collection-card-rules){background:linear-gradient(115deg,#111f29,#14232c);color:#cfdbdf;border-top:1px solid #b7cbd416}
+:is(.card-stats,.arsenal-card-stats,.collection-card-stats){background:linear-gradient(#263943,#13222c);border-top:1px solid #adc6d336;color:#e1ebe8;box-shadow:inset 0 1px 0 #080f1a}
+:is(.card-stats,.arsenal-card-stats,.collection-card-stats)>span{border-left:1px solid #ccdde421;padding-left:5px;line-height:1.3}
+:is(.card-stats,.arsenal-card-stats,.collection-card-stats)>span:first-child{border-left:0;padding-left:0}
+.hand-card .command-price{background:#0d1b24;border-top:1px solid #809aab1a;border-bottom:1px solid #809aab1a;color:#b8cbd5}
+.hand-card.selected{border-color:#f4bd72;box-shadow:0 0 0 2px #f4bd723b,0 8px 20px #0007,inset 0 0 0 1px #ffe4b682}
+.hand-card.unavailable{opacity:.75;filter:saturate(.62)}
+.rarity-legendary :is(.card-art,.arsenal-art,.collection-art,.pack-card-art){border-color:#e1bf7999;box-shadow:inset 0 0 0 1px #fff0b663,0 1px 8px #e1bf791f}
+.rarity-legendary :is(.card-art,.arsenal-art,.collection-art,.pack-card-art):before{content:'';display:block;position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(116deg,transparent 24%,#8dbde621 40%,#f5c18b22 48%,#c5e5d619 54%,transparent 67%);background-size:220% 100%;animation:frontlines-foil 11s ease-in-out infinite}
+.rarity-legendary .card-top{background:linear-gradient(110deg,#565044,#273743 50%,#454737)}
+.unit[class*="rarity-"]{border-right:2px solid var(--rarity-color);box-shadow:inset 0 -1px 0 #bbced21c,0 1px 3px #0004}
+.unit.rarity-legendary{border-right-width:3px;border-right-style:double}
+body[data-presentation="reduced"] .rarity-legendary :before,body[data-presentation="minimal"] .rarity-legendary :before{animation:none}
+@media(max-width:760px){
+  .game .hand-cards .hand-card{border-width:1px;border-top-width:2px;border-right-width:1px}
+  .game .hand-card .card-cost{border:0;padding:0;background:transparent}
+  .game .hand-card .card-name{border-top:0}
+  .game .hand-card .card-stats>span{padding-left:3px}
+}
+@media(prefers-reduced-motion:reduce){.rarity-legendary :before{animation:none!important}}
+/* One card face proportion across hand, deck preview and detailed inspection.
+ * Roster units remain compact battlefield controls; image windows still crop
+ * the unchanged faction artwork independently inside the card frame. */
+:root{--card-aspect-ratio:5/7}
+.hand-card{aspect-ratio:var(--card-aspect-ratio);height:auto;min-height:0;max-height:none;contain:size}
+.hand-card .card-art,.hand-card.variant-full-art .card-art{height:auto;min-height:0;flex:1 1 31%}
+.hand-card .card-name{min-height:30px;height:auto;max-height:none;line-height:1.25}
+.hand-card .card-rules{min-height:0;flex:1 1 26%;overflow:auto;scrollbar-width:thin}
+.deck-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(156px,200px));align-items:start;justify-content:start}
+.deck-grid .hand-card{height:auto;min-height:0;max-height:none;align-self:start}
+.full-card-briefing{align-items:start}
+.full-card-preview{width:100%;max-width:260px;min-width:0;align-self:start}
+.full-card-preview .hand-card{width:100%;min-width:0;height:auto;min-height:0;max-height:none}
+.full-card-preview .card-rules{font-size:11px;line-height:1.45}
+/* Arsenal copy controls belong below the card face, not to its proportion. */
+.arsenal-catalog{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));align-items:start}
+.arsenal-card-inspect{aspect-ratio:var(--card-aspect-ratio);height:auto;min-height:0;contain:size;overflow:hidden}
+.arsenal-card-inspect>.arsenal-art{aspect-ratio:auto;min-height:0;height:auto;flex:1 1 29%}
+.arsenal-card-inspect>.arsenal-card-name{min-height:35px;padding:5px 8px;flex-shrink:0;font-size:13px;line-height:1.3}
+.arsenal-card-inspect>.arsenal-card-top{padding:5px 8px;flex-shrink:0}
+.arsenal-card-inspect>.arsenal-card-top b{font-size:17px}
+.arsenal-card-inspect>.arsenal-card-faction,.arsenal-card-inspect>.arsenal-card-collection,.arsenal-card-inspect>.commander-synergy{padding:3px 8px;min-height:0;flex-shrink:0}
+.arsenal-card-inspect>.arsenal-card-rules{min-height:0;flex:1 1 24%;overflow:auto;padding:4px 8px;scrollbar-width:thin}
+.arsenal-card-inspect>.arsenal-card-stats{padding:6px 8px;flex-shrink:0}
+/* Atlas quadrants are square. Keep their paint surface square and let only
+ * the existing image window crop it; rectangular windows must not rescale X
+ * and Y independently. Compact lane units and Commander portraits are exempt. */
+.hand-card .card-art>.card-portrait:not(.art-symbol),.arsenal-card-inspect>.arsenal-art>.arsenal-portrait:not(.art-symbol),.arsenal-detail>.arsenal-art>.arsenal-portrait:not(.art-symbol){inset:0 0 auto;width:100%;height:auto;aspect-ratio:1;background-size:200% 200%;transform:none}
+.hand-card.damaged .card-stats .damaged,.hand-card .card-health.damaged{color:#f1b292}
+.hand-card.damaged .card-art{border-bottom-color:#e4ac8e}
+/* Refined painted scenes use one uniform cover crop, with their per-card focal
+ * point supplied by the art mapping. Legacy square atlas tiles stay untouched. */
+.hand-card .card-art>.card-portrait.art-refined,
+.arsenal-card-inspect>.arsenal-art>.arsenal-portrait.art-refined,
+.arsenal-detail>.arsenal-art>.arsenal-portrait.art-refined,
+.collection-card-inspect>.collection-art>.card-portrait.art-refined,
+.collection-art>.card-portrait.art-refined,
+.inspector .inspect-art>.card-portrait.art-refined,
+.unit .unit-art>.card-portrait.art-refined,
+.full-card-art>.card-portrait.art-refined,
+.pack-card-art>.card-portrait.art-refined,
+.training-unit-art>.card-portrait.art-refined{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;transform:none;background-size:cover;background-repeat:no-repeat}
+.random-opponent-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.random-opponent-controls>.btn{min-height:44px;padding:10px 12px;white-space:normal;font-size:13px;font-weight:650}
+.random-opponent-controls>.check-label{grid-column:1/-1;display:flex;align-items:center;gap:8px;min-height:36px;font-size:12px;line-height:1.4;white-space:normal}
+.random-opponent-controls input[type="checkbox"]{width:18px;height:18px;flex-shrink:0}
+/* The small match face keeps identity, price and combat values; the existing
+ * inspection panel carries full rules rather than stretching the card tile. */
+.game .hand-cards .hand-card{height:auto;min-height:0;max-height:none;flex-basis:auto}
+.game .hand-card .card-top{height:25px;min-height:25px;flex:0 0 25px;padding:3px 6px}
+.game .hand-card .card-art,.game .hand-card.variant-full-art .card-art{height:auto;min-height:0;flex:1 1 35%;margin:0 4px 2px}
+.game .hand-card .command-price{height:13px;min-height:13px;flex:0 0 13px;font-size:8px;line-height:11px;padding:1px 4px;white-space:nowrap}
+.game .hand-card .card-name{height:32px;min-height:32px;max-height:32px;flex:0 0 32px;font-size:10px;line-height:1.25;padding:3px 6px;overflow:hidden}
+.game .hand-card .card-faction,.game .hand-card .card-rules{display:none}
+.game .hand-card .card-stats{height:27px;min-height:27px;flex:0 0 27px;font-size:10px;padding:4px 6px;gap:5px;margin-top:auto}
+.game .hand-card .card-stats small{font-size:6px}
+.game .hand-card .card-ready{font-size:6px}
+.hand-card[data-card-state="playable"]{opacity:1;filter:none;cursor:pointer;transform:translateY(-2px);border-color:color-mix(in srgb,var(--faction-color) 80%,#d7e5dd);box-shadow:0 0 0 1px #c9dfd529,0 5px 12px #0005}
+.hand-card[data-card-state="playable"]:is(:hover,:focus-visible){transform:translateY(-4px);filter:brightness(1.08)}
+.hand-card[data-card-state="unplayable"],.hand-card[data-card-state="unplayable"]:hover{opacity:.78;filter:saturate(.3);transform:none;cursor:help;box-shadow:0 3px 8px #0004}
+.hand-card[data-card-state="unplayable"] .card-ready{color:#d1bfab}
+.hand-card[data-card-state="inspect"]{opacity:1;filter:none;cursor:zoom-in}
+.hand-card[data-card-state]:focus-visible{outline:2px solid #f5e1b9;outline-offset:-3px}
+.hand-card.selected[data-card-state="playable"]{transform:translateY(-4px);border-color:#f4bd72;box-shadow:0 0 0 2px #f4bd723b,0 8px 20px #0007,inset 0 0 0 1px #ffe4b682}
+/* Legal target shapes and labels complement faction color. Invalid targets
+ * stay inspectable from the briefing while action hit testing rejects them. */
+.territory[data-target-state="invalid"]{filter:saturate(.5) brightness(.72);cursor:default}
+.unit[data-target-state="invalid"],.unit[data-target-state="invalid"]:hover{opacity:.5;filter:saturate(.35);cursor:default}
+.territory[data-target-state="legal"]{filter:brightness(1.09);border-style:double;border-width:3px;cursor:crosshair}
+.territory[data-target-state="legal"]:after{content:'\2713  ' attr(data-target-label);font-weight:700;letter-spacing:.4px}
+.unit[data-target-state="legal"]{opacity:1;filter:brightness(1.13);border-style:dashed;border-width:2px;cursor:crosshair}
+.unit[data-target-state="legal"] .unit-readiness{height:8px;width:8px;min-width:8px;border:1px solid #e9e4c4;background:transparent;transform:rotate(45deg)}
+@media(max-width:760px){.full-card-preview{max-width:240px;margin:auto}.game .hand-cards .hand-card{width:120px;min-width:120px;flex:0 0 120px}}
+@media(max-width:520px){.arsenal-catalog{grid-template-columns:minmax(0,1fr)}.arsenal-card{width:min(260px,100%);justify-self:center}}
+@media(prefers-reduced-motion:reduce){.hand-card[data-card-state="playable"]{transform:none}.hand-card[data-card-state="playable"]:is(:hover,:focus-visible){transform:none}}
+/* Forge XI status strips use text and distinct symbols as well as color.
+ * They live inside the existing unit box and never enlarge battlefield rows. */
+.unit-tactical-statuses{position:absolute;right:2px;bottom:1px;display:flex;gap:1px;max-width:65%;pointer-events:auto;background:#0c151de6}
+.tactical-status{display:inline-flex;align-items:center;gap:2px;font:700 8px/12px Consolas,monospace;border:1px solid #a7bac155;border-radius:2px;background:#13212a;color:#d8e4e8;padding:0 3px;white-space:nowrap;cursor:help}
+.unit .tactical-status{font-size:0;line-height:9px;padding:0 2px;gap:0}
+.unit .tactical-status b{font-size:9px;line-height:9px}
+.status-cover{border-style:double;color:#d0ddb6}.status-dodge{border-style:dashed;color:#acd8df}.status-suppression{color:#efbc86}.status-overwatch{border-style:double;color:#f6d9a1}.status-exposed{color:#f4ada2}.status-smoke{color:#c3cbdc}
+.inspect-tactical-statuses{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.inspect-tactical-statuses .tactical-status{flex-wrap:wrap;font-size:10px;line-height:16px;padding:3px 5px;white-space:normal}
+.inspect-tactical-statuses .tactical-status small{display:block;flex-basis:100%;font-weight:400;font-size:9px}
+.unit:has(.status-cover){border-bottom:2px double #cad4ad}.unit:has(.status-dodge){border-right:2px dashed #abd3df}.unit:has(.status-suppression){border-top:2px dotted #e7b487}.unit:has(.status-overwatch){box-shadow:inset 0 0 0 1px #e6cb8677}.unit:has(.status-exposed){border-left:3px solid #f4ad9d}
+.unit.blast-affected[data-target-state="invalid"]{opacity:1;filter:none;border:2px dashed #f4bb8a}
+.blast-preview-number{position:absolute;right:2px;top:0;font:700 8px/10px Consolas,monospace;padding:0 2px;background:#412d20;color:#ffdcba}
+.territory-status,.territory-blast-preview{position:absolute;top:43px;right:3px;z-index:4;font:700 7px/11px Consolas,monospace;background:#101c28ef;border:1px dashed #b6c4d4;padding:1px 3px;pointer-events:auto;cursor:help}
+.territory-blast-preview{top:auto;bottom:30px;border-color:#f2c399;color:#ffdab6}
+.territory.tactical-smoke .terrain-lines{background:radial-gradient(ellipse at 50% 45%,#b1bfcc24,transparent 80%)}
+.tactical-preview{padding:10px;background:#17252e;border:1px dashed #e1b283;margin:10px 0;font-size:12px;line-height:1.6}.tactical-preview>b,.tactical-preview>span{display:block}.tactical-preview ul{margin:5px 0;padding-left:20px}
+.sacrifice-warning{padding:15px;border:2px solid #eb9c83;background:#452c243b;font-size:16px;line-height:1.6}
+.manual-training-link{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.manual-training-link span{font-size:12px}
+.game .order-buttons{min-width:0;max-width:65%;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:thin;align-items:center}.game .order-buttons>.btn{flex-shrink:0;min-height:44px}.game .tactical-command{border-style:double;font-size:10px}
+.game .tactical-command{display:flex;flex-direction:column;justify-content:center;gap:2px}.game .tactical-command b{font-size:10px;line-height:12px}.game .tactical-command small{font:8px/10px Consolas,monospace;color:#c4d4db}
+@media(max-height:740px){.territory-status{top:42px}.unit .tactical-status b{font-size:8px;line-height:8px}}

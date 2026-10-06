@@ -1,18 +1,18 @@
-# Frontlines v1.1.0 — private multiplayer playtest
+# Frontlines v1.2.0 — private multiplayer playtest
 
-**Current status: do not send this candidate to Wyatt for across-home play yet.** Local two-client tests and a complete match between two native packaged applications have passed, but the project-owned public relay has not been provisioned. Public internet and different-home connectivity have not been verified. Offline Frontlines remains available.
+**Private Internet multiplayer is ready for playtesting.** The deployed relay and two separate final v1.2.0 packaged Windows clients pass through the ordinary configured public route. Use the verified installer supplied with [the current release guide](RELEASE-1.2.0.md) for the two-home playtest. Ryken and Wyatt's actual different-home connectivity and Wyatt's Windows scaling remain human validation. Offline Frontlines remains available.
 
-## One-time activation for Ryken
+## Activation status
 
-The missing dependency is a project-owned Cloudflare account and approval to deploy its Worker/Durable Object relay. Ryken's one manual action is to sign in to, or create, that account and approve the official browser OAuth request when Forge starts the Cloudflare login flow. Existing-account approval should take a few minutes; new-account setup may take longer. Do not paste passwords or provider tokens into chat, reports or the project.
+Ryken authorized Cloudflare access and completed the official browser approval. The project relay is deployed at `https://frontlines-private-relay.frontlines-private-relay.workers.dev`, and the normal v1.2.0 build has this origin configured. Players do not enter this address or need a Cloudflare account. Do not include passwords, provider tokens or reconnect credentials in chat or reports.
 
-After that approval, Forge will deploy the reviewed service, configure its public HTTPS/WSS origin, run two-client tests through that public service, rebuild the normal installer and record the packaged result. Ryken and Wyatt should use the newly issued activated installer, rather than the current unconfigured candidate. Their actual different-home match is the final player validation.
+Public HTTPS/WSS tests have passed health, short invitations, guest join, authenticated bidirectional traffic, trusted sender identity, host/guest automatic reconnect and room closure. A full two-controller match through that same service also passed Commander use, hidden-card privacy, matching results, rematch and concession. The final native test used two separate packaged applications with no endpoint override: both readied, acknowledged the same opening, completed a territorial match with matching winner/hash and rematched with alternating initiative; neither reported provider errors. These tests ran from one development computer through the public service; they are not a two-home test.
 
-The following player steps apply **after Forge confirms activation and supplies the tested installer**.
+The following player steps use **the supplied verified v1.2.0 installer**. The preserved `Frontlines-Setup-1.1.0.exe` is the historical unconfigured checkpoint; do not use it for Internet play. No separate relay application needs to be launched.
 
 ## Ryken: host
 
-1. Install the supplied **Frontlines-Setup-1.1.0.exe** and open Frontlines.
+1. Install the supplied **Frontlines-Setup-1.2.0.exe** and open Frontlines.
 2. Open **Multiplayer → Host Private Match**.
 3. Use **Copy code** and send the code to Wyatt.
 4. Choose your faction, Commander and a legal deck. Check your display name.
@@ -21,7 +21,7 @@ The following player steps apply **after Forge confirms activation and supplies 
 
 ## Wyatt: join
 
-1. Install the same supplied **Frontlines-Setup-1.1.0.exe** and open Frontlines.
+1. Install the same supplied **Frontlines-Setup-1.2.0.exe** and open Frontlines.
 2. Open **Multiplayer → Join Private Match**.
 3. Enter Ryken's code and select **Join Match**.
 4. Choose your faction, Commander and a legal deck. Check your display name.
@@ -65,7 +65,7 @@ Private matches record local history and eligible mastery for owned cards actual
 
 | Message or symptom | What to do |
 | --- | --- |
-| Private online service unavailable | The present candidate intentionally has no public service URL. Wait for the activated installer. Once activated, check the internet connection; offline modes remain available. |
+| Private online service unavailable | Confirm that both PCs use the verified v1.2.0 installer, then check the internet connection. An old unconfigured installer needs the supplied update. Offline modes remain available during a service outage. |
 | Match not found | Ask the host to confirm the code and that the lobby is still open. New guest invitations expire after fifteen minutes; create a fresh room if necessary. |
 | Version/rules mismatch | Both players must install the same supplied version. Do not mix an old test build with the release candidate. |
 | Deck invalid / Commander missing | Choose an explicit faction Commander and a legal deck using available collection cards. Correct the shown legality warning before Ready. |
@@ -77,7 +77,7 @@ Private matches record local history and eligible mastery for owned cards actual
 
 ## What this test does and does not establish
 
-Every match uses a secure relay connection. Direct P2P is not implemented, and there is no separate direct-route/relay-fallback switch to test. Local Worker tests prove the implemented relay protocol on one machine; they do not prove internet routing or different-home availability.
+Every match uses a secure relay connection. Direct P2P is not implemented, and there is no separate direct-route/relay-fallback switch to test. The historical Sprint 13 reports and v1.1.0 artifacts document local Worker verification before deployment. Current public route/controller and two-process packaged checks establish the deployed Internet service from the development computer; Ryken and Wyatt's match checks separate-home availability and usability.
 
 This is casual private multiplayer. The host application owns the authoritative engine and can see canonical hidden data if deliberately modified; the normal host UI hides it. The relay provider can observe forwarded messages, so this is TLS transport security rather than end-to-end encryption. Service sessions expire after six hours, and the host must remain open.
 

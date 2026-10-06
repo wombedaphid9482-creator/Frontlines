@@ -2,6 +2,7 @@
 // One complete two-client network correctness match, not a balance campaign.
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const C=require('../multiplayer-controller'),B=require('../balance'),Decks=require('../decks');
+const evidencePrefix=process.env.FRONTLINES_EVIDENCE_PREFIX||'sprint13';
 const endpoint=process.env.FRONTLINES_RELAY_TEST_URL||'http://127.0.0.1:8787',local=/^http:\/\/(127\.0\.0\.1|localhost):/.test(endpoint);
 const runtime=B.createRuntime(B.DEFAULT_PROFILE),presets=Decks.forData(runtime.data).getDecks();
 const wait=(fn,label,ms=18000)=>new Promise((resolve,reject)=>{const start=Date.now(),timer=setInterval(()=>{try{if(fn()){clearInterval(timer);resolve();}else if(Date.now()-start>ms){clearInterval(timer);reject(Error('Timed out: '+label));}}catch(e){clearInterval(timer);reject(e);}},8);});
@@ -39,7 +40,7 @@ async function main(){
     for(const controller of [host,guest]){assert.equal((await controller.command('ready',{ready:true})).ok,true);await wait(()=>[host.getState(),guest.getState()].every(m=>m.lobby.players.filter(p=>p.ready).length>0),'rematch ready');}
     await wait(()=>host.getState().lobby.canStart,'both rematch ready');assert.equal((await host.command('start')).ok,true);await wait(()=>host.getState().snapshot?.status==='active'&&guest.getState().snapshot?.status==='active'&&aligned(host.getState(),guest.getState()),'rematch opening');assert.notEqual(host.getState().snapshot.matchId,matchId);assert.equal(host.getState().localSeat,1-openingSeat);report.checks.push('rematch preserves selections, uses new match ID and alternates initiative');
     assert.equal((await guest.command('concede')).ok,true);await wait(()=>host.getState().phase==='results'&&guest.getState().phase==='results','concession');assert.equal(host.getState().result.reason,'concede');report.checks.push('confirmed protocol concession synchronizes terminal result');
-    report.commanders=[...report.commanders];report.events=[...report.events];report.completed=true;fs.writeFileSync(path.resolve(__dirname,'../test-results/'+(local?'sprint13-relay-controller.json':'sprint13-relay-public-controller.json')),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+    report.commanders=[...report.commanders];report.events=[...report.events];report.completed=true;fs.writeFileSync(path.resolve(__dirname,'../test-results/'+(local?evidencePrefix+'-relay-controller.json':evidencePrefix+'-relay-public-controller.json')),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
   }finally{await guest.dispose();await host.dispose();}
 }
 main().catch(e=>{console.error('RELAY_CONTROLLER_TEST_FAILED',e.message,(e.stack||'').split('\n').find(line=>line.includes('sprint13-relay-controller.js'))||'');process.exitCode=1;});
