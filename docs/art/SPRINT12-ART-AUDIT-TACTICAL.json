@@ -1,0 +1,1355 @@
+{
+  "schemaVersion": 1,
+  "phase": "before",
+  "build": "1.0.4",
+  "reviewedAt": "2026-10-04",
+  "scope": "All 40 Tactical Arsenal battlefield designs; off-lane Commanders are separate preserved benchmarks.",
+  "method": "Manual visual inspection of five full-art/70px/110×70px sheets, five actual 1366×768 Collection views, full-resolution legacy atlas benchmark and ten approved Commander portraits.",
+  "classification": {
+    "A": "Strong/release quality",
+    "B": "Acceptable/consistent",
+    "C": "Noticeably below current standard",
+    "D": "Broken/placeholder/bad crop/low quality"
+  },
+  "summary": {
+    "reviewed": 40,
+    "A": 0,
+    "B": 0,
+    "C": 17,
+    "D": 23,
+    "replacementsRecommended": 40,
+    "missingAssets": 0,
+    "distortedSources": 0
+  },
+  "benchmarks": [
+    "docs/art/sprint12-before/legacy-atlas-benchmarks.png",
+    "docs/art/sprint12-before/commander-benchmarks.png"
+  ],
+  "notes": [
+    "A correct decode and faction-colored template do not meet the illustrated art-quality floor.",
+    "C grades acknowledge recognizable human unit subjects. D grades identify glyph/diagram stand-ins where the card needs an action or equipment scene.",
+    "No numeric gameplay or balance campaign was run for this audit."
+  ],
+  "cards": [
+    {
+      "id": "stonewall_trench_engineer",
+      "name": "Trench Engineer",
+      "faction": "stonewall",
+      "type": "unit",
+      "rarity": "common",
+      "rulesText": "On deployment: gain Cover. Entrench — pay 1 Capacity and 1 Command Action; exhaust to give one ally here Cover. Cover reduces the next direct enemy attack by 2, then is consumed; it never stacks. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/stonewall/stonewall_trench_engineer.svg",
+      "sha256": "b91eeae8ff268f52970a6371c48df19aa34eb7c1e4578aee762ca1096b7d7467",
+      "bytes": 2646,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Generic shield-bearing bust does not depict trench construction or entrenching work; shares head and torso with Shield Section and Field Mechanic.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-before.png",
+        "test-results/sprint12-tactical-stonewall-collection-before.png"
+      ]
+    },
+    {
+      "id": "stonewall_shield_section",
+      "name": "Shield Section",
+      "faction": "stonewall",
+      "type": "unit",
+      "rarity": "uncommon",
+      "rulesText": "Guard. Shield Wall — pay 1 Capacity and 1 Command Action; exhaust to give another ally here Cover. Guard remains vulnerable to Precision and prepared Breach. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/stonewall/stonewall_shield_section.svg",
+      "sha256": "fc1512af4fcad62f653d8965bc9a0a422042972a03580ef6e2f38c542bd7e49c",
+      "bytes": 2756,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "One repeated soldier with a small shield does not communicate a defensive section or linked shield wall; mostly a palette/armor change from Trench Engineer.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-before.png",
+        "test-results/sprint12-tactical-stonewall-collection-before.png"
+      ]
+    },
+    {
+      "id": "stonewall_bastion_gunner",
+      "name": "Bastion Gunner",
+      "faction": "stonewall",
+      "type": "unit",
+      "rarity": "rare",
+      "rulesText": "Overwatch — instead of attacking, pay 1 Command Action and exhaust. The first enemy deployment or movement into this territory takes 2 direct damage; consume Overwatch. It expires when your next action window begins. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/stonewall/stonewall_bastion_gunner.svg",
+      "sha256": "08fb85c609df34c526d9424901ec286d7d7e65a2e828cae3ef08d7aed88fe086",
+      "bytes": 2556,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "The narrow angular rifle shape does not read as a fortified heavy gunner; identical base bust and abstract ground to the other Stonewall units.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-before.png",
+        "test-results/sprint12-tactical-stonewall-collection-before.png"
+      ]
+    },
+    {
+      "id": "stonewall_field_mechanic",
+      "name": "Field Mechanic",
+      "faction": "stonewall",
+      "type": "unit",
+      "rarity": "common",
+      "rulesText": "Repair — pay 1 Capacity and 1 Command Action; exhaust to heal one damaged friendly unit or Asset here by 2. Repair does not raise maximum Health. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/stonewall/stonewall_field_mechanic.svg",
+      "sha256": "8cf517682cc2c6c4f0a65da77a4990b65fa84f41360296e7e88d310b947657f2",
+      "bytes": 2613,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Tiny wrench and tablet suggest a role, but there is no repair scene, equipment depth or distinct subject pose; shared helmet and body template.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-before.png",
+        "test-results/sprint12-tactical-stonewall-collection-before.png"
+      ]
+    },
+    {
+      "id": "stonewall_hardpoint",
+      "name": "Hardpoint",
+      "faction": "stonewall",
+      "type": "asset",
+      "rarity": "rare",
+      "rulesText": "At the beginning of your action window: give the most wounded friendly unit here Cover (ties: lowest unit ID). One unit only; Cover does not stack. Immobile. Breach attacks gain their printed Asset bonus. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/stonewall/stonewall_hardpoint.svg",
+      "sha256": "0f890c797d7e02aa2d71fb4f1d04f0f028d89025b376eef77d883f81d9685b62",
+      "bytes": 1804,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Flat outline of a bunker is a diagram rather than a lit battlefield fortification; no scale, terrain integration or defended position.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-before.png",
+        "test-results/sprint12-tactical-stonewall-collection-before.png"
+      ]
+    },
+    {
+      "id": "stonewall_dig_in",
+      "name": "Dig In",
+      "faction": "stonewall",
+      "type": "order",
+      "rarity": "common",
+      "rulesText": "Give one friendly permanent Cover. The next eligible direct enemy attack is reduced by 2, then Cover is consumed. Cover expires at your next action-window start. Blast bypasses it; Breach removes it. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/stonewall/stonewall_dig_in.svg",
+      "sha256": "59462ae0e284d537942a946374d53b68831fd152a7721be3cdb0295d2c5f04e2",
+      "bytes": 1704,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Large shield/plus glyph communicates an interface effect, not infantry digging in or taking cover.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-before.png",
+        "test-results/sprint12-tactical-stonewall-collection-before.png"
+      ]
+    },
+    {
+      "id": "stonewall_interlocking_fire",
+      "name": "Interlocking Fire",
+      "faction": "stonewall",
+      "type": "order",
+      "rarity": "uncommon",
+      "rulesText": "Choose a territory with at least two friendly units. Give up to two of them Cover, choosing the most wounded first (ties: lowest unit ID). Each charge reduces one direct attack by 2; never stacks. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/stonewall/stonewall_interlocking_fire.svg",
+      "sha256": "df3d73dfc1468f072e99388c3ed0fce6e0ae442ce2e10db3e9b806bee96dc0f5",
+      "bytes": 1786,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Crosshair glyph does not show units establishing intersecting fields of fire; no event or actors.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-before.png",
+        "test-results/sprint12-tactical-stonewall-collection-before.png"
+      ]
+    },
+    {
+      "id": "stonewall_hold_fast",
+      "name": "Hold Fast",
+      "faction": "stonewall",
+      "type": "order",
+      "rarity": "legendary",
+      "rulesText": "Choose territory with at least two friendly units, including one that survived defending combat in the immediately preceding enemy action window. Heal its friendly units by 1 and give up to two Cover. Gain +2 capture pressure there until this action window ends. No instant capture or unresolved-defender bypass. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/stonewall/stonewall_hold_fast.svg",
+      "sha256": "4c84a94bde012e1c22a904599e5edf64233262e5293a5b9466d32197aaf18f00",
+      "bytes": 1710,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Same shield/plus glyph as Dig In despite being a defining Legendary hold-the-position event; no surviving defenders or reinforcement scene.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-before.png",
+        "test-results/sprint12-tactical-stonewall-collection-before.png"
+      ]
+    },
+    {
+      "id": "bruiser_demolition_squad",
+      "name": "Demolition Squad",
+      "faction": "bruiser",
+      "type": "unit",
+      "rarity": "common",
+      "rulesText": "Breach — direct attacks remove and ignore Cover. Deal +1 combat damage against Assets only. No bonus against ordinary units without Cover. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/bruiser/bruiser_demolition_squad.svg",
+      "sha256": "e51df8cb183913c2f5be024a0f26ac2ab2fe110c6f2be5a1db124bd3136852a6",
+      "bytes": 2594,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Single generic rifle bust does not communicate a demolition squad, breaching tools or coordinated action.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-before.png",
+        "test-results/sprint12-tactical-bruiser-collection-before.png"
+      ]
+    },
+    {
+      "id": "bruiser_grenadier",
+      "name": "Grenadier",
+      "faction": "bruiser",
+      "type": "unit",
+      "rarity": "uncommon",
+      "rulesText": "Grenade — pay 2 Capacity and 1 Command Action; exhaust to deal 2 Blast damage to up to two enemies here (lowest unit IDs first). Blast bypasses Cover and Dodge; it gains no Asset bonus. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/bruiser/bruiser_grenadier.svg",
+      "sha256": "ad98a32e8de6485bd82a3ccec0ced196dc61e7f4fad36138b2c9699abf14dce6",
+      "bytes": 2631,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Small polygon replaces the held weapon, but the figure and pose are reused; grenade action and explosive equipment are not readable.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-before.png",
+        "test-results/sprint12-tactical-bruiser-collection-before.png"
+      ]
+    },
+    {
+      "id": "bruiser_suppressor_heavy",
+      "name": "Suppressor Heavy",
+      "faction": "bruiser",
+      "type": "unit",
+      "rarity": "rare",
+      "rulesText": "Suppressive Fire — pay 1 Capacity and 1 Command Action; exhaust to Suppress an enemy here. Until its next action-window end it has −1 Attack and cannot voluntarily move; refreshes duration, never stacks. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/bruiser/bruiser_suppressor_heavy.svg",
+      "sha256": "f1fb4d49e989efc174c2c25ba99cee3a48c5a4702330803507ac67d53fccb39e",
+      "bytes": 2706,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Repeated rifle silhouette has modest extra shoulder plates; lacks the large support weapon and violent suppressive-fire role.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-before.png",
+        "test-results/sprint12-tactical-bruiser-collection-before.png"
+      ]
+    },
+    {
+      "id": "bruiser_linebreaker",
+      "name": "Linebreaker",
+      "faction": "bruiser",
+      "type": "unit",
+      "rarity": "rare",
+      "rulesText": "Breach — remove and ignore Cover when attacking. Deal +2 combat damage against Assets only. Aggressive commitment; wounds and failed assaults are not refunded. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/bruiser/bruiser_linebreaker.svg",
+      "sha256": "17fa25d733beef41b877b3653bb9f26ba2ea5ce2ce65a0d1821d7e74b834d248",
+      "bytes": 2696,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Near-identical composition to Suppressor Heavy; no distinct breakthrough stance, breaching equipment or forward movement.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-before.png",
+        "test-results/sprint12-tactical-bruiser-collection-before.png"
+      ]
+    },
+    {
+      "id": "bruiser_assault_charge",
+      "name": "Assault Charge",
+      "faction": "bruiser",
+      "type": "order",
+      "rarity": "common",
+      "rulesText": "Give one ready friendly unit +2 Attack and Exposed until your next action window begins. Exposed removes Cover and Dodge; its next direct enemy hit deals +1 damage. Does not ready an exhausted or newly deployed unit. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/bruiser/bruiser_assault_charge.svg",
+      "sha256": "7e3f26d86f85fa686c84cfbd109e366f377bf5a92713efd6f04c0472d204d8f8",
+      "bytes": 1731,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Shield/plus glyph duplicates Stonewall defensive imagery, conflicting with the aggressive charging event.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-before.png",
+        "test-results/sprint12-tactical-bruiser-collection-before.png"
+      ]
+    },
+    {
+      "id": "bruiser_frag_out",
+      "name": "Frag Out",
+      "faction": "bruiser",
+      "type": "order",
+      "rarity": "common",
+      "rulesText": "Choose a territory containing enemies. Deal 2 Blast damage to up to two enemy permanents there (lowest unit IDs first). Blast bypasses Cover and Dodge; never damages friendly cards. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/bruiser/bruiser_frag_out.svg",
+      "sha256": "24969c4d7fdf13eaa5b36f5e8686c9f63cabb7cb8b096f3512ed470f837d540c",
+      "bytes": 1783,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Starburst icon is an effect marker rather than an explosive battlefield action; no thrown grenade or targets.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-before.png",
+        "test-results/sprint12-tactical-bruiser-collection-before.png"
+      ]
+    },
+    {
+      "id": "bruiser_no_shelter",
+      "name": "No Shelter",
+      "faction": "bruiser",
+      "type": "order",
+      "rarity": "uncommon",
+      "rulesText": "Choose an enemy permanent. Remove its Cover, then deal 1 damage, or 3 if it is an Asset. This effect ignores Cover; Dodge can avoid it unless countered by Mark or Exposed. No bonus against ordinary units. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/bruiser/bruiser_no_shelter.svg",
+      "sha256": "63b5925fa38dd7d644195ba4807833f2efe12c20516035edbffddc9bf68715c4",
+      "bytes": 1755,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Abstract opposing arrows do not depict removing shelter or breaching a fortified position.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-before.png",
+        "test-results/sprint12-tactical-bruiser-collection-before.png"
+      ]
+    },
+    {
+      "id": "bruiser_break_the_position",
+      "name": "Break the Position",
+      "faction": "bruiser",
+      "type": "order",
+      "rarity": "legendary",
+      "rulesText": "Choose territory with a friendly unit and a Covered or wounded enemy, or an enemy Asset. Remove enemy Cover there, Suppress one eligible enemy (lowest ID), and ready one friendly unit there (lowest ID) that has not attacked this action window. Never grants a second attack. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/bruiser/bruiser_break_the_position.svg",
+      "sha256": "8d00c7074adaca7f65ec6e53171b9b424334da2e0e1af821a0a14a445287321a",
+      "bytes": 1771,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Same abstract opposing arrows as No Shelter; the flagship event has no assault scene or differentiated composition.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-before.png",
+        "test-results/sprint12-tactical-bruiser-collection-before.png"
+      ]
+    },
+    {
+      "id": "syndicate_spotter_cell",
+      "name": "Spotter Cell",
+      "faction": "syndicate",
+      "type": "unit",
+      "rarity": "common",
+      "rulesText": "Designate — pay 1 Capacity and 1 Command Action; exhaust to Mark and Expose one enemy here. Exposed removes Cover/Dodge and adds +1 to its next direct enemy hit. Both statuses have explicit expiry. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/syndicate/syndicate_spotter_cell.svg",
+      "sha256": "b9422fc421d27e0cffbd9f063335483043bf3f253a72a0247738f83eeb13d946",
+      "bytes": 2593,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Repeated marksman bust with a rifle, no spotting optics or squad observation; indistinguishable from the following officer and marksman.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-before.png",
+        "test-results/sprint12-tactical-syndicate-collection-before.png"
+      ]
+    },
+    {
+      "id": "syndicate_fire_control_officer",
+      "name": "Fire Control Officer",
+      "faction": "syndicate",
+      "type": "leader",
+      "rarity": "rare",
+      "rulesText": "Command — other allies here gain +1 Attack. Fire Solution — pay 1 Capacity and 1 Command Action; exhaust to Expose one already Marked enemy here. No legal target without Mark. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/syndicate/syndicate_fire_control_officer.svg",
+      "sha256": "5b34f1a9a6534d50e7926f7ea0f25d4df4ec864e18d4eeb93fca5699c3cf8376",
+      "bytes": 2609,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "The sole new Leader uses the same rifle pose as Spotter Cell and Contract Marksman; no command equipment or coordinating action.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-before.png",
+        "test-results/sprint12-tactical-syndicate-collection-before.png"
+      ]
+    },
+    {
+      "id": "syndicate_contract_marksman",
+      "name": "Contract Marksman",
+      "faction": "syndicate",
+      "type": "unit",
+      "rarity": "uncommon",
+      "rulesText": "Precision — bypass Guard and counter Dodge. Direct attacks deal +1 damage to an already Marked or Exposed target. This preparation bonus is once per attack, even if both statuses apply. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/syndicate/syndicate_contract_marksman.svg",
+      "sha256": "79d07d7b56ba7038eff15d49678d6c9515d2c86497d2fd44412c5e73887da2fd",
+      "bytes": 2603,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "A long weapon suggests precision, but it shares the same pose, helmet and armor with two other cards and lacks optic/weapon detail.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-before.png",
+        "test-results/sprint12-tactical-syndicate-collection-before.png"
+      ]
+    },
+    {
+      "id": "syndicate_suppression_team",
+      "name": "Suppression Team",
+      "faction": "syndicate",
+      "type": "unit",
+      "rarity": "common",
+      "rulesText": "Pinpoint Fire — pay 1 Capacity and 1 Command Action; exhaust to Suppress one enemy here. It has −1 Attack and cannot voluntarily move until its next action-window end. Does not stack. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/syndicate/syndicate_suppression_team.svg",
+      "sha256": "2e800efd40dbf5c3544eba993282b44844fe0b2e176c4dc29308b5338e4a15d7",
+      "bytes": 2624,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Single generic soldier with a changed rifle shape does not read as a coordinated fire team or suppression action.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-before.png",
+        "test-results/sprint12-tactical-syndicate-collection-before.png"
+      ]
+    },
+    {
+      "id": "syndicate_recon_drone",
+      "name": "Recon Drone",
+      "faction": "syndicate",
+      "type": "asset",
+      "rarity": "rare",
+      "rulesText": "Target Scan — pay 1 Capacity and 1 Command Action; exhaust to Mark and Expose one enemy here. Immobile and fragile; it does not reveal hidden hands or deck order. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/syndicate/syndicate_recon_drone.svg",
+      "sha256": "d06bae2e57d3c107f1ddd7ee13338c5a42c08fdfb093713e944add48a1d46999",
+      "bytes": 2035,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Geometric drone schematic identifies equipment, but lacks painted materials, depth, surveillance setting and plausible battlefield scale.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-before.png",
+        "test-results/sprint12-tactical-syndicate-collection-before.png"
+      ]
+    },
+    {
+      "id": "syndicate_target_package",
+      "name": "Target Package",
+      "faction": "syndicate",
+      "type": "order",
+      "rarity": "common",
+      "rulesText": "Mark and Expose one enemy permanent. Exposed removes Cover and Dodge and adds +1 to its next direct enemy hit; it expires when that enemy’s next action window begins. Marks never stack. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/syndicate/syndicate_target_package.svg",
+      "sha256": "214dc112ad93567cecbcb9c2b3d2c886d46917b13e9a4890f0ddbfad6e664ad6",
+      "bytes": 1766,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Square crosshair icon conveys targeting UI, not a spotter feeding a precision firing solution.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-before.png",
+        "test-results/sprint12-tactical-syndicate-collection-before.png"
+      ]
+    },
+    {
+      "id": "syndicate_coordinated_barrage",
+      "name": "Coordinated Barrage",
+      "faction": "syndicate",
+      "type": "order",
+      "rarity": "uncommon",
+      "rulesText": "Choose enemy-occupied territory. Deal 1 Blast damage to up to two enemies there (lowest IDs first), or 3 to each target already Marked or Exposed. Blast bypasses Cover/Dodge but does not consume Exposed’s direct-hit charge. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/syndicate/syndicate_coordinated_barrage.svg",
+      "sha256": "a31fc194456c7f7af2339a126ae8ff8a837db34fa2888e5a639c0dea56429aa4",
+      "bytes": 1835,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Starburst glyph is reused from other factions; no coordinated artillery, targeting overlay or impact scene.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-before.png",
+        "test-results/sprint12-tactical-syndicate-collection-before.png"
+      ]
+    },
+    {
+      "id": "syndicate_contingency_plan",
+      "name": "Contingency Plan",
+      "faction": "syndicate",
+      "type": "order",
+      "rarity": "legendary",
+      "rulesText": "Choose territory with at least two different friendly unit classes. Give up to two friendly units Cover (most wounded first, ties: lowest ID), then draw 1 card. Requires combined arms; no free actions or resource refund. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/syndicate/syndicate_contingency_plan.svg",
+      "sha256": "002745253bab21416be7d9ccdcbaec129370a13b4393fbdaf74fae9762b6c0a8",
+      "bytes": 1765,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Shield/plus glyph is reused from Stonewall and Bruiser; no combined-arms defensive regroup or tactical command.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-before.png",
+        "test-results/sprint12-tactical-syndicate-collection-before.png"
+      ]
+    },
+    {
+      "id": "nightwalker_smoke_runner",
+      "name": "Smoke Runner",
+      "faction": "nightwalker",
+      "type": "unit",
+      "rarity": "common",
+      "rulesText": "Mobile. On deployment: gain Dodge until your next action window begins. Dodge cancels the next direct enemy attack unless its attacker is Precision or you are Marked/Exposed; no random rolls. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/nightwalker/nightwalker_smoke_runner.svg",
+      "sha256": "ead4aaedbc8ed3b9228b00a6a8b7c878fca3daa1f41bddd1bb6296b3c6c373f9",
+      "bytes": 2555,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Repeated static bust has no smoke, running action or scout kit; the violet hood alone identifies the faction.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-before.png",
+        "test-results/sprint12-tactical-nightwalker-collection-before.png"
+      ]
+    },
+    {
+      "id": "nightwalker_ghost_operative",
+      "name": "Ghost Operative",
+      "faction": "nightwalker",
+      "type": "unit",
+      "rarity": "uncommon",
+      "rulesText": "Precision. On deployment: gain Dodge until your next action window begins. After that one charge is consumed or expires, this operative has only 3 Health. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/nightwalker/nightwalker_ghost_operative.svg",
+      "sha256": "d99d82b597570898770a2354ad721ec089057660215789321d499a4c42feb918",
+      "bytes": 2561,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Near-identical portrait to Smoke Runner; no distinct infiltration silhouette, precision equipment or concealed movement.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-before.png",
+        "test-results/sprint12-tactical-nightwalker-collection-before.png"
+      ]
+    },
+    {
+      "id": "nightwalker_shadow_trapper",
+      "name": "Shadow Trapper",
+      "faction": "nightwalker",
+      "type": "unit",
+      "rarity": "rare",
+      "rulesText": "Overwatch — instead of attacking, pay 1 Command Action and exhaust. First enemy deployment or movement here takes 2 direct damage. Visible, consumed after one trigger; expires at your next action-window start. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/nightwalker/nightwalker_shadow_trapper.svg",
+      "sha256": "09a3d3df7a501ecc40a1acaaaf61985aa05995939769da6ea77492af5ade717b",
+      "bytes": 2536,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Same static hooded bust with a longer rifle shape; no ambush preparation, trap or overwatch scene.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-before.png",
+        "test-results/sprint12-tactical-nightwalker-collection-before.png"
+      ]
+    },
+    {
+      "id": "nightwalker_false_contact",
+      "name": "False Contact",
+      "faction": "nightwalker",
+      "type": "asset",
+      "rarity": "common",
+      "rulesText": "Guard. On deployment: gain Dodge until your next action window begins. This immobile decoy can intercept ordinary attacks while ready, but Precision bypasses it and Mark/Exposed counters Dodge. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/nightwalker/nightwalker_false_contact.svg",
+      "sha256": "a9399940ddfdaa8551988eae4a48504943234d582f0c4401337096bbd2056760",
+      "bytes": 1738,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Outlined shield with a cross is a generic defense marker rather than a holographic decoy or false battlefield contact.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-before.png",
+        "test-results/sprint12-tactical-nightwalker-collection-before.png"
+      ]
+    },
+    {
+      "id": "nightwalker_smoke_screen",
+      "name": "Smoke Screen",
+      "faction": "nightwalker",
+      "type": "order",
+      "rarity": "uncommon",
+      "rulesText": "Choose territory with a friendly permanent. Smoke reduces direct enemy damage to your permanents there by 1 and blocks Overwatch reactions in that territory. It lasts until your next action window begins. Blast bypasses Smoke; Mark targeting remains legal. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/nightwalker/nightwalker_smoke_screen.svg",
+      "sha256": "a695e57d0202530238d3a2384819e282381d8af9cca78a1bb66fb5f002498b8f",
+      "bytes": 1799,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Line cloud icon does not show smoke deployed across terrain or units moving through concealment.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-before.png",
+        "test-results/sprint12-tactical-nightwalker-collection-before.png"
+      ]
+    },
+    {
+      "id": "nightwalker_vanish",
+      "name": "Vanish",
+      "faction": "nightwalker",
+      "type": "order",
+      "rarity": "common",
+      "rulesText": "Give one friendly unit Dodge until your next action window begins. One direct enemy attack is canceled unless answered by Precision, Mark or Exposed. No healing, draw, teleport or readiness refund. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/nightwalker/nightwalker_vanish.svg",
+      "sha256": "f58acec2a9cc2dd3ae8e7dc6f84b0807005d754bc52797a99036d0f87bedb1e2",
+      "bytes": 1746,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Angular running glyph is interface iconography rather than an operative evading a direct attack.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-before.png",
+        "test-results/sprint12-tactical-nightwalker-collection-before.png"
+      ]
+    },
+    {
+      "id": "nightwalker_expose_the_opening",
+      "name": "Expose the Opening",
+      "faction": "nightwalker",
+      "type": "order",
+      "rarity": "rare",
+      "rulesText": "Expose one enemy unit that is wounded or exhausted. Remove Cover/Dodge; its next direct enemy hit gains +1 damage. Expires when its next action window begins; no effect on an uncommitted healthy ready unit. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/nightwalker/nightwalker_expose_the_opening.svg",
+      "sha256": "f906435f83a400051e6f3ed2e70c8ab26136b04c1c689543649fcbd3853f07f7",
+      "bytes": 1731,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Square crosshair duplicates Syndicate Target Package; no Nightwalker reconnaissance or exposure action.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-before.png",
+        "test-results/sprint12-tactical-nightwalker-collection-before.png"
+      ]
+    },
+    {
+      "id": "nightwalker_clean_exit",
+      "name": "Clean Exit",
+      "faction": "nightwalker",
+      "type": "order",
+      "rarity": "legendary",
+      "rulesText": "Choose a friendly unit that is wounded or has attacked this action window. Retreat it one territory toward your own rear and give it Dodge. Requires room; retains wounds and attack locks. No reclaim, draw or redeployment refund. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/nightwalker/nightwalker_clean_exit.svg",
+      "sha256": "be908856d7664c62771e462f3501fe667ab7b6804301f1d59ae5e12021c625fd",
+      "bytes": 1754,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Same running glyph as Vanish; no wounded operative retreat, extraction route or smoke cover.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-before.png",
+        "test-results/sprint12-tactical-nightwalker-collection-before.png"
+      ]
+    },
+    {
+      "id": "rogue_scrap_grenadier",
+      "name": "Scrap Grenadier",
+      "faction": "rogue",
+      "type": "unit",
+      "rarity": "common",
+      "rulesText": "Scrap Bomb — pay 2 Capacity and 1 Command Action; exhaust to deal 1 Blast damage to up to two enemies here (lowest IDs first). Blast bypasses Cover/Dodge. Less damage and a frailer body than Grenadier. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/rogue/rogue_scrap_grenadier.svg",
+      "sha256": "8992e45847656b4cf13e4f35973e2e37821d2092b21489be1866c849a32b1d36",
+      "bytes": 2869,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Generic bust with a brown scarf and polygon equipment; no scavenged explosive gear or improvised bomb action.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-before.png",
+        "test-results/sprint12-tactical-rogue-collection-before.png"
+      ]
+    },
+    {
+      "id": "rogue_jury_rigged_shield",
+      "name": "Jury-Rigged Shield",
+      "faction": "rogue",
+      "type": "asset",
+      "rarity": "uncommon",
+      "rulesText": "Patch Cover — pay 1 Capacity and 1 Command Action; exhaust to give another ally here Cover. Immobile, fragile and vulnerable to Breach. No free repeating shield supply. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/rogue/rogue_jury_rigged_shield.svg",
+      "sha256": "7637be4303770b73e85310fd16eae5aee6ea369e09dceabf9f6379c71220722a",
+      "bytes": 1783,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Generic outlined shield, also reused for False Contact; lacks patched metal, improvised supports or scavenged equipment.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-before.png",
+        "test-results/sprint12-tactical-rogue-collection-before.png"
+      ]
+    },
+    {
+      "id": "rogue_patch_runner",
+      "name": "Patch Runner",
+      "faction": "rogue",
+      "type": "unit",
+      "rarity": "common",
+      "rulesText": "Mobile. Field Patch — pay 1 Capacity and 1 Command Action; exhaust to heal a damaged ally here by 1. Retains the normal move and attack limits. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/rogue/rogue_patch_runner.svg",
+      "sha256": "266640859b121fd98be0ee3e849a074ad48ec1b1953e2382757c47021452247f",
+      "bytes": 2846,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "C",
+      "renderGrade": "C",
+      "reason": "Scarf plus tiny wrench/tablet gives a weak medic cue, but the same generic bust has no field-patching action or mobile silhouette.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-before.png",
+        "test-results/sprint12-tactical-rogue-collection-before.png"
+      ]
+    },
+    {
+      "id": "rogue_improvised_mine",
+      "name": "Improvised Mine",
+      "faction": "rogue",
+      "type": "asset",
+      "rarity": "rare",
+      "rulesText": "On deployment: arm a visible Overwatch trap. The first enemy voluntary move or deployment here takes 2 direct damage, then destroy this mine through rule resolution. It expires when your next action window begins. Immobile; can be destroyed first; forced retreats do not trigger it. Free Action — playing costs Capacity; no Command Action.",
+      "asset": "assets/cards/tactical-011/rogue/rogue_improvised_mine.svg",
+      "sha256": "cd19d1ad077f9ad34ac43e60ce04cf2b4da375dedf50e62ef7a28282c12982db",
+      "bytes": 1863,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Minimal polygon and antenna is a schematic stand-in; no repurposed parts, emplacement or armed mine detail.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-before.png",
+        "test-results/sprint12-tactical-rogue-collection-before.png"
+      ]
+    },
+    {
+      "id": "rogue_make_it_work",
+      "name": "Make It Work",
+      "faction": "rogue",
+      "type": "order",
+      "rarity": "common",
+      "rulesText": "Adapt — choose exactly one: Cover a friendly permanent; heal a wounded friendly permanent by 2; or Suppress an enemy permanent. All modes cost the same Capacity and 1 Command Action. No random result, draw or refund. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/rogue/rogue_make_it_work.svg",
+      "sha256": "9ca5d098157b5f5a011a2aff4767226760fa313e5ac4092a9d9e2478ae849f49",
+      "bytes": 1784,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Branching-arrows glyph is a mode-selection icon rather than an improvised battlefield solution.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-before.png",
+        "test-results/sprint12-tactical-rogue-collection-before.png"
+      ]
+    },
+    {
+      "id": "rogue_salvage_charge",
+      "name": "Salvage Charge",
+      "faction": "rogue",
+      "type": "order",
+      "rarity": "uncommon",
+      "rulesText": "Sacrifice a friendly permanent in territory containing enemies. Deal 2 Blast damage to up to two enemies there (lowest IDs first). Sacrifice destroys your chosen card and never triggers Scavenge or Nothing Wasted; no draw or refund. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/rogue/rogue_salvage_charge.svg",
+      "sha256": "ee39870cf3be293e3eb2bd1951c494224cf99f59ade9cbb2508aea54370c3592",
+      "bytes": 1817,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Starburst icon duplicates Frag Out and Coordinated Barrage; no scrap explosive preparation or costly detonation event.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-before.png",
+        "test-results/sprint12-tactical-rogue-collection-before.png"
+      ]
+    },
+    {
+      "id": "rogue_strip_it_for_parts",
+      "name": "Strip It for Parts",
+      "faction": "rogue",
+      "type": "order",
+      "rarity": "rare",
+      "rulesText": "Choose a friendly permanent to Sacrifice and another damaged friendly permanent in the same territory. Heal the survivor by 3. Sacrifice destroys your source and never triggers casualty draw effects; no resource or card refund. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/rogue/rogue_strip_it_for_parts.svg",
+      "sha256": "b8a54b7eb2a56303ec5077de761f0f52d03aed568870784b55c909b4b1e6aa5d",
+      "bytes": 1788,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Crossed-square glyph is a sacrifice marker; it does not depict dismantling a friendly machine to repair another.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-before.png",
+        "test-results/sprint12-tactical-rogue-collection-before.png"
+      ]
+    },
+    {
+      "id": "rogue_bad_plan_good_result",
+      "name": "Bad Plan, Good Result",
+      "faction": "rogue",
+      "type": "order",
+      "rarity": "legendary",
+      "rulesText": "Choose a wounded friendly permanent to Sacrifice and another friendly unit in the same territory. Give the survivor Cover and Dodge until its next action window begins. No draw, heal, readying or refund; Sacrifice does not trigger general casualty rewards. Playing costs 1 Command Action in addition to Capacity.",
+      "asset": "assets/cards/tactical-011/rogue/rogue_bad_plan_good_result.svg",
+      "sha256": "ca4b1740b51d4a92e9e68602c3467e65bc4b9ac44a06e99781febd1696fce4b5",
+      "bytes": 1794,
+      "sourceDimensions": {
+        "width": 400,
+        "height": 400
+      },
+      "beforeGrade": "D",
+      "renderGrade": "D",
+      "reason": "Same crossed-square sacrifice glyph as Strip It for Parts; no improvised cover, escape or distinct result scene.",
+      "criteria": {
+        "resolution": "400 × 400 vector; decodes cleanly and has no raster compression defects.",
+        "sharpness": "Line edges remain sharp, but the deliberate detail level is far below the approved painted atlas and Commander benchmark.",
+        "lighting": "One abstract gradient spotlight and flat fill; no material lighting, atmospheric depth or integrated scene.",
+        "framing": "Shared centered glyph/bust inside a large empty tactical border. The image scales without distortion, but the subject is small and role cues become weaker in compact windows.",
+        "factionIdentity": "Faction color and background line motif are consistent; physical armor/equipment philosophy is weakly distinguished.",
+        "style": "Flat vector studies are visibly from a different visual generation than the established illustrated military/science-fiction cards.",
+        "smallSize": "Repeated silhouette or glyph remains visible, but different cards cannot reliably be identified from their artwork at actual card size.",
+        "anatomyEquipment": "No apparent accidental generation artifacts; anatomy is an intentionally simplified template. Equipment lacks the detail and coherence of the painted benchmark."
+      },
+      "recommendedAction": "Replace with a coherent painted faction scene; preserve rules, stats, Commander portraits and 5:7 frame.",
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-before.png",
+        "test-results/sprint12-tactical-rogue-collection-before.png"
+      ]
+    }
+  ]
+}

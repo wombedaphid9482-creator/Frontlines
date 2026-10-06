@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-05T23:37:52.843Z",
+  "serviceVersion": 1,
+  "transportVersion": "frontlines-transport-v1",
+  "wranglerVersion": "4.147.0",
+  "deployed": false,
+  "providerAccountConnected": false,
+  "endpointConfigured": false,
+  "publicInternetVerified": false,
+  "homeNetworkVerified": false,
+  "sources": [
+    {
+      "file": "network/relay-room.mjs",
+      "bytes": 7713,
+      "sha256": "8cae76c86510b0fd671b726962db70fe03fc215818278dc6d1ec6998f93a2649"
+    },
+    {
+      "file": "network/cloudflare-worker.mjs",
+      "bytes": 6466,
+      "sha256": "a0ea873878be383d180e4c231a813f3c475faa7bac926676de69a77c0db5871a"
+    },
+    {
+      "file": "network-transport.js",
+      "bytes": 15476,
+      "sha256": "8e3d1de1d9dc23804675bbc25c49c03590c63f8af06009dbd859efc25c407e69"
+    },
+    {
+      "file": "backend/package.json",
+      "bytes": 490,
+      "sha256": "99d55eacf7d26b7327e4b7aa63f43a91e92370a53fc3d5e89bcfb9553a87f14e"
+    },
+    {
+      "file": "backend/package-lock.json",
+      "bytes": 50177,
+      "sha256": "a67f11b716f461d33be8fc1a7617ee7ccf7e7b6465056e349d5ab9aa83d0b0b9"
+    },
+    {
+      "file": "backend/wrangler.jsonc",
+      "bytes": 553,
+      "sha256": "9c0cb4b6b0e1385412bcccb5814b7285dd93053e9a926c4d3a41f44a19cb5de3"
+    }
+  ],
+  "bundle": {
+    "file": "test-results/sprint13-relay-bundle/cloudflare-worker.js",
+    "bytes": 16782,
+    "sha256": "bbc957ff02a36d845a1d638ccb4e15d464a07d6403ce2bc2233a4cb06930d68e"
+  },
+  "checks": {
+    "localDryRun": true,
+    "transportUnitTests": 13,
+    "localRoute": {
+      "file": "test-results/sprint13-relay-route.json",
+      "bytes": 937,
+      "sha256": "76447832802d6dadfcef508aba19f469a7e1d8bb6701f1b41cb3c3f9a63c64d5"
+    },
+    "localSecurity": {
+      "file": "test-results/sprint13-relay-security.json",
+      "bytes": 747,
+      "sha256": "550c68b90ab41a767b0338854710584cee3948f6a486ae46dc8b698e00d77641"
+    },
+    "localControllerMatch": {
+      "file": "test-results/sprint13-relay-controller.json",
+      "bytes": 1859,
+      "sha256": "f2eda7bf3cf138f227beac55bd0a7686e494e0ec1b662b955e519194f747040f"
+    }
+  },
+  "manualAction": "Sign in to the project-owned Cloudflare account and approve the official browser authorization Forge opens.",
+  "nextActions": [
+    "Deploy reviewed relay after owner authorization",
+    "Configure public HTTPS origin in desktop build",
+    "Run public two-client route/security/full-match checks",
+    "Rebuild and verify Windows installer",
+    "Ryken/Wyatt different-home playtest"
+  ],
+  "secretsIncluded": false
+}

@@ -1,4 +1,26 @@
+# v1.1.0 networking preservation
+
+Sprint 13 retains the exact Sprint 12 canonical engine, Tactical rules, 155 cards, 35 deck lists, ten Commanders and numerical configuration. Network sequencing and wall-clock reconnect expiry sit outside gameplay timing. Two-client correctness fixtures are not win-rate evidence. No large autonomous balance campaign was run and no numeric balance claim is made. Normal completed-match Credits remain 70/50 plus the first-match bonus; private matches mint no currency and record only eligible actual card use.
+
 # Frontlines balance history and current validation policy
+
+## Current v1.0.5 Arsenal Refinement
+
+The default profile is `sprint12 / sprint12-refinement-v1`. All 155 printed designs, 35 decks, ten Commanders and numerical/capture rules are unchanged from completed v1.0.4. Three public-information AI defects are repaired before considering numeric tuning. [The mechanics/AI audit](TACTICAL-REFINEMENT-AUDIT.md) and [exact owner-run proposal](BALANCE-REFINEMENT-VALIDATION.md) distinguish verified correctness from unmeasured competitive balance. No large campaign ran; no v1.0.5 win rates are claimed.
+
+The [accepted artwork checkpoint](art/SPRINT12-VISUAL-CHECKPOINT.json) preceded all policy changes. Normal completed matches now use completion-based progression (70 Credits win / 50 loss, one-time first match +50); training/developer/simulator exclusions, wallet values and duplicate-proof receipts remain. Historical analysis below is preserved and is not v1.0.5 evidence.
+
+
+
+## Current v1.0.4 Tactical Arsenal candidate
+
+Sprint 11 adds forty tactical cards and five showcase decks under `sprint11 / sprint11-tactical-v1`. The authoritative published v1.0.3 commit is `7f388ec66fb80f4c8d9883b3111551dd8ab0e829`; [95 frozen runtime hashes](balance/sprint11-v1.0.3-baseline/checkpoint-hashes.json) and the old catalog/rules preserve provenance. All 115 old card definitions, thirty built-in lists and ten Commander definitions remain. Direct-hit defenses interact with existing attacks/Orders/Commander damage, and Suppression constrains voluntary withdrawals; [the sprint report](SPRINT-011.md) explains every compatibility decision.
+
+Deterministic public-action mechanic, five-faction AI/privacy, save/economy, browser/worker, training, viewport and packaged checks establish correctness. **No balance campaign ran and no new win rates are claimed.** The one-match expansion fixture is the same seed in Node and browser Worker, not independent statistical samples. Tactical coverage now includes actual protection, bounded Blast, paid preparation, destruction causes and setup/payoff counters.
+
+The owner should first manually play the five showcases and custom variants, then run [this exact proposed 100,000-match matrix](balance/sprint11-validation-options.json) in War Room: all 35 lists, mirrors, paired seats, deck AI, seed 1209, Sprint 11, default rules and 240-turn/10,000-decision cutoffs. Separate **20 legacy / 10 Commander foundations / 5 tactical showcases**, faction, Commander, archetype, seat, matchup and mechanic exposure. Report errors/cutoffs and actual per-cell sample counts. A seat-paired full cycle has 1,225 matches; 100k is a partial-cycle endpoint. The proposal has not been executed. Comparative aggregate changes include new deck weighting and AI policy; card correlations are diagnostic rather than causal nerf instructions.
+
+Priority manual watch points are cheap Cover/evasion, paid area damage, Mark/Exposed burst, Overwatch route pressure, Hold Fast conversion and Mine/Sacrifice timing. Rogue's one shared casualty draw and retained reclaim wounds stay enforced. Historical evidence below is preserved and must not be presented as v1.0.4 validation. [The release manifest](release-1.0.4-manifest.json) records final checks and hashes.
 
 ## Current v1.0.3 Balance Recovery candidate
 

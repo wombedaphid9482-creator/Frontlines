@@ -1,5 +1,44 @@
 # Game action roadmap
 
+## v1.1.0 private-match activation gate
+
+The canonical v1.0.5 game and artwork are frozen. Private multiplayer is implemented through a secure outbound relay; protocol, privacy, tactical, Commander, reconnect and local two-client correctness checks pass. No numeric balance pass or large autonomous simulation was performed.
+
+1. Activate the prepared project-owned Cloudflare service through official browser authorization. Forge handles deployment, public endpoint configuration, public two-client testing and the final installer rebuild.
+2. Verify the public relay route, then Ryken and Wyatt play from separate homes using only the normal installer and an invite code. Current local evidence does not prove this gate.
+3. Review the focused player checklist and exported diagnostics. Preserve ordinary offline saves, win/loss Credits and 5:7 artwork. Private economy remains used-card mastery/wear only.
+4. After private playtest evidence, refine latency/recovery and human experience. Dedicated authority, direct P2P, public matchmaking, accounts and host migration remain later scope.
+5. Continue the owner-directed balance and HIGH PRIORITY layered Legendary presentation roadmap below after networking is stable.
+
+[Architecture](MULTIPLAYER-ARCHITECTURE.md) · [Protocol](MULTIPLAYER-PROTOCOL.md) · [Playtest gate](MULTIPLAYER-PLAYTEST.md).
+
+## Current v1.0.5 Arsenal Refinement
+
+The illustrated card-quality gate is complete: all 155 battlefield cards reviewed, 91 mappings replaced/repaired, coherent faction subjects and preserved premium Commander art. Continue from the local v1.0.5 candidate with human tactical/credit/save/display playtests, then the owner's [exact paired validation](BALANCE-REFINEMENT-VALIDATION.md). Competitive balance remains provisional.
+
+1. Play custom decks/showcases, read defensive status timing, try real counters and verify win/loss Credits.
+2. Owner-run validation and matched Sprint 11 policy comparison; investigate root causes before numerical changes.
+3. **HIGH PRIORITY — Legendary presentation.** Future treatments must visibly separate gameplay rarity, cosmetic variant and mastery/wear. Store/render these as independent layers: rarity frame/emblem; illustration/foil/full-art variant; wear patina/badges. Legendary + Veteran + Foil must complement each other without altering stats. Final redesign is deferred.
+4. Paired-player turn terminology/timing migration follows the [action-window audit](TURN-TERMINOLOGY.md), not a casual display renumbering.
+5. v1.1.0 private online multiplayer follows [the authority/private-state/replay gate](MULTIPLAYER-READINESS.md). No networking was added here.
+
+The previous sprint roadmaps below remain historical context.
+
+
+
+## Current v1.0.4 Tactical Arsenal plan
+
+The current local candidate adds exactly forty tactical cards, five showcases and six optional advanced exercises to published v1.0.3. The existing thirty lists, illustrated Commanders, ordinary artwork, Rogue recovery repair, collection and fourteen beginner lessons are preserved. [Sprint 11](SPRINT-011.md), [the forty-card catalog](TACTICAL-ARSENAL.md) and [the release guide](RELEASE-1.0.4.md) describe this milestone. Publication is deferred.
+
+1. **Play the tactical interactions manually.** Test the five showcase plans, protection/counter timing, area damage, Overwatch entry and real Sacrifice cost. Use beginner or optional advanced instruction as needed. Review status expiry, targets, readable costs and the final territory state at your actual display scale.
+2. **Build your own variant.** Acquire/craft new cards for ordinary Play; duplicate a showcase and save your interpretation. War Room tests every legal card independently of ownership. Exchange local deck JSON and playtest reports without accounts.
+3. **Ryken runs the recommended 100,000-match configuration after human review.** [Exact settings](balance/sprint11-validation-options.json): all 35 decks, mirrors, paired seats, deck AI, seed 1209, Sprint 11 and unchanged default/cutoff settings. Export full results; separate twenty legacy lists, ten Commander foundations and five showcases. This recommendation has not been executed here. The 100k endpoint is a partial 1,225-match schedule cycle; show actual cell exposure.
+4. **Diagnose before tuning.** Compare faction, Commander, archetype, deck, seat, cutoffs and tactical usage. Examine whether counters were available and used. Distinguish policy weakness, implementation defects and card efficiency; winning-card correlations alone do not justify nerfs.
+5. **Improve high-use presentation and iteration.** Polish useful new portraits, expiry/target clarity and saved deck comparisons based on manual feedback. Keep old art mappings and fullscreen/card proportions stable.
+6. **Gate networking behind the validated local game.** Private two-player authority, replay/versioning and reconnect work comes after human evidence and owner-run analysis. Accounts, public matchmaking and monetization remain later scope.
+
+## Preserved v1.0.3 recovery plan
+
 The current milestone is **v1.0.3 — Balance Recovery**, built on the stable v1.0.2 battlefield viewport and Commander portraits. Verified salvage/reclaim loops, four weak preset compositions, tactical AI and action readability are addressed before adding more mechanics or networking. The 115-card pool, ten off-lane Commanders, local progression, fourteen tutorial lessons, custom decks, contiguous front, War Room and native fullscreen remain. [Sprint 10](SPRINT-010.md), the [balance change log](balance/SPRINT-010-CHANGELOG.md) and the [Commander reference](COMMANDERS.md) define the candidate and its remaining validation work.
 
 The local [v1.0.3 candidate](RELEASE-1.0.3.md) has passed its automated, populated viewport, tutorial, presentation, random-opponent and packaged native checks. It is ready for owner-run balance validation and human playtests; it has not been published or installed over the owner's copy.

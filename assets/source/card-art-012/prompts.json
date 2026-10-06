@@ -1,0 +1,68 @@
+{
+  "version": "sprint12-art-prompts-v1",
+  "tool": "built-in image_gen",
+  "style": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.",
+  "palettes": {
+    "stonewall": "STONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.",
+    "bruiser": "BRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.",
+    "syndicate": "THE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.",
+    "nightwalker": "NIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.",
+    "rogue": "ROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers."
+  },
+  "tacticalScenes": {
+    "stonewall": [
+      "Trench Engineer: kneeling armored engineer welding a waist-high barricade.",
+      "Shield Section: linked massive rectangular shields of two defenders absorbing sparks.",
+      "Bastion Gunner: armored heavy gunner braced behind a large mounted machine gun.",
+      "Field Mechanic: repair specialist working on open damaged turret with diagnostic tools.",
+      "Hardpoint, an ASSET: a complete angular armored pillbox and protected weapon emplacement built into concrete rubble; show equipment and scale rather than an icon.",
+      "Dig In, an ORDER: disciplined infantry urgently raising sandbags and armored cover while enemy tracers strike nearby.",
+      "Interlocking Fire, an ORDER: two fortified squads firing intersecting controlled lanes from opposite cover positions, an understandable defensive crossfire event.",
+      "Hold Fast, an ORDER: battered defenders surviving a major assault then holding their ground behind reinforced cover, purposeful resilience and controlled reinforcement, no Commander portrait."
+    ],
+    "bruiser": [
+      "Demolition Squad: two shock soldiers preparing breaching charges against a fortified barrier, explicit demolition equipment.",
+      "Grenadier: heavily equipped assault infantry winding up a grenade throw, bandolier and explosive clearly legible.",
+      "Suppressor Heavy: immense heavy gunner sending a controlled suppressive burst down an industrial street, broad plated silhouette.",
+      "Linebreaker: armored breaching soldier driving through a fractured barricade with an oversized assault weapon and ram equipment.",
+      "Assault Charge, an ORDER: orange-striped shock infantry charging out of cover into incoming fire; momentum and risk visible.",
+      "Frag Out, an ORDER: a thrown grenade detonating between two defensive positions, bounded close explosion, no gore.",
+      "No Shelter, an ORDER: a focused explosive charge punching through the front armor of a fortified turret; equipment and cover breached.",
+      "Break the Position, an ORDER: an assault squad forcing a breach through a cracked reinforced position while a heavy moves forward; actual coordinated breakthrough scene."
+    ],
+    "syndicate": [
+      "Spotter Cell: two clean-armored tactical spotters using precision optics and a rangefinding tablet, purposeful reconnaissance.",
+      "Fire Control Officer: a professional field officer issuing a fire solution using an amber holographic tactical display, communications headgear, restrained authority.",
+      "Contract Marksman: a scoped-rifle specialist aiming from prepared cover, amber optical sight, clear precision role.",
+      "Suppression Team: coordinated professional infantry laying controlled covering fire, differing firing angles and clean equipment.",
+      "Recon Drone, an ASSET: a compact unmanned hovering sensor drone with articulated camera lens and amber scanning optics over a damaged street.",
+      "Target Package, an ORDER: a spotter transferring an identified enemy emplacement to a marksman's targeting display, the real coordinated targeting action, no captions or text.",
+      "Coordinated Barrage, an ORDER: precisely directed strikes landing on two selected fortified targets along a damaged avenue, tactical timing rather than indiscriminate fire.",
+      "Contingency Plan, an ORDER: a tactical officer repositioning a rifle squad and heavy weapon team into cover as a coordinated fallback plan, mixed military roles."
+    ],
+    "nightwalker": [
+      "Smoke Runner: a masked fast operative slipping through billowing violet-gray smoke, compact suppressed weapon and low sleek silhouette.",
+      "Ghost Operative: a hooded stealth specialist with a suppressed rifle observing a vulnerable route from dark cover, thin violet optical accents.",
+      "Shadow Trapper: a patient masked operative preparing a concealed remote sensor/trigger beside a covered firing position, vigilant ambush-ready posture.",
+      "False Contact, an ASSET: a deployable holographic decoy projector creating a shimmering misleading soldier silhouette amid smoke; equipment at its base must be visible.",
+      "Smoke Screen, an ORDER: a stealth squad deploying dense smoke canisters across a watched street, an actual crossing concealed by smoke.",
+      "Vanish, an ORDER: an operative slipping behind cover just as enemy tracers strike the previous position, evasion by timing, no literal magic teleport.",
+      "Expose the Opening, an ORDER: concealed reconnaissance operator revealing a vulnerable enemy silhouette using a focused sensor beam and subtle targeting overlay, physical tactical action.",
+      "Clean Exit, an ORDER: a wounded masked operative withdrawing toward friendly cover under a second operative's protection, intact weapon and retained battle damage."
+    ],
+    "rogue": [
+      "Scrap Grenadier: resourceful patched-armored fighter assembling an improvised grenade from salvaged components, practical satchel and modified weapon.",
+      "Jury-Rigged Shield, an ASSET: a visibly field-built deployable shield made from mismatched plated scrap, braces, cables and portable green-lit power pack.",
+      "Patch Runner: mobile field repair specialist carrying an improvised medical/repair kit toward a wounded ally, repaired olive gear.",
+      "Improvised Mine, an ASSET: a low-profile handmade pressure/proximity mine wired among industrial debris, salvaged casing and tiny green sensor, close legible equipment view.",
+      "Make It Work, an ORDER: inventive fighter using a modular scavenged device, one hand adjusting its tool configuration under pressure, adaptability as a real action.",
+      "Salvage Charge, an ORDER: a worn friendly deployable being dismantled and converted into an explosive charge thrown toward enemy cover; clear material trade, not a generic explosion.",
+      "Strip It for Parts, an ORDER: a field mechanic cannibalizing a broken shield to repair a badly damaged armored ally or deployable, clear source and payoff in one scene.",
+      "Bad Plan, Good Result, an ORDER: a damaged improvised decoy drawing fire while allies escape behind a newly raised patched shield, opportunistic sacrifice with real damage."
+    ]
+  },
+  "pilot": {
+    "file": "stonewall-tactical-a.png",
+    "sourceGeneratedPath": "C:/Users/noaho/.codex/generated_images/01a0e0f4-2954-7a50-a27c-7eb899624dab/exec-ffa0ce74-f552-4df7-a821-8722247816de.png"
+  }
+}

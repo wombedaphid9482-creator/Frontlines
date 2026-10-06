@@ -1,0 +1,119 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "jobs": [
+    {
+      "name": "syndicate-legacy-a",
+      "source": "assets/source/card-art-012/syndicate-legacy-a.png",
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A portable armored communications relay with clean antenna arrays, gold indicator strips and secured power modules, stationed behind a coordinated squad. The deployable hardware is central and clearly readable.\nTOP RIGHT: A reconnaissance operator receives fresh information from two compact camera drones while comparing physical sensor data on a small tactical slate. Clean professional equipment and an active intelligence-gathering scene; no readable UI text.\nBOTTOM LEFT: A professional electronic-warfare specialist interrupts an enemy supply drone’s power-control connection. A grounded crate carrier stops mid-delivery while its status lamps fail; show the disrupted logistics as the action.\nBOTTOM RIGHT: A specialist uses a compact countermeasure transmitter as a hostile tactical signal dissolves before reaching an allied unit. Physical equipment, tight restrained golden interference arcs and a protected ally communicate a timely override.",
+      "generatedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-097e88ac-8cc0-4a62-9dfc-c41f608e8dc9.png",
+      "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-097e88ac-8cc0-4a62-9dfc-c41f608e8dc9.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "inspection": {
+        "reviewed": true,
+        "clearFourScenes": true,
+        "assessment": "Four separate full-bleed scenes: guarded communications relay, drone intelligence observer, electronic disruption of an armored target, and prepared countermeasure defense. Gold optics and graphite equipment remain coherent; quadrant boundaries clear."
+      },
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "3ae5b399c61218db5d7d308c249a62f901ce743f6725a0ec0ccb1c6ba0aebe56",
+      "sourceBytes": 2637230,
+      "originalPreserved": true
+    },
+    {
+      "name": "syndicate-legacy-b",
+      "source": "assets/source/card-art-012/syndicate-legacy-b.png",
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A clean-equipped marksman delivers one calculated rifle shot through a narrow opening toward a specific armored target. Scope, muzzle flash and precise tracer alignment convey selective removal; no gore.\nTOP RIGHT: An electronic specialist locks down a hostile armored unit’s communications and powered auxiliary equipment. A compact transmitter in the foreground and darkened enemy optics in the middle ground show functional sabotage, not a glyph.\nBOTTOM LEFT: A tactical observer uses a compact laser designator to illuminate one exposed enemy armored unit across the avenue. Visible optics and a narrow gold beam identify deliberate target preparation; no floating target icon.\nBOTTOM RIGHT: A combined communications and field-care station: clean armored relay mast, secured medical tools, power cartridges and a small protected service cradle. Show one functional tactical deployable asset, not a portrait.",
+      "generatedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-4f4e6bd6-c2d4-468d-adda-ed9f3f028814.png",
+      "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-4f4e6bd6-c2d4-468d-adda-ed9f3f028814.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "inspection": {
+        "reviewed": true,
+        "clearFourScenes": true,
+        "assessment": "Four separate scenes: selective rifle strike, communications sabotage, laser target designation, and combined relay/medical field infrastructure. Action direction and equipment are readable; no caption or border contamination."
+      },
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "7a1cf3ce43251770419569a40022a1a95b8e43503de5909c7eca81442f5a7014",
+      "sourceBytes": 2694290,
+      "originalPreserved": true
+    },
+    {
+      "name": "syndicate-legacy-c",
+      "source": "assets/source/card-art-012/syndicate-legacy-c.png",
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A technician locks a sleek temporary armor module onto a damaged allied combat suit while the soldier takes cover. Professional fastening hardware and a small diagnostic light show a protective repair protocol.\nTOP RIGHT: TACTICAL RECOVERY TEAM: a professional graphite/gold armored recovery specialist actively applying a compact diagnostic medical stabilizer to an allied damaged suit, with a secured medical case and clean practical equipment. No tablet-only observer portrait; the treatment action and medical kit are central.\nBOTTOM LEFT: TACTICAL PATCH TEAM: a clean-equipped field medic with a gold-lit medical case and a small reinforced protective shield, covering a wounded colleague while preparing a patch module. Professional graphite armor, restrained amber light, medical/support silhouette different from the recovery specialist.\nBOTTOM RIGHT: Reserve Syndicate artwork: a professional communications specialist inspecting a clean unmanned targeting relay in a damaged avenue. This panel is source-only reserve material, not assigned to any gameplay card.",
+      "generatedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-d59e1319-699a-46df-b095-956b61385083.png",
+      "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-d59e1319-699a-46df-b095-956b61385083.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "inspection": {
+        "reviewed": true,
+        "clearFourScenes": true,
+        "assessment": "Four separate scenes: temporary armor/repair fastening, active suit treatment, shield-protected patch medic, and reserve targeting relay technician. Medical tools and distinct protective role are visible; clean grid and coherent amber faction lighting."
+      },
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "99677ad2adeacf14fb57ff2e3517ea0d0c3bbe64f317722ee4ae549e32d6ee39",
+      "sourceBytes": 2922478,
+      "originalPreserved": true
+    },
+    {
+      "name": "nightwalker-legacy-a",
+      "source": "assets/source/card-art-012/nightwalker-legacy-a.png",
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A low-profile targeting beacon planted on a rooftop ledge: three narrow prongs, a recessed violet sensor lens and compact battery housing amid dark smoke. Its physical deployable silhouette dominates.\nTOP RIGHT: A masked operative fires from a deep shadowed doorway into the flank of an approaching attacker. A small suppressed muzzle flash, stealthy concealment and clear surprise angle depict the ambush without gore.\nBOTTOM LEFT: A hooded precision operative takes one suppressed shot from a narrow rooftop opening toward a valuable enemy specialist. Weapon and target alignment tell the selective strike; restrained violet rim light and smoke.\nBOTTOM RIGHT: An armored operative steps backward into a smoke-darkened passage just as incoming tracers cross the space they occupied. Show the evasive retreat and missed attack, without implying teleportation or healing.",
+      "generatedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-399a034e-3a72-4ebc-b48b-7c404f516f70.png",
+      "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-399a034e-3a72-4ebc-b48b-7c404f516f70.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "inspection": {
+        "reviewed": true,
+        "clearFourScenes": true,
+        "assessment": "Four distinct scenes: physical three-prong targeting beacon, doorway flank ambush, precise suppressed rooftop strike, and evasive retreat past incoming tracers. Violet optics and dark cloth detail remain readable; clear equal quadrant boundaries."
+      },
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "f39f390cd786ef019c644821ed4a544b984fb610ccea2f99f7326a055582f161",
+      "sourceBytes": 2425066,
+      "originalPreserved": true
+    },
+    {
+      "name": "nightwalker-legacy-b",
+      "source": "assets/source/card-art-012/nightwalker-legacy-b.png",
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A concealed rooftop scout guides a tiny low-light reconnaissance drone over the battlefield. Masked scout, sensor optics and the drone’s observation cone are readable; the scene depicts gathering information.\nTOP RIGHT: A saboteur connects a compact disruption device to an enemy armored equipment junction while the unit’s illuminated optics and auxiliary modules go dark. Covert physical interference, dark violet lighting, no glyph substitute.\nBOTTOM LEFT: A wounded masked operative is pulled out of a threatened position on a discreet extraction line toward a dark rooftop. Damaged armor remains visible, and the action clearly depicts withdrawal for later redeployment rather than instant healing.\nBOTTOM RIGHT: A hidden scout opens a narrow shutter in the smoke and directs an infrared designator onto a briefly revealed enemy specialist. A physical optic and a vulnerable illuminated target show the opening.",
+      "generatedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-2d4ef485-2ba6-4568-978b-70c069683ecf.png",
+      "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-2d4ef485-2ba6-4568-978b-70c069683ecf.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "inspection": {
+        "reviewed": true,
+        "clearFourScenes": true,
+        "assessment": "Four distinct scenes: rooftop drone reconnaissance, hands-on armored equipment sabotage, wounded operative extraction with retained armor damage, and infrared target exposure. Dark subjects remain visibly modeled with violet highlights; no captions or panels blending."
+      },
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "a56ddf898f68138fafbaf6032df91928d81648f692b08fc322533bb113e73735",
+      "sourceBytes": 2682631,
+      "originalPreserved": true
+    },
+    {
+      "name": "nightwalker-legacy-c",
+      "source": "assets/source/card-art-012/nightwalker-legacy-c.png",
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A covert operative sets a decoy sensor projector at a forked ruined alley, luring an enemy supply patrol toward the wrong route. A false moving silhouette and the real shadowed escape path convey calculated misdirection; no text signs.\nTOP RIGHT: SILENT BLADE: a masked low-profile close-range operative with a clear suppressed combat dagger held in a practical ready stance, dark charcoal field kit and narrow violet seam lights. Low-light atmospheric alley, readable blade and concealed silhouette. No pistol-and-hologram technology specialist portrait, no magic, no gore.\nBOTTOM LEFT: Reserve Nightwalker artwork: a concealed masked rooftop operative checking a compact sensor probe under low-light violet smoke. Source-only reserve panel, not assigned to a gameplay card.\nBOTTOM RIGHT: Reserve Nightwalker artwork: a low-profile practical stealth communications device tucked behind a rooftop ledge in the rain. Source-only reserve panel, not assigned to a gameplay card.",
+      "generatedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-6664f38e-5cee-4161-9fff-82f91a3f5307.png",
+      "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-c74a-7a42-865f-a1a23b29cc1e\\exec-6664f38e-5cee-4161-9fff-82f91a3f5307.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "inspection": {
+        "reviewed": true,
+        "clearFourScenes": true,
+        "assessment": "Four separate scenes: physically projected decoy route, masked Silent Blade with large practical dagger and readable eyes, reserve rooftop sensor operator, and reserve stealth communications device. Blade role is unambiguous; all tile boundaries clear. Bottom reserve panels are source-only."
+      },
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "69816d98467893e203e1b8d2fd331ac916142f1438df65f08d525f41f03f16a7",
+      "sourceBytes": 2613520,
+      "originalPreserved": true
+    }
+  ]
+}

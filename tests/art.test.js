@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const D = require('../data.js');
-const Art = require('../art.js');
+const Art = require('../art.js').forVersion('1.0.4');
 const project = path.join(__dirname, '..');
 
 // Read the standard WebP frame metadata without introducing a runtime library.

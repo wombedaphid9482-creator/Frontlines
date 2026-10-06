@@ -1,0 +1,383 @@
+{
+  "id": "sprint6",
+  "name": "Sprint 6 — Capacity & Frontline",
+  "version": "sprint6-command-frontline-v1",
+  "description": "Capacity pays for ordinary forces and support. Three Command Actions pay for attacks, movement, tactical Orders and explicit major deployments. Captured defenders retreat to adjacent friendly ground or are eliminated. Arsenal v3 card stats are unchanged; fresh human-operated balance validation is pending.",
+  "changes": {
+    "cards": {
+      "bruiser_assault": {
+        "attack": 3,
+        "commandCost": 0,
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_heavy": {
+        "presence": 7,
+        "attack": 4,
+        "health": 5,
+        "commandCost": 1,
+        "rulesText": "A heavy commitment with the Presence to take ground quickly. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_brawler": {
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_breacher": {
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_vanguard": {
+        "attack": 3,
+        "health": 5,
+        "traits": [],
+        "rulesText": "A forward screen with the Presence to occupy ground; vulnerable to precision fire. Free Action — costs Capacity; no Command Action.",
+        "commandCost": 0
+      },
+      "bruiser_gunner": {
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_commander": {
+        "presence": 7,
+        "attack": 4,
+        "health": 5,
+        "commandCost": 1,
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Berserk. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 2
+        },
+        "rulesText": "Response: deal 2 damage to the attacker before combat. Costs Capacity; no Command Action.",
+        "commandCost": 0
+      },
+      "nightwalker_blade": {
+        "presence": 4,
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_stalker": {
+        "presence": 5,
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_marksman": {
+        "presence": 6,
+        "commandCost": 0,
+        "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_saboteur": {
+        "presence": 5,
+        "commandCost": 0,
+        "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_scout": {
+        "presence": 6,
+        "health": 6,
+        "commandCost": 0,
+        "rulesText": "Mobile. Precision. First move does not exhaust; attacks ignore Guards. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_commander": {
+        "presence": 7,
+        "health": 6,
+        "commandCost": 1,
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Precision. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_ambush": {
+        "effect": {
+          "kind": "ambush",
+          "amount": 4
+        },
+        "rulesText": "Response: deal 4 damage to the attacker before combat. Costs Capacity; no Command Action.",
+        "commandCost": 0
+      },
+      "nightwalker_strike": {
+        "effect": {
+          "kind": "damage",
+          "amount": 5
+        },
+        "rulesText": "Deal 5 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity.",
+        "commandCost": 1
+      },
+      "rogue_outrider": {
+        "health": 5,
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_skirmisher": {
+        "attack": 4,
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_scrapper": {
+        "presence": 5,
+        "health": 5,
+        "commandCost": 0,
+        "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_commander": {
+        "traits": [
+          "command",
+          "mobile",
+          "medic"
+        ],
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Mobile. Medic — heal each ally here by 1 at your turn start. Costs 1 Command Action in addition to Capacity.",
+        "commandCost": 1
+      },
+      "bruiser_rupture_heavy": {
+        "health": 5,
+        "commandCost": 1,
+        "rulesText": "Berserk — gains +1 Attack while damaged. A large commitment that needs protection against selective removal. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_watchguard": {
+        "health": 6,
+        "commandCost": 0,
+        "rulesText": "Guard. Retaliate — after defending and surviving combat, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_recovery_team": {
+        "health": 4,
+        "commandCost": 0,
+        "rulesText": "Medic. Mobile — first move each turn preserves readiness; heal allies here by 1 at your turn start. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_rifles": {
+        "commandCost": 0,
+        "rulesText": "Fortify — takes 1 less combat damage on owned ground. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_defender": {
+        "commandCost": 0,
+        "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_medic": {
+        "commandCost": 0,
+        "rulesText": "Medic — at the start of your turn, heal each ally here by 1. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_heavy": {
+        "commandCost": 1,
+        "rulesText": "Fortify — takes 1 less combat damage on owned ground. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_escort": {
+        "commandCost": 0,
+        "rulesText": "Guard. Fortify. Protects the line best on owned ground. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_pathfinder": {
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_commander": {
+        "commandCost": 1,
+        "rulesText": "Unique. Command — other allies here gain +1 Attack. Fortify. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_aid_station": {
+        "commandCost": 0,
+        "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_triage": {
+        "commandCost": 0,
+        "rulesText": "Heal one friendly battlefield card by 4. Free Action — costs Capacity; no Command Action."
+      },
+      "stonewall_brace": {
+        "commandCost": 0,
+        "rulesText": "Response: reduce damage to the defender from this combat by 3. Costs Capacity; no Command Action."
+      },
+      "stonewall_rally": {
+        "commandCost": 1,
+        "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_fire_support": {
+        "commandCost": 1,
+        "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_banner": {
+        "commandCost": 1,
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_bombard": {
+        "commandCost": 1,
+        "rulesText": "Deal 5 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_rally": {
+        "commandCost": 1,
+        "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+      },
+      "bruiser_resupply": {
+        "commandCost": 0,
+        "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_security": {
+        "commandCost": 0,
+        "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_enforcer": {
+        "commandCost": 0,
+        "rulesText": "Reliable muscle with enough Presence to secure an objective. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_observer": {
+        "commandCost": 0,
+        "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_courier": {
+        "commandCost": 0,
+        "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_coordinator": {
+        "commandCost": 0,
+        "rulesText": "Command — other allies in this territory gain +1 Attack. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_contractor": {
+        "commandCost": 0,
+        "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_commander": {
+        "commandCost": 1,
+        "rulesText": "Unique. Command — other allies in this territory gain +1 Attack. Costs 1 Command Action in addition to Capacity."
+      },
+      "syndicate_relay": {
+        "commandCost": 1,
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+      },
+      "syndicate_intel": {
+        "commandCost": 0,
+        "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_disrupt": {
+        "commandCost": 1,
+        "rulesText": "Tie up up to 4 available enemy Presence as temporary spending until their next offensive turn. Costs 1 Command Action in addition to Capacity."
+      },
+      "syndicate_counter": {
+        "commandCost": 0,
+        "rulesText": "Counter: cancel the defender’s response Order. Cannot cancel a Guard interception. Costs Capacity; no Command Action."
+      },
+      "syndicate_precision_strike": {
+        "commandCost": 1,
+        "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_assault": {
+        "commandCost": 0,
+        "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_beacon": {
+        "commandCost": 1,
+        "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_withdraw": {
+        "commandCost": 0,
+        "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage. Costs Capacity; no Command Action."
+      },
+      "nightwalker_recon": {
+        "commandCost": 0,
+        "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_salvage": {
+        "commandCost": 0,
+        "rulesText": "Medic — at the start of your turn, heal each ally here by 1. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_trailguard": {
+        "commandCost": 0,
+        "rulesText": "Guard. Mobile. Escort the advance while staying ready. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_raider": {
+        "commandCost": 0,
+        "rulesText": "Rush. Mobile. Can move once and then attack on its deployment turn. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_workshop": {
+        "commandCost": 0,
+        "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_reclaim": {
+        "commandCost": 0,
+        "rulesText": "Return one friendly battlefield card to your hand, removing its wounds and freeing its commitment. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_rally": {
+        "commandCost": 1,
+        "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+      },
+      "rogue_retreat": {
+        "commandCost": 0,
+        "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage. Costs Capacity; no Command Action."
+      },
+      "rogue_raid": {
+        "commandCost": 1,
+        "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_redoubt": {
+        "commandCost": 1,
+        "rulesText": "Immobile. Fortify. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+      },
+      "stonewall_counterbattery": {
+        "commandCost": 0,
+        "rulesText": "Fortify. Retaliate — after defending and surviving combat, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_shock_runner": {
+        "commandCost": 0,
+        "rulesText": "Rush. Mobile — may move once and then attack on its deployment turn; movement and attack each cost 1 Command Action. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_breach_caller": {
+        "commandCost": 0,
+        "rulesText": "Command — other allies here gain +1 Attack. Rush — may attack on its deployment turn if ready. Free Action — costs Capacity; no Command Action."
+      },
+      "bruiser_overrun_charge": {
+        "commandCost": 1,
+        "rulesText": "Deal 6 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+      },
+      "syndicate_tactical_medic": {
+        "commandCost": 0,
+        "rulesText": "Medic — heal allies here by 1 at your turn start. Precision — attacks ignore Guard interception. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_rapid_detail": {
+        "commandCost": 0,
+        "rulesText": "Guard. Mobile — first move each turn preserves readiness, allowing an escort to keep its interception ready. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_eliminator": {
+        "commandCost": 0,
+        "rulesText": "Precision. Mobile — move once without exhausting, then attack a selected target if deployment timing allows. Free Action — costs Capacity; no Command Action."
+      },
+      "syndicate_signal_lock": {
+        "commandCost": 1,
+        "rulesText": "Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_handler": {
+        "commandCost": 0,
+        "rulesText": "Command — other allies here gain +1 Attack. Mobile — first move each turn preserves readiness. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_blackout": {
+        "commandCost": 1,
+        "rulesText": "Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins. Costs 1 Command Action in addition to Capacity."
+      },
+      "nightwalker_silencer": {
+        "commandCost": 0,
+        "rulesText": "Precision. Rush — may attack on its deployment turn if ready, bypassing Guard interception. Free Action — costs Capacity; no Command Action."
+      },
+      "nightwalker_ghost_extraction": {
+        "commandCost": 0,
+        "rulesText": "Return one friendly battlefield card to hand, clearing wounds and freeing commitment. Redeployment pays its printed Capacity and Command Action cost. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_broker": {
+        "commandCost": 0,
+        "rulesText": "Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Mobile. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_bulwark": {
+        "commandCost": 0,
+        "rulesText": "Guard. Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_lancer": {
+        "commandCost": 0,
+        "rulesText": "Precision. Mobile — first move each turn preserves readiness; attacks ignore Guard interception. Free Action — costs Capacity; no Command Action."
+      },
+      "rogue_repair_courier": {
+        "commandCost": 0,
+        "rulesText": "Medic. Mobile — move support between wounded groups; heal allies here by 1 at your turn start. Free Action — costs Capacity; no Command Action."
+      }
+    },
+    "decks": {},
+    "config": {}
+  },
+  "rules": {
+    "actionEconomy": "capacity-command",
+    "frontlineIntegrity": true
+  }
+}

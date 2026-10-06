@@ -26,6 +26,7 @@
     inertNodes = [];focusBefore?.focus();root.dispatchEvent(new CustomEvent('frontlines-settings-closed'));
   }
   function settingsBody() {
+    if(settingsTab==='multiplayer')return '<h3>Private multiplayer</h3><label for="shell-display-name">Display name</label><input id="shell-display-name" type="text" maxlength="24" autocomplete="nickname" value="'+escape(prefs.displayName)+'"><p class="shell-help">This local name appears in your private lobby. No account is required.</p><button class="command primary" data-shell-action="multiplayer">Open Multiplayer</button><button class="command secondary" data-shell-action="multiplayer-report" '+(!native?.multiplayer?'disabled':'')+'>Export Multiplayer Report</button><p class="shell-help">Reports contain version, connection and synchronization diagnostics. They exclude invite credentials, IP addresses and private hands.</p><p class="shell-help">Private matches record eligible battlefield mastery and card history. They grant no Credits, Supply or packs.</p>';
     if (settingsTab === 'display') return '<h3>Display</h3><label for="display-mode">Display mode</label><select id="display-mode"><option value="windowed" '+(!desktop.fullscreen?'selected':'')+'>Windowed</option><option value="fullscreen" '+(desktop.fullscreen?'selected':'')+'>Fullscreen</option></select><p class="shell-help">'+(native?'F11 or Alt + Enter toggles true desktop fullscreen. Your display preference is remembered.':'Fullscreen uses your browser’s display controls. F11 is available in desktop browsers.')+'</p><p class="shell-help">Escape closes an overlay or returns from a submenu. It does not quit the game.</p>';
     if (settingsTab === 'interface') return '<h3>Interface</h3><label for="shell-animation">Animation speed</label><select id="shell-animation"><option value="normal" '+(prefs.animationSpeed==='normal'?'selected':'')+'>Normal</option><option value="fast" '+(prefs.animationSpeed==='fast'?'selected':'')+'>Fast</option></select><label for="shell-presentation">Presentation</label><select id="shell-presentation">'+['full','reduced','minimal'].map(value=>'<option value="'+value+'" '+(prefs.presentation===value?'selected':'')+'>'+value[0].toUpperCase()+value.slice(1)+'</option>').join('')+'</select><p class="shell-help">Reduced lowers particles and audio layers. Minimal keeps essential placement, damage and targeting feedback.</p><label class="shell-check"><input type="checkbox" data-pref="reducedEffects" '+(prefs.reducedEffects?'checked':'')+'>Reduced motion and visual effects</label><label class="shell-check"><input type="checkbox" data-pref="reducedShake" '+(prefs.reducedShake?'checked':'')+'>Reduced screen shake</label><p class="shell-help">Your system’s reduced-motion preference is also respected.</p>';
     if (settingsTab === 'audio') return '<h3>Audio</h3><label class="shell-check"><input type="checkbox" data-pref="sound" '+(prefs.sound?'checked':'')+'>Enable sound and music</label>'+[['masterVolume','Master Volume','shell-volume'],['musicVolume','Music','shell-volume-music'],['uiVolume','UI','shell-volume-ui'],['cardEffectsVolume','Card Effects','shell-volume-card'],['battlefieldVolume','Battlefield Audio','shell-volume-battlefield']].map(([key,label,id])=>'<label for="'+id+'">'+label+' <output id="'+id+'-value">'+Math.round(prefs[key]*100)+'%</output></label><input id="'+id+'" data-volume-pref="'+key+'" type="range" min="0" max="100" step="5" value="'+Math.round(prefs[key]*100)+'">').join('')+'<p class="shell-help">Original Frontlines music and layered effects are synthesized locally. Audio starts after interaction; music loops and fades between command, Arsenal, supply and battlefield themes.</p>';
@@ -34,24 +35,26 @@
   }
   function renderSettings() {
     if (!overlay) return;
-    overlay.innerHTML = '<section class="shell-settings" role="dialog" aria-modal="true" aria-labelledby="shell-settings-title"><header><div><span class="shell-eyebrow">COMMAND / PREFERENCES</span><h2 id="shell-settings-title">Settings</h2></div><button class="command tertiary" data-shell-action="close-settings" aria-label="Close settings">Close ×</button></header><div class="shell-settings-layout"><nav aria-label="Settings categories">'+['display','interface','audio','learning','advanced'].map(tab=>'<button class="command '+(tab===settingsTab?'selected':'tertiary')+'" data-settings-tab="'+tab+'" aria-pressed="'+(tab===settingsTab)+'">'+({display:'Display',interface:'Interface',audio:'Audio',learning:'Learning',advanced:'About & advanced'}[tab])+'</button>').join('')+'</nav><div class="shell-settings-content">'+settingsBody()+'</div></div><footer><span>Preferences save automatically on this device.</span><button class="command primary" data-shell-action="close-settings">Return to command</button></footer></section>';
+    overlay.innerHTML = '<section class="shell-settings" role="dialog" aria-modal="true" aria-labelledby="shell-settings-title"><header><div><span class="shell-eyebrow">COMMAND / PREFERENCES</span><h2 id="shell-settings-title">Settings</h2></div><button class="command tertiary" data-shell-action="close-settings" aria-label="Close settings">Close ×</button></header><div class="shell-settings-layout"><nav aria-label="Settings categories">'+['display','interface','audio','learning','multiplayer','advanced'].map(tab=>'<button class="command '+(tab===settingsTab?'selected':'tertiary')+'" data-settings-tab="'+tab+'" aria-pressed="'+(tab===settingsTab)+'">'+({display:'Display',interface:'Interface',audio:'Audio',learning:'Learning',multiplayer:'Multiplayer',advanced:'About & advanced'}[tab])+'</button>').join('')+'</nav><div class="shell-settings-content">'+settingsBody()+'</div></div><footer><span>Preferences save automatically on this device.</span><button class="command primary" data-shell-action="close-settings">Return to command</button></footer></section>';
   }
   function openSettings(tab) {
     if (overlay) return;
-    settingsTab = ['display','interface','audio','learning','advanced'].includes(tab) ? tab : 'display';focusBefore = document.activeElement;
+    settingsTab = ['display','interface','audio','learning','multiplayer','advanced'].includes(tab) ? tab : 'display';focusBefore = document.activeElement;
     overlay = document.createElement('div');overlay.className = 'shell-overlay';overlay.dataset.shellOverlay = 'settings';
     inertNodes = [...document.body.children].map(n=>[n,n.inert]);for(const [n] of inertNodes)n.inert=true;
     document.body.appendChild(overlay);renderSettings();overlay.querySelector('button')?.focus();
     root.dispatchEvent(new CustomEvent('frontlines-settings-opened'));
   }
-  function pageFor(screen) { return {home:'index.html',play:'index.html?screen=play',arsenal:'deck-builder.html',collection:'collection.html',shop:'collection.html#shop',warroom:'simulator.html',advanced:'simulator.html?view=advanced'}[screen]; }
+  function pageFor(screen) { return {home:'index.html',play:'index.html?screen=play',training:'tactical-training.html',arsenal:'deck-builder.html',collection:'collection.html',shop:'collection.html#shop',warroom:'simulator.html',advanced:'simulator.html?view=advanced'}[screen]; }
   function navigate(screen) {
+    if(screen==='multiplayer'){closeSettings();if(root.FrontlinesMultiplayerUI)root.FrontlinesMultiplayerUI.open();else{if(root.FrontlinesDeckBuilder?.hasUnsavedChanges?.()&&!root.FrontlinesDeckBuilder.confirmLeave())return;location.assign('index.html?screen=multiplayer');}return;}
     if (screen === 'settings') {openSettings();return;}
     closeSettings();
     const game = root.FrontlinesApp;
     if (game && ['home','play'].includes(screen)) {game.showScreen(screen);return;}
     const target = pageFor(screen);if(!target)return;
     if(root.FrontlinesDeckBuilder?.hasUnsavedChanges?.() && !root.FrontlinesDeckBuilder.confirmLeave())return;
+    if(game?.getUIState?.().network){if(!root.confirm('Leave this private match and open '+screen+'? Your opponent will be notified.'))return;root.FrontlinesMultiplayerUI.command('leave').then(()=>location.assign(target));return;}
     if(activeMatch && !root.confirm('Leave this match? Its battlefield will be cleared. Saved decks are kept.'))return;
     location.assign(target);
   }
@@ -86,6 +89,8 @@
     else if(action==='settings')openSettings();
     else if(action==='home')navigate('home');
     else if(action==='advanced-lab')navigate('advanced');
+    else if(action==='multiplayer')navigate('multiplayer');
+    else if(action==='multiplayer-report')(root.FrontlinesMultiplayerUI?.command('report')||native?.multiplayer('report',{}))?.then(result=>{if(!result?.report)return;const blob=new Blob([JSON.stringify(result.report,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='Frontlines-Multiplayer-Report.json';link.click();URL.revokeObjectURL(url);});
     else if(action==='quit'){if(!activeMatch||root.confirm('Quit Frontlines and leave this match?')){if(native)await native.quit();else root.alert('Close this browser tab to quit Frontlines.');}}
     else if(action==='check-update' && native){desktop=await native.checkUpdate();renderUpdateNotice();}
     else if(action==='restart-update' && native && S.canInstall(desktop.update,activeMatch)){await native.restartUpdate();}
@@ -93,6 +98,7 @@
     else if(action==='reset-hints'){root.dispatchEvent(new CustomEvent('frontlines-reset-hints'));button.textContent='Tips reset for your next actions';}
   });
   document.addEventListener('change',event=>{
+    if(event.target.id==='shell-display-name'){savePreferences({displayName:event.target.value});if(root.FrontlinesMultiplayerUI?.getState?.().sessionId)root.FrontlinesMultiplayerUI.command('name',{name:prefs.displayName});}
     if(event.target.id==='display-mode')fullscreen(event.target.value==='fullscreen');
     if(event.target.id==='shell-animation')savePreferences({animationSpeed:event.target.value});
     if(event.target.id==='shell-presentation')savePreferences({presentation:event.target.value});

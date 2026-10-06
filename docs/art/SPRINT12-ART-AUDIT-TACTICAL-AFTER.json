@@ -1,0 +1,1758 @@
+{
+  "schemaVersion": 1,
+  "phase": "after",
+  "build": "1.0.5 candidate",
+  "reviewedAt": "2026-10-05",
+  "scope": "All 40 Tactical Arsenal battlefield designs; off-lane Commanders are separate preserved benchmarks.",
+  "method": "Manual review of all forty paired 512px sources and actual 200×280 Collection cards after 17 Tactical focal-point repairs; real renderer audit across 155 cards and 20 responsive contexts.",
+  "classification": {
+    "A": "Strong/release quality",
+    "B": "Acceptable/consistent",
+    "C": "Noticeably below current standard",
+    "D": "Broken/placeholder/bad crop/low quality"
+  },
+  "summary": {
+    "reviewed": 40,
+    "A": 0,
+    "B": 40,
+    "C": 0,
+    "D": 0,
+    "replaced": 40,
+    "focalPointsAdjusted": 17,
+    "missingAssets": 0,
+    "distortedSources": 0
+  },
+  "benchmarks": [
+    "docs/art/sprint12-before/legacy-atlas-benchmarks.png",
+    "docs/art/sprint12-before/commander-benchmarks.png"
+  ],
+  "notes": [
+    "The frozen before audit is retained separately.",
+    "All B grades were assigned by visual review; asset decode and ratio tests alone do not assign quality grades.",
+    "Ten approved off-lane Commander portraits remain a separate A benchmark and are unchanged.",
+    "Order crops may prioritize the action/device instead of retaining every incidental actor head.",
+    "No balance campaign or complete competitive match was run for this art gate."
+  ],
+  "cards": [
+    {
+      "id": "stonewall_trench_engineer",
+      "name": "Trench Engineer",
+      "faction": "stonewall",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/stonewall/stonewall_trench_engineer.webp",
+      "position": "50% 30%",
+      "refined": true,
+      "sha256": "f27fe43881987137ac10bb5394302e15b1bd566c7f25607842b40076b943d3f0",
+      "bytes": 91230,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A plated engineer actively welding a defensive wall replaces the generic shield bust. The compact crop retains the helmet, welding tool and blue repair light; fortified grey equipment matches Stonewall.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/stonewall-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-after.png",
+        "test-results/sprint12-tactical-stonewall-collection-after.png"
+      ]
+    },
+    {
+      "id": "stonewall_shield_section",
+      "name": "Shield Section",
+      "faction": "stonewall",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/stonewall/stonewall_shield_section.webp",
+      "position": "50% 10%",
+      "refined": true,
+      "sha256": "de1f5dee6da9c53fe39eb82a9d50f1f8e99fcf646db9934e4404e88bde58ff55",
+      "bytes": 97398,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Linked armored defenders behind tall battered shields replace the single generic soldier. The raised focal point preserves the lead helmet and shield impact; the wider source makes the coordinated section explicit.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/stonewall-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-after.png",
+        "test-results/sprint12-tactical-stonewall-collection-after.png"
+      ]
+    },
+    {
+      "id": "stonewall_bastion_gunner",
+      "name": "Bastion Gunner",
+      "faction": "stonewall",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/stonewall/stonewall_bastion_gunner.webp",
+      "position": "50% 30%",
+      "refined": true,
+      "sha256": "1eb4dc881a1efe08b16738c5cadc6948504eee538adb556545a3f2e370a72be8",
+      "bytes": 74124,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A gunner operating an emplaced belt-fed weapon behind a fortified wall communicates prepared defense. The head, weapon and muzzle flash remain identifiable in the compact crop.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/stonewall-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-after.png",
+        "test-results/sprint12-tactical-stonewall-collection-after.png"
+      ]
+    },
+    {
+      "id": "stonewall_field_mechanic",
+      "name": "Field Mechanic",
+      "faction": "stonewall",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/stonewall/stonewall_field_mechanic.webp",
+      "position": "50% 30%",
+      "refined": true,
+      "sha256": "abb5b607f2ec6c71c453b604bac5671d209a9d3c6d4335d09c176298215f0868",
+      "bytes": 87310,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A kneeling armored mechanic repairs an exposed machine panel. The short card window keeps the helmet, working hand and blue-lit machinery together instead of an unrelated shield silhouette.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/stonewall-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-after.png",
+        "test-results/sprint12-tactical-stonewall-collection-after.png"
+      ]
+    },
+    {
+      "id": "stonewall_hardpoint",
+      "name": "Hardpoint",
+      "faction": "stonewall",
+      "type": "asset",
+      "asset": "assets/cards/refined-012/stonewall/stonewall_hardpoint.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "f226aa862ddf2e3a2bf236c773de988557ec625e2a2c4bfb323a6e4336bc53a7",
+      "bytes": 90608,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A concrete-and-steel defensive emplacement with gun and protected crew replaces the structural diagram. The central architecture remains readable in the asset crop and shares the fortified Stonewall materials.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/stonewall-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-after.png",
+        "test-results/sprint12-tactical-stonewall-collection-after.png"
+      ]
+    },
+    {
+      "id": "stonewall_dig_in",
+      "name": "Dig In",
+      "faction": "stonewall",
+      "type": "order",
+      "asset": "assets/cards/refined-012/stonewall/stonewall_dig_in.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "3b216880924ec8dbd468b83fb01a6055cfe6ddb38a883983d42fa2116b900502",
+      "bytes": 88148,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Soldiers reinforce sandbags under incoming fire, giving the Order an actual defensive action. The compact scene focuses on the sandbag work and nearby defenders; the full source retains the wider firefight.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/stonewall-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-after.png",
+        "test-results/sprint12-tactical-stonewall-collection-after.png"
+      ]
+    },
+    {
+      "id": "stonewall_interlocking_fire",
+      "name": "Interlocking Fire",
+      "faction": "stonewall",
+      "type": "order",
+      "asset": "assets/cards/refined-012/stonewall/stonewall_interlocking_fire.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "119d3c0d9dfea962cf42cb3b1e3c21eb841b97256fbffc861f2c5119dac1169b",
+      "bytes": 90954,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Separated fortified firing positions produce converging gunfire across the same approach. The crop keeps both local firing positions and the distant crossfire, conveying coordination rather than an abstract icon.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/stonewall-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-after.png",
+        "test-results/sprint12-tactical-stonewall-collection-after.png"
+      ]
+    },
+    {
+      "id": "stonewall_hold_fast",
+      "name": "Hold Fast",
+      "faction": "stonewall",
+      "type": "order",
+      "asset": "assets/cards/refined-012/stonewall/stonewall_hold_fast.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "2c0f913e07153331ac101de0dd95a6a1a199c8515752c251868a74e9cea37b25",
+      "bytes": 88024,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Armored infantry hold damaged cover while incoming forces advance through smoke. The crop concentrates on crouched defenders and the barricade, with a clear defensive event rather than a Commander-style bust.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/stonewall-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-stonewall-sheet-after.png",
+        "test-results/sprint12-tactical-stonewall-collection-after.png"
+      ]
+    },
+    {
+      "id": "bruiser_demolition_squad",
+      "name": "Demolition Squad",
+      "faction": "bruiser",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/bruiser/bruiser_demolition_squad.webp",
+      "position": "50% 10%",
+      "refined": true,
+      "sha256": "f21fd8f1f0bdf181096497c423f2a55db1bc93b52829b734c0a86e4974c51a8f",
+      "bytes": 99322,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Two heavily armored demolition troops install a real charge against a wall. The higher crop keeps the lead helmet and attached explosive; battered orange armor and close-range action fit Bruiser.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/bruiser-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-after.png",
+        "test-results/sprint12-tactical-bruiser-collection-after.png"
+      ]
+    },
+    {
+      "id": "bruiser_grenadier",
+      "name": "Grenadier",
+      "faction": "bruiser",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/bruiser/bruiser_grenadier.webp",
+      "position": "50% 0%",
+      "refined": true,
+      "sha256": "54fe4240c7cae5cb75b8d9b63f326bfaa7d3a4759cf85a96a6e147e87ede2db0",
+      "bytes": 74080,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A large armored grenadier raises a physical grenade with another hand extended toward the attack. Top alignment retains the grenade and helmet in the small window, repairing the previous torso-only crop.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/bruiser-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-after.png",
+        "test-results/sprint12-tactical-bruiser-collection-after.png"
+      ]
+    },
+    {
+      "id": "bruiser_suppressor_heavy",
+      "name": "Suppressor Heavy",
+      "faction": "bruiser",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/bruiser/bruiser_suppressor_heavy.webp",
+      "position": "50% 10%",
+      "refined": true,
+      "sha256": "2ba28372047a7d3c7a8acf05e89d4232955c6fc064ea487fa241e4169740ed01",
+      "bytes": 69236,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A broad armored gunner fires an oversized belt-fed weapon from rubble. The higher focal point retains the helmet and large gun together, establishing a Heavy role without relying on the label.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/bruiser-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-after.png",
+        "test-results/sprint12-tactical-bruiser-collection-after.png"
+      ]
+    },
+    {
+      "id": "bruiser_linebreaker",
+      "name": "Linebreaker",
+      "faction": "bruiser",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/bruiser/bruiser_linebreaker.webp",
+      "position": "50% 10%",
+      "refined": true,
+      "sha256": "6c336f6296e83834c7c8a0574bacd184e16930d4032eb6e6de52c93284fcbb19",
+      "bytes": 99276,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A massive soldier breaches a damaged wall behind reinforced equipment. The adjusted crop retains the orange helmet and leading armored tool while the source clearly shows the violent entry.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/bruiser-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-after.png",
+        "test-results/sprint12-tactical-bruiser-collection-after.png"
+      ]
+    },
+    {
+      "id": "bruiser_assault_charge",
+      "name": "Assault Charge",
+      "faction": "bruiser",
+      "type": "order",
+      "asset": "assets/cards/refined-012/bruiser/bruiser_assault_charge.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "6cdf1da51542fbc51cc9da5fdfa6f0a840fc9e8ab8151486adc5e91f59dbd3c4",
+      "bytes": 93650,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Several armored troops advance through an active close-range firefight. The compact crop emphasizes forward movement and weapons; the full image supplies the charging formation instead of a flame glyph.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/bruiser-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-after.png",
+        "test-results/sprint12-tactical-bruiser-collection-after.png"
+      ]
+    },
+    {
+      "id": "bruiser_frag_out",
+      "name": "Frag Out",
+      "faction": "bruiser",
+      "type": "order",
+      "asset": "assets/cards/refined-012/bruiser/bruiser_frag_out.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "f8781680a38da38be20625cbad30ce07b4a0d523e095f77a8a4a3d9a528abff9",
+      "bytes": 77690,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A thrown grenade and exploding enemy position form a concrete battlefield event. The compact crop emphasizes the blast and throwing arm, while the full source makes the projectile path explicit.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/bruiser-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-after.png",
+        "test-results/sprint12-tactical-bruiser-collection-after.png"
+      ]
+    },
+    {
+      "id": "bruiser_no_shelter",
+      "name": "No Shelter",
+      "faction": "bruiser",
+      "type": "order",
+      "asset": "assets/cards/refined-012/bruiser/bruiser_no_shelter.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "4ccd663c77198b8d0b9e1ae7711cce7cd2607ecebdf5e27f20cbb5f68d0f0a64",
+      "bytes": 87694,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A demolition operator detonates a physical charge on an enemy emplacement. The crop preserves the explosive impact and active tool, showing cover destruction rather than a generic targeting symbol.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/bruiser-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-after.png",
+        "test-results/sprint12-tactical-bruiser-collection-after.png"
+      ]
+    },
+    {
+      "id": "bruiser_break_the_position",
+      "name": "Break the Position",
+      "faction": "bruiser",
+      "type": "order",
+      "asset": "assets/cards/refined-012/bruiser/bruiser_break_the_position.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "aed15dbff9aa3a95d3792ecc2b7287d7072f089c45ea7c7b8045039296351d28",
+      "bytes": 93508,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Armored assault infantry enter through a newly opened breach. The card crop retains several advancing bodies, weapons and broken masonry, communicating a coordinated attack on a position.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/bruiser-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-bruiser-sheet-after.png",
+        "test-results/sprint12-tactical-bruiser-collection-after.png"
+      ]
+    },
+    {
+      "id": "syndicate_spotter_cell",
+      "name": "Spotter Cell",
+      "faction": "syndicate",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/syndicate/syndicate_spotter_cell.webp",
+      "position": "50% 10%",
+      "refined": true,
+      "sha256": "364b53f61072af4ed8526787291b04553dabbdd893325390b79c7e618405be9b",
+      "bytes": 73250,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A binocular observer and tablet operator form a recognizable reconnaissance pair. The raised crop retains both heads and their distinct tools; clean black armor and amber optics fit Syndicate.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/syndicate-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-after.png",
+        "test-results/sprint12-tactical-syndicate-collection-after.png"
+      ]
+    },
+    {
+      "id": "syndicate_fire_control_officer",
+      "name": "Fire Control Officer",
+      "faction": "syndicate",
+      "type": "leader",
+      "asset": "assets/cards/refined-012/syndicate/syndicate_fire_control_officer.webp",
+      "position": "50% 0%",
+      "refined": true,
+      "sha256": "987948cabbc3f53e3e9a774dda2a25fc8ade7a78e5aaf2890212c560df799a5e",
+      "bytes": 70192,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "An officer directs a tactical firing solution above an amber battlefield display. Top alignment restores the complete head and pointing gesture, while larger inspection retains the detailed command equipment.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/syndicate-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-after.png",
+        "test-results/sprint12-tactical-syndicate-collection-after.png"
+      ]
+    },
+    {
+      "id": "syndicate_contract_marksman",
+      "name": "Contract Marksman",
+      "faction": "syndicate",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/syndicate/syndicate_contract_marksman.webp",
+      "position": "50% 0%",
+      "refined": true,
+      "sha256": "5d54e694cad45468239c5f1d85697f6f9e76b5d332f3cd7a57ca4bf79ddbe69a",
+      "bytes": 63532,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A disciplined marksman aims a long scoped rifle from cover. The raised focal point keeps the helmet, eye protection and amber scope together; the precise equipment differs from a generic rifleman bust.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/syndicate-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-after.png",
+        "test-results/sprint12-tactical-syndicate-collection-after.png"
+      ]
+    },
+    {
+      "id": "syndicate_suppression_team",
+      "name": "Suppression Team",
+      "faction": "syndicate",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/syndicate/syndicate_suppression_team.webp",
+      "position": "50% 0%",
+      "refined": true,
+      "sha256": "64e3c86798ac06b54a92ad747ef0227f71150a13f6e07d15cacaf675b819c5ed",
+      "bytes": 82558,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Two professionally equipped rifle operators coordinate fire from a shared position. Top alignment preserves the supporting operator and the foreground gunner, maintaining the team role in the short crop.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/syndicate-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-after.png",
+        "test-results/sprint12-tactical-syndicate-collection-after.png"
+      ]
+    },
+    {
+      "id": "syndicate_recon_drone",
+      "name": "Recon Drone",
+      "faction": "syndicate",
+      "type": "asset",
+      "asset": "assets/cards/refined-012/syndicate/syndicate_recon_drone.webp",
+      "position": "50% 20%",
+      "refined": true,
+      "sha256": "4880b5da38521a15f3bece4f043f62014d9043c7109945a70102d9fa224d2c00",
+      "bytes": 66902,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A physical reconnaissance drone with paired rotors and camera replaces the diagram. Its adjusted equipment-focused crop retains the flight hardware and sensor assembly against the urban battlefield.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/syndicate-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-after.png",
+        "test-results/sprint12-tactical-syndicate-collection-after.png"
+      ]
+    },
+    {
+      "id": "syndicate_target_package",
+      "name": "Target Package",
+      "faction": "syndicate",
+      "type": "order",
+      "asset": "assets/cards/refined-012/syndicate/syndicate_target_package.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "f63713e0913d0a448187c38ff15b7f171f86ecf61c3272cf596bcf699d855f1e",
+      "bytes": 58634,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A tactical operator points out distant targets while consulting an amber display. The short crop prioritizes the display, pointing hand and marked buildings; the source provides the complete operator scene.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/syndicate-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-after.png",
+        "test-results/sprint12-tactical-syndicate-collection-after.png"
+      ]
+    },
+    {
+      "id": "syndicate_coordinated_barrage",
+      "name": "Coordinated Barrage",
+      "faction": "syndicate",
+      "type": "order",
+      "asset": "assets/cards/refined-012/syndicate/syndicate_coordinated_barrage.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "8c35718711ff95f0ff3269c5b8bffbe5dd761d43e535e83199b8f252443564d8",
+      "bytes": 101246,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "Several precise strikes hit separate positions in an urban battlefield. The compact crop retains the coordinated impacts and the shared ground, replacing the abstract blast diagram with a readable event.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/syndicate-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-after.png",
+        "test-results/sprint12-tactical-syndicate-collection-after.png"
+      ]
+    },
+    {
+      "id": "syndicate_contingency_plan",
+      "name": "Contingency Plan",
+      "faction": "syndicate",
+      "type": "order",
+      "asset": "assets/cards/refined-012/syndicate/syndicate_contingency_plan.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "a86afbb6f1b89f15ee84f469c1d27d0c75c68c9d18fb33743df1f89066c9dfe3",
+      "bytes": 87186,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A tactical officer redirects a mixed group into defensive positions. The compact crop shows the directing gesture and several equipped soldiers; the full source reinforces combined-arms preparation.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/syndicate-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-syndicate-sheet-after.png",
+        "test-results/sprint12-tactical-syndicate-collection-after.png"
+      ]
+    },
+    {
+      "id": "nightwalker_smoke_runner",
+      "name": "Smoke Runner",
+      "faction": "nightwalker",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/nightwalker/nightwalker_smoke_runner.webp",
+      "position": "50% 10%",
+      "refined": true,
+      "sha256": "510a58e6f9309d4f14d104fea3d507a54f0229d9083a4a81c6f92e33a3b05b2d",
+      "bytes": 61122,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A hooded operative moves low through purple smoke with a suppressed weapon. The higher crop keeps the complete hood and masked face visible without losing the stealth silhouette.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/nightwalker-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-after.png",
+        "test-results/sprint12-tactical-nightwalker-collection-after.png"
+      ]
+    },
+    {
+      "id": "nightwalker_ghost_operative",
+      "name": "Ghost Operative",
+      "faction": "nightwalker",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/nightwalker/nightwalker_ghost_operative.webp",
+      "position": "50% 10%",
+      "refined": true,
+      "sha256": "b7286f3e0f2b56bbdd452a7e9375c677120afae7cf9746556f59b70c5795afdb",
+      "bytes": 59116,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A concealed marksman aims a suppressed rifle from a dark wall position. The adjusted crop keeps the hood, eye line and thin purple optic together, making the stealth and precision role distinct.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/nightwalker-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-after.png",
+        "test-results/sprint12-tactical-nightwalker-collection-after.png"
+      ]
+    },
+    {
+      "id": "nightwalker_shadow_trapper",
+      "name": "Shadow Trapper",
+      "faction": "nightwalker",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/nightwalker/nightwalker_shadow_trapper.webp",
+      "position": "50% 10%",
+      "refined": true,
+      "sha256": "3e687ef39cd1f3bf8bd2ede19fb7e30beb853ae1a5192f1e6a8398b51e72c101",
+      "bytes": 66048,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A masked operative works on a small practical trap beside cover. The raised crop restores the hood and face, while the complete inspection shows the hand and trap; the square battlefield thumbnail retains the whole work area.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/nightwalker-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-after.png",
+        "test-results/sprint12-tactical-nightwalker-collection-after.png"
+      ]
+    },
+    {
+      "id": "nightwalker_false_contact",
+      "name": "False Contact",
+      "faction": "nightwalker",
+      "type": "asset",
+      "asset": "assets/cards/refined-012/nightwalker/nightwalker_false_contact.webp",
+      "position": "50% 90%",
+      "refined": true,
+      "sha256": "a2f9fc1cc8c0e0f182c46592e2dace26675cf7220fd7dd40628e397cb90d64da",
+      "bytes": 55776,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A real portable projector emits a translucent decoy in smoke. The equipment-focused crop retains the projector and lower projection rather than displaying only a floating torso; full inspection preserves the complete decoy.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/nightwalker-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-after.png",
+        "test-results/sprint12-tactical-nightwalker-collection-after.png"
+      ]
+    },
+    {
+      "id": "nightwalker_smoke_screen",
+      "name": "Smoke Screen",
+      "faction": "nightwalker",
+      "type": "order",
+      "asset": "assets/cards/refined-012/nightwalker/nightwalker_smoke_screen.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "b1f1d56587fae2a5696b9d8ca6e16104cc56aa84b172eb39d767e0f96d2b99b4",
+      "bytes": 66170,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "An operative releases a canister as smoke spreads across a moving group. The short crop preserves the deploying hand, canister and nearby smoke, expressing the Order as an action.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/nightwalker-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-after.png",
+        "test-results/sprint12-tactical-nightwalker-collection-after.png"
+      ]
+    },
+    {
+      "id": "nightwalker_vanish",
+      "name": "Vanish",
+      "faction": "nightwalker",
+      "type": "order",
+      "asset": "assets/cards/refined-012/nightwalker/nightwalker_vanish.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "179993f75738423ad63e9e6236cf2fbc3e60777318504f857e9a58265a98d69a",
+      "bytes": 78068,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A hooded soldier slips behind damaged cover under incoming fire. The crop retains the evasive body position and surrounding impacts; the full source explains the escape rather than a generic shadow icon.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/nightwalker-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-after.png",
+        "test-results/sprint12-tactical-nightwalker-collection-after.png"
+      ]
+    },
+    {
+      "id": "nightwalker_expose_the_opening",
+      "name": "Expose the Opening",
+      "faction": "nightwalker",
+      "type": "order",
+      "asset": "assets/cards/refined-012/nightwalker/nightwalker_expose_the_opening.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "1d5ecf634a9810eea024519194da7f1ead032132b92a4070dd61338c5a7909ac",
+      "bytes": 58036,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "An observer uses an optic to identify highlighted enemy silhouettes across the battlefield. The compact crop retains the beam and exposed targets, keeping the information-warfare event understandable.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/nightwalker-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-after.png",
+        "test-results/sprint12-tactical-nightwalker-collection-after.png"
+      ]
+    },
+    {
+      "id": "nightwalker_clean_exit",
+      "name": "Clean Exit",
+      "faction": "nightwalker",
+      "type": "order",
+      "asset": "assets/cards/refined-012/nightwalker/nightwalker_clean_exit.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "9dbb2adf0a4c27fa0f6acc3504ff407436c4d4863bf1783b059c7ae7dcc7f0fd",
+      "bytes": 74364,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "One hooded operative supports an injured ally during withdrawal. The compact crop focuses on the supported pair and visible injury, while the full image preserves their path out of combat.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/nightwalker-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-nightwalker-sheet-after.png",
+        "test-results/sprint12-tactical-nightwalker-collection-after.png"
+      ]
+    },
+    {
+      "id": "rogue_scrap_grenadier",
+      "name": "Scrap Grenadier",
+      "faction": "rogue",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/rogue/rogue_scrap_grenadier.webp",
+      "position": "50% 0%",
+      "refined": true,
+      "sha256": "9752815b8bb388421b16e9ec7759e9b595b74eeff5bef270369212610f53089f",
+      "bytes": 85834,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A scrapper assembles an improvised explosive from salvaged equipment. Top alignment restores the face and patched upper-body silhouette, repairing the previous cropped-off eyes; larger inspection shows the working hands and green-lit grenade.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/rogue-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-after.png",
+        "test-results/sprint12-tactical-rogue-collection-after.png"
+      ]
+    },
+    {
+      "id": "rogue_jury_rigged_shield",
+      "name": "Jury-Rigged Shield",
+      "faction": "rogue",
+      "type": "asset",
+      "asset": "assets/cards/refined-012/rogue/rogue_jury_rigged_shield.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "27f4608d7a6155835a76a41733a063bd7db7cfe19f9de874e8f841cee33444ea",
+      "bytes": 96814,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A patched metal shield carries an exposed battery and rough reinforcement. The compact crop prioritizes the shield materials and improvised equipment rather than a generic shield icon.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/rogue-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-after.png",
+        "test-results/sprint12-tactical-rogue-collection-after.png"
+      ]
+    },
+    {
+      "id": "rogue_patch_runner",
+      "name": "Patch Runner",
+      "faction": "rogue",
+      "type": "unit",
+      "asset": "assets/cards/refined-012/rogue/rogue_patch_runner.webp",
+      "position": "50% 0%",
+      "refined": true,
+      "sha256": "a574409946998144ac3ca3117179e8e5fc4ea0d75f81d49cae7f66dd05731c53",
+      "bytes": 73522,
+      "beforeGrade": "C",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A mobile field medic carries a patched treatment kit toward a wounded ally. Top alignment restores the face and working silhouette; the source and larger inspection show the casualty and medical context.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/rogue-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-after.png",
+        "test-results/sprint12-tactical-rogue-collection-after.png"
+      ]
+    },
+    {
+      "id": "rogue_improvised_mine",
+      "name": "Improvised Mine",
+      "faction": "rogue",
+      "type": "asset",
+      "asset": "assets/cards/refined-012/rogue/rogue_improvised_mine.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "14d4b20ae73f2d36755c5d7ba32d066c6fd5f0cc555fa13350432054310dde51",
+      "bytes": 77568,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A low circular mine made from salvaged metal sits among battlefield rubble. The crop keeps the recognizable casing, wiring and green arming light, making the asset tangible at small size.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/rogue-tactical-a.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-after.png",
+        "test-results/sprint12-tactical-rogue-collection-after.png"
+      ]
+    },
+    {
+      "id": "rogue_make_it_work",
+      "name": "Make It Work",
+      "faction": "rogue",
+      "type": "order",
+      "asset": "assets/cards/refined-012/rogue/rogue_make_it_work.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "9f1f54b53e35bf2d9dbdef48fc798d9d14c8ddf024892140e2f5c03760503325",
+      "bytes": 79598,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A fighter adjusts the exposed power assembly of a salvaged weapon. The compact crop focuses on the working hands and repaired mechanism; patched armor and rough materials fit Rogue adaptation.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/rogue-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-after.png",
+        "test-results/sprint12-tactical-rogue-collection-after.png"
+      ]
+    },
+    {
+      "id": "rogue_salvage_charge",
+      "name": "Salvage Charge",
+      "faction": "rogue",
+      "type": "order",
+      "asset": "assets/cards/refined-012/rogue/rogue_salvage_charge.webp",
+      "position": "50% 0%",
+      "refined": true,
+      "sha256": "e16652bb01b52600f5a923850cfdf4bc9024c9ef521ff917dd58e1be03629f22",
+      "bytes": 66206,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A scavenger throws a green-lit improvised charge from a damaged position. Top alignment now retains the thrown device, extended hand and face, repairing the previous crop that hid the charge.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/rogue-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 0,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-after.png",
+        "test-results/sprint12-tactical-rogue-collection-after.png"
+      ]
+    },
+    {
+      "id": "rogue_strip_it_for_parts",
+      "name": "Strip It for Parts",
+      "faction": "rogue",
+      "type": "order",
+      "asset": "assets/cards/refined-012/rogue/rogue_strip_it_for_parts.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "d0e620e77934be49ced66a7d2e1d50e8253fdb4fcd85f1180aeacc4b213c7a10",
+      "bytes": 82920,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "A scavenger physically removes damaged armor and machine parts. The short crop keeps the working hand and salvaged panel; the full source supplies the broader repurposing scene.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/rogue-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 0,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-after.png",
+        "test-results/sprint12-tactical-rogue-collection-after.png"
+      ]
+    },
+    {
+      "id": "rogue_bad_plan_good_result",
+      "name": "Bad Plan, Good Result",
+      "faction": "rogue",
+      "type": "order",
+      "asset": "assets/cards/refined-012/rogue/rogue_bad_plan_good_result.webp",
+      "position": "50% 50%",
+      "refined": true,
+      "sha256": "116f79671b3b8340d93a518a844c27de2f56ccf9ab6ebdfcd070dc11412ed11b",
+      "bytes": 87960,
+      "beforeGrade": "D",
+      "afterGrade": "B",
+      "renderGrade": "B",
+      "reason": "An improvised armored decoy absorbs fire while other fighters move behind it. The compact crop emphasizes the damaged decoy, impacts and surviving soldiers, depicting a deliberate trade rather than random symbolism.",
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "generatedSource": "assets/source/card-art-012/rogue-tactical-b.png",
+      "generatedSourceDimensions": [
+        1254,
+        1254
+      ],
+      "sourceCrop": {
+        "left": 627,
+        "top": 627,
+        "width": 627,
+        "height": 627
+      },
+      "criteria": {
+        "resolution": "512 × 512 optimized WebP from a 627 × 627 source crop; no source upscaling.",
+        "sharpness": "Painted material detail remains legible in the full source and canonical 5:7 card; compact battlefield images emphasize silhouette and main role equipment.",
+        "lighting": "Integrated battlefield light, material highlights and smoke match the illustrated military/science-fiction library.",
+        "framing": "Actual Collection, Arsenal, hand and enlarged inspection were reviewed. Uniform cover uses the recorded focal point; unit heads or primary action/equipment remain visible in the compact card window.",
+        "factionIdentity": "Physical armor, equipment and scene accents follow the faction motif; color supports identity without replacing it.",
+        "style": "Consistent painted faction scenes replace flat vector studies. B records an acceptable library asset rather than claiming the premium approved Commander portrait tier.",
+        "anatomyEquipment": "No distracting anatomy or impossible primary equipment defects were found at runtime size; practical role cues were manually checked."
+      },
+      "evidence": [
+        "test-results/sprint12-tactical-rogue-sheet-after.png",
+        "test-results/sprint12-tactical-rogue-collection-after.png"
+      ]
+    }
+  ]
+}

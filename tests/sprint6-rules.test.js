@@ -16,7 +16,7 @@ function conservedField(state,id,owner,territory,changes={}){
 }
 
 test('Sprint 6 changes costs/rules only and preserves every Arsenal combat value and deck',()=>{
- const old=B.dataFor('arsenal');assert.equal(B.DEFAULT_PROFILE,'sprint10');
+ const old=B.dataFor('arsenal');assert.equal(B.DEFAULT_PROFILE,'sprint12');
  assert.deepEqual(D.DEFAULT_CONFIG,old.DEFAULT_CONFIG);assert.deepEqual(D.DECKS,old.DECKS);
  for(const id of Object.keys(D.CARDS)){
   for(const key of ['presence','attack','health','traits','effect','unique','type','faction'])assert.deepEqual(D.CARDS[id][key],old.CARDS[id][key],id+' '+key);

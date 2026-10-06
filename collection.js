@@ -8,7 +8,7 @@
   const node=typeof module==='object'&&module.exports;
   const Balance=node?require('./balance.js'):root.FrontlinesBalance;
   const Decks=node?require('./decks.js'):root.FrontlinesDecks;
-  const api=factory(Balance.dataFor('sprint7'),Decks,root,node?require('./commanders.js'):root.FrontlinesCommanders,Balance);
+  const api=factory(Balance.dataFor(Balance.DEFAULT_PROFILE),Decks,root,node?require('./commanders.js'):root.FrontlinesCommanders,Balance);
   if(node)module.exports=api;else{
     root.FrontlinesCollection=api;
     // Run before shell preferences are created so a genuinely fresh profile
@@ -51,7 +51,9 @@
     nightwalker:{common:'blade stalker assault recon withdraw strike decoy_patrol',uncommon:'marksman saboteur ambush scout false_route handler',rare:'blackout ghost_extraction exposure_window misfire_team',epic:'commander beacon shadow_handler route_keeper',legendary:'silencer crossfire_cell'},
     rogue:{common:'outrider skirmisher scrapper reclaim rally retreat raid',uncommon:'salvage trailguard raider repair_courier route_scout wandering_medic',rare:'broker bulwark lancer scrap_hauler',epic:'commander workshop patchguard rolling_cache',legendary:'field_options field_negotiator'}
   });
-  const CurrentDecks=Decks.forData(Data),STARTER_DECKS=freeze(CurrentDecks.starters());
+  // Collection catalogs grow with the active release; original owned starters
+  // remain exactly the frozen Sprint 7 grant. Expansion cards are not granted.
+  const CurrentDecks=Decks.forData(Data),STARTER_DECKS=freeze(Decks.forData(Balance.dataFor('sprint7')).starters());
   const STARTER_COLLECTION={};
   for(const deck of STARTER_DECKS){
     const legality=CurrentDecks.validate(deck);
@@ -85,6 +87,13 @@
     const id=faction+'_'+key,card=Data.CARDS[id];
     if(!card||has(CARD_META,id))throw new Error('Invalid collectible card classification: '+id);
     CARD_META[id]={id,faction,rarity,starter:has(STARTER_COLLECTION,id),starterCopies:STARTER_COLLECTION[id]||0,commanderStarterCopies:COMMANDER_CARD_GRANT[id]||0,packAvailable:true,pools:['standard',faction,'veteran','elite'],craftCost:ECONOMY.craftCosts[rarity],duplicateSupply:ECONOMY.duplicateSupply[rarity],copyLimit:CurrentDecks.copyLimit(card),variants:Object.keys(VARIANTS)};
+  }
+  // Explicit card-level rarity is authoritative only for this new set. Legacy
+  // metadata above, odds, pity, mastery and schema version remain unchanged.
+  for(const card of Object.values(Data.CARDS).filter(c=>c.set==='tactical-011')){
+    const {id,faction,rarity}=card;
+    if(has(CARD_META,id)||!RARITIES.includes(rarity))throw new Error('Invalid tactical collectible classification: '+id);
+    CARD_META[id]={id,faction,rarity,starter:false,starterCopies:0,commanderStarterCopies:0,packAvailable:true,pools:['standard',faction,'veteran','elite'],craftCost:ECONOMY.craftCosts[rarity],duplicateSupply:ECONOMY.duplicateSupply[rarity],copyLimit:CurrentDecks.copyLimit(card),variants:Object.keys(VARIANTS),set:'tactical-011'};
   }
   if(Object.keys(CARD_META).length!==Object.keys(Data.CARDS).length)throw new Error('Every gameplay card needs explicit collectible metadata.');
   freeze(CARD_META);
@@ -253,7 +262,9 @@
     if(match.human!==true||match.allAI||match.simulation||match.warRoom||['warroom','war-room','simulation','simulator','ai-vs-ai'].includes(String(match.mode||'').toLowerCase()))return 'AI self-play and War Room do not award progression.';
     if(match.practice||match.tutorial||match.nonCompetitive||['practice','training','tutorial'].includes(String(match.mode||'').toLowerCase()))return 'Practice and tutorial matches do not award match progression.';
     if(match.conceded||match.concede)return 'Conceded matches do not award progression.';
-    if(!integer(match.ownTurns)||match.ownTurns<ECONOMY.eligibility.minimumOwnTurns||!integer(match.meaningfulActions)||match.meaningfulActions<ECONOMY.eligibility.minimumMeaningfulActions)return 'Play at least four of your turns and take four meaningful actions to earn progression.';
+    // v1.0.5 normal matches pay on an authoritative completed outcome, including
+    // short defeats. Keep the original policy available for historical callers.
+    if(match.rewardPolicy!=='completed-match-v2'&&(!integer(match.ownTurns)||match.ownTurns<ECONOMY.eligibility.minimumOwnTurns||!integer(match.meaningfulActions)||match.meaningfulActions<ECONOMY.eligibility.minimumMeaningfulActions))return 'Play at least four of your turns and take four meaningful actions to earn progression.';
     if(typeof match.victory!=='boolean')return 'The match result is unresolved.';
     return null;
   }
@@ -286,6 +297,30 @@
       return {...clone(receipt),alreadyRewarded:false};
     });
   }
+  // Private friend matches record observed participation only. Currency, Supply,
+  // packs and the first normal-match bonus remain reserved for ordinary play.
+  function rewardPrivateMatch(match,storage){
+    const reason=!match||match.completed!==true||typeof match.victory!=='boolean'
+      ?'Complete the private match to record mastery.'
+      :match.conceded||match.reason==='concede'||match.abandoned
+        ?'Conceded or abandoned private matches do not award progression.'
+        :!Array.isArray(match.usedCards)||!match.usedCards.length
+          ?'No cards were used in this private match.':null;
+    if(reason)return {ok:true,eligible:false,creditsEarned:0,masteryGains:[],sources:[],reason,profile:load(storage)};
+    return transaction(storage,profile=>{
+      const id=requestKey('private-'+requestKey(match.id));
+      if(has(profile.rewards,id))return {...clone(profile.rewards[id]),alreadyRewarded:true,changed:false};
+      const used=[...new Set(match.usedCards)].filter(card=>metadata(card)&&integer(match.cardStats?.[card]?.deployments||0,10000)&&
+        ((match.cardStats?.[card]?.deployments||0)>0||(match.cardStats?.[card]?.orders||0)>0||(match.cardStats?.[card]?.plays||0)>0));
+      const earned={...match,deckCardIds:used};
+      let commanderMastery=null;const leader=profile.commanders?.[match.commanderId];
+      if(used.length&&leader?.owned){leader.mastery=leader.mastery||{matches:0,victories:0,activations:0};leader.mastery.matches++;if(match.victory)leader.mastery.victories++;if(match.commanderActiveUsed===true)leader.mastery.activations++;commanderMastery={id:match.commanderId,...clone(leader.mastery)};}
+      const receipt={id,eligible:used.length>0,privateMatch:true,policy:'mastery-only',creditsEarned:0,newBalance:profile.credits,
+        sources:[],masteryGains:applyMastery(profile,earned),commanderMastery,
+        reason:'Private matches record used-card mastery and wear; Credits, Supply and packs are not awarded.'};
+      profile.rewards[id]=receipt;return {...clone(receipt),alreadyRewarded:false};
+    });
+  }
   function completeTutorial(id,storage){
     return transaction(storage,profile=>{
       requestKey(id);
@@ -313,5 +348,5 @@
    *   territoriesInfluenced,factionActions}}}. No simulation ever calls it.
    * canUseDeck is ownership-only; CurrentDecks.validate remains legality-only.
    */
-  return {VERSION,STORAGE_KEY,SCHEMA_VERSION,RARITIES,VARIANTS,ECONOMY,PACKS,CARD_META,RARITY_GROUPS,STARTER_COLLECTION,STARTER_DECKS,COMMANDER_STARTERS,COMMANDER_CARD_GRANT,COMMANDER_GRANT_VERSION,createProfile,load,diagnostics,storageDiagnostics:diagnostics,recoveryExport,metadata,card:metadata,copyLimit,ownedCount,canUseDeck,generatePack,purchasePack,claimPack,craft,setPreferredVariant,variantFor,markSeen,rewardEligibility,rewardMatch,completeTutorial,summary};
+  return {VERSION,STORAGE_KEY,SCHEMA_VERSION,RARITIES,VARIANTS,ECONOMY,PACKS,CARD_META,RARITY_GROUPS,STARTER_COLLECTION,STARTER_DECKS,COMMANDER_STARTERS,COMMANDER_CARD_GRANT,COMMANDER_GRANT_VERSION,createProfile,load,diagnostics,storageDiagnostics:diagnostics,recoveryExport,metadata,card:metadata,copyLimit,ownedCount,canUseDeck,generatePack,purchasePack,claimPack,craft,setPreferredVariant,variantFor,markSeen,rewardEligibility,rewardMatch,rewardPrivateMatch,completeTutorial,summary};
 });

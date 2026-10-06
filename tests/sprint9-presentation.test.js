@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
-const Art=require('../art'),P=require('../presentation'),FX=require('../effects'),Data=require('../balance').dataFor('sprint7');
+const Art=require('../art').forVersion('1.0.4'),P=require('../presentation'),FX=require('../effects'),Data=require('../balance').dataFor('sprint7');
 
 function webpDimensions(bytes){
   assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');

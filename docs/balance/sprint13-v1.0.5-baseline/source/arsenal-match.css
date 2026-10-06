@@ -1,0 +1,25 @@
+/* Arsenal mechanics are visible without changing the battlefield layout. */
+.order-buttons{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.mobile-inspect{display:none}
+.adapt-choices {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0}
+.adapt-choice {display:flex;flex-direction:column;gap:12px;text-align:left;min-height:160px;padding:20px;border:1px solid #777b76;border-radius:8px;background:#202a31;color:#edf2ec;font:inherit;cursor:pointer}
+.adapt-choice strong {font-size:20px;color:#f5bb7c}
+.adapt-choice span {flex:1;line-height:1.5}
+.adapt-choice small {line-height:1.5;color:#bfc8c8}
+.adapt-choice:hover,.adapt-choice:focus-visible {border-color:#f3ad63;background:#2e3a40;outline:2px solid #f3ad63;outline-offset:3px}
+.adapt-choice:disabled {opacity:.5;cursor:default}
+.inspect-temporary {padding:7px 0;color:#edc28c;font-size:12px;line-height:1.35;border-top:1px solid #49505a}
+.unit.marked {border-color:#ee998b;box-shadow:inset 0 0 0 1px #ee998b}
+.unit.reinforced {border-color:#90bed0}
+.unit-status {position:absolute;bottom:1px;left:2px;background:#16202b;color:#f0c1a1;font-size:7px;letter-spacing:.3px;font-weight:800;line-height:9px;padding:0 2px;pointer-events:none}
+@media(max-width:720px){.adapt-choices{grid-template-columns:1fr;gap:8px}.adapt-choice{min-height:100px;padding:14px;gap:5px}.adapt-choice strong{font-size:18px}}
+@media(max-width:760px){
+  body:not(.tutorial-active) .game{grid-template-rows:86px minmax(0,1fr) 96px 170px}
+  .game>.orders-bar{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 42px;gap:4px;padding:6px 8px;overflow:hidden}
+  .game .orders-bar .order-guidance{max-height:36px;font-size:11px;overflow:auto}
+  .order-buttons{display:flex;gap:4px;width:100%;min-width:0}
+  .orders-bar .order-buttons .btn{flex:1;min-width:0;min-height:40px;height:42px;padding:4px;font-size:10px;line-height:1.2;white-space:normal}
+  .orders-bar .command-detail,.orders-bar .muted{display:none}
+  .orders-bar .mobile-inspect{display:flex;align-items:center;justify-content:center}
+  .game .hand-area #inspector,.game .hand-area #inspector:has(.inspector){display:none}
+}

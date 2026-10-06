@@ -1,0 +1,314 @@
+{
+  "version": "1.0.4",
+  "date": "2026-10-05T03:06:43.625Z",
+  "baseCommit": "7f388ec66fb80f4c8d9883b3111551dd8ab0e829",
+  "newCommit": null,
+  "sourceHashes": {
+    "ai.js": "93b04b354105c1ba54df7090ad0e48d7aa046ffb3754995a449e5f97f46f4e4c",
+    "analytics.js": "4d42472ee8e8781c8c7ddb5d5c108e5ca125ad84d4d47f6792282b9bf4924896",
+    "app.js": "27467dea53cdcf23367cc8a238dbd1a6d7843c9f552ff142c1cded793629bd34",
+    "arsenal-match.css": "9935970d2dccac1361e1ea715bf8ea9a949763acadb17605e9bf76ad53ab0a95",
+    "arsenal.js": "1a5cc8a68fa77351fa7b4bb1978896e954d7506be9e963705cd6387ef7eb6b3c",
+    "art.js": "9f074ea45bac5c9a3b4378bc1f5cc7697245f712146886f07765adca7b57f82e",
+    "assets/animations/README.md": "e4b86d3cfd76aef15fac986c0330ab69b6df24d0600ba2f868c3434a5b91e6ca",
+    "assets/audio/README.md": "3f31bed67a86123a0deda9a4e4d4d225f8a69e7ad52c5766369d94bf61eaf2ae",
+    "assets/battlefield/tactical-city.svg": "d81947802ab19f99b1ea97ab8282df7367f2d09612cb3a6ec9bff2f8e7c98ea2",
+    "assets/cards/bruiser/starter-atlas.webp": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419",
+    "assets/cards/commanders/README.md": "faf38e6f62df3eb3dabf21cdb46481b3084468f9db7eacf3c4e20119e276b512",
+    "assets/cards/commanders/commander_bruiser_bloodhound-portrait-v2.webp": "dd6128143a8511b5fce1a861dfe5fe907cd789f6b32b39e750bcebff1274a173",
+    "assets/cards/commanders/commander_bruiser_bloodhound.svg": "0fd014ac7b77ca5bc877a8f56227084ff56704912805a571dab2da3ed5968793",
+    "assets/cards/commanders/commander_bruiser_breaker-portrait-v2.webp": "96126c87bfc240cf28a8e85d09923ed5c98ed262d5eed461bc132759a78579ae",
+    "assets/cards/commanders/commander_bruiser_breaker.svg": "47ecca39dc0975024d30eca78ed875249f5864c4b4729af5f121655227f1eec5",
+    "assets/cards/commanders/commander_nightwalker_ghost-portrait-v2.webp": "c5242a4f4501a67316a34deeb57f1356d7b8dfd437f0acc9bd32cd5feed0a01b",
+    "assets/cards/commanders/commander_nightwalker_ghost.svg": "7b341411501d6168e2218986a633e45732d24cdac39618ecd441ff8cc937b243",
+    "assets/cards/commanders/commander_nightwalker_saboteur-portrait-v2.webp": "5c0f516aa03b72ad63ea4ba9ecb706f66c9932d1afb36665e798a352820ca46b",
+    "assets/cards/commanders/commander_nightwalker_saboteur.svg": "fdeb398e1c595c22f6bcb33a0e478aa3a4b6548aa108b5806f4c86844b78cd57",
+    "assets/cards/commanders/commander_rogue_drifter-portrait-v2.webp": "9e3a3836818007cad53ab8a8adab6a9ba86e513ee8f7dcbbbb9b49a047f1bceb",
+    "assets/cards/commanders/commander_rogue_drifter.svg": "81c0a8406a1050e7bdf390426f1af10d7d83381ce6770fcaf07fe7eda8a6b526",
+    "assets/cards/commanders/commander_rogue_scavenger-portrait-v2.webp": "bd1078906314271199cfba750caff835b734bef41aa8542d89d3a9995d480650",
+    "assets/cards/commanders/commander_rogue_scavenger.svg": "48fc0ccce206ba78e38ff12d6f5680e65b3f21e5129090493be3975495d628b8",
+    "assets/cards/commanders/commander_stonewall_marshal-portrait-v2.webp": "a139131a78dae4b4c45bbd90c431027bb0d40a75206465cbf91ce276cb71e3ab",
+    "assets/cards/commanders/commander_stonewall_marshal.svg": "22a35b3a7f074a5e35b9f630da584ba3befac6e4fd0da213fd00702e399cfd31",
+    "assets/cards/commanders/commander_stonewall_warden-portrait-v2.webp": "999dd73af37128c1fc5b2f0e72baa0d4985d1cbdc1d13cb75a5aabcdce67f6b3",
+    "assets/cards/commanders/commander_stonewall_warden.svg": "4f817940e5f647db1a76feb5f8541d83db57dfc751623c7c48c61e43282e03c7",
+    "assets/cards/commanders/commander_syndicate_coordinator-portrait-v2.webp": "847f60b79e769c2962a8c93bafe414f6a71362caa949b7e9836c0f9bf0e1952d",
+    "assets/cards/commanders/commander_syndicate_coordinator.svg": "2686f1a05ec91dff624eed2d83eb099cc99a6d04c5540bdfa7eddc1da3162317",
+    "assets/cards/commanders/commander_syndicate_quartermaster-portrait-v2.webp": "2bf33d0ba42abba4746e2e79066748ae3fabefdb667b677eb9eb46a3bb86f0d6",
+    "assets/cards/commanders/commander_syndicate_quartermaster.svg": "3b821a49e807948ca4b52f783ec65960d79bd13881e80a5eb16a86addf3fcf5e",
+    "assets/cards/nightwalker/starter-atlas.webp": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0",
+    "assets/cards/rogue/starter-atlas.webp": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1",
+    "assets/cards/stonewall/starter-atlas.webp": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20",
+    "assets/cards/syndicate/starter-atlas.webp": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf",
+    "assets/cards/tactical-011/bruiser/bruiser_assault_charge.svg": "7e3f26d86f85fa686c84cfbd109e366f377bf5a92713efd6f04c0472d204d8f8",
+    "assets/cards/tactical-011/bruiser/bruiser_break_the_position.svg": "8d00c7074adaca7f65ec6e53171b9b424334da2e0e1af821a0a14a445287321a",
+    "assets/cards/tactical-011/bruiser/bruiser_demolition_squad.svg": "e51df8cb183913c2f5be024a0f26ac2ab2fe110c6f2be5a1db124bd3136852a6",
+    "assets/cards/tactical-011/bruiser/bruiser_frag_out.svg": "24969c4d7fdf13eaa5b36f5e8686c9f63cabb7cb8b096f3512ed470f837d540c",
+    "assets/cards/tactical-011/bruiser/bruiser_grenadier.svg": "ad98a32e8de6485bd82a3ccec0ced196dc61e7f4fad36138b2c9699abf14dce6",
+    "assets/cards/tactical-011/bruiser/bruiser_linebreaker.svg": "17fa25d733beef41b877b3653bb9f26ba2ea5ce2ce65a0d1821d7e74b834d248",
+    "assets/cards/tactical-011/bruiser/bruiser_no_shelter.svg": "63b5925fa38dd7d644195ba4807833f2efe12c20516035edbffddc9bf68715c4",
+    "assets/cards/tactical-011/bruiser/bruiser_suppressor_heavy.svg": "f1fb4d49e989efc174c2c25ba99cee3a48c5a4702330803507ac67d53fccb39e",
+    "assets/cards/tactical-011/nightwalker/nightwalker_clean_exit.svg": "be908856d7664c62771e462f3501fe667ab7b6804301f1d59ae5e12021c625fd",
+    "assets/cards/tactical-011/nightwalker/nightwalker_expose_the_opening.svg": "f906435f83a400051e6f3ed2e70c8ab26136b04c1c689543649fcbd3853f07f7",
+    "assets/cards/tactical-011/nightwalker/nightwalker_false_contact.svg": "a9399940ddfdaa8551988eae4a48504943234d582f0c4401337096bbd2056760",
+    "assets/cards/tactical-011/nightwalker/nightwalker_ghost_operative.svg": "d99d82b597570898770a2354ad721ec089057660215789321d499a4c42feb918",
+    "assets/cards/tactical-011/nightwalker/nightwalker_shadow_trapper.svg": "09a3d3df7a501ecc40a1acaaaf61985aa05995939769da6ea77492af5ade717b",
+    "assets/cards/tactical-011/nightwalker/nightwalker_smoke_runner.svg": "ead4aaedbc8ed3b9228b00a6a8b7c878fca3daa1f41bddd1bb6296b3c6c373f9",
+    "assets/cards/tactical-011/nightwalker/nightwalker_smoke_screen.svg": "a695e57d0202530238d3a2384819e282381d8af9cca78a1bb66fb5f002498b8f",
+    "assets/cards/tactical-011/nightwalker/nightwalker_vanish.svg": "f58acec2a9cc2dd3ae8e7dc6f84b0807005d754bc52797a99036d0f87bedb1e2",
+    "assets/cards/tactical-011/rogue/rogue_bad_plan_good_result.svg": "ca4b1740b51d4a92e9e68602c3467e65bc4b9ac44a06e99781febd1696fce4b5",
+    "assets/cards/tactical-011/rogue/rogue_improvised_mine.svg": "cd19d1ad077f9ad34ac43e60ce04cf2b4da375dedf50e62ef7a28282c12982db",
+    "assets/cards/tactical-011/rogue/rogue_jury_rigged_shield.svg": "7637be4303770b73e85310fd16eae5aee6ea369e09dceabf9f6379c71220722a",
+    "assets/cards/tactical-011/rogue/rogue_make_it_work.svg": "9ca5d098157b5f5a011a2aff4767226760fa313e5ac4092a9d9e2478ae849f49",
+    "assets/cards/tactical-011/rogue/rogue_patch_runner.svg": "266640859b121fd98be0ee3e849a074ad48ec1b1953e2382757c47021452247f",
+    "assets/cards/tactical-011/rogue/rogue_salvage_charge.svg": "ee39870cf3be293e3eb2bd1951c494224cf99f59ade9cbb2508aea54370c3592",
+    "assets/cards/tactical-011/rogue/rogue_scrap_grenadier.svg": "8992e45847656b4cf13e4f35973e2e37821d2092b21489be1866c849a32b1d36",
+    "assets/cards/tactical-011/rogue/rogue_strip_it_for_parts.svg": "b8a54b7eb2a56303ec5077de761f0f52d03aed568870784b55c909b4b1e6aa5d",
+    "assets/cards/tactical-011/stonewall/stonewall_bastion_gunner.svg": "08fb85c609df34c526d9424901ec286d7d7e65a2e828cae3ef08d7aed88fe086",
+    "assets/cards/tactical-011/stonewall/stonewall_dig_in.svg": "59462ae0e284d537942a946374d53b68831fd152a7721be3cdb0295d2c5f04e2",
+    "assets/cards/tactical-011/stonewall/stonewall_field_mechanic.svg": "8cf517682cc2c6c4f0a65da77a4990b65fa84f41360296e7e88d310b947657f2",
+    "assets/cards/tactical-011/stonewall/stonewall_hardpoint.svg": "0f890c797d7e02aa2d71fb4f1d04f0f028d89025b376eef77d883f81d9685b62",
+    "assets/cards/tactical-011/stonewall/stonewall_hold_fast.svg": "4c84a94bde012e1c22a904599e5edf64233262e5293a5b9466d32197aaf18f00",
+    "assets/cards/tactical-011/stonewall/stonewall_interlocking_fire.svg": "df3d73dfc1468f072e99388c3ed0fce6e0ae442ce2e10db3e9b806bee96dc0f5",
+    "assets/cards/tactical-011/stonewall/stonewall_shield_section.svg": "fc1512af4fcad62f653d8965bc9a0a422042972a03580ef6e2f38c542bd7e49c",
+    "assets/cards/tactical-011/stonewall/stonewall_trench_engineer.svg": "b91eeae8ff268f52970a6371c48df19aa34eb7c1e4578aee762ca1096b7d7467",
+    "assets/cards/tactical-011/syndicate/syndicate_contingency_plan.svg": "002745253bab21416be7d9ccdcbaec129370a13b4393fbdaf74fae9762b6c0a8",
+    "assets/cards/tactical-011/syndicate/syndicate_contract_marksman.svg": "79d07d7b56ba7038eff15d49678d6c9515d2c86497d2fd44412c5e73887da2fd",
+    "assets/cards/tactical-011/syndicate/syndicate_coordinated_barrage.svg": "a31fc194456c7f7af2339a126ae8ff8a837db34fa2888e5a639c0dea56429aa4",
+    "assets/cards/tactical-011/syndicate/syndicate_fire_control_officer.svg": "5b34f1a9a6534d50e7926f7ea0f25d4df4ec864e18d4eeb93fca5699c3cf8376",
+    "assets/cards/tactical-011/syndicate/syndicate_recon_drone.svg": "d06bae2e57d3c107f1ddd7ee13338c5a42c08fdfb093713e944add48a1d46999",
+    "assets/cards/tactical-011/syndicate/syndicate_spotter_cell.svg": "b9422fc421d27e0cffbd9f063335483043bf3f253a72a0247738f83eeb13d946",
+    "assets/cards/tactical-011/syndicate/syndicate_suppression_team.svg": "2e800efd40dbf5c3544eba993282b44844fe0b2e176c4dc29308b5338e4a15d7",
+    "assets/cards/tactical-011/syndicate/syndicate_target_package.svg": "214dc112ad93567cecbcb9c2b3d2c886d46917b13e9a4890f0ddbfad6e664ad6",
+    "assets/effects/README.md": "9787c2d97db8b4ab0a2b1ef99368b2275633ecd3f17ce64ec9e94cc4056416b8",
+    "assets/ui/faction_emblems/bruiser.svg": "81c5e32cbaed842637309ed39aea00fc47993d0a9881f22c4d15eb1ed1364c2f",
+    "assets/ui/faction_emblems/nightwalker.svg": "1f8f9895cdccdec78b9fbaa246db31d4d6c6848c32171838f4735b87e67950b9",
+    "assets/ui/faction_emblems/rogue.svg": "b905acd986b3f56e78a26707ddb1eb9cd0751a6a514ea1ae9f3df553d42cc297",
+    "assets/ui/faction_emblems/stonewall.svg": "dfa7b9913e1da786a3c03a4f4225d850a476f3cee33c4a2106e79a36a5cba6c9",
+    "assets/ui/faction_emblems/syndicate.svg": "bfa1ac959a0f899a4f8b74352c6642ff680e102ddc0b6c11fecebbb36ac1835e",
+    "assets/ui/frontlines-icon.ico": "9cbd289c6559963ae97f191aa00ed1d05a8397532368793c43cad466c9785c3d",
+    "assets/ui/frontlines-icon.png": "fffbf9cf8af9eea49032b026941e2d7fa7f7ee938d2ded7bd716fb93b1db1258",
+    "assets/ui/frontlines-icon.svg": "044069f48a4e5ac74d021e183be21dd77a9f44201ce406c6bea37194ac9d7cd1",
+    "balance.js": "9ac9221dcd677ddcca27a67750f2696043fd68c71f687cbe9ad7320d9d1c47cc",
+    "balance/arsenal.json": "12141a7d63467b0fe73c39e99ddb7005d6c22beea029ac93e8d60b58610b352b",
+    "balance/baseline.json": "db70ea1f401251cb232cda74f9fbc2c2f8f9c6e79cce13a7c902f243f65a75ce",
+    "balance/candidate.json": "2bfcd17e81222b3de7fda52d9a11b5ba684cabb42989000a45201152aa8807af",
+    "balance/iteration01.json": "0c25173b899c97433718a104e3036c48f1b9c35032ee9343f29b58666124cbbc",
+    "balance/sprint10.json": "2945ba9897629ba1870aab726b3e5c1461f0f4e5331393bbc00827c793df2969",
+    "balance/sprint11.json": "4ff5a903165ec0fcd45bfdd2d24246e82fa4f7947c8c7e1d17ded90e8b3242fe",
+    "balance/sprint6.json": "ed2fa25bfd9ef5d878159a960fc4319b7f5fde3c44aa28284a63441c4f6074d1",
+    "balance/sprint7.json": "445bcb4a1c55b6f07392f72ac0705e16300f4c7538819f119078f242c3da786e",
+    "balance/sprint9.json": "98a21bdb572ea75e045b902a30c87f6b3605319549f6a6637ac77aa5c59deb75",
+    "build-info.js": "d4e7beaac88983fcdf72e12d4d2db0d35d30aca552b5f0d16abbef10c7e28a35",
+    "collection-app.js": "570e70f7a8d189de3f22c32b59679864dd687147d5dffd5aff152953e959b447",
+    "collection.css": "b0bdecc83710812a9ad01bd1a6ddf10d6d53230553a5741bd6e6df4282f5e0bd",
+    "collection.html": "a28e5c802b87427ddff89f22e6c3e929be42b65170047a071f90aaca5df33721",
+    "collection.js": "7157c526dd5fcdcafbd7f52633feda6a798cdca95298ab2057cd6a01764b7252",
+    "command.css": "0c6498e302b055f760368048836673c5dbdea1edf90e6889528aa04e23bc148e",
+    "commander-ui.css": "55166e7e41e952653360497e1ddd47962f75003e925582120361d00e3c5299ed",
+    "commanders.js": "4e592634289cea5fe01d50773e5074233ed8fc0812ee91963d43f61a675dfb51",
+    "data.js": "d559c2985a7be9fec667978ec453f9694aebb5bb5efa277345072a09bd7fef95",
+    "deck-builder.css": "d320554c013bc2d972fe8620ceff6607e40e2f2d3d5f9784acb9a9c825f66552",
+    "deck-builder.html": "026c9b81e032d033797d1d8fc88adab96b52a22a024b29a9ed8cececf0f3b8cd",
+    "deck-builder.js": "f5eb3316f2ccbe377b4296768752287cf99e96bc54f5eff298fce449ef28de0a",
+    "deck-rules.js": "1db0bebe6f35aa3cc452916c208f4cf450ac5759d5f4a57df628bfe1788a6fd9",
+    "decks.js": "1f3656d297409c4182afb0db358c21ad6b6a8dc6e7fb393cc2b9e22e4ff8b27c",
+    "desktop.js": "ade7d2c8ab9af4f8aff329852c339e87f9a80efab534c61f4025466d551d12a4",
+    "effects.css": "336a32ba0678fdb6ba5d8465791bb90a92a9d33e1f42411cdb5ffeb3d8ac5170",
+    "effects.js": "2285cdcbf144744b2dd54c9adabe0afff6013a263b45670b4d0ce3dbde090e1e",
+    "engine.js": "93fb83f025f3b5ea5cea0bef75556e7a846431fa31579874223ee9e873602b3d",
+    "field-manual.js": "69517e6d82bee40f0f9d41d1dc65d65d7f9f4fc94ea962e0f0237c2ea58345f9",
+    "index.html": "bd8fe984e780b26d870c8f98572d483e3ffaf3fb33d3fb357e71a8165925f41e",
+    "learning.css": "4386346cbcae1a1f269d7a5afbca2ca6b3aa8f1978f1b4194c1433e4e19838bc",
+    "live-runtime.js": "80cf7755f63ef020c951c027f5e2878918ead38e2b78dd72ef78a01ec9f6e248",
+    "main.js": "6099961a48b9cc58c1c60d16642738bbc4bfe89c6e7c240c05bea7dfdc62c901",
+    "music-data.js": "8773a2bc3ec6c9e2ddc8148a2fae18eb03db9993fe78387d5611aa1f72e70995",
+    "playtest-opponents.js": "303f7c548667827d5ff7424075a561d95edc97d8d9563103e6def44ddb40356c",
+    "preload.js": "19934e15d760bd2e19601015bd9532e702d1c7ef4e39745037df9a2409b378ef",
+    "presentation.css": "fbc4766312ad1cf4157ea518948b14f6edea0a9a688ef3186c027e4549b85138",
+    "presentation.js": "2b2605ffdbdb835b47e34d5ec74a8e6abffe92813093547fbf93735d17a1d3fe",
+    "server.js": "5e9b7e8cc4c79a202870240d00806b89ab42186e32344b4305ece0d9119efefa",
+    "shell-state.js": "6cf8d2c68d58fe02f4a20ee2f04902cae1af393360fb289ded6b12a216f3603b",
+    "shell.css": "f9fa343510835ed273503a8caa95dcd3a4a6543f1739be4124e9eab8a580848e",
+    "shell.js": "bbee99b3c8fb86fa519ef1153293f81fd599f4a028653cf2bf1e94fe23e0a357",
+    "sim-core.js": "73d0b570b17f1e4d67006b8d78e58ba5ccc09407ad879d2ce373294ea9acc286",
+    "simulator-app.js": "3fc3c8163cf6075cd20750d78bc0f2ea1607a4900efb828f252e9e670c7aac4d",
+    "simulator-worker.js": "845c016e8e79d93f6603cd3818b1c2ae6c61694758fd8e11896b25d801e15a5c",
+    "simulator.css": "7219969f76f0ec6aaccf07c897becfc817b4c4fbbde48537a8897b40fc8a4781",
+    "simulator.html": "381470a4c3f69945229e212bb045ddc667954b15f0dc7c24d5cdae7d71bfc78f",
+    "styles.css": "b3abef0663f7a21993c42711f08ba95f04deb08a847038a93ab236779b450b45",
+    "tactical-arsenal.js": "fc73239b0bc4f3cedfaac1dd6237c7a6b13b0b31314c8c9191af5437036c8012",
+    "tactical-rules.js": "ff34d9d5c4e3773043c4ab01a2c05e0dc44346564858ade5998c4232923ff0c2",
+    "tactical-training.css": "db71d504dd5c88f9184c43eb01778308e2b6ad65ff713f5a3cb5a6192d9d8077",
+    "tactical-training.html": "72514c7a53ee5f9783d9c1ca08bf4c6d159d37a40d332735222c9677b62da00b",
+    "tactical-training.js": "705ae307818a161bc59b0cefe7361bedfb694b54e4d388e44832c2128441adce",
+    "telemetry.js": "f1f12891135e893d9cd57fbfeeef385bc18c505e68068183f30c26110b80d79a",
+    "tutorial.css": "58de3bed471bc105f52670ceceb0fee57b9d70c848c5c85aaface0d5f61e1b35",
+    "tutorial.js": "d7bd9f52e09c4c09661d186d790eff64890e7c62c3fe15f6f0c60d103370eed0",
+    "war-room.css": "d6289734be47dd2825fd8f21c221499276a4d5127fb4f2fc1b40eeb7c68f7057"
+  },
+  "installer": {
+    "file": "Frontlines-Setup-1.0.4.exe",
+    "bytes": 114662914,
+    "sha256": "cdfda1f32b5172920b9f9604f2ec45f6fb9df3661f2e6d8916cf6dd722212cdf"
+  },
+  "sourceCheckpoint": {
+    "file": "docs/checkpoints/sprint11-v1.0.4.zip",
+    "bytes": 100393718,
+    "sha256": "1ae6784dd703e5a579244e104b41bea52901ab1fc248d84347a27171a42acdae",
+    "files": 884,
+    "runtimeFiles": 141,
+    "manifestOutsideArchive": true,
+    "runtimeHashesMatchPackage": true,
+    "excluded": [
+      "dependencies",
+      "release binaries",
+      "owner saves",
+      "large historical simulation outputs",
+      "earlier checkpoint archives"
+    ],
+    "externalArtifactTestDependencies": [
+      "docs/checkpoints/sprint7-v0.8.0.zip",
+      "release/0.8.0/Frontlines-Setup-0.8.0.exe",
+      "docs/checkpoints/sprint8-v0.9.0.zip",
+      "release/0.9.0/Frontlines-Setup-0.9.0.exe"
+    ]
+  },
+  "tests": 448,
+  "native": {
+    "shell": {
+      "version": "1.0.4",
+      "page": "shell",
+      "home": true,
+      "play": true,
+      "settings": true,
+      "tutorialDeployment": true,
+      "commanderTutorialActivation": true,
+      "installedVersionVisible": true,
+      "fullscreen": true,
+      "windowed": true,
+      "shortcuts": [
+        "F11",
+        "Alt+Enter"
+      ],
+      "evidence": "test-results/sprint11-native-shell.log"
+    },
+    "match": {
+      "version": "1.0.4",
+      "page": "game",
+      "winner": 1,
+      "turns": 18,
+      "decisions": 108,
+      "units": 5,
+      "cards": 155,
+      "decks": [
+        "nightwalker-planned-exposure",
+        "rogue-field-improvisation"
+      ],
+      "commanders": [
+        {
+          "id": "commander_nightwalker_ghost",
+          "used": true
+        },
+        {
+          "id": "commander_rogue_scavenger",
+          "used": true
+        }
+      ],
+      "evidence": "test-results/sprint11-native-match.log"
+    },
+    "training": {
+      "version": "1.0.4",
+      "page": "tactical-training",
+      "lessons": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "desktopTrust": true,
+      "rewards": false,
+      "evidence": "test-results/sprint11-native-training.log"
+    },
+    "arsenal": {
+      "version": "1.0.4",
+      "page": "arsenal",
+      "commanderId": "commander_stonewall_warden",
+      "foundations": 10,
+      "cards": 155,
+      "deckSize": 26,
+      "evidence": "test-results/sprint11-native-arsenal.log"
+    },
+    "collection": {
+      "version": "1.0.4",
+      "page": "collection",
+      "summary": {
+        "commanders": {
+          "total": 10,
+          "owned": 10
+        },
+        "total": 155,
+        "uniqueOwned": 63,
+        "copiesOwned": 171,
+        "completion": 0.4064516129032258,
+        "factions": {
+          "stonewall": {
+            "total": 31,
+            "owned": 12,
+            "completion": 0.3870967741935484
+          },
+          "bruiser": {
+            "total": 31,
+            "owned": 12,
+            "completion": 0.3870967741935484
+          },
+          "syndicate": {
+            "total": 31,
+            "owned": 13,
+            "completion": 0.41935483870967744
+          },
+          "nightwalker": {
+            "total": 31,
+            "owned": 13,
+            "completion": 0.41935483870967744
+          },
+          "rogue": {
+            "total": 31,
+            "owned": 13,
+            "completion": 0.41935483870967744
+          }
+        },
+        "rarities": {
+          "common": {
+            "total": 50,
+            "owned": 31
+          },
+          "uncommon": {
+            "total": 40,
+            "owned": 20
+          },
+          "rare": {
+            "total": 30,
+            "owned": 2
+          },
+          "epic": {
+            "total": 20,
+            "owned": 9
+          },
+          "legendary": {
+            "total": 15,
+            "owned": 1
+          }
+        },
+        "credits": 300,
+        "supply": 0,
+        "packsOpened": 0,
+        "mastered": 0,
+        "recentlyAcquired": []
+      },
+      "packs": 9,
+      "evidence": "test-results/sprint11-native-collection.log"
+    }
+  }
+}

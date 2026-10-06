@@ -44,6 +44,7 @@
     if (!before || !after) return [];
     action = action || {};
     const events = [], prior = new Map(before.units.map(u => [u.uid, u])), next = new Map(after.units.map(u => [u.uid, u]));
+    const destruction=new Map((engineEvents||[]).filter(e=>e.type==='death').map(e=>[e.uid,e]));
     const displaced=new Map((engineEvents||[]).filter(e=>e.type==='forcedRetreat'||e.type==='forcedElimination').map(e=>[e.uid,e]));
     const nextHands = new Set(after.players.flatMap(p => p.hand.map(h => h.uid)));
     for (const unit of after.units) {
@@ -56,7 +57,7 @@
       }
     }
     for (const unit of before.units) if (!next.has(unit.uid)) {
-      events.push({ type: displaced.get(unit.uid)?.type==='forcedElimination'?'rout':nextHands.has(unit.uid) ? 'reclaim' : 'death', unit, presence: definition(unit)?.presence || 0 });
+      events.push({ type: destruction.get(unit.uid)?.cause==='sacrifice'?'sacrifice':displaced.get(unit.uid)?.type==='forcedElimination'?'rout':nextHands.has(unit.uid) ? 'reclaim' : 'death', unit, presence: definition(unit)?.presence || 0 });
     }
     after.players.forEach((p, player) => {
       const old = new Set(before.players[player].hand.map(h => h.uid));
@@ -108,6 +109,7 @@
     }
     if (before.winner == null && after.winner != null) events.push({ type: 'victory', player: after.winner });
     for(const event of engineEvents||[])if(event.type==='commanderActivated')events.push({type:'commander',player:event.player,commanderId:event.commanderId,targetUid:event.targetUid,territory:event.territory,ability:event.ability});
+    for(const event of engineEvents||[])if(['statusApplied','statusConsumed','statusBypassed','statusExpired','blast','blastResolved','overwatchTriggered'].includes(event.type))events.push({...event,type:'tactical',tacticalType:event.type});
     if(displaced.size){const order={capture:0,retreat:1,rout:1,move:2,resource:3,frontline:4,phase:5,victory:6};events.sort((a,b)=>(order[a.type]??2)-(order[b.type]??2));}
     return events;
   }
@@ -287,15 +289,15 @@
   }
   function loss(e, snapshot, state, combatDelay) {
     const record = snapshot?.units[e.unit.uid], r = record?.rect, tint = color(state, e.unit.owner);
-    const dead=e.type==='death'||e.type==='rout',delay=(e.type==='rout'?180:0)+(combatDelay||0);
+    const dead=e.type==='death'||e.type==='rout'||e.type==='sacrifice',delay=(e.type==='rout'?180:0)+(combatDelay||0);
     if (r && record.clone) {
-      const n = element(dead ? 'fx-casualty' : 'fx-reclaim', r, tint);
+      const n = element(e.type==='sacrifice'?'fx-casualty fx-sacrifice':dead ? 'fx-casualty' : 'fx-reclaim', r, tint);
       if (n) {
         n.appendChild(record.clone);
         animate(n, reduced() ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 1, filter: 'brightness(1)', transform: 'translateY(0)' }, {opacity:1,filter:'brightness(2)',offset:.08,transform:'translateY(0)'},{ opacity: .8, filter: 'grayscale(1) brightness(1)', offset: .25 }, { opacity: 0, filter: 'grayscale(1) brightness(.3)', transform: 'translateY(' + (dead ? 15 : -20) + 'px) scale(.92)', clipPath: 'inset(45% 0 45% 0)' }], 500, 20+delay, () => n.remove());
       }
     }
-    floatText(r, e.type==='rout'?'NO RETREAT — ELIMINATED':dead?'DESTROYED':'WITHDRAWN', dead ? '#ffc4ae' : tint, 'fx-caption', 40+delay);
+    floatText(r, e.type==='sacrifice'?'SACRIFICED / YOUR COST':e.type==='rout'?'NO RETREAT — ELIMINATED':dead?'DESTROYED':'WITHDRAWN', dead ? '#ffc4ae' : tint, 'fx-caption', 40+delay);
     if (!reduced()) floatText(r && { ...r, y: r.y + 25 }, e.presence + 'P RELEASED', '#b7dca8', 'fx-caption', 130+delay);
     if(delay)schedule(()=>cue(dead?'death':'deploy'),delay);else cue(dead?'death':'deploy');
   }
@@ -377,8 +379,8 @@
     const player = actor(state), title = state.response ? state.response.stage === 'counter' ? 'COUNTER WINDOW' : 'RESPONSE PHASE' : options?.handPlayer != null && options.handPlayer !== player ? 'ENEMY TURN' : 'YOUR TURN';
     const n = element('fx-phase', null, color(state, player));
     if (!n) return;
-    const label = doc.createElement('strong'); label.textContent = title; n.appendChild(label);
-    const sub = doc.createElement('small'); sub.textContent = (D?.FACTIONS[state.players[player].faction]?.name || 'Commander') + ' / TURN ' + state.turn; n.appendChild(sub);
+    const label = doc.createElement('strong'); label.textContent = options?.phaseTitle || title; n.appendChild(label);
+    const sub = doc.createElement('small'); sub.textContent = options?.phaseSubtitle || (D?.FACTIONS[state.players[player].faction]?.name || 'Commander') + ' / ACTION WINDOW ' + state.turn; n.appendChild(sub);
     animate(n, reduced() ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 0, transform: 'translate(-50%,-5px)' }, { opacity: 1, transform: 'translate(-50%,0)', offset: .2 }, { opacity: 1, offset: .7, transform: 'translate(-50%,0)' }, { opacity: 0, transform: 'translate(-50%,-5px)' }], 650, 0, () => n.remove());
   }
   function victory(e, state) {
@@ -440,7 +442,21 @@
           if(combatDelay)schedule(showDamage,combatDelay);else showDamage();break;
         }
         case 'heal': { const n = unitNode(e.unit.uid); flash(n, '#a7dba0'); floatText(rect(n), '+' + e.amount, '#b7e6ab'); break; }
-        case 'death': case 'rout': case 'reclaim': loss(e,snapshot,after,combatDelay);break;
+        case 'death': case 'rout': case 'reclaim': case 'sacrifice': loss(e,snapshot,after,combatDelay);break;
+        case 'tactical': {
+          const uid=e.targetUid||e.uid||e.unitUid,n=unitNode(uid),r=rect(n)||snapshot?.units[uid]?.rect||rect(territoryNode(e.territory));
+          const kind=e.kind||e.status||'',expired=e.tacticalType==='statusExpired',consumed=['statusConsumed','statusBypassed'].includes(e.tacticalType);
+          const label=e.tacticalType==='overwatchTriggered'?'OVERWATCH REACTION':/blast/i.test(e.tacticalType)?'BLAST':expired?String(kind).toUpperCase()+' EXPIRED':consumed?String(kind).toUpperCase()+' BROKEN':String(kind).toUpperCase();
+          const tint=kind==='cover'?'#ccddb6':kind==='dodge'?'#b4d9e6':kind==='smoke'?'#bfc8d8':'#e8ba91';
+          if(!expired){flash(n,tint,consumed?160:240);ring(r,tint,'tactical-'+kind);}
+          floatText(r,label,tint,'fx-caption');
+          if(!reduced()&&kind==='dodge'&&consumed)animate(n,[{transform:'translateX(0)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],180);
+          if(/blast/i.test(e.tacticalType)){flash(territoryNode(e.territory),'#e9b98d',260);cue('impact');}
+          if(e.tacticalType==='overwatchTriggered'){
+            const source=unitNode(e.sourceUid);tracer(rect(source)||snapshot?.units[e.sourceUid]?.rect,r,tint,'rifleman',0);cue('rifle');
+          }
+          if(e.tacticalType==='statusApplied'&&kind==='suppression'&&e.sourceUid)tracer(rect(unitNode(e.sourceUid))||snapshot?.units[e.sourceUid]?.rect,r,tint,'rifleman',0);break;
+        }
         case 'commander': {
           const c=root.FrontlinesCommanders?.get?.(e.commanderId)||root.FrontlinesCommanders?.COMMANDERS?.[e.commanderId];
           if(c)commanderActivate(c,commanderNode(e.player),{target:unitNode(e.targetUid)||territoryNode(e.territory),ability:e.ability});break;

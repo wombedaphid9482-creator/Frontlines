@@ -1,0 +1,1266 @@
+{
+  "version": "frontlines-art-source-jobs-012-v1",
+  "expectedCardCount": 91,
+  "expectedSourceJobs": 23,
+  "review": "Every after-B grade remains provisional until actual-card visual inspection. Sixty-four retained strong legacy mappings remain unchanged.",
+  "jobs": [
+    {
+      "name": "stonewall-tactical-a",
+      "source": "assets/source/card-art-012/stonewall-tactical-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: Trench Engineer: kneeling armored engineer welding a waist-high barricade.\nTOP RIGHT: Shield Section: linked massive rectangular shields of two defenders absorbing sparks.\nBOTTOM LEFT: Bastion Gunner: armored heavy gunner braced behind a large mounted machine gun.\nBOTTOM RIGHT: Field Mechanic: repair specialist working on open damaged turret with diagnostic tools.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "stonewall_trench_engineer"
+          ],
+          "position": "50% 30%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Trench Engineer.",
+          "scene": "Trench Engineer: kneeling armored engineer welding a waist-high barricade."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "stonewall_shield_section"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Shield Section.",
+          "scene": "Shield Section: linked massive rectangular shields of two defenders absorbing sparks."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "stonewall_bastion_gunner"
+          ],
+          "position": "50% 30%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Bastion Gunner.",
+          "scene": "Bastion Gunner: armored heavy gunner braced behind a large mounted machine gun."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "stonewall_field_mechanic"
+          ],
+          "position": "50% 30%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Field Mechanic.",
+          "scene": "Field Mechanic: repair specialist working on open damaged turret with diagnostic tools."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "stonewall-tactical-b",
+      "source": "assets/source/card-art-012/stonewall-tactical-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: Hardpoint, an ASSET: a complete angular armored pillbox and protected weapon emplacement built into concrete rubble; show equipment and scale rather than an icon.\nTOP RIGHT: Dig In, an ORDER: disciplined infantry urgently raising sandbags and armored cover while enemy tracers strike nearby.\nBOTTOM LEFT: Interlocking Fire, an ORDER: two fortified squads firing intersecting controlled lanes from opposite cover positions, an understandable defensive crossfire event.\nBOTTOM RIGHT: Hold Fast, an ORDER: battered defenders surviving a major assault then holding their ground behind reinforced cover, purposeful resilience and controlled reinforcement, no Commander portrait.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "stonewall_hardpoint"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted asset scene that explicitly communicates Hardpoint.",
+          "scene": "Hardpoint, an ASSET: a complete angular armored pillbox and protected weapon emplacement built into concrete rubble; show equipment and scale rather than an icon."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "stonewall_dig_in"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Dig In.",
+          "scene": "Dig In, an ORDER: disciplined infantry urgently raising sandbags and armored cover while enemy tracers strike nearby."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "stonewall_interlocking_fire"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Interlocking Fire.",
+          "scene": "Interlocking Fire, an ORDER: two fortified squads firing intersecting controlled lanes from opposite cover positions, an understandable defensive crossfire event."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "stonewall_hold_fast"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Hold Fast.",
+          "scene": "Hold Fast, an ORDER: battered defenders surviving a major assault then holding their ground behind reinforced cover, purposeful resilience and controlled reinforcement, no Commander portrait."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "bruiser-tactical-a",
+      "source": "assets/source/card-art-012/bruiser-tactical-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: Demolition Squad: two shock soldiers preparing breaching charges against a fortified barrier, explicit demolition equipment.\nTOP RIGHT: Grenadier: heavily equipped assault infantry winding up a grenade throw, bandolier and explosive clearly legible.\nBOTTOM LEFT: Suppressor Heavy: immense heavy gunner sending a controlled suppressive burst down an industrial street, broad plated silhouette.\nBOTTOM RIGHT: Linebreaker: armored breaching soldier driving through a fractured barricade with an oversized assault weapon and ram equipment.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "bruiser_demolition_squad"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Demolition Squad.",
+          "scene": "Demolition Squad: two shock soldiers preparing breaching charges against a fortified barrier, explicit demolition equipment."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "bruiser_grenadier"
+          ],
+          "position": "50% 0%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Grenadier.",
+          "scene": "Grenadier: heavily equipped assault infantry winding up a grenade throw, bandolier and explosive clearly legible."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "bruiser_suppressor_heavy"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Suppressor Heavy.",
+          "scene": "Suppressor Heavy: immense heavy gunner sending a controlled suppressive burst down an industrial street, broad plated silhouette."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "bruiser_linebreaker"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Linebreaker.",
+          "scene": "Linebreaker: armored breaching soldier driving through a fractured barricade with an oversized assault weapon and ram equipment."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "bruiser-tactical-b",
+      "source": "assets/source/card-art-012/bruiser-tactical-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: Assault Charge, an ORDER: orange-striped shock infantry charging out of cover into incoming fire; momentum and risk visible.\nTOP RIGHT: Frag Out, an ORDER: a thrown grenade detonating between two defensive positions, bounded close explosion, no gore.\nBOTTOM LEFT: No Shelter, an ORDER: a focused explosive charge punching through the front armor of a fortified turret; equipment and cover breached.\nBOTTOM RIGHT: Break the Position, an ORDER: an assault squad forcing a breach through a cracked reinforced position while a heavy moves forward; actual coordinated breakthrough scene.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "bruiser_assault_charge"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Assault Charge.",
+          "scene": "Assault Charge, an ORDER: orange-striped shock infantry charging out of cover into incoming fire; momentum and risk visible."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "bruiser_frag_out"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Frag Out.",
+          "scene": "Frag Out, an ORDER: a thrown grenade detonating between two defensive positions, bounded close explosion, no gore."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "bruiser_no_shelter"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates No Shelter.",
+          "scene": "No Shelter, an ORDER: a focused explosive charge punching through the front armor of a fortified turret; equipment and cover breached."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "bruiser_break_the_position"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Break the Position.",
+          "scene": "Break the Position, an ORDER: an assault squad forcing a breach through a cracked reinforced position while a heavy moves forward; actual coordinated breakthrough scene."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "syndicate-tactical-a",
+      "source": "assets/source/card-art-012/syndicate-tactical-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: Spotter Cell: two clean-armored tactical spotters using precision optics and a rangefinding tablet, purposeful reconnaissance.\nTOP RIGHT: Fire Control Officer: a professional field officer issuing a fire solution using an amber holographic tactical display, communications headgear, restrained authority.\nBOTTOM LEFT: Contract Marksman: a scoped-rifle specialist aiming from prepared cover, amber optical sight, clear precision role.\nBOTTOM RIGHT: Suppression Team: coordinated professional infantry laying controlled covering fire, differing firing angles and clean equipment.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "syndicate_spotter_cell"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Spotter Cell.",
+          "scene": "Spotter Cell: two clean-armored tactical spotters using precision optics and a rangefinding tablet, purposeful reconnaissance."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "syndicate_fire_control_officer"
+          ],
+          "position": "50% 0%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted leader scene that explicitly communicates Fire Control Officer.",
+          "scene": "Fire Control Officer: a professional field officer issuing a fire solution using an amber holographic tactical display, communications headgear, restrained authority."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "syndicate_contract_marksman"
+          ],
+          "position": "50% 0%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Contract Marksman.",
+          "scene": "Contract Marksman: a scoped-rifle specialist aiming from prepared cover, amber optical sight, clear precision role."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "syndicate_suppression_team"
+          ],
+          "position": "50% 0%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Suppression Team.",
+          "scene": "Suppression Team: coordinated professional infantry laying controlled covering fire, differing firing angles and clean equipment."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "syndicate-tactical-b",
+      "source": "assets/source/card-art-012/syndicate-tactical-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: Recon Drone, an ASSET: a compact unmanned hovering sensor drone with articulated camera lens and amber scanning optics over a damaged street.\nTOP RIGHT: Target Package, an ORDER: a spotter transferring an identified enemy emplacement to a marksman's targeting display, the real coordinated targeting action, no captions or text.\nBOTTOM LEFT: Coordinated Barrage, an ORDER: precisely directed strikes landing on two selected fortified targets along a damaged avenue, tactical timing rather than indiscriminate fire.\nBOTTOM RIGHT: Contingency Plan, an ORDER: a tactical officer repositioning a rifle squad and heavy weapon team into cover as a coordinated fallback plan, mixed military roles.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "syndicate_recon_drone"
+          ],
+          "position": "50% 20%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted asset scene that explicitly communicates Recon Drone.",
+          "scene": "Recon Drone, an ASSET: a compact unmanned hovering sensor drone with articulated camera lens and amber scanning optics over a damaged street."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "syndicate_target_package"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Target Package.",
+          "scene": "Target Package, an ORDER: a spotter transferring an identified enemy emplacement to a marksman's targeting display, the real coordinated targeting action, no captions or text."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "syndicate_coordinated_barrage"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Coordinated Barrage.",
+          "scene": "Coordinated Barrage, an ORDER: precisely directed strikes landing on two selected fortified targets along a damaged avenue, tactical timing rather than indiscriminate fire."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "syndicate_contingency_plan"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Contingency Plan.",
+          "scene": "Contingency Plan, an ORDER: a tactical officer repositioning a rifle squad and heavy weapon team into cover as a coordinated fallback plan, mixed military roles."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "nightwalker-tactical-a",
+      "source": "assets/source/card-art-012/nightwalker-tactical-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: Smoke Runner: a masked fast operative slipping through billowing violet-gray smoke, compact suppressed weapon and low sleek silhouette.\nTOP RIGHT: Ghost Operative: a hooded stealth specialist with a suppressed rifle observing a vulnerable route from dark cover, thin violet optical accents.\nBOTTOM LEFT: Shadow Trapper: a patient masked operative preparing a concealed remote sensor/trigger beside a covered firing position, vigilant ambush-ready posture.\nBOTTOM RIGHT: False Contact, an ASSET: a deployable holographic decoy projector creating a shimmering misleading soldier silhouette amid smoke; equipment at its base must be visible.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "nightwalker_smoke_runner"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Smoke Runner.",
+          "scene": "Smoke Runner: a masked fast operative slipping through billowing violet-gray smoke, compact suppressed weapon and low sleek silhouette."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "nightwalker_ghost_operative"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Ghost Operative.",
+          "scene": "Ghost Operative: a hooded stealth specialist with a suppressed rifle observing a vulnerable route from dark cover, thin violet optical accents."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "nightwalker_shadow_trapper"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Shadow Trapper.",
+          "scene": "Shadow Trapper: a patient masked operative preparing a concealed remote sensor/trigger beside a covered firing position, vigilant ambush-ready posture."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "nightwalker_false_contact"
+          ],
+          "position": "50% 90%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted asset scene that explicitly communicates False Contact.",
+          "scene": "False Contact, an ASSET: a deployable holographic decoy projector creating a shimmering misleading soldier silhouette amid smoke; equipment at its base must be visible."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "nightwalker-tactical-b",
+      "source": "assets/source/card-art-012/nightwalker-tactical-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: Smoke Screen, an ORDER: a stealth squad deploying dense smoke canisters across a watched street, an actual crossing concealed by smoke.\nTOP RIGHT: Vanish, an ORDER: an operative slipping behind cover just as enemy tracers strike the previous position, evasion by timing, no literal magic teleport.\nBOTTOM LEFT: Expose the Opening, an ORDER: concealed reconnaissance operator revealing a vulnerable enemy silhouette using a focused sensor beam and subtle targeting overlay, physical tactical action.\nBOTTOM RIGHT: Clean Exit, an ORDER: a wounded masked operative withdrawing toward friendly cover under a second operative's protection, intact weapon and retained battle damage.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "nightwalker_smoke_screen"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Smoke Screen.",
+          "scene": "Smoke Screen, an ORDER: a stealth squad deploying dense smoke canisters across a watched street, an actual crossing concealed by smoke."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "nightwalker_vanish"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Vanish.",
+          "scene": "Vanish, an ORDER: an operative slipping behind cover just as enemy tracers strike the previous position, evasion by timing, no literal magic teleport."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "nightwalker_expose_the_opening"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Expose the Opening.",
+          "scene": "Expose the Opening, an ORDER: concealed reconnaissance operator revealing a vulnerable enemy silhouette using a focused sensor beam and subtle targeting overlay, physical tactical action."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "nightwalker_clean_exit"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Clean Exit.",
+          "scene": "Clean Exit, an ORDER: a wounded masked operative withdrawing toward friendly cover under a second operative's protection, intact weapon and retained battle damage."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "rogue-tactical-a",
+      "source": "assets/source/card-art-012/rogue-tactical-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers.\nTOP LEFT: Scrap Grenadier: resourceful patched-armored fighter assembling an improvised grenade from salvaged components, practical satchel and modified weapon.\nTOP RIGHT: Jury-Rigged Shield, an ASSET: a visibly field-built deployable shield made from mismatched plated scrap, braces, cables and portable green-lit power pack.\nBOTTOM LEFT: Patch Runner: mobile field repair specialist carrying an improvised medical/repair kit toward a wounded ally, repaired olive gear.\nBOTTOM RIGHT: Improvised Mine, an ASSET: a low-profile handmade pressure/proximity mine wired among industrial debris, salvaged casing and tiny green sensor, close legible equipment view.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "rogue_scrap_grenadier"
+          ],
+          "position": "50% 0%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Scrap Grenadier.",
+          "scene": "Scrap Grenadier: resourceful patched-armored fighter assembling an improvised grenade from salvaged components, practical satchel and modified weapon."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "rogue_jury_rigged_shield"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted asset scene that explicitly communicates Jury-Rigged Shield.",
+          "scene": "Jury-Rigged Shield, an ASSET: a visibly field-built deployable shield made from mismatched plated scrap, braces, cables and portable green-lit power pack."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "rogue_patch_runner"
+          ],
+          "position": "50% 0%",
+          "classificationBefore": "C",
+          "reason": "Replace the Sprint 11 simplified vector bust with a fully painted unit scene that explicitly communicates Patch Runner.",
+          "scene": "Patch Runner: mobile field repair specialist carrying an improvised medical/repair kit toward a wounded ally, repaired olive gear."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "rogue_improvised_mine"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted asset scene that explicitly communicates Improvised Mine.",
+          "scene": "Improvised Mine, an ASSET: a low-profile handmade pressure/proximity mine wired among industrial debris, salvaged casing and tiny green sensor, close legible equipment view."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "rogue-tactical-b",
+      "source": "assets/source/card-art-012/rogue-tactical-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers.\nTOP LEFT: Make It Work, an ORDER: inventive fighter using a modular scavenged device, one hand adjusting its tool configuration under pressure, adaptability as a real action.\nTOP RIGHT: Salvage Charge, an ORDER: a worn friendly deployable being dismantled and converted into an explosive charge thrown toward enemy cover; clear material trade, not a generic explosion.\nBOTTOM LEFT: Strip It for Parts, an ORDER: a field mechanic cannibalizing a broken shield to repair a badly damaged armored ally or deployable, clear source and payoff in one scene.\nBOTTOM RIGHT: Bad Plan, Good Result, an ORDER: a damaged improvised decoy drawing fire while allies escape behind a newly raised patched shield, opportunistic sacrifice with real damage.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "rogue_make_it_work"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Make It Work.",
+          "scene": "Make It Work, an ORDER: inventive fighter using a modular scavenged device, one hand adjusting its tool configuration under pressure, adaptability as a real action."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "rogue_salvage_charge"
+          ],
+          "position": "50% 0%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Salvage Charge.",
+          "scene": "Salvage Charge, an ORDER: a worn friendly deployable being dismantled and converted into an explosive charge thrown toward enemy cover; clear material trade, not a generic explosion."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "rogue_strip_it_for_parts"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Strip It for Parts.",
+          "scene": "Strip It for Parts, an ORDER: a field mechanic cannibalizing a broken shield to repair a badly damaged armored ally or deployable, clear source and payoff in one scene."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "rogue_bad_plan_good_result"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace the Sprint 11 glyph/diagram stand-in with a fully painted order scene that explicitly communicates Bad Plan, Good Result.",
+          "scene": "Bad Plan, Good Result, an ORDER: a damaged improvised decoy drawing fire while allies escape behind a newly raised patched shield, opportunistic sacrifice with real damage."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "stonewall-legacy-a",
+      "source": "assets/source/card-art-012/stonewall-legacy-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: A hardened forward medical shelter built into a bunker recess: armored stretcher bay, compact diagnostic equipment, secured medical supply crates and a cyan examination lamp. The infrastructure is the principal subject; a tiny medic gives scale.\nTOP RIGHT: A disciplined combat medic kneels beside a wounded but conscious armored ally behind a concrete barricade, applying a compact field stabilizer to damaged chest plating. Clear active treatment, careful hands, no gore.\nBOTTOM LEFT: A defensive soldier braces a broad layered shield as incoming rounds strike it with bright sparks. The shield, protected face and force of the impacts dominate; a bunker wall protects the flank.\nBOTTOM RIGHT: An exhausted defender rises from a kneeling position behind a reinforced barricade, gripping a rifle again while a nearby officer signals to hold the line. A renewed defensive stance, not a generic standing portrait.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "stonewall_aid_station"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only asset art with the actual Forward Aid Station equipment/infrastructure scene.",
+          "scene": "A hardened forward medical shelter built into a bunker recess: armored stretcher bay, compact diagnostic equipment, secured medical supply crates and a cyan examination lamp. The infrastructure is the principal subject; a tiny medic gives scale."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "stonewall_triage"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Emergency Triage action/event scene.",
+          "scene": "A disciplined combat medic kneels beside a wounded but conscious armored ally behind a concrete barricade, applying a compact field stabilizer to damaged chest plating. Clear active treatment, careful hands, no gore."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "stonewall_brace"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Brace for Impact action/event scene.",
+          "scene": "A defensive soldier braces a broad layered shield as incoming rounds strike it with bright sparks. The shield, protected face and force of the impacts dominate; a bunker wall protects the flank."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "stonewall_rally"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Hold the Line action/event scene.",
+          "scene": "An exhausted defender rises from a kneeling position behind a reinforced barricade, gripping a rifle again while a nearby officer signals to hold the line. A renewed defensive stance, not a generic standing portrait."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "stonewall-legacy-b",
+      "source": "assets/source/card-art-012/stonewall-legacy-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: An entrenched gunner fires a controlled burst through a bunker firing slit at an advancing enemy silhouette. A readable muzzle flash and tracer path communicate the action while the concrete emplacement communicates defense.\nTOP RIGHT: A compact angular field redoubt dominates a ruined avenue: overlapping armored firing ports, reinforced walls, a roof-mounted command antenna and protected cyan-lit observation bay. Fortification equipment, not a soldier portrait.\nBOTTOM LEFT: A military engineer fastens a replacement armor plate onto a worn allied shield while the defender holds the position. The installed plate and repaired suit clearly show reinforcement rather than a floating shield icon.\nBOTTOM RIGHT: A disciplined armored FIELD MEDIC behind fortified cover, with an unmistakable compact medical case, practical stabilizer and layered protective steel-blue plates. Readable compassionate treatment specialist with cyan equipment lights; a distinct medical role rather than the old tactical-tablet scout. Face and medical case occupy the central 70 percent of the painting.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "stonewall_fire_support"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Defensive Fire action/event scene.",
+          "scene": "An entrenched gunner fires a controlled burst through a bunker firing slit at an advancing enemy silhouette. A readable muzzle flash and tracer path communicate the action while the concrete emplacement communicates defense."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "stonewall_redoubt"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only asset art with the actual Field Redoubt equipment/infrastructure scene.",
+          "scene": "A compact angular field redoubt dominates a ruined avenue: overlapping armored firing ports, reinforced walls, a roof-mounted command antenna and protected cyan-lit observation bay. Fortification equipment, not a soldier portrait."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "stonewall_line_reinforcement"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Line Reinforcement action/event scene.",
+          "scene": "A military engineer fastens a replacement armor plate onto a worn allied shield while the defender holds the position. The installed plate and repaired suit clearly show reinforcement rather than a floating shield icon."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "stonewall_medic",
+            "stonewall_plate_medic",
+            "stonewall_recovery_team"
+          ],
+          "position": "50% 30%",
+          "classificationBefore": "C",
+          "reason": "Repair the three legacy medical-support roles, previously mapped to an indistinct tactical-slate specialist. Shared approved medical-role art is a documented B reuse.",
+          "scene": "A disciplined armored FIELD MEDIC behind fortified cover, with an unmistakable compact medical case, practical stabilizer and layered protective steel-blue plates. Readable compassionate treatment specialist with cyan equipment lights; a distinct medical role rather than the old tactical-tablet scout. Face and medical case occupy the central 70 percent of the painting."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "bruiser-legacy-a",
+      "source": "assets/source/card-art-012/bruiser-legacy-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: An oversized battered assault standard mounted in a powered steel brace amid a breached wall. Heavy orange fabric and welded signal lamps identify a rallying military asset; distant assault troops give scale without stealing focus.\nTOP RIGHT: A carefully planted directional demolition charge explodes against an armored barrier. Large slabs of concrete and a concentrated orange blast communicate a single prepared demolition strike; no gore.\nBOTTOM LEFT: A scarred assault trooper pulls a spent ammunition belt free and hauls themself back to a standing fighting position amid rubble. Tense renewed momentum after exhaustion, with practical heavy weapon equipment.\nBOTTOM RIGHT: A wounded shock trooper unexpectedly counterfires at an incoming attacker from behind broken cover. A close muzzle burst and fresh sparks on the attacker’s armor show an immediate violent reprisal without gore.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "bruiser_banner"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only asset art with the actual Assault Standard equipment/infrastructure scene.",
+          "scene": "An oversized battered assault standard mounted in a powered steel brace amid a breached wall. Heavy orange fabric and welded signal lamps identify a rallying military asset; distant assault troops give scale without stealing focus."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "bruiser_bombard"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Demolition Charge action/event scene.",
+          "scene": "A carefully planted directional demolition charge explodes against an armored barrier. Large slabs of concrete and a concentrated orange blast communicate a single prepared demolition strike; no gore."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "bruiser_rally"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Second Wind action/event scene.",
+          "scene": "A scarred assault trooper pulls a spent ammunition belt free and hauls themself back to a standing fighting position amid rubble. Tense renewed momentum after exhaustion, with practical heavy weapon equipment."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "bruiser_ambush"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Violent Reprisal action/event scene.",
+          "scene": "A wounded shock trooper unexpectedly counterfires at an incoming attacker from behind broken cover. A close muzzle burst and fresh sparks on the attacker’s armor show an immediate violent reprisal without gore."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "bruiser-legacy-b",
+      "source": "assets/source/card-art-012/bruiser-legacy-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: An assault loader passes a fresh oversized ammunition belt and power canister to a waiting heavy gunner beside an opened combat supply crate. The transfer of usable supplies is unmistakable.\nTOP RIGHT: A massive armored assault trooper drives through a crumbling enemy barricade in a devastating frontal push. Heavy weapon discharge, falling debris and forward motion form one clear breakthrough action.\nBOTTOM LEFT: A field technician clamps a rugged emergency repair-and-stabilization rig onto a wounded assault soldier’s battered armor behind rubble. Heavy practical hydraulic and medical equipment, orange work lamps, no miraculous glow or gore.\nBOTTOM RIGHT: A SCARRED BRAWLER: imposing close-range shock fighter, scarred face, oversized practical hydraulic gauntlets, exposed reinforced bracing, battered charcoal/orange armor. A tense forward physical stance and compact armored equipment dominate; no standard rifle portrait, no fantasy monster, no gore. Face and gauntlets remain readable in a small card crop.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "bruiser_resupply"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Combat Resupply action/event scene.",
+          "scene": "An assault loader passes a fresh oversized ammunition belt and power canister to a waiting heavy gunner beside an opened combat supply crate. The transfer of usable supplies is unmistakable."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "bruiser_overrun_charge"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Overrun Charge action/event scene.",
+          "scene": "A massive armored assault trooper drives through a crumbling enemy barricade in a devastating frontal push. Heavy weapon discharge, falling debris and forward motion form one clear breakthrough action."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "bruiser_triage_rig"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Combat Triage Rig action/event scene.",
+          "scene": "A field technician clamps a rugged emergency repair-and-stabilization rig onto a wounded assault soldier’s battered armor behind rubble. Heavy practical hydraulic and medical equipment, orange work lamps, no miraculous glow or gore."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "bruiser_brawler"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Replace the ordinary rifleman duplicate with a coherent close-range brawler silhouette and intimidating functional equipment.",
+          "scene": "A SCARRED BRAWLER: imposing close-range shock fighter, scarred face, oversized practical hydraulic gauntlets, exposed reinforced bracing, battered charcoal/orange armor. A tense forward physical stance and compact armored equipment dominate; no standard rifle portrait, no fantasy monster, no gore. Face and gauntlets remain readable in a small card crop."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "syndicate-legacy-a",
+      "source": "assets/source/card-art-012/syndicate-legacy-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A portable armored communications relay with clean antenna arrays, gold indicator strips and secured power modules, stationed behind a coordinated squad. The deployable hardware is central and clearly readable.\nTOP RIGHT: A reconnaissance operator receives fresh information from two compact camera drones while comparing physical sensor data on a small tactical slate. Clean professional equipment and an active intelligence-gathering scene; no readable UI text.\nBOTTOM LEFT: A professional electronic-warfare specialist interrupts an enemy supply drone’s power-control connection. A grounded crate carrier stops mid-delivery while its status lamps fail; show the disrupted logistics as the action.\nBOTTOM RIGHT: A specialist uses a compact countermeasure transmitter as a hostile tactical signal dissolves before reaching an allied unit. Physical equipment, tight restrained golden interference arcs and a protected ally communicate a timely override.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "syndicate_relay"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only asset art with the actual Coordination Relay equipment/infrastructure scene.",
+          "scene": "A portable armored communications relay with clean antenna arrays, gold indicator strips and secured power modules, stationed behind a coordinated squad. The deployable hardware is central and clearly readable."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "syndicate_intel"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Intelligence Network action/event scene.",
+          "scene": "A reconnaissance operator receives fresh information from two compact camera drones while comparing physical sensor data on a small tactical slate. Clean professional equipment and an active intelligence-gathering scene; no readable UI text."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "syndicate_disrupt"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Supply Interference action/event scene.",
+          "scene": "A professional electronic-warfare specialist interrupts an enemy supply drone’s power-control connection. A grounded crate carrier stops mid-delivery while its status lamps fail; show the disrupted logistics as the action."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "syndicate_counter"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Override Protocol action/event scene.",
+          "scene": "A specialist uses a compact countermeasure transmitter as a hostile tactical signal dissolves before reaching an allied unit. Physical equipment, tight restrained golden interference arcs and a protected ally communicate a timely override."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "syndicate-legacy-b",
+      "source": "assets/source/card-art-012/syndicate-legacy-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A clean-equipped marksman delivers one calculated rifle shot through a narrow opening toward a specific armored target. Scope, muzzle flash and precise tracer alignment convey selective removal; no gore.\nTOP RIGHT: An electronic specialist locks down a hostile armored unit’s communications and powered auxiliary equipment. A compact transmitter in the foreground and darkened enemy optics in the middle ground show functional sabotage, not a glyph.\nBOTTOM LEFT: A tactical observer uses a compact laser designator to illuminate one exposed enemy armored unit across the avenue. Visible optics and a narrow gold beam identify deliberate target preparation; no floating target icon.\nBOTTOM RIGHT: A combined communications and field-care station: clean armored relay mast, secured medical tools, power cartridges and a small protected service cradle. Show one functional tactical deployable asset, not a portrait.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "syndicate_precision_strike"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Contract Strike action/event scene.",
+          "scene": "A clean-equipped marksman delivers one calculated rifle shot through a narrow opening toward a specific armored target. Scope, muzzle flash and precise tracer alignment convey selective removal; no gore."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "syndicate_signal_lock"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Signal Lock action/event scene.",
+          "scene": "An electronic specialist locks down a hostile armored unit’s communications and powered auxiliary equipment. A compact transmitter in the foreground and darkened enemy optics in the middle ground show functional sabotage, not a glyph."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "syndicate_target_designator"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Target Designator action/event scene.",
+          "scene": "A tactical observer uses a compact laser designator to illuminate one exposed enemy armored unit across the avenue. Visible optics and a narrow gold beam identify deliberate target preparation; no floating target icon."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "syndicate_field_link"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only asset art with the actual Field Link equipment/infrastructure scene.",
+          "scene": "A combined communications and field-care station: clean armored relay mast, secured medical tools, power cartridges and a small protected service cradle. Show one functional tactical deployable asset, not a portrait."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "syndicate-legacy-c",
+      "source": "assets/source/card-art-012/syndicate-legacy-c.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A technician locks a sleek temporary armor module onto a damaged allied combat suit while the soldier takes cover. Professional fastening hardware and a small diagnostic light show a protective repair protocol.\nTOP RIGHT: TACTICAL RECOVERY TEAM: a professional graphite/gold armored recovery specialist actively applying a compact diagnostic medical stabilizer to an allied damaged suit, with a secured medical case and clean practical equipment. No tablet-only observer portrait; the treatment action and medical kit are central.\nBOTTOM LEFT: TACTICAL PATCH TEAM: a clean-equipped field medic with a gold-lit medical case and a small reinforced protective shield, covering a wounded colleague while preparing a patch module. Professional graphite armor, restrained amber light, medical/support silhouette different from the recovery specialist.\nBOTTOM RIGHT: Reserve Syndicate artwork: a professional communications specialist inspecting a clean unmanned targeting relay in a damaged avenue. This panel is source-only reserve material, not assigned to any gameplay card.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "syndicate_cover_protocol"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Cover Protocol action/event scene.",
+          "scene": "A technician locks a sleek temporary armor module onto a damaged allied combat suit while the soldier takes cover. Professional fastening hardware and a small diagnostic light show a protective repair protocol."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "syndicate_tactical_medic"
+          ],
+          "position": "50% 35%",
+          "classificationBefore": "C",
+          "reason": "Give Tactical Recovery Team explicit medical-treatment equipment and an active professional field-care composition.",
+          "scene": "TACTICAL RECOVERY TEAM: a professional graphite/gold armored recovery specialist actively applying a compact diagnostic medical stabilizer to an allied damaged suit, with a secured medical case and clean practical equipment. No tablet-only observer portrait; the treatment action and medical kit are central."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "syndicate_patch_team"
+          ],
+          "position": "50% 30%",
+          "classificationBefore": "C",
+          "reason": "Give Tactical Patch Team a distinct protective field-medic composition rather than a duplicated reconnaissance observer.",
+          "scene": "TACTICAL PATCH TEAM: a clean-equipped field medic with a gold-lit medical case and a small reinforced protective shield, covering a wounded colleague while preparing a patch module. Professional graphite armor, restrained amber light, medical/support silhouette different from the recovery specialist."
+        }
+      ],
+      "unmappedCells": [
+        {
+          "cell": 3,
+          "scene": "Reserve Syndicate artwork: a professional communications specialist inspecting a clean unmanned targeting relay in a damaged avenue. This panel is source-only reserve material, not assigned to any gameplay card."
+        }
+      ]
+    },
+    {
+      "name": "nightwalker-legacy-a",
+      "source": "assets/source/card-art-012/nightwalker-legacy-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A low-profile targeting beacon planted on a rooftop ledge: three narrow prongs, a recessed violet sensor lens and compact battery housing amid dark smoke. Its physical deployable silhouette dominates.\nTOP RIGHT: A masked operative fires from a deep shadowed doorway into the flank of an approaching attacker. A small suppressed muzzle flash, stealthy concealment and clear surprise angle depict the ambush without gore.\nBOTTOM LEFT: A hooded precision operative takes one suppressed shot from a narrow rooftop opening toward a valuable enemy specialist. Weapon and target alignment tell the selective strike; restrained violet rim light and smoke.\nBOTTOM RIGHT: An armored operative steps backward into a smoke-darkened passage just as incoming tracers cross the space they occupied. Show the evasive retreat and missed attack, without implying teleportation or healing.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "nightwalker_beacon"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only asset art with the actual Targeting Beacon equipment/infrastructure scene.",
+          "scene": "A low-profile targeting beacon planted on a rooftop ledge: three narrow prongs, a recessed violet sensor lens and compact battery housing amid dark smoke. Its physical deployable silhouette dominates."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "nightwalker_ambush"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual From the Dark action/event scene.",
+          "scene": "A masked operative fires from a deep shadowed doorway into the flank of an approaching attacker. A small suppressed muzzle flash, stealthy concealment and clear surprise angle depict the ambush without gore."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "nightwalker_strike"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Surgical Strike action/event scene.",
+          "scene": "A hooded precision operative takes one suppressed shot from a narrow rooftop opening toward a valuable enemy specialist. Weapon and target alignment tell the selective strike; restrained violet rim light and smoke."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "nightwalker_withdraw"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Fade Away action/event scene.",
+          "scene": "An armored operative steps backward into a smoke-darkened passage just as incoming tracers cross the space they occupied. Show the evasive retreat and missed attack, without implying teleportation or healing."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "nightwalker-legacy-b",
+      "source": "assets/source/card-art-012/nightwalker-legacy-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A concealed rooftop scout guides a tiny low-light reconnaissance drone over the battlefield. Masked scout, sensor optics and the drone’s observation cone are readable; the scene depicts gathering information.\nTOP RIGHT: A saboteur connects a compact disruption device to an enemy armored equipment junction while the unit’s illuminated optics and auxiliary modules go dark. Covert physical interference, dark violet lighting, no glyph substitute.\nBOTTOM LEFT: A wounded masked operative is pulled out of a threatened position on a discreet extraction line toward a dark rooftop. Damaged armor remains visible, and the action clearly depicts withdrawal for later redeployment rather than instant healing.\nBOTTOM RIGHT: A hidden scout opens a narrow shutter in the smoke and directs an infrared designator onto a briefly revealed enemy specialist. A physical optic and a vulnerable illuminated target show the opening.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "nightwalker_recon"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Night Reconnaissance action/event scene.",
+          "scene": "A concealed rooftop scout guides a tiny low-light reconnaissance drone over the battlefield. Masked scout, sensor optics and the drone’s observation cone are readable; the scene depicts gathering information."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "nightwalker_blackout"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Blackout Protocol action/event scene.",
+          "scene": "A saboteur connects a compact disruption device to an enemy armored equipment junction while the unit’s illuminated optics and auxiliary modules go dark. Covert physical interference, dark violet lighting, no glyph substitute."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "nightwalker_ghost_extraction"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Ghost Extraction action/event scene.",
+          "scene": "A wounded masked operative is pulled out of a threatened position on a discreet extraction line toward a dark rooftop. Damaged armor remains visible, and the action clearly depicts withdrawal for later redeployment rather than instant healing."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "nightwalker_exposure_window"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Exposure Window action/event scene.",
+          "scene": "A hidden scout opens a narrow shutter in the smoke and directs an infrared designator onto a briefly revealed enemy specialist. A physical optic and a vulnerable illuminated target show the opening."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "nightwalker-legacy-c",
+      "source": "assets/source/card-art-012/nightwalker-legacy-c.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A covert operative sets a decoy sensor projector at a forked ruined alley, luring an enemy supply patrol toward the wrong route. A false moving silhouette and the real shadowed escape path convey calculated misdirection; no text signs.\nTOP RIGHT: SILENT BLADE: a masked low-profile close-range operative with a clear suppressed combat dagger held in a practical ready stance, dark charcoal field kit and narrow violet seam lights. Low-light atmospheric alley, readable blade and concealed silhouette. No pistol-and-hologram technology specialist portrait, no magic, no gore.\nBOTTOM LEFT: Reserve Nightwalker artwork: a concealed masked rooftop operative checking a compact sensor probe under low-light violet smoke. Source-only reserve panel, not assigned to a gameplay card.\nBOTTOM RIGHT: Reserve Nightwalker artwork: a low-profile practical stealth communications device tucked behind a rooftop ledge in the rain. Source-only reserve panel, not assigned to a gameplay card.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "nightwalker_false_route"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual False Route action/event scene.",
+          "scene": "A covert operative sets a decoy sensor projector at a forked ruined alley, luring an enemy supply patrol toward the wrong route. A false moving silhouette and the real shadowed escape path convey calculated misdirection; no text signs."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "nightwalker_blade"
+          ],
+          "position": "50% 30%",
+          "classificationBefore": "C",
+          "reason": "Replace the pistol/hologram specialist duplicate with the named close-range blade role.",
+          "scene": "SILENT BLADE: a masked low-profile close-range operative with a clear suppressed combat dagger held in a practical ready stance, dark charcoal field kit and narrow violet seam lights. Low-light atmospheric alley, readable blade and concealed silhouette. No pistol-and-hologram technology specialist portrait, no magic, no gore."
+        }
+      ],
+      "unmappedCells": [
+        {
+          "cell": 2,
+          "scene": "Reserve Nightwalker artwork: a concealed masked rooftop operative checking a compact sensor probe under low-light violet smoke. Source-only reserve panel, not assigned to a gameplay card."
+        },
+        {
+          "cell": 3,
+          "scene": "Reserve Nightwalker artwork: a low-profile practical stealth communications device tucked behind a rooftop ledge in the rain. Source-only reserve panel, not assigned to a gameplay card."
+        }
+      ]
+    },
+    {
+      "name": "rogue-legacy-a",
+      "source": "assets/source/card-art-012/rogue-legacy-a.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers.\nTOP LEFT: A patched portable field workshop fills the scene: mismatched welded bench, reclaimed power cells, practical hand tools and a partially repaired armored component. A small mechanic in the background supplies scale.\nTOP RIGHT: A resourceful field soldier helps a wounded ally back behind a scrap-built rear barricade, carrying their damaged weapon and kit. Visible wounds in armor remain; this is a costly tactical withdrawal, not rejuvenation.\nBOTTOM LEFT: A fatigued scavenger soldier refastens a loose armor strap, collects their modified rifle and rises to move again. An improvised practical adjustment restores readiness amid a rough battlefield.\nBOTTOM RIGHT: A patched-armored skirmisher breaks contact through a jagged side alley while incoming rounds strike discarded scrap cover behind them. Readable retreat direction and evasive movement, without teleportation.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "rogue_workshop"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only asset art with the actual Field Workshop equipment/infrastructure scene.",
+          "scene": "A patched portable field workshop fills the scene: mismatched welded bench, reclaimed power cells, practical hand tools and a partially repaired armored component. A small mechanic in the background supplies scale."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "rogue_reclaim"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Pull Back action/event scene.",
+          "scene": "A resourceful field soldier helps a wounded ally back behind a scrap-built rear barricade, carrying their damaged weapon and kit. Visible wounds in armor remain; this is a costly tactical withdrawal, not rejuvenation."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "rogue_rally"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Keep Moving action/event scene.",
+          "scene": "A fatigued scavenger soldier refastens a loose armor strap, collects their modified rifle and rises to move again. An improvised practical adjustment restores readiness amid a rough battlefield."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "rogue_retreat"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Break Contact action/event scene.",
+          "scene": "A patched-armored skirmisher breaks contact through a jagged side alley while incoming rounds strike discarded scrap cover behind them. Readable retreat direction and evasive movement, without teleportation."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "rogue-legacy-b",
+      "source": "assets/source/card-art-012/rogue-legacy-b.png",
+      "grid": 2,
+      "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers.\nTOP LEFT: A scavenged-gear raider fires a short burst while already moving toward a side exit. A modified rifle, one struck enemy armor plate and a clear escape route show opportunistic hit-and-run tactics; no gore.\nTOP RIGHT: An adaptable field operative at a scrap-built supply post chooses between a repair tool, a fresh ammunition bundle and an open flanking route. All three practical options are integrated into one active scene, not separate icons or panels.\nBOTTOM LEFT: A secured salvage cache behind cover: mismatched storage bins holding reclaimed armor plates, repaired medical tools and scavenged power cells. The stationary supply infrastructure is the hero subject; salvaged wreckage nearby explains its source.\nBOTTOM RIGHT: IMPROVISED LANCER: an adaptive patched-armored fighter carrying an asymmetric custom long penetrating weapon assembled from functional military parts, with mismatched braces, taped fittings, practical scope and mint-green power accents. Clear distinctive weapon silhouette, determined field stance and believable equipment; no fantasy knight or ordinary standard rifle portrait.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "rogue_raid"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Hit and Run action/event scene.",
+          "scene": "A scavenged-gear raider fires a short burst while already moving toward a side exit. A modified rifle, one struck enemy armor plate and a clear escape route show opportunistic hit-and-run tactics; no gore."
+        },
+        {
+          "cell": 1,
+          "cardIds": [
+            "rogue_field_options"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only order art with the actual Field Options action/event scene.",
+          "scene": "An adaptable field operative at a scrap-built supply post chooses between a repair tool, a fresh ammunition bundle and an open flanking route. All three practical options are integrated into one active scene, not separate icons or panels."
+        },
+        {
+          "cell": 2,
+          "cardIds": [
+            "rogue_rolling_cache"
+          ],
+          "position": "50% 50%",
+          "classificationBefore": "D",
+          "reason": "Replace symbol-only asset art with the actual Salvage Cache equipment/infrastructure scene.",
+          "scene": "A secured salvage cache behind cover: mismatched storage bins holding reclaimed armor plates, repaired medical tools and scavenged power cells. The stationary supply infrastructure is the hero subject; salvaged wreckage nearby explains its source."
+        },
+        {
+          "cell": 3,
+          "cardIds": [
+            "rogue_lancer"
+          ],
+          "position": "50% 10%",
+          "classificationBefore": "C",
+          "reason": "Differentiate the custom penetrating-weapon role from the generic riflewoman duplicate.",
+          "scene": "IMPROVISED LANCER: an adaptive patched-armored fighter carrying an asymmetric custom long penetrating weapon assembled from functional military parts, with mismatched braces, taped fittings, practical scope and mint-green power accents. Clear distinctive weapon silhouette, determined field stance and believable equipment; no fantasy knight or ordinary standard rifle portrait."
+        }
+      ],
+      "unmappedCells": []
+    },
+    {
+      "name": "bruiser-role-drummer",
+      "source": "assets/source/card-art-012/bruiser-role-drummer.png",
+      "grid": 1,
+      "prompt": "Create ONE finished square Frontlines military science-fiction illustration, NOT an atlas. Painted graphic-novel military science-fiction concept art matching the existing Frontlines infantry atlases and premium Commander material quality. Believable steel, fabric and practical equipment; stylized but structurally sound anatomy; strong silhouettes, restrained faction accents, atmospheric lighting. Each square panel is a finished independent illustration with an action/event for an Order or equipment/infrastructure for an Asset. Readable at a small card size. Keep the main subject and identifying equipment inside the central 80% with a generous top safe area. No text, letters, numbers, labels, UI, card frames, borders, logos, watermarks, generic glyphs, flat vector art or plastic 3D look. Do not stretch images. BRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nSURGE DRUMMERS: one armored Bruiser assault signal drummer with a compact rugged chest-mounted mechanical percussion/signal rig, practical steel impact mallets, orange signal lamps and exposed reinforced bracing. The soldier coordinates a distant advancing assault line through grounded military signal equipment. Show the face, hands and readable drum hardware centered; a purposeful professional battlefield role, no fantasy bard, no captions or icons.",
+      "cells": [
+        {
+          "cell": 0,
+          "cardIds": [
+            "bruiser_surge_drummers"
+          ],
+          "position": "50% 20%",
+          "classificationBefore": "C",
+          "reason": "Replace the generic officer duplicate with unmistakable practical assault signal equipment; a standalone square painting avoids squeezing two unrelated roles into one cell.",
+          "scene": "SURGE DRUMMERS: one armored Bruiser assault signal drummer with a compact rugged chest-mounted mechanical percussion/signal rig, practical steel impact mallets, orange signal lamps and exposed reinforced bracing. The soldier coordinates a distant advancing assault line through grounded military signal equipment. Show the face, hands and readable drum hardware centered; a purposeful professional battlefield role, no fantasy bard, no captions or icons."
+        }
+      ],
+      "unmappedCells": []
+    }
+  ],
+  "reuse": [
+    {
+      "cardIds": [
+        "stonewall_defender"
+      ],
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "crop": {
+        "left": 512,
+        "top": 0,
+        "width": 512,
+        "height": 512
+      },
+      "position": "50% 0%",
+      "classificationBefore": "C",
+      "reason": "Use the preserved strong Stonewall shield-heavy tile so Shield Defender visibly carries its named reinforced shield."
+    },
+    {
+      "cardIds": [
+        "nightwalker_marksman"
+      ],
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "crop": {
+        "left": 512,
+        "top": 0,
+        "width": 512,
+        "height": 512
+      },
+      "position": "50% 0%",
+      "classificationBefore": "C",
+      "reason": "Use the preserved previously unused Nightwalker scoped-rifle tile so Ghost Marksman reads as a long-range precision unit."
+    },
+    {
+      "cardIds": [
+        "syndicate_eliminator"
+      ],
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "crop": {
+        "left": 512,
+        "top": 0,
+        "width": 512,
+        "height": 512
+      },
+      "position": "50% 0%",
+      "classificationBefore": "C",
+      "reason": "Use the preserved Syndicate professional scoped-rifle tile for Contract Eliminator instead of a reconnaissance tablet operator."
+    }
+  ],
+  "prompts": {
+    "style": "Painted graphic-novel military science-fiction concept art matching the existing Frontlines infantry atlases and premium Commander material quality. Believable steel, fabric and practical equipment; stylized but structurally sound anatomy; strong silhouettes, restrained faction accents, atmospheric lighting. Each square panel is a finished independent illustration with an action/event for an Order or equipment/infrastructure for an Asset. Readable at a small card size. Keep the main subject and identifying equipment inside the central 80% with a generous top safe area. No text, letters, numbers, labels, UI, card frames, borders, logos, watermarks, generic glyphs, flat vector art or plastic 3D look. Do not stretch images.",
+    "sourceGenerationStyle": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.",
+    "factionPalettes": {
+      "stonewall": "STONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.",
+      "bruiser": "BRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.",
+      "syndicate": "THE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.",
+      "nightwalker": "NIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.",
+      "rogue": "ROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers."
+    },
+    "jobs": [
+      {
+        "name": "stonewall-tactical-a",
+        "source": "assets/source/card-art-012/stonewall-tactical-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: Trench Engineer: kneeling armored engineer welding a waist-high barricade.\nTOP RIGHT: Shield Section: linked massive rectangular shields of two defenders absorbing sparks.\nBOTTOM LEFT: Bastion Gunner: armored heavy gunner braced behind a large mounted machine gun.\nBOTTOM RIGHT: Field Mechanic: repair specialist working on open damaged turret with diagnostic tools."
+      },
+      {
+        "name": "stonewall-tactical-b",
+        "source": "assets/source/card-art-012/stonewall-tactical-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: Hardpoint, an ASSET: a complete angular armored pillbox and protected weapon emplacement built into concrete rubble; show equipment and scale rather than an icon.\nTOP RIGHT: Dig In, an ORDER: disciplined infantry urgently raising sandbags and armored cover while enemy tracers strike nearby.\nBOTTOM LEFT: Interlocking Fire, an ORDER: two fortified squads firing intersecting controlled lanes from opposite cover positions, an understandable defensive crossfire event.\nBOTTOM RIGHT: Hold Fast, an ORDER: battered defenders surviving a major assault then holding their ground behind reinforced cover, purposeful resilience and controlled reinforcement, no Commander portrait."
+      },
+      {
+        "name": "bruiser-tactical-a",
+        "source": "assets/source/card-art-012/bruiser-tactical-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: Demolition Squad: two shock soldiers preparing breaching charges against a fortified barrier, explicit demolition equipment.\nTOP RIGHT: Grenadier: heavily equipped assault infantry winding up a grenade throw, bandolier and explosive clearly legible.\nBOTTOM LEFT: Suppressor Heavy: immense heavy gunner sending a controlled suppressive burst down an industrial street, broad plated silhouette.\nBOTTOM RIGHT: Linebreaker: armored breaching soldier driving through a fractured barricade with an oversized assault weapon and ram equipment."
+      },
+      {
+        "name": "bruiser-tactical-b",
+        "source": "assets/source/card-art-012/bruiser-tactical-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: Assault Charge, an ORDER: orange-striped shock infantry charging out of cover into incoming fire; momentum and risk visible.\nTOP RIGHT: Frag Out, an ORDER: a thrown grenade detonating between two defensive positions, bounded close explosion, no gore.\nBOTTOM LEFT: No Shelter, an ORDER: a focused explosive charge punching through the front armor of a fortified turret; equipment and cover breached.\nBOTTOM RIGHT: Break the Position, an ORDER: an assault squad forcing a breach through a cracked reinforced position while a heavy moves forward; actual coordinated breakthrough scene."
+      },
+      {
+        "name": "syndicate-tactical-a",
+        "source": "assets/source/card-art-012/syndicate-tactical-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: Spotter Cell: two clean-armored tactical spotters using precision optics and a rangefinding tablet, purposeful reconnaissance.\nTOP RIGHT: Fire Control Officer: a professional field officer issuing a fire solution using an amber holographic tactical display, communications headgear, restrained authority.\nBOTTOM LEFT: Contract Marksman: a scoped-rifle specialist aiming from prepared cover, amber optical sight, clear precision role.\nBOTTOM RIGHT: Suppression Team: coordinated professional infantry laying controlled covering fire, differing firing angles and clean equipment."
+      },
+      {
+        "name": "syndicate-tactical-b",
+        "source": "assets/source/card-art-012/syndicate-tactical-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: Recon Drone, an ASSET: a compact unmanned hovering sensor drone with articulated camera lens and amber scanning optics over a damaged street.\nTOP RIGHT: Target Package, an ORDER: a spotter transferring an identified enemy emplacement to a marksman's targeting display, the real coordinated targeting action, no captions or text.\nBOTTOM LEFT: Coordinated Barrage, an ORDER: precisely directed strikes landing on two selected fortified targets along a damaged avenue, tactical timing rather than indiscriminate fire.\nBOTTOM RIGHT: Contingency Plan, an ORDER: a tactical officer repositioning a rifle squad and heavy weapon team into cover as a coordinated fallback plan, mixed military roles."
+      },
+      {
+        "name": "nightwalker-tactical-a",
+        "source": "assets/source/card-art-012/nightwalker-tactical-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: Smoke Runner: a masked fast operative slipping through billowing violet-gray smoke, compact suppressed weapon and low sleek silhouette.\nTOP RIGHT: Ghost Operative: a hooded stealth specialist with a suppressed rifle observing a vulnerable route from dark cover, thin violet optical accents.\nBOTTOM LEFT: Shadow Trapper: a patient masked operative preparing a concealed remote sensor/trigger beside a covered firing position, vigilant ambush-ready posture.\nBOTTOM RIGHT: False Contact, an ASSET: a deployable holographic decoy projector creating a shimmering misleading soldier silhouette amid smoke; equipment at its base must be visible."
+      },
+      {
+        "name": "nightwalker-tactical-b",
+        "source": "assets/source/card-art-012/nightwalker-tactical-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: Smoke Screen, an ORDER: a stealth squad deploying dense smoke canisters across a watched street, an actual crossing concealed by smoke.\nTOP RIGHT: Vanish, an ORDER: an operative slipping behind cover just as enemy tracers strike the previous position, evasion by timing, no literal magic teleport.\nBOTTOM LEFT: Expose the Opening, an ORDER: concealed reconnaissance operator revealing a vulnerable enemy silhouette using a focused sensor beam and subtle targeting overlay, physical tactical action.\nBOTTOM RIGHT: Clean Exit, an ORDER: a wounded masked operative withdrawing toward friendly cover under a second operative's protection, intact weapon and retained battle damage."
+      },
+      {
+        "name": "rogue-tactical-a",
+        "source": "assets/source/card-art-012/rogue-tactical-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers.\nTOP LEFT: Scrap Grenadier: resourceful patched-armored fighter assembling an improvised grenade from salvaged components, practical satchel and modified weapon.\nTOP RIGHT: Jury-Rigged Shield, an ASSET: a visibly field-built deployable shield made from mismatched plated scrap, braces, cables and portable green-lit power pack.\nBOTTOM LEFT: Patch Runner: mobile field repair specialist carrying an improvised medical/repair kit toward a wounded ally, repaired olive gear.\nBOTTOM RIGHT: Improvised Mine, an ASSET: a low-profile handmade pressure/proximity mine wired among industrial debris, salvaged casing and tiny green sensor, close legible equipment view."
+      },
+      {
+        "name": "rogue-tactical-b",
+        "source": "assets/source/card-art-012/rogue-tactical-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers.\nTOP LEFT: Make It Work, an ORDER: inventive fighter using a modular scavenged device, one hand adjusting its tool configuration under pressure, adaptability as a real action.\nTOP RIGHT: Salvage Charge, an ORDER: a worn friendly deployable being dismantled and converted into an explosive charge thrown toward enemy cover; clear material trade, not a generic explosion.\nBOTTOM LEFT: Strip It for Parts, an ORDER: a field mechanic cannibalizing a broken shield to repair a badly damaged armored ally or deployable, clear source and payoff in one scene.\nBOTTOM RIGHT: Bad Plan, Good Result, an ORDER: a damaged improvised decoy drawing fire while allies escape behind a newly raised patched shield, opportunistic sacrifice with real damage."
+      },
+      {
+        "name": "stonewall-legacy-a",
+        "source": "assets/source/card-art-012/stonewall-legacy-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: A hardened forward medical shelter built into a bunker recess: armored stretcher bay, compact diagnostic equipment, secured medical supply crates and a cyan examination lamp. The infrastructure is the principal subject; a tiny medic gives scale.\nTOP RIGHT: A disciplined combat medic kneels beside a wounded but conscious armored ally behind a concrete barricade, applying a compact field stabilizer to damaged chest plating. Clear active treatment, careful hands, no gore.\nBOTTOM LEFT: A defensive soldier braces a broad layered shield as incoming rounds strike it with bright sparks. The shield, protected face and force of the impacts dominate; a bunker wall protects the flank.\nBOTTOM RIGHT: An exhausted defender rises from a kneeling position behind a reinforced barricade, gripping a rifle again while a nearby officer signals to hold the line. A renewed defensive stance, not a generic standing portrait."
+      },
+      {
+        "name": "stonewall-legacy-b",
+        "source": "assets/source/card-art-012/stonewall-legacy-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: An entrenched gunner fires a controlled burst through a bunker firing slit at an advancing enemy silhouette. A readable muzzle flash and tracer path communicate the action while the concrete emplacement communicates defense.\nTOP RIGHT: A compact angular field redoubt dominates a ruined avenue: overlapping armored firing ports, reinforced walls, a roof-mounted command antenna and protected cyan-lit observation bay. Fortification equipment, not a soldier portrait.\nBOTTOM LEFT: A military engineer fastens a replacement armor plate onto a worn allied shield while the defender holds the position. The installed plate and repaired suit clearly show reinforcement rather than a floating shield icon.\nBOTTOM RIGHT: A disciplined armored FIELD MEDIC behind fortified cover, with an unmistakable compact medical case, practical stabilizer and layered protective steel-blue plates. Readable compassionate treatment specialist with cyan equipment lights; a distinct medical role rather than the old tactical-tablet scout. Face and medical case occupy the central 70 percent of the painting."
+      },
+      {
+        "name": "bruiser-legacy-a",
+        "source": "assets/source/card-art-012/bruiser-legacy-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: An oversized battered assault standard mounted in a powered steel brace amid a breached wall. Heavy orange fabric and welded signal lamps identify a rallying military asset; distant assault troops give scale without stealing focus.\nTOP RIGHT: A carefully planted directional demolition charge explodes against an armored barrier. Large slabs of concrete and a concentrated orange blast communicate a single prepared demolition strike; no gore.\nBOTTOM LEFT: A scarred assault trooper pulls a spent ammunition belt free and hauls themself back to a standing fighting position amid rubble. Tense renewed momentum after exhaustion, with practical heavy weapon equipment.\nBOTTOM RIGHT: A wounded shock trooper unexpectedly counterfires at an incoming attacker from behind broken cover. A close muzzle burst and fresh sparks on the attacker’s armor show an immediate violent reprisal without gore."
+      },
+      {
+        "name": "bruiser-legacy-b",
+        "source": "assets/source/card-art-012/bruiser-legacy-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: An assault loader passes a fresh oversized ammunition belt and power canister to a waiting heavy gunner beside an opened combat supply crate. The transfer of usable supplies is unmistakable.\nTOP RIGHT: A massive armored assault trooper drives through a crumbling enemy barricade in a devastating frontal push. Heavy weapon discharge, falling debris and forward motion form one clear breakthrough action.\nBOTTOM LEFT: A field technician clamps a rugged emergency repair-and-stabilization rig onto a wounded assault soldier’s battered armor behind rubble. Heavy practical hydraulic and medical equipment, orange work lamps, no miraculous glow or gore.\nBOTTOM RIGHT: A SCARRED BRAWLER: imposing close-range shock fighter, scarred face, oversized practical hydraulic gauntlets, exposed reinforced bracing, battered charcoal/orange armor. A tense forward physical stance and compact armored equipment dominate; no standard rifle portrait, no fantasy monster, no gore. Face and gauntlets remain readable in a small card crop."
+      },
+      {
+        "name": "syndicate-legacy-a",
+        "source": "assets/source/card-art-012/syndicate-legacy-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A portable armored communications relay with clean antenna arrays, gold indicator strips and secured power modules, stationed behind a coordinated squad. The deployable hardware is central and clearly readable.\nTOP RIGHT: A reconnaissance operator receives fresh information from two compact camera drones while comparing physical sensor data on a small tactical slate. Clean professional equipment and an active intelligence-gathering scene; no readable UI text.\nBOTTOM LEFT: A professional electronic-warfare specialist interrupts an enemy supply drone’s power-control connection. A grounded crate carrier stops mid-delivery while its status lamps fail; show the disrupted logistics as the action.\nBOTTOM RIGHT: A specialist uses a compact countermeasure transmitter as a hostile tactical signal dissolves before reaching an allied unit. Physical equipment, tight restrained golden interference arcs and a protected ally communicate a timely override."
+      },
+      {
+        "name": "syndicate-legacy-b",
+        "source": "assets/source/card-art-012/syndicate-legacy-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A clean-equipped marksman delivers one calculated rifle shot through a narrow opening toward a specific armored target. Scope, muzzle flash and precise tracer alignment convey selective removal; no gore.\nTOP RIGHT: An electronic specialist locks down a hostile armored unit’s communications and powered auxiliary equipment. A compact transmitter in the foreground and darkened enemy optics in the middle ground show functional sabotage, not a glyph.\nBOTTOM LEFT: A tactical observer uses a compact laser designator to illuminate one exposed enemy armored unit across the avenue. Visible optics and a narrow gold beam identify deliberate target preparation; no floating target icon.\nBOTTOM RIGHT: A combined communications and field-care station: clean armored relay mast, secured medical tools, power cartridges and a small protected service cradle. Show one functional tactical deployable asset, not a portrait."
+      },
+      {
+        "name": "syndicate-legacy-c",
+        "source": "assets/source/card-art-012/syndicate-legacy-c.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nTHE SYNDICATE: professional black/graphite equipment, amber-gold optics, clean tactical lines, drones, advanced targeting and communications, controlled yellow light in a modern damaged city.\nTOP LEFT: A technician locks a sleek temporary armor module onto a damaged allied combat suit while the soldier takes cover. Professional fastening hardware and a small diagnostic light show a protective repair protocol.\nTOP RIGHT: TACTICAL RECOVERY TEAM: a professional graphite/gold armored recovery specialist actively applying a compact diagnostic medical stabilizer to an allied damaged suit, with a secured medical case and clean practical equipment. No tablet-only observer portrait; the treatment action and medical kit are central.\nBOTTOM LEFT: TACTICAL PATCH TEAM: a clean-equipped field medic with a gold-lit medical case and a small reinforced protective shield, covering a wounded colleague while preparing a patch module. Professional graphite armor, restrained amber light, medical/support silhouette different from the recovery specialist.\nBOTTOM RIGHT: Reserve Syndicate artwork: a professional communications specialist inspecting a clean unmanned targeting relay in a damaged avenue. This panel is source-only reserve material, not assigned to any gameplay card."
+      },
+      {
+        "name": "nightwalker-legacy-a",
+        "source": "assets/source/card-art-012/nightwalker-legacy-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A low-profile targeting beacon planted on a rooftop ledge: three narrow prongs, a recessed violet sensor lens and compact battery housing amid dark smoke. Its physical deployable silhouette dominates.\nTOP RIGHT: A masked operative fires from a deep shadowed doorway into the flank of an approaching attacker. A small suppressed muzzle flash, stealthy concealment and clear surprise angle depict the ambush without gore.\nBOTTOM LEFT: A hooded precision operative takes one suppressed shot from a narrow rooftop opening toward a valuable enemy specialist. Weapon and target alignment tell the selective strike; restrained violet rim light and smoke.\nBOTTOM RIGHT: An armored operative steps backward into a smoke-darkened passage just as incoming tracers cross the space they occupied. Show the evasive retreat and missed attack, without implying teleportation or healing."
+      },
+      {
+        "name": "nightwalker-legacy-b",
+        "source": "assets/source/card-art-012/nightwalker-legacy-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A concealed rooftop scout guides a tiny low-light reconnaissance drone over the battlefield. Masked scout, sensor optics and the drone’s observation cone are readable; the scene depicts gathering information.\nTOP RIGHT: A saboteur connects a compact disruption device to an enemy armored equipment junction while the unit’s illuminated optics and auxiliary modules go dark. Covert physical interference, dark violet lighting, no glyph substitute.\nBOTTOM LEFT: A wounded masked operative is pulled out of a threatened position on a discreet extraction line toward a dark rooftop. Damaged armor remains visible, and the action clearly depicts withdrawal for later redeployment rather than instant healing.\nBOTTOM RIGHT: A hidden scout opens a narrow shutter in the smoke and directs an infrared designator onto a briefly revealed enemy specialist. A physical optic and a vulnerable illuminated target show the opening."
+      },
+      {
+        "name": "nightwalker-legacy-c",
+        "source": "assets/source/card-art-012/nightwalker-legacy-c.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nNIGHTWALKER: dark charcoal cloaks, masks, suppressed weapons, thin violet electronic light, low-light wet city, smoke and stealth; keep subject detail legible, never crushed black.\nTOP LEFT: A covert operative sets a decoy sensor projector at a forked ruined alley, luring an enemy supply patrol toward the wrong route. A false moving silhouette and the real shadowed escape path convey calculated misdirection; no text signs.\nTOP RIGHT: SILENT BLADE: a masked low-profile close-range operative with a clear suppressed combat dagger held in a practical ready stance, dark charcoal field kit and narrow violet seam lights. Low-light atmospheric alley, readable blade and concealed silhouette. No pistol-and-hologram technology specialist portrait, no magic, no gore.\nBOTTOM LEFT: Reserve Nightwalker artwork: a concealed masked rooftop operative checking a compact sensor probe under low-light violet smoke. Source-only reserve panel, not assigned to a gameplay card.\nBOTTOM RIGHT: Reserve Nightwalker artwork: a low-profile practical stealth communications device tucked behind a rooftop ledge in the rain. Source-only reserve panel, not assigned to a gameplay card."
+      },
+      {
+        "name": "rogue-legacy-a",
+        "source": "assets/source/card-art-012/rogue-legacy-a.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers.\nTOP LEFT: A patched portable field workshop fills the scene: mismatched welded bench, reclaimed power cells, practical hand tools and a partially repaired armored component. A small mechanic in the background supplies scale.\nTOP RIGHT: A resourceful field soldier helps a wounded ally back behind a scrap-built rear barricade, carrying their damaged weapon and kit. Visible wounds in armor remain; this is a costly tactical withdrawal, not rejuvenation.\nBOTTOM LEFT: A fatigued scavenger soldier refastens a loose armor strap, collects their modified rifle and rises to move again. An improvised practical adjustment restores readiness amid a rough battlefield.\nBOTTOM RIGHT: A patched-armored skirmisher breaks contact through a jagged side alley while incoming rounds strike discarded scrap cover behind them. Readable retreat direction and evasive movement, without teleportation."
+      },
+      {
+        "name": "rogue-legacy-b",
+        "source": "assets/source/card-art-012/rogue-legacy-b.png",
+        "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nROGUE: patched olive and tan armor, scavenged asymmetrical but functional equipment, mint-green equipment lights, field repairs and improvised weapons, reclaimed industrial terrain, practical determined soldiers.\nTOP LEFT: A scavenged-gear raider fires a short burst while already moving toward a side exit. A modified rifle, one struck enemy armor plate and a clear escape route show opportunistic hit-and-run tactics; no gore.\nTOP RIGHT: An adaptable field operative at a scrap-built supply post chooses between a repair tool, a fresh ammunition bundle and an open flanking route. All three practical options are integrated into one active scene, not separate icons or panels.\nBOTTOM LEFT: A secured salvage cache behind cover: mismatched storage bins holding reclaimed armor plates, repaired medical tools and scavenged power cells. The stationary supply infrastructure is the hero subject; salvaged wreckage nearby explains its source.\nBOTTOM RIGHT: IMPROVISED LANCER: an adaptive patched-armored fighter carrying an asymmetric custom long penetrating weapon assembled from functional military parts, with mismatched braces, taped fittings, practical scope and mint-green power accents. Clear distinctive weapon silhouette, determined field stance and believable equipment; no fantasy knight or ordinary standard rifle portrait."
+      },
+      {
+        "name": "bruiser-role-drummer",
+        "source": "assets/source/card-art-012/bruiser-role-drummer.png",
+        "prompt": "Create ONE finished square Frontlines military science-fiction illustration, NOT an atlas. Painted graphic-novel military science-fiction concept art matching the existing Frontlines infantry atlases and premium Commander material quality. Believable steel, fabric and practical equipment; stylized but structurally sound anatomy; strong silhouettes, restrained faction accents, atmospheric lighting. Each square panel is a finished independent illustration with an action/event for an Order or equipment/infrastructure for an Asset. Readable at a small card size. Keep the main subject and identifying equipment inside the central 80% with a generous top safe area. No text, letters, numbers, labels, UI, card frames, borders, logos, watermarks, generic glyphs, flat vector art or plastic 3D look. Do not stretch images. BRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nSURGE DRUMMERS: one armored Bruiser assault signal drummer with a compact rugged chest-mounted mechanical percussion/signal rig, practical steel impact mallets, orange signal lamps and exposed reinforced bracing. The soldier coordinates a distant advancing assault line through grounded military signal equipment. Show the face, hands and readable drum hardware centered; a purposeful professional battlefield role, no fantasy bard, no captions or icons."
+      }
+    ]
+  }
+}

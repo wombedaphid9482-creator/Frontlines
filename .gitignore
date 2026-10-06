@@ -4,3 +4,6 @@ test-results/
 *.log
 
 /dist/
+backend/node_modules/
+backend/.wrangler/
+/docs/checkpoints/*.zip

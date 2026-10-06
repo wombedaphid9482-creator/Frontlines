@@ -1,0 +1,2255 @@
+{
+  "build": "v1.0.4",
+  "cards": [
+    {
+      "id": "stonewall_rifles",
+      "name": "Line Rifle Squad",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Fortify — takes 1 less combat damage on owned ground. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_defender",
+      "name": "Shield Defender",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_medic",
+      "name": "Field Medic",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Medic — at the start of your turn, heal each ally here by 1. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_heavy",
+      "name": "Bastion Heavy",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Fortify — takes 1 less combat damage on owned ground. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "stonewall_escort",
+      "name": "Armored Escort",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Fortify. Protects the line best on owned ground. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_pathfinder",
+      "name": "Route Pathfinder",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_commander",
+      "name": "Defense Commander",
+      "faction": "stonewall",
+      "type": "leader",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Unique. Command — other allies here gain +1 Attack. Fortify. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "stonewall_aid_station",
+      "name": "Forward Aid Station",
+      "faction": "stonewall",
+      "type": "asset",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": null,
+      "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_triage",
+      "name": "Emergency Triage",
+      "faction": "stonewall",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "heal",
+      "rulesText": "Heal one friendly battlefield card by 4. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_brace",
+      "name": "Brace for Impact",
+      "faction": "stonewall",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "shield",
+      "rulesText": "Response: reduce damage to the defender from this combat by 3. Costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_rally",
+      "name": "Hold the Line",
+      "faction": "stonewall",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "rally",
+      "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "stonewall_fire_support",
+      "name": "Defensive Fire",
+      "faction": "stonewall",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "damage",
+      "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_assault",
+      "name": "Assault Squad",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_heavy",
+      "name": "Siege Heavy",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "A heavy commitment with the Presence to take ground quickly. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_brawler",
+      "name": "Scarred Brawler",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_breacher",
+      "name": "Breach Team",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_vanguard",
+      "name": "Iron Vanguard",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "A forward screen with the Presence to occupy ground; vulnerable to precision fire. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_gunner",
+      "name": "Rage Gunner",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_commander",
+      "name": "Assault Commander",
+      "faction": "bruiser",
+      "type": "leader",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Unique. Command — other allies here gain +1 Attack. Berserk. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_banner",
+      "name": "Assault Standard",
+      "faction": "bruiser",
+      "type": "asset",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": null,
+      "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_bombard",
+      "name": "Demolition Charge",
+      "faction": "bruiser",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "damage",
+      "rulesText": "Deal 5 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_rally",
+      "name": "Second Wind",
+      "faction": "bruiser",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "rally",
+      "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_ambush",
+      "name": "Violent Reprisal",
+      "faction": "bruiser",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "ambush",
+      "rulesText": "Response: deal 2 damage to the attacker before combat. Costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_resupply",
+      "name": "Combat Resupply",
+      "faction": "bruiser",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "draw",
+      "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_security",
+      "name": "Security Detail",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_enforcer",
+      "name": "Contract Enforcer",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Reliable muscle with enough Presence to secure an objective. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_observer",
+      "name": "Target Observer",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_courier",
+      "name": "Blackline Courier",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_coordinator",
+      "name": "Operations Coordinator",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Command — other allies in this territory gain +1 Attack. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_contractor",
+      "name": "Armored Contractor",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Guard — may intercept an attack in this territory while ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_commander",
+      "name": "Operations Director",
+      "faction": "syndicate",
+      "type": "leader",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Unique. Command — other allies in this territory gain +1 Attack. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "syndicate_relay",
+      "name": "Coordination Relay",
+      "faction": "syndicate",
+      "type": "asset",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": null,
+      "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "syndicate_intel",
+      "name": "Intelligence Network",
+      "faction": "syndicate",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "draw",
+      "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_disrupt",
+      "name": "Supply Interference",
+      "faction": "syndicate",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "disrupt",
+      "rulesText": "Tie up up to 4 available enemy Presence as temporary spending until their next offensive turn. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "syndicate_counter",
+      "name": "Override Protocol",
+      "faction": "syndicate",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "counter",
+      "rulesText": "Counter: cancel the defender’s response Order. Cannot cancel a Guard interception. Costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_precision_strike",
+      "name": "Contract Strike",
+      "faction": "syndicate",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "damage",
+      "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_blade",
+      "name": "Silent Blade",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_stalker",
+      "name": "Veil Stalker",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_marksman",
+      "name": "Ghost Marksman",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Precision — attacks cannot be intercepted by Guards. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_assault",
+      "name": "Dusk Assault Team",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Rush — can attack on the turn it is deployed if still ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_saboteur",
+      "name": "Cornered Saboteur",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_scout",
+      "name": "Shadow Scout",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Mobile. Precision. First move does not exhaust; attacks ignore Guards. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_commander",
+      "name": "Veil Commander",
+      "faction": "nightwalker",
+      "type": "leader",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Unique. Command — other allies here gain +1 Attack. Precision. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_beacon",
+      "name": "Targeting Beacon",
+      "faction": "nightwalker",
+      "type": "asset",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": null,
+      "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_ambush",
+      "name": "From the Dark",
+      "faction": "nightwalker",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "ambush",
+      "rulesText": "Response: deal 4 damage to the attacker before combat. Costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_strike",
+      "name": "Surgical Strike",
+      "faction": "nightwalker",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "damage",
+      "rulesText": "Deal 5 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_withdraw",
+      "name": "Fade Away",
+      "faction": "nightwalker",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "retreat",
+      "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage. Costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_recon",
+      "name": "Night Reconnaissance",
+      "faction": "nightwalker",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "draw",
+      "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_outrider",
+      "name": "Dust Outrider",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_skirmisher",
+      "name": "Frontier Skirmisher",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Mobile — first move each turn does not exhaust this unit. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_scrapper",
+      "name": "Scrap Fighter",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Berserk — gains +1 Attack while damaged. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_salvage",
+      "name": "Salvage Crew",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Medic — at the start of your turn, heal each ally here by 1. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_trailguard",
+      "name": "Trail Guard",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Mobile. Escort the advance while staying ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_raider",
+      "name": "Road Raider",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Rush. Mobile. Can move once and then attack on its deployment turn. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_commander",
+      "name": "Route Commander",
+      "faction": "rogue",
+      "type": "leader",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Unique. Command — other allies here gain +1 Attack. Mobile. Medic — heal each ally here by 1 at your turn start. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "rogue_workshop",
+      "name": "Field Workshop",
+      "faction": "rogue",
+      "type": "asset",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": null,
+      "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_reclaim",
+      "name": "Pull Back",
+      "faction": "rogue",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "reclaim",
+      "rulesText": "Return a friendly battlefield card to hand. Its committed Presence is freed; its wounds remain. Redeployment pays its printed Capacity and Command Action cost. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_rally",
+      "name": "Keep Moving",
+      "faction": "rogue",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "rally",
+      "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "rogue_retreat",
+      "name": "Break Contact",
+      "faction": "rogue",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "retreat",
+      "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage. Costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_raid",
+      "name": "Hit and Run",
+      "faction": "rogue",
+      "type": "order",
+      "artRole": "rifle",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "damage",
+      "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "stonewall_watchguard",
+      "name": "Watchguard Detachment",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Retaliate — after defending and surviving combat, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_redoubt",
+      "name": "Field Redoubt",
+      "faction": "stonewall",
+      "type": "asset",
+      "artRole": "heavy",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": null,
+      "rulesText": "Immobile. Fortify. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "stonewall_counterbattery",
+      "name": "Counterbattery Section",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Fortify. Retaliate — after defending and surviving combat, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_recovery_team",
+      "name": "Recovery Column",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Medic. Mobile — first move each turn preserves readiness; heal allies here by 1 at your turn start. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_shock_runner",
+      "name": "Shock Runner",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Rush. Mobile — may move once and then attack on its deployment turn; movement and attack each cost 1 Command Action. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_breach_caller",
+      "name": "Breach Caller",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Command — other allies here gain +1 Attack. Rush — may attack on its deployment turn if ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_rupture_heavy",
+      "name": "Rupture Heavy",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Berserk — gains +1 Attack while damaged. A large commitment that needs protection against selective removal. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_overrun_charge",
+      "name": "Overrun Charge",
+      "faction": "bruiser",
+      "type": "order",
+      "artRole": "heavy",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "damage",
+      "rulesText": "Deal 6 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "syndicate_tactical_medic",
+      "name": "Tactical Recovery Team",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Medic — heal allies here by 1 at your turn start. Precision — attacks ignore Guard interception. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_rapid_detail",
+      "name": "Rapid Security Detail",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Mobile — first move each turn preserves readiness, allowing an escort to keep its interception ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_eliminator",
+      "name": "Contract Eliminator",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Precision. Mobile — move once without exhausting, then attack a selected target if deployment timing allows. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_signal_lock",
+      "name": "Signal Lock",
+      "faction": "syndicate",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "sabotage",
+      "rulesText": "Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_handler",
+      "name": "Deep-cover Handler",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Command — other allies here gain +1 Attack. Mobile — first move each turn preserves readiness. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_blackout",
+      "name": "Blackout Protocol",
+      "faction": "nightwalker",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "sabotage",
+      "rulesText": "Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_silencer",
+      "name": "Silencer Team",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Precision. Rush — may attack on its deployment turn if ready, bypassing Guard interception. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_ghost_extraction",
+      "name": "Ghost Extraction",
+      "faction": "nightwalker",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "reclaim",
+      "rulesText": "Return a friendly battlefield card to hand. Its committed Presence is freed; its wounds remain. Redeployment pays its printed Capacity and Command Action cost. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_broker",
+      "name": "Salvage Broker",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Mobile. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_bulwark",
+      "name": "Patchwork Bulwark",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_lancer",
+      "name": "Improvised Lancer",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Precision. Mobile — first move each turn preserves readiness; attacks ignore Guard interception. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_repair_courier",
+      "name": "Repair Courier",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Medic. Mobile — move support between wounded groups; heal allies here by 1 at your turn start. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_bulwark_warden",
+      "name": "Bulwark Warden",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Armor. Guard — while ready, intercept an attack on another ally here; Precision bypasses Guard. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_countermarch",
+      "name": "Countermarch Section",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Mobile — first move each turn preserves readiness. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_plate_medic",
+      "name": "Plate Medic",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Armor. Medic — at your offensive turn start, heal every ally here by 1. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_advance_marshal",
+      "name": "Advance Marshal",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Command — other allies here gain +1 Attack. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "stonewall_line_reinforcement",
+      "name": "Line Reinforcement",
+      "faction": "stonewall",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "reinforce",
+      "rulesText": "Reinforce — heal one friendly permanent by 2, then give it temporary Armor 1 until your next offensive turn starts. Does not stack with printed Armor. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_reserve_watch",
+      "name": "Reserve Watch",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "stonewall_breach_shield",
+      "name": "Breach Shield Column",
+      "faction": "stonewall",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/stonewall/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 237956,
+        "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+      },
+      "effectKind": null,
+      "rulesText": "Armor. Guard. Mobile — first move each turn preserves readiness, keeping interception available after repositioning. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_pavise_breaker",
+      "name": "Pavise Breaker",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Berserk — gain +1 Attack while wounded. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_collision_crew",
+      "name": "Collision Crew",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Rush — may attack on its deployment turn if ready. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_ram_team",
+      "name": "Armored Ram Team",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Armor. Berserk — gain +1 Attack while wounded. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_surge_drummers",
+      "name": "Surge Drummers",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Command — other allies here gain +1 Attack. Mobile — first move each turn preserves readiness. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "bruiser_counterpuncher",
+      "name": "Counterpuncher",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Berserk — gain +1 Attack while wounded. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_triage_rig",
+      "name": "Combat Triage Rig",
+      "faction": "bruiser",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "heal",
+      "rulesText": "Heal one wounded friendly permanent by 3. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "bruiser_breakthrough_gunner",
+      "name": "Breakthrough Gunner",
+      "faction": "bruiser",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/bruiser/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 297562,
+        "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+      },
+      "effectKind": null,
+      "rulesText": "Rush — may attack on its deployment turn if ready. Armor — reduce incoming regular combat damage by 1. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "syndicate_target_designator",
+      "name": "Target Designator",
+      "faction": "syndicate",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "mark",
+      "rulesText": "Mark one enemy permanent: it takes +1 incoming regular combat damage until its next offensive turn starts. Marks do not stack. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "syndicate_screen_operator",
+      "name": "Screen Operator",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Armor. Guard — while ready, intercept an attack on another ally here; Precision bypasses Guard. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_fire_coordinator",
+      "name": "Fire Coordinator",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Command — other allies here gain +1 Attack. Precision — attacks cannot be redirected by Guard. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_patch_team",
+      "name": "Tactical Patch Team",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Medic — at your offensive turn start, heal every ally here by 1. Guard — intercept while ready. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "syndicate_breach_monitor",
+      "name": "Breach Monitor",
+      "faction": "syndicate",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/syndicate/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 232974,
+        "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+      },
+      "effectKind": null,
+      "rulesText": "Armor. Precision — attacks cannot be redirected by Guard. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "syndicate_field_link",
+      "name": "Field Link",
+      "faction": "syndicate",
+      "type": "asset",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": null,
+      "rulesText": "Immobile asset. Command — other allies here gain +1 Attack. Medic — at your offensive turn start, heal every ally here by 1. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "syndicate_cover_protocol",
+      "name": "Cover Protocol",
+      "faction": "syndicate",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "reinforce",
+      "rulesText": "Reinforce — heal one friendly permanent by 1, then give it temporary Armor 1 until your next offensive turn starts. Does not stack with printed Armor. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_exposure_window",
+      "name": "Exposure Window",
+      "faction": "nightwalker",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "mark",
+      "rulesText": "Mark one enemy permanent: it takes +1 incoming regular combat damage until its next offensive turn starts. Marks do not stack. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_shadow_handler",
+      "name": "Shadow Handler",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Command — other allies here gain +1 Attack. Precision — attacks cannot be redirected by Guard. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_misfire_team",
+      "name": "Misfire Team",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Precision. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_false_route",
+      "name": "False Route",
+      "faction": "nightwalker",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "disrupt",
+      "rulesText": "Add 3 temporary Presence spending to the opponent until their next offensive turn starts. Does not reduce Command Actions. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "nightwalker_decoy_patrol",
+      "name": "Decoy Patrol",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Mobile — first move each turn preserves readiness, keeping interception available. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_route_keeper",
+      "name": "Route Keeper",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Precision — attacks cannot be redirected by Guard. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "nightwalker_crossfire_cell",
+      "name": "Crossfire Cell",
+      "faction": "nightwalker",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/nightwalker/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 183286,
+        "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+      },
+      "effectKind": null,
+      "rulesText": "Precision. Mobile. Retaliate — after surviving as combat defender, deal 1 damage to the surviving attacker. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_field_options",
+      "name": "Field Options",
+      "faction": "rogue",
+      "type": "order",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": "adapt",
+      "rulesText": "Adapt — choose one: Repair (heal one ally by 3); Resupply (draw 2); Reposition (ready one exhausted ally). Every mode costs 1 Command Action. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "rogue_route_scout",
+      "name": "Route Scout",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Mobile. Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_scrap_hauler",
+      "name": "Scrap Hauler",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "heavy",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "100% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Armor. Scavenge — when another ally here is destroyed, draw 1 (once per player per turn; sources do not stack). Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_field_negotiator",
+      "name": "Field Negotiator",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "commander",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "100% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Command — other allies here gain +1 Attack. Scavenge — draw 1 when another ally here is destroyed, once per player per turn. Costs 1 Command Action in addition to Capacity."
+    },
+    {
+      "id": "rogue_wandering_medic",
+      "name": "Salvage Medic",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "specialist",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 100%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Medic — at your offensive turn start, heal every ally here by 1. Scavenge — draw 1 when another ally here is destroyed, once per player per turn. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_patchguard",
+      "name": "Patchguard",
+      "faction": "rogue",
+      "type": "unit",
+      "artRole": "rifle",
+      "runtimeKind": "painted-atlas",
+      "source": "assets/cards/rogue/starter-atlas.webp",
+      "position": "0% 0%",
+      "dimensions": [
+        512,
+        512
+      ],
+      "sourceEvidence": {
+        "width": 1024,
+        "height": 1024,
+        "bytes": 280064,
+        "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+      },
+      "effectKind": null,
+      "rulesText": "Guard. Armor — reduce incoming regular combat damage by 1 on any ground. Free Action — costs Capacity; no Command Action."
+    },
+    {
+      "id": "rogue_rolling_cache",
+      "name": "Salvage Cache",
+      "faction": "rogue",
+      "type": "asset",
+      "artRole": "specialist",
+      "runtimeKind": "symbol",
+      "source": null,
+      "position": null,
+      "dimensions": null,
+      "sourceEvidence": null,
+      "effectKind": null,
+      "rulesText": "Immobile asset. Medic — at your offensive turn start, heal every ally here by 1. Scavenge — draw 1 when another ally here is destroyed, once per player per turn. Free Action — costs Capacity; no Command Action."
+    }
+  ],
+  "sources": {
+    "assets/cards/stonewall/starter-atlas.webp": {
+      "width": 1024,
+      "height": 1024,
+      "bytes": 237956,
+      "sha256": "0c8451e31f06cffd0cc98eaabd571d2bdc7070a6c673313232f183d8ef4c0b20"
+    },
+    "assets/cards/bruiser/starter-atlas.webp": {
+      "width": 1024,
+      "height": 1024,
+      "bytes": 297562,
+      "sha256": "1f2e766e84192dd14ef12f9de957f0e5f92869dc82f9c638290222e76c003419"
+    },
+    "assets/cards/syndicate/starter-atlas.webp": {
+      "width": 1024,
+      "height": 1024,
+      "bytes": 232974,
+      "sha256": "7b292f7447296ec4b91383b35b9b723ef0d72e2df208da3719c12585e5289bcf"
+    },
+    "assets/cards/nightwalker/starter-atlas.webp": {
+      "width": 1024,
+      "height": 1024,
+      "bytes": 183286,
+      "sha256": "185050ad45c311ac243dd8780b8228aa60b9786f20cb8a18b0e6cbd8ffd524c0"
+    },
+    "assets/cards/rogue/starter-atlas.webp": {
+      "width": 1024,
+      "height": 1024,
+      "bytes": 280064,
+      "sha256": "82247f26e9663c8db236667f11bae7bb09164a34420ba5074b5b16033399e4d1"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "frontlines-private-relay",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Two-seat internet relay; deployment tooling is separate from the game installer",
+  "scripts": {
+    "dev": "wrangler dev --ip 127.0.0.1 --port 8787",
+    "check": "wrangler deploy --dry-run --outdir ../test-results/sprint13-relay-bundle",
+    "deploy": "wrangler deploy"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "wrangler": "4.147.0"
+  }
+}

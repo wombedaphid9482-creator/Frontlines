@@ -3,14 +3,16 @@ const {app, BrowserWindow, Menu, ipcMain, screen} = require('electron');
 const {autoUpdater} = require('electron-updater');
 const path = require('node:path'), fs = require('node:fs'), os = require('node:os');
 const Shell = require('./shell-state.js');
+const Multiplayer = require('./multiplayer-controller.js');
 const smoke = process.argv.includes('--smoke-test'), shellSmoke = process.argv.includes('--smoke-shell');
-const windows = new Set(), matchActive = new Map();
+const windows = new Set(), matchActive = new Map(), multiplayer = new Map();
 let update = {status:'disabled'}, displayPath, savedDisplay = {};
 if (smoke) {
   const profile = path.join(os.tmpdir(), `frontlines-smoke-${process.pid}`);
   fs.mkdirSync(profile, {recursive:true});app.setPath('userData', profile);app.setPath('sessionData', profile);
 }
-function snapshot(win) {return {version:app.getVersion(),fullscreen:win.isFullScreen(),update:{...update},activeMatch:!!matchActive.get(win)};}
+function activeMatch(win){return !!matchActive.get(win)||multiplayer.get(win)?.isActive()===true;}
+function snapshot(win) {return {version:app.getVersion(),fullscreen:win.isFullScreen(),update:{...update},activeMatch:activeMatch(win)};}
 function broadcast() {for(const win of windows)if(!win.isDestroyed())win.webContents.send('frontlines:state-changed', snapshot(win));}
 function saveDisplay(win) {
   if(smoke || win.isDestroyed())return;
@@ -21,7 +23,7 @@ function trustedWindow(event) {
   const win = BrowserWindow.fromWebContents(event.sender);
   if(!win || !windows.has(win) || event.senderFrame !== event.sender.mainFrame)throw Error('Untrusted desktop request');
   const url = new URL(event.senderFrame.url), file = decodeURIComponent(url.pathname);
-  const allowed = ['index.html','deck-builder.html','simulator.html','collection.html'].map(name=>path.resolve(__dirname,name).replaceAll('\\','/').toLowerCase());
+  const allowed = ['index.html','deck-builder.html','simulator.html','collection.html','tactical-training.html'].map(name=>path.resolve(__dirname,name).replaceAll('\\','/').toLowerCase());
   if(url.protocol !== 'file:' || !allowed.includes(file.replace(/^\/(\w:)/,'$1').toLowerCase()))throw Error('Untrusted game page');
   return win;
 }
@@ -29,6 +31,12 @@ ipcMain.handle('frontlines:state',event=>snapshot(trustedWindow(event)));
 ipcMain.handle('frontlines:fullscreen',(event,value)=>{const win=trustedWindow(event);win.setFullScreen(value===true);return snapshot(win);});
 ipcMain.handle('frontlines:match',(event,value)=>{const win=trustedWindow(event);matchActive.set(win,value===true);return snapshot(win);});
 ipcMain.handle('frontlines:quit',event=>{trustedWindow(event);app.quit();return true;});
+ipcMain.handle('frontlines:multiplayer-state',event=>multiplayer.get(trustedWindow(event)).getState());
+ipcMain.handle('frontlines:multiplayer',(event,request)=>{
+  const controller=multiplayer.get(trustedWindow(event));
+  if(!request||typeof request!=='object'||Object.keys(request).some(key=>!['command','payload'].includes(key)))return {ok:false,code:'INVALID_COMMAND',message:'Invalid multiplayer request.'};
+  return controller.command(request.command,request.payload||{});
+});
 ipcMain.handle('frontlines:check-update',async event=>{
   const win=trustedWindow(event);if(!app.isPackaged || smoke)return snapshot(win);
   if(!['checking','downloading'].includes(update.status)) {
@@ -38,7 +46,7 @@ ipcMain.handle('frontlines:check-update',async event=>{
 });
 ipcMain.handle('frontlines:restart-update',event=>{
   trustedWindow(event);
-  if(!Shell.canInstall(update,[...matchActive.values()].some(Boolean)))return {ok:false,reason:'An active match or incomplete update prevents restart.'};
+  if(!Shell.canInstall(update,[...windows].some(activeMatch)))return {ok:false,reason:'An active match or incomplete update prevents restart.'};
   autoUpdater.quitAndInstall(false,true);return {ok:true};
 });
 function configureAutoUpdater() {
@@ -62,6 +70,9 @@ function createWindow(page='index.html') {
     fullscreen:savedDisplay.fullscreen===true && !smoke,icon:path.join(__dirname,'assets/ui/frontlines-icon.ico'),autoHideMenuBar:true,
     webPreferences:{preload:path.join(__dirname,'preload.js'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
   windows.add(win);matchActive.set(win,false);
+  const relayArg=smoke&&process.argv.find(arg=>arg.startsWith('--relay-test-url='));
+  const controller=Multiplayer.createController({appVersion:app.getVersion(),...(relayArg?{serviceURL:relayArg.slice('--relay-test-url='.length),allowLocalhost:true,allowTestFaults:true}:{})});
+  multiplayer.set(win,controller);controller.onState(state=>{if(!win.isDestroyed()){win.webContents.send('frontlines:multiplayer-changed',state);broadcast();}});
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   win.webContents.on('will-navigate',(event,url)=>{
     const target=new URL(url), directory=path.resolve(__dirname).replaceAll('\\','/').toLowerCase()+'/';
@@ -69,17 +80,20 @@ function createWindow(page='index.html') {
   });
   win.webContents.on('before-input-event',(event,input)=>{if(Shell.fullscreenShortcut(input)){event.preventDefault();win.setFullScreen(!win.isFullScreen());}});
   win.on('enter-full-screen',()=>{saveDisplay(win);broadcast();});win.on('leave-full-screen',()=>{saveDisplay(win);broadcast();});
-  win.on('close',()=>saveDisplay(win));win.on('closed',()=>{windows.delete(win);matchActive.delete(win);});
+  win.on('close',()=>saveDisplay(win));win.on('closed',()=>{controller.dispose();multiplayer.delete(win);windows.delete(win);matchActive.delete(win);});
   win.webContents.on('did-finish-load',()=>{matchActive.set(win,false);broadcast();});
   win.loadFile(path.join(__dirname,page));
   if(smoke)runSmoke(win);
   return win;
 }
 function runSmoke(win) {
-  const timeout=setTimeout(()=>{console.error('FRONTLINES_SMOKE timeout');app.exit(1);},60000);
+  const timeout=setTimeout(()=>{console.error('FRONTLINES_SMOKE timeout');app.exit(1);},process.argv.includes('--smoke-multiplayer')?160000:60000);
   win.webContents.once('did-fail-load',(_event,code,message)=>{clearTimeout(timeout);console.error(`FRONTLINES_SMOKE load ${code}: ${message}`);app.exit(1);});
   win.webContents.once('did-finish-load',async()=>{
     try {
+      if(process.argv.includes('--smoke-multiplayer')){
+        await require('./multiplayer-smoke.js').run({app,win,controller:multiplayer.get(win)});clearTimeout(timeout);return;
+      }
       if(shellSmoke) {
         win.webContents.sendInputEvent({type:'keyDown',keyCode:'F11'});
         win.webContents.sendInputEvent({type:'keyUp',keyCode:'F11'});
@@ -112,6 +126,21 @@ function runSmoke(win) {
         clearTimeout(timeout);console.log('FRONTLINES_SMOKE '+JSON.stringify({version:app.getVersion(),...result,windowed:true,shortcuts:['F11','Alt+Enter']}));app.exit(0);return;
       }
       const result=await win.webContents.executeJavaScript(`(async()=>{
+        if(location.pathname.endsWith('tactical-training.html')) {
+          const host=await FrontlinesDesktop.getState(),collectionBefore=localStorage.getItem('frontlines.collection.v1');
+          const lessons=[];
+          for(let index=0;index<6;index++){
+            FrontlinesTacticalTrainingPage.start(index);
+            for(let step=0;step<6&&!FrontlinesTacticalTrainingPage.snapshot().complete;step++){
+              document.querySelector('[data-training="execute"]').click();
+              const confirm=document.querySelector('[data-training="confirm"]');if(confirm)confirm.click();
+            }
+            if(!FrontlinesTacticalTrainingPage.snapshot().complete)throw Error('Packaged tactical lesson failed: '+index);
+            lessons.push(index);
+          }
+          if(collectionBefore!==localStorage.getItem('frontlines.collection.v1'))throw Error('Practice modified collection');
+          return {page:'tactical-training',lessons,desktopTrust:true,version:host.version,rewards:false};
+        }
         if(location.pathname.endsWith('collection.html')) {
           const profile=FrontlinesCollection.load(),summary=FrontlinesCollection.summary(profile);
           if(!document.querySelector('#collection-app')||!profile||profile.credits<0)throw Error('Collection launch failed');
@@ -151,7 +180,7 @@ app.whenReady().then(()=>{
     {label:'Command menu',click:()=>navigate('home')},{label:'Arsenal',click:()=>navigate('arsenal')},{label:'Collection / Pack Shop',click:()=>navigate('collection')},{label:'War Room / Balance Lab',click:()=>navigate('warroom')},
     {label:'Settings',click:()=>navigate('settings')},{type:'separator'},{role:'quit'}]},
     {label:'Display',submenu:[{label:'Toggle fullscreen',accelerator:'F11',click:()=>{const win=BrowserWindow.getFocusedWindow();if(win)win.setFullScreen(!win.isFullScreen());}},{role:'minimize'}]}]));
-  createWindow(process.argv.includes('--collection')?'collection.html':process.argv.includes('--simulator')?'simulator.html':process.argv.includes('--arsenal')?'deck-builder.html':'index.html');
+  createWindow(process.argv.includes('--training')?'tactical-training.html':process.argv.includes('--collection')?'collection.html':process.argv.includes('--simulator')?'simulator.html':process.argv.includes('--arsenal')?'deck-builder.html':'index.html');
   configureAutoUpdater();app.on('activate',()=>{if(!windows.size)createWindow();});
 });
 app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit();});

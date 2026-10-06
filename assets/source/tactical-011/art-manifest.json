@@ -1,0 +1,326 @@
+{
+  "version": "frontlines-tactical-arsenal-011-v1",
+  "style": "Faction-colored graphic equipment studies; square viewBox, safe uniform cover crop; no old assets touched.",
+  "cards": [
+    {
+      "id": "stonewall_trench_engineer",
+      "path": "assets/cards/tactical-011/stonewall/stonewall_trench_engineer.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2646,
+      "sha256": "b91eeae8ff268f52970a6371c48df19aa34eb7c1e4578aee762ca1096b7d7467"
+    },
+    {
+      "id": "stonewall_shield_section",
+      "path": "assets/cards/tactical-011/stonewall/stonewall_shield_section.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2756,
+      "sha256": "fc1512af4fcad62f653d8965bc9a0a422042972a03580ef6e2f38c542bd7e49c"
+    },
+    {
+      "id": "stonewall_bastion_gunner",
+      "path": "assets/cards/tactical-011/stonewall/stonewall_bastion_gunner.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2556,
+      "sha256": "08fb85c609df34c526d9424901ec286d7d7e65a2e828cae3ef08d7aed88fe086"
+    },
+    {
+      "id": "stonewall_field_mechanic",
+      "path": "assets/cards/tactical-011/stonewall/stonewall_field_mechanic.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2613,
+      "sha256": "8cf517682cc2c6c4f0a65da77a4990b65fa84f41360296e7e88d310b947657f2"
+    },
+    {
+      "id": "stonewall_hardpoint",
+      "path": "assets/cards/tactical-011/stonewall/stonewall_hardpoint.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1804,
+      "sha256": "0f890c797d7e02aa2d71fb4f1d04f0f028d89025b376eef77d883f81d9685b62"
+    },
+    {
+      "id": "stonewall_dig_in",
+      "path": "assets/cards/tactical-011/stonewall/stonewall_dig_in.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1704,
+      "sha256": "59462ae0e284d537942a946374d53b68831fd152a7721be3cdb0295d2c5f04e2"
+    },
+    {
+      "id": "stonewall_interlocking_fire",
+      "path": "assets/cards/tactical-011/stonewall/stonewall_interlocking_fire.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1786,
+      "sha256": "df3d73dfc1468f072e99388c3ed0fce6e0ae442ce2e10db3e9b806bee96dc0f5"
+    },
+    {
+      "id": "stonewall_hold_fast",
+      "path": "assets/cards/tactical-011/stonewall/stonewall_hold_fast.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1710,
+      "sha256": "4c84a94bde012e1c22a904599e5edf64233262e5293a5b9466d32197aaf18f00"
+    },
+    {
+      "id": "bruiser_demolition_squad",
+      "path": "assets/cards/tactical-011/bruiser/bruiser_demolition_squad.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2594,
+      "sha256": "e51df8cb183913c2f5be024a0f26ac2ab2fe110c6f2be5a1db124bd3136852a6"
+    },
+    {
+      "id": "bruiser_grenadier",
+      "path": "assets/cards/tactical-011/bruiser/bruiser_grenadier.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2631,
+      "sha256": "ad98a32e8de6485bd82a3ccec0ced196dc61e7f4fad36138b2c9699abf14dce6"
+    },
+    {
+      "id": "bruiser_suppressor_heavy",
+      "path": "assets/cards/tactical-011/bruiser/bruiser_suppressor_heavy.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2706,
+      "sha256": "f1fb4d49e989efc174c2c25ba99cee3a48c5a4702330803507ac67d53fccb39e"
+    },
+    {
+      "id": "bruiser_linebreaker",
+      "path": "assets/cards/tactical-011/bruiser/bruiser_linebreaker.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2696,
+      "sha256": "17fa25d733beef41b877b3653bb9f26ba2ea5ce2ce65a0d1821d7e74b834d248"
+    },
+    {
+      "id": "bruiser_assault_charge",
+      "path": "assets/cards/tactical-011/bruiser/bruiser_assault_charge.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1731,
+      "sha256": "7e3f26d86f85fa686c84cfbd109e366f377bf5a92713efd6f04c0472d204d8f8"
+    },
+    {
+      "id": "bruiser_frag_out",
+      "path": "assets/cards/tactical-011/bruiser/bruiser_frag_out.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1783,
+      "sha256": "24969c4d7fdf13eaa5b36f5e8686c9f63cabb7cb8b096f3512ed470f837d540c"
+    },
+    {
+      "id": "bruiser_no_shelter",
+      "path": "assets/cards/tactical-011/bruiser/bruiser_no_shelter.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1755,
+      "sha256": "63b5925fa38dd7d644195ba4807833f2efe12c20516035edbffddc9bf68715c4"
+    },
+    {
+      "id": "bruiser_break_the_position",
+      "path": "assets/cards/tactical-011/bruiser/bruiser_break_the_position.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1771,
+      "sha256": "8d00c7074adaca7f65ec6e53171b9b424334da2e0e1af821a0a14a445287321a"
+    },
+    {
+      "id": "syndicate_spotter_cell",
+      "path": "assets/cards/tactical-011/syndicate/syndicate_spotter_cell.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2593,
+      "sha256": "b9422fc421d27e0cffbd9f063335483043bf3f253a72a0247738f83eeb13d946"
+    },
+    {
+      "id": "syndicate_fire_control_officer",
+      "path": "assets/cards/tactical-011/syndicate/syndicate_fire_control_officer.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2609,
+      "sha256": "5b34f1a9a6534d50e7926f7ea0f25d4df4ec864e18d4eeb93fca5699c3cf8376"
+    },
+    {
+      "id": "syndicate_contract_marksman",
+      "path": "assets/cards/tactical-011/syndicate/syndicate_contract_marksman.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2603,
+      "sha256": "79d07d7b56ba7038eff15d49678d6c9515d2c86497d2fd44412c5e73887da2fd"
+    },
+    {
+      "id": "syndicate_suppression_team",
+      "path": "assets/cards/tactical-011/syndicate/syndicate_suppression_team.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2624,
+      "sha256": "2e800efd40dbf5c3544eba993282b44844fe0b2e176c4dc29308b5338e4a15d7"
+    },
+    {
+      "id": "syndicate_recon_drone",
+      "path": "assets/cards/tactical-011/syndicate/syndicate_recon_drone.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2035,
+      "sha256": "d06bae2e57d3c107f1ddd7ee13338c5a42c08fdfb093713e944add48a1d46999"
+    },
+    {
+      "id": "syndicate_target_package",
+      "path": "assets/cards/tactical-011/syndicate/syndicate_target_package.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1766,
+      "sha256": "214dc112ad93567cecbcb9c2b3d2c886d46917b13e9a4890f0ddbfad6e664ad6"
+    },
+    {
+      "id": "syndicate_coordinated_barrage",
+      "path": "assets/cards/tactical-011/syndicate/syndicate_coordinated_barrage.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1835,
+      "sha256": "a31fc194456c7f7af2339a126ae8ff8a837db34fa2888e5a639c0dea56429aa4"
+    },
+    {
+      "id": "syndicate_contingency_plan",
+      "path": "assets/cards/tactical-011/syndicate/syndicate_contingency_plan.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1765,
+      "sha256": "002745253bab21416be7d9ccdcbaec129370a13b4393fbdaf74fae9762b6c0a8"
+    },
+    {
+      "id": "nightwalker_smoke_runner",
+      "path": "assets/cards/tactical-011/nightwalker/nightwalker_smoke_runner.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2555,
+      "sha256": "ead4aaedbc8ed3b9228b00a6a8b7c878fca3daa1f41bddd1bb6296b3c6c373f9"
+    },
+    {
+      "id": "nightwalker_ghost_operative",
+      "path": "assets/cards/tactical-011/nightwalker/nightwalker_ghost_operative.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2561,
+      "sha256": "d99d82b597570898770a2354ad721ec089057660215789321d499a4c42feb918"
+    },
+    {
+      "id": "nightwalker_shadow_trapper",
+      "path": "assets/cards/tactical-011/nightwalker/nightwalker_shadow_trapper.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2536,
+      "sha256": "09a3d3df7a501ecc40a1acaaaf61985aa05995939769da6ea77492af5ade717b"
+    },
+    {
+      "id": "nightwalker_false_contact",
+      "path": "assets/cards/tactical-011/nightwalker/nightwalker_false_contact.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1738,
+      "sha256": "a9399940ddfdaa8551988eae4a48504943234d582f0c4401337096bbd2056760"
+    },
+    {
+      "id": "nightwalker_smoke_screen",
+      "path": "assets/cards/tactical-011/nightwalker/nightwalker_smoke_screen.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1799,
+      "sha256": "a695e57d0202530238d3a2384819e282381d8af9cca78a1bb66fb5f002498b8f"
+    },
+    {
+      "id": "nightwalker_vanish",
+      "path": "assets/cards/tactical-011/nightwalker/nightwalker_vanish.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1746,
+      "sha256": "f58acec2a9cc2dd3ae8e7dc6f84b0807005d754bc52797a99036d0f87bedb1e2"
+    },
+    {
+      "id": "nightwalker_expose_the_opening",
+      "path": "assets/cards/tactical-011/nightwalker/nightwalker_expose_the_opening.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1731,
+      "sha256": "f906435f83a400051e6f3ed2e70c8ab26136b04c1c689543649fcbd3853f07f7"
+    },
+    {
+      "id": "nightwalker_clean_exit",
+      "path": "assets/cards/tactical-011/nightwalker/nightwalker_clean_exit.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1754,
+      "sha256": "be908856d7664c62771e462f3501fe667ab7b6804301f1d59ae5e12021c625fd"
+    },
+    {
+      "id": "rogue_scrap_grenadier",
+      "path": "assets/cards/tactical-011/rogue/rogue_scrap_grenadier.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2869,
+      "sha256": "8992e45847656b4cf13e4f35973e2e37821d2092b21489be1866c849a32b1d36"
+    },
+    {
+      "id": "rogue_jury_rigged_shield",
+      "path": "assets/cards/tactical-011/rogue/rogue_jury_rigged_shield.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1783,
+      "sha256": "7637be4303770b73e85310fd16eae5aee6ea369e09dceabf9f6379c71220722a"
+    },
+    {
+      "id": "rogue_patch_runner",
+      "path": "assets/cards/tactical-011/rogue/rogue_patch_runner.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 2846,
+      "sha256": "266640859b121fd98be0ee3e849a074ad48ec1b1953e2382757c47021452247f"
+    },
+    {
+      "id": "rogue_improvised_mine",
+      "path": "assets/cards/tactical-011/rogue/rogue_improvised_mine.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1863,
+      "sha256": "cd19d1ad077f9ad34ac43e60ce04cf2b4da375dedf50e62ef7a28282c12982db"
+    },
+    {
+      "id": "rogue_make_it_work",
+      "path": "assets/cards/tactical-011/rogue/rogue_make_it_work.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1784,
+      "sha256": "9ca5d098157b5f5a011a2aff4767226760fa313e5ac4092a9d9e2478ae849f49"
+    },
+    {
+      "id": "rogue_salvage_charge",
+      "path": "assets/cards/tactical-011/rogue/rogue_salvage_charge.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1817,
+      "sha256": "ee39870cf3be293e3eb2bd1951c494224cf99f59ade9cbb2508aea54370c3592"
+    },
+    {
+      "id": "rogue_strip_it_for_parts",
+      "path": "assets/cards/tactical-011/rogue/rogue_strip_it_for_parts.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1788,
+      "sha256": "b8a54b7eb2a56303ec5077de761f0f52d03aed568870784b55c909b4b1e6aa5d"
+    },
+    {
+      "id": "rogue_bad_plan_good_result",
+      "path": "assets/cards/tactical-011/rogue/rogue_bad_plan_good_result.svg",
+      "width": 400,
+      "height": 400,
+      "bytes": 1794,
+      "sha256": "ca4b1740b51d4a92e9e68602c3467e65bc4b9ac44a06e99781febd1696fce4b5"
+    }
+  ]
+}

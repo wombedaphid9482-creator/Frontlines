@@ -1,8 +1,10 @@
 # Project Faction: Frontlines
 
-**Frontlines v1.0.3 — Balance Recovery.**
+**Frontlines v1.1.0 — Private Online Multiplayer candidate.**
 
-Rogue salvage now shares one casualty draw per player/global turn, and reclaimed units keep their wounds. Four weak presets receive role-focused repairs, tactical AI uses exact costs and Commander state, and legal actions/targets are clearer. Random Enemy and Random Deck simplify local testing. Original card art, illustrated Commanders and the v1.0.2 battlefield fit are preserved. [Download and verification](docs/RELEASE-1.0.3.md) · [Complete balance changes](docs/balance/SPRINT-010-CHANGELOG.md).
+The private-match menu, invite lobby, canonical host authority, hidden-card views, reconnect, results and rematch are implemented. The relay service is tested locally, but its project-owned public endpoint has not been activated. **This candidate is not yet ready for Ryken/Wyatt play across homes.** [Release status](docs/RELEASE-1.1.0.md) · [Sprint report](docs/SPRINT-013.md) · [Player instructions and service activation](docs/MULTIPLAYER-PLAYTEST.md). Offline modes continue without Internet.
+
+All 155 battlefield cards now use reviewed illustrated artwork, with the ten premium Commander portraits preserved. Tactical AI, timing explanations, save migration and normal win/loss Credits are verified. [Download and verification](docs/RELEASE-1.0.5.md) · [Sprint report](docs/SPRINT-012.md) · [Artwork audit and every replacement](docs/art/SPRINT12-ART-QUALITY.md).
 
 Fight for territory. Commit Presence. Push the frontline into enemy ground.
 
@@ -20,7 +22,7 @@ npm start
 
 Open `http://127.0.0.1:4173`. The server binds only to this computer. Native development launch uses `npm run electron` with the installed dependencies.
 
-The [v1.0.3 release guide](docs/RELEASE-1.0.3.md) records packaging status and validation. Ten off-lane Commanders and ten linked foundations are available immediately. The [v1.0.2 illustrated Commanders](docs/RELEASE-1.0.2.md), [v1.0.2 viewport hotfix](docs/HOTFIX-1.0.2-VIEWPORT.md), [v1.0.1 art restoration](docs/RELEASE-1.0.1.md), [v1.0.0 Commander Update](docs/RELEASE-1.0.0.md) and [v0.9.0 pre-Commander checkpoint](docs/RELEASE-0.9.0.md) remain preserved. Keep an unpacked application folder together when using it. Releases do not publish or install over the owner's copy automatically.
+The [v1.0.5 release guide](docs/RELEASE-1.0.5.md) records current packaging status and validation. Ten off-lane Commanders and ten linked foundations are available immediately. The [v1.0.2 illustrated Commanders](docs/RELEASE-1.0.2.md), [v1.0.2 viewport hotfix](docs/HOTFIX-1.0.2-VIEWPORT.md), [v1.0.1 art restoration](docs/RELEASE-1.0.1.md), [v1.0.0 Commander Update](docs/RELEASE-1.0.0.md) and [v0.9.0 pre-Commander checkpoint](docs/RELEASE-0.9.0.md) remain preserved. Keep an unpacked application folder together when using it. Releases do not publish or install over the owner's copy automatically.
 
 ## Learn and play
 

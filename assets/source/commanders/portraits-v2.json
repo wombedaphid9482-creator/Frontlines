@@ -1,0 +1,140 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "version": "1.0.2",
+  "width": 768,
+  "height": 768,
+  "quality": 84,
+  "assets": [
+    {
+      "id": "commander_stonewall_warden",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE WARDEN — Stonewall's fortress commander. A grizzled older Black male veteran with close-cropped silver hair and a resolute humane expression; exceptionally imposing layered steel-blue defensive plate armor, a huge angular armored shield raised on his left, worn impact scars, subtle cyan reactor seams. Monumental bunker gate and cold drifting smoke behind him. Blue-cyan rim light outlines the shield and face. Disciplined, steadfast, defensive, a living fortress; distinctive broad silhouette.",
+      "source": "assets/source/commanders/commander_stonewall_warden-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_stonewall_warden-portrait-v2.webp",
+      "sourceSha256": "b276dc9d2ed43ef628fe50edd38f41fc9002bd119906cda48aef37e5309b0f91",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 168936,
+      "runtimeSha256": "999dd73af37128c1fc5b2f0e72baa0d4985d1cbdc1d13cb75a5aabcdce67f6b3"
+    },
+    {
+      "id": "commander_stonewall_marshal",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE MARSHAL — Stonewall's counteroffensive commander. A battle-hardened middle-aged woman with short silver swept-back hair and an intense calculating gaze, sharp facial features, scar across one eyebrow. Reinforced steel-blue officer armor, high armored collar, charcoal military coat draped over one shoulder; one gauntleted hand holds a small cyan tactical hologram showing an advance. Broken fortifications and defending infantry silhouettes behind her in mist. Cyan cool rim lighting and warm reflected battlefield light. Controlled authority, patient resilience, disciplined counterattack, visually distinct from a shield bearer.",
+      "source": "assets/source/commanders/commander_stonewall_marshal-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_stonewall_marshal-portrait-v2.webp",
+      "sourceSha256": "3beb531346d0e766e85adf87c41138880b56f846e7c2ae14c16adfa1ebd03fd8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 146768,
+      "runtimeSha256": "a139131a78dae4b4c45bbd90c431027bb0d40a75206465cbf91ce276cb71e3ab"
+    },
+    {
+      "id": "commander_bruiser_breaker",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE BREAKER — Bruiser's brutal breakthrough commander. Enormous muscular scarred male shock commander, shaved head and short rugged beard, fierce determined gaze; battered charcoal heavy armor with asymmetrical orange hazard plates, exposed reinforced mechanical bracing. Holds an oversized hydraulic breaching hammer low across the shoulders/torso; glowing orange power vents and fresh sparks. Breached concrete wall and smoke behind him. Dramatic ember-orange side lighting. Terrifying frontal pressure, substantial heroic silhouette, convincing practical military equipment, no gore.",
+      "source": "assets/source/commanders/commander_bruiser_breaker-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_bruiser_breaker-portrait-v2.webp",
+      "sourceSha256": "42464cd37619dcbc52480bba8cc25b4adb216e107d7b3a99e63137c95fc50879",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 180610,
+      "runtimeSha256": "96126c87bfc240cf28a8e85d09923ed5c98ed262d5eed461bc132759a78579ae"
+    },
+    {
+      "id": "commander_bruiser_bloodhound",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE BLOODHOUND — Bruiser's relentless wounded-target hunter commander. A powerful athletic woman with cropped auburn hair, weathered olive skin and a narrow burn scar; stern predatory focused expression, tactical amber tracking monocle with small glowing sensor. More agile than a tank: battered charcoal segmented shock armor, orange-red worn stripes, armored furrowed collar, compact brutal shotgun held low, reinforced gauntlets. Burning urban battlefield through smoke behind her, ember orange rim light. A professional relentless pursuit leader, aggressive hunter silhouette, no animals or gore.",
+      "source": "assets/source/commanders/commander_bruiser_bloodhound-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_bruiser_bloodhound-portrait-v2.webp",
+      "sourceSha256": "77260fe49d37593524e4ccf8cb82f562400b3b326281f235b8f936d8307ce019",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 151204,
+      "runtimeSha256": "dd6128143a8511b5fce1a861dfe5fe907cd789f6b32b39e750bcebff1274a173"
+    },
+    {
+      "id": "commander_syndicate_coordinator",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE COORDINATOR — Syndicate's elite precision-network commander. Elegant middle-aged East Asian male tactical officer with neatly swept black hair and calm analytical expression, dark graphite sleek officer armor with fine brass/gold accents and immaculate angular plating. A slim amber optical visor raised on forehead; one hand controls a compact gold holographic targeting lattice. Silhouettes of coordinated drones and cool metallic command architecture in atmospheric background. Restrained champagne-gold rim lighting against slate-blue shadows, clean private military precision, dignified confident silhouette.",
+      "source": "assets/source/commanders/commander_syndicate_coordinator-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_syndicate_coordinator-portrait-v2.webp",
+      "sourceSha256": "3543786ef5d2731a90b34720d26996bd5e0278f5e4a69a5e1ce217a4ac7ed156",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 136806,
+      "runtimeSha256": "847f60b79e769c2962a8c93bafe414f6a71362caa949b7e9836c0f9bf0e1952d"
+    },
+    {
+      "id": "commander_syndicate_quartermaster",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE QUARTERMASTER — Syndicate's logistics and resource-efficiency commander. Assured mature Black female officer with close textured hair, smart practical graphite tactical uniform, reinforced vest with precisely arranged modular supply tools and brushed brass buckles, advanced gold-lit wrist console. A hand rests on a rugged futuristic equipment case barely visible at lower edge, impressive yet practical shoulder armor. Supply hangar with warm amber beacons and organized silhouettes of crates behind her. Champagne-gold accents, subtle cool-blue fill, highly professional composed authority, distinct from a frontline rifle unit.",
+      "source": "assets/source/commanders/commander_syndicate_quartermaster-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_syndicate_quartermaster-portrait-v2.webp",
+      "sourceSha256": "0fc5e254718c9a0b05f1a2f083dfe9633b2a74d33bda43fa62a9868a4c625678",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 140094,
+      "runtimeSha256": "2bf33d0ba42abba4746e2e79066748ae3fabefdb667b677eb9eb46a3bb86f0d6"
+    },
+    {
+      "id": "commander_nightwalker_ghost",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE GHOST — Nightwalker's elusive assassination commander. A lean masked operative, gender ambiguous, charcoal hood and layered black stealth fabric framing a haunting angular tactical face mask. One violet-lit optical lens and one visible alert human eye; thin luminous violet seams, no skeleton or skull mask. Elegant narrow segmented armor, suppressed high-tech rifle diagonally low across torso, subtle optical camouflage dissolving cloak edges. A rain-dark ruined city at night, distant violet beacons and cold mist. Dramatic violet rim light, immense presence through stillness, beautifully textured matte materials. Clearly a Commander rather than generic faceless soldier.",
+      "source": "assets/source/commanders/commander_nightwalker_ghost-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_nightwalker_ghost-portrait-v2.webp",
+      "sourceSha256": "3cce1c8d1b8a9220fd36a07a74048b424d71a26d6067b696256d4d782253d1a4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 150198,
+      "runtimeSha256": "c5242a4f4501a67316a34deeb57f1356d7b8dfd437f0acc9bd32cd5feed0a01b"
+    },
+    {
+      "id": "commander_nightwalker_saboteur",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE SABOTEUR — Nightwalker's master of electronic disruption. A wiry brown-skinned male with short black swept hair and a small undercut, half-face dark respirator, concentrated clever eyes under purple-tinted round tactical goggles raised above eyes. Black layered covert engineer uniform, thin violet-lit armor edges, coils and elegant electronic warfare toolkit. Holds a compact glowing violet interference device in one gloved hand near the lower chest. Shattered relay mast and glitching purple city lights behind in rain mist. Controlled violet side lighting, unusual asymmetric equipment silhouette, stealthy practical military menace, distinct from a hooded assassin.",
+      "source": "assets/source/commanders/commander_nightwalker_saboteur-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_nightwalker_saboteur-portrait-v2.webp",
+      "sourceSha256": "e527ac32d251f96ad8df39d7c525838bf2c4d6773ae08ee06da8b1b6e814d7d0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 143224,
+      "runtimeSha256": "5c0f516aa03b72ad63ea4ba9ecb706f66c9932d1afb36665e798a352820ca46b"
+    },
+    {
+      "id": "commander_rogue_scavenger",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE SCAVENGER — Rogue's resourceful battlefield salvage commander. Weathered older woman with tawny skin, dark hair streaked gray tied back, confident crooked smile, repair goggles resting on forehead. Asymmetric patched charcoal and olive armor made of repurposed premium military plates, one broad salvaged shoulder shield, practical green-lit utility gauntlet and coiled recovery cable. One hand holds an ingenious salvaging tool with a faint emerald energy glow. Derelict armored vehicles and misty industrial scrap battlefield behind. Rich emerald rim lighting and warm ambient dawn. Beautifully handcrafted equipment detail, resilience and creativity, scavenged but impressive heroic silhouette.",
+      "source": "assets/source/commanders/commander_rogue_scavenger-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_rogue_scavenger-portrait-v2.webp",
+      "sourceSha256": "31b1765f73f998b4bbb16374dfd3d6bd2ee45b8c7c26d5cc0b788351ea31f785",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 179648,
+      "runtimeSha256": "bd1078906314271199cfba750caff835b734bef41aa8542d89d3a9995d480650"
+    },
+    {
+      "id": "commander_rogue_drifter",
+      "prompt": "Create a single premium Commander portrait for FRONTLINES, a military science-fiction tactical card game. Square canvas, one character only, head and upper torso filling the frame, face and identifying equipment centered with generous safe crop space around shoulders. Museum-quality digital painted graphic-novel military concept art: confident brushwork, believable textured steel and fabric, stylized anatomy, exquisite material detail, expressive character, strong silhouette readable as a tiny card. Cinematic rim lighting and atmospheric battlefield background, restrained saturated faction accents against dark neutral materials. A visually stunning collectible strategy-game hero illustration, consistent with painted sci-fi infantry card art. No text, letters, logos, card frames, UI, watermarks, flat geometric vector shapes, cartoon proportions or plastic 3D rendering. Keep the face centered horizontally near the upper third and the torso center readable when cropped to a small square.\nTHE DRIFTER — Rogue's agile adaptable redeployment commander. A lean rugged brown-skinned male wanderer with shoulder-length dark hair loosely tied back, subtle stubble, keen calculating eyes; weathered asymmetrical olive armored cloak over patched charcoal light tactical gear, mixed shoulder plates and customized compact rifle held low. One emerald-lit wrist device projects a small route navigation map at chest level. Windswept ruined highway and scattered battle markers behind at dusk. Green rim light cutting through dusty gold haze. Adventurous tactical mobility and practical improvisation, distinctive cloak silhouette, visibly different from heavy salvage engineer.",
+      "source": "assets/source/commanders/commander_rogue_drifter-portrait-v2.png",
+      "runtime": "assets/cards/commanders/commander_rogue_drifter-portrait-v2.webp",
+      "sourceSha256": "09edc0b1488a19e866290a79c03fabab31ee115b6b7f303297bfeecf3c461cf5",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "runtimeBytes": 149398,
+      "runtimeSha256": "9e3a3836818007cad53ab8a8adab6a9ba86e513ee8f7dcbbbb9b49a047f1bceb"
+    }
+  ],
+  "runtimeTotalBytes": 1546886
+}

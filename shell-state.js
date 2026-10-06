@@ -16,7 +16,10 @@
       musicVolume:volume('musicVolume',.3),uiVolume:volume('uiVolume',.65),cardEffectsVolume:volume('cardEffectsVolume',.8),battlefieldVolume:volume('battlefieldVolume',.7),
       aiDifficulty:['easy','normal','hard','expert'].includes(saved.aiDifficulty)?saved.aiDifficulty:'normal',
       aiSpeed:['fast','normal','deliberate'].includes(saved.aiSpeed)?saved.aiSpeed:'normal',
-      tutorialHints:saved.tutorialHints!==false,actionExplanations:saved.actionExplanations!==false };
+      tutorialHints:saved.tutorialHints!==false,actionExplanations:saved.actionExplanations!==false,
+      displayName:typeof saved.displayName==='string'?saved.displayName.replace(/[\u0000-\u001f\u007f]/g,'').trim().slice(0,24)||'Commander':'Commander',
+      multiplayerFaction:typeof saved.multiplayerFaction==='string'?saved.multiplayerFaction:'stonewall',
+      multiplayerDeckId:typeof saved.multiplayerDeckId==='string'?saved.multiplayerDeckId:'stonewall-starter' };
   }
   function fullscreenShortcut(input) {
     return input.type === 'keyDown' && !input.isAutoRepeat && !input.control && !input.meta &&

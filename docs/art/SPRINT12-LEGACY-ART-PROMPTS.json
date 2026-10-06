@@ -1,0 +1,719 @@
+{
+  "version": "frontlines-sprint12-legacy-story-prompts-v1",
+  "commonStyle": "Painted graphic-novel military science-fiction concept art matching the existing Frontlines infantry atlases and premium Commander material quality. Believable steel, fabric and practical equipment; stylized but structurally sound anatomy; strong silhouettes, restrained faction accents, atmospheric lighting. Each square panel is a finished independent illustration with an action/event for an Order or equipment/infrastructure for an Asset. Readable at a small card size. Keep the main subject and identifying equipment inside the central 80% with a generous top safe area. No text, letters, numbers, labels, UI, card frames, borders, logos, watermarks, generic glyphs, flat vector art or plastic 3D look. Do not stretch images.",
+  "cardCount": 39,
+  "factions": {
+    "stonewall": {
+      "identity": "Disciplined defensive troops, reinforced steel-blue and charcoal armor, cyan seam lights, layered angular shields, prepared bunker positions and military engineering.",
+      "layout": "Independent 2×2 square illustrated panel batches, each read in row-major order; no visible gutter text or labels. Do not put two runtime subjects in one cell.",
+      "batchCount": 2,
+      "cards": [
+        {
+          "id": "stonewall_aid_station",
+          "name": "Forward Aid Station",
+          "type": "asset",
+          "effectKind": null,
+          "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 1,
+            "batch": 1,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A hardened forward medical shelter built into a bunker recess: armored stretcher bay, compact diagnostic equipment, secured medical supply crates and a cyan examination lamp. The infrastructure is the principal subject; a tiny medic gives scale."
+        },
+        {
+          "id": "stonewall_triage",
+          "name": "Emergency Triage",
+          "type": "order",
+          "effectKind": "heal",
+          "rulesText": "Heal one friendly battlefield card by 4. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 2,
+            "batch": 1,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "A disciplined combat medic kneels beside a wounded but conscious armored ally behind a concrete barricade, applying a compact field stabilizer to damaged chest plating. Clear active treatment, careful hands, no gore."
+        },
+        {
+          "id": "stonewall_brace",
+          "name": "Brace for Impact",
+          "type": "order",
+          "effectKind": "shield",
+          "rulesText": "Response: reduce damage to the defender from this combat by 3. Costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 3,
+            "batch": 1,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A defensive soldier braces a broad layered shield as incoming rounds strike it with bright sparks. The shield, protected face and force of the impacts dominate; a bunker wall protects the flank."
+        },
+        {
+          "id": "stonewall_rally",
+          "name": "Hold the Line",
+          "type": "order",
+          "effectKind": "rally",
+          "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 4,
+            "batch": 1,
+            "index": 4,
+            "row": 2,
+            "column": 2
+          },
+          "scene": "An exhausted defender rises from a kneeling position behind a reinforced barricade, gripping a rifle again while a nearby officer signals to hold the line. A renewed defensive stance, not a generic standing portrait."
+        },
+        {
+          "id": "stonewall_fire_support",
+          "name": "Defensive Fire",
+          "type": "order",
+          "effectKind": "damage",
+          "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 5,
+            "batch": 2,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "An entrenched gunner fires a controlled burst through a bunker firing slit at an advancing enemy silhouette. A readable muzzle flash and tracer path communicate the action while the concrete emplacement communicates defense."
+        },
+        {
+          "id": "stonewall_redoubt",
+          "name": "Field Redoubt",
+          "type": "asset",
+          "effectKind": null,
+          "rulesText": "Immobile. Fortify. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 6,
+            "batch": 2,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "A compact angular field redoubt dominates a ruined avenue: overlapping armored firing ports, reinforced walls, a roof-mounted command antenna and protected cyan-lit observation bay. Fortification equipment, not a soldier portrait."
+        },
+        {
+          "id": "stonewall_line_reinforcement",
+          "name": "Line Reinforcement",
+          "type": "order",
+          "effectKind": "reinforce",
+          "rulesText": "Reinforce — heal one friendly permanent by 2, then give it temporary Armor 1 until your next offensive turn starts. Does not stack with printed Armor. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 7,
+            "batch": 2,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A military engineer fastens a replacement armor plate onto a worn allied shield while the defender holds the position. The installed plate and repaired suit clearly show reinforcement rather than a floating shield icon."
+        }
+      ],
+      "unusedPanels": [
+        {
+          "globalIndex": 8,
+          "batch": 2,
+          "index": 4
+        }
+      ]
+    },
+    "bruiser": {
+      "identity": "Aggressive assault troops, battered charcoal/orange armor, exposed reinforcement, oversized but practical demolition weapons, rushing motion, sparks and impact.",
+      "layout": "Independent 2×2 square illustrated panel batches, each read in row-major order; no visible gutter text or labels. Do not put two runtime subjects in one cell.",
+      "batchCount": 2,
+      "cards": [
+        {
+          "id": "bruiser_banner",
+          "name": "Assault Standard",
+          "type": "asset",
+          "effectKind": null,
+          "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 1,
+            "batch": 1,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "An oversized battered assault standard mounted in a powered steel brace amid a breached wall. Heavy orange fabric and welded signal lamps identify a rallying military asset; distant assault troops give scale without stealing focus."
+        },
+        {
+          "id": "bruiser_bombard",
+          "name": "Demolition Charge",
+          "type": "order",
+          "effectKind": "damage",
+          "rulesText": "Deal 5 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 2,
+            "batch": 1,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "A carefully planted directional demolition charge explodes against an armored barrier. Large slabs of concrete and a concentrated orange blast communicate a single prepared demolition strike; no gore."
+        },
+        {
+          "id": "bruiser_rally",
+          "name": "Second Wind",
+          "type": "order",
+          "effectKind": "rally",
+          "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 3,
+            "batch": 1,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A scarred assault trooper pulls a spent ammunition belt free and hauls themself back to a standing fighting position amid rubble. Tense renewed momentum after exhaustion, with practical heavy weapon equipment."
+        },
+        {
+          "id": "bruiser_ambush",
+          "name": "Violent Reprisal",
+          "type": "order",
+          "effectKind": "ambush",
+          "rulesText": "Response: deal 2 damage to the attacker before combat. Costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 4,
+            "batch": 1,
+            "index": 4,
+            "row": 2,
+            "column": 2
+          },
+          "scene": "A wounded shock trooper unexpectedly counterfires at an incoming attacker from behind broken cover. A close muzzle burst and fresh sparks on the attacker’s armor show an immediate violent reprisal without gore."
+        },
+        {
+          "id": "bruiser_resupply",
+          "name": "Combat Resupply",
+          "type": "order",
+          "effectKind": "draw",
+          "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 5,
+            "batch": 2,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "An assault loader passes a fresh oversized ammunition belt and power canister to a waiting heavy gunner beside an opened combat supply crate. The transfer of usable supplies is unmistakable."
+        },
+        {
+          "id": "bruiser_overrun_charge",
+          "name": "Overrun Charge",
+          "type": "order",
+          "effectKind": "damage",
+          "rulesText": "Deal 6 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 6,
+            "batch": 2,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "A massive armored assault trooper drives through a crumbling enemy barricade in a devastating frontal push. Heavy weapon discharge, falling debris and forward motion form one clear breakthrough action."
+        },
+        {
+          "id": "bruiser_triage_rig",
+          "name": "Combat Triage Rig",
+          "type": "order",
+          "effectKind": "heal",
+          "rulesText": "Heal one wounded friendly permanent by 3. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 7,
+            "batch": 2,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A field technician clamps a rugged emergency repair-and-stabilization rig onto a wounded assault soldier’s battered armor behind rubble. Heavy practical hydraulic and medical equipment, orange work lamps, no miraculous glow or gore."
+        }
+      ],
+      "unusedPanels": [
+        {
+          "globalIndex": 8,
+          "batch": 2,
+          "index": 4
+        }
+      ]
+    },
+    "syndicate": {
+      "identity": "Professional private-military specialists, clean charcoal/gold equipment, tactical optics, precise targeting, communications hardware and controlled combined-arms coordination.",
+      "layout": "Independent 2×2 square illustrated panel batches, each read in row-major order; no visible gutter text or labels. Do not put two runtime subjects in one cell.",
+      "batchCount": 3,
+      "cards": [
+        {
+          "id": "syndicate_relay",
+          "name": "Coordination Relay",
+          "type": "asset",
+          "effectKind": null,
+          "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 1,
+            "batch": 1,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A portable armored communications relay with clean antenna arrays, gold indicator strips and secured power modules, stationed behind a coordinated squad. The deployable hardware is central and clearly readable."
+        },
+        {
+          "id": "syndicate_intel",
+          "name": "Intelligence Network",
+          "type": "order",
+          "effectKind": "draw",
+          "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 2,
+            "batch": 1,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "A reconnaissance operator receives fresh information from two compact camera drones while comparing physical sensor data on a small tactical slate. Clean professional equipment and an active intelligence-gathering scene; no readable UI text."
+        },
+        {
+          "id": "syndicate_disrupt",
+          "name": "Supply Interference",
+          "type": "order",
+          "effectKind": "disrupt",
+          "rulesText": "Tie up up to 4 available enemy Presence as temporary spending until their next offensive turn. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 3,
+            "batch": 1,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A professional electronic-warfare specialist interrupts an enemy supply drone’s power-control connection. A grounded crate carrier stops mid-delivery while its status lamps fail; show the disrupted logistics as the action."
+        },
+        {
+          "id": "syndicate_counter",
+          "name": "Override Protocol",
+          "type": "order",
+          "effectKind": "counter",
+          "rulesText": "Counter: cancel the defender’s response Order. Cannot cancel a Guard interception. Costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 4,
+            "batch": 1,
+            "index": 4,
+            "row": 2,
+            "column": 2
+          },
+          "scene": "A specialist uses a compact countermeasure transmitter as a hostile tactical signal dissolves before reaching an allied unit. Physical equipment, tight restrained golden interference arcs and a protected ally communicate a timely override."
+        },
+        {
+          "id": "syndicate_precision_strike",
+          "name": "Contract Strike",
+          "type": "order",
+          "effectKind": "damage",
+          "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 5,
+            "batch": 2,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A clean-equipped marksman delivers one calculated rifle shot through a narrow opening toward a specific armored target. Scope, muzzle flash and precise tracer alignment convey selective removal; no gore."
+        },
+        {
+          "id": "syndicate_signal_lock",
+          "name": "Signal Lock",
+          "type": "order",
+          "effectKind": "sabotage",
+          "rulesText": "Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 6,
+            "batch": 2,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "An electronic specialist locks down a hostile armored unit’s communications and powered auxiliary equipment. A compact transmitter in the foreground and darkened enemy optics in the middle ground show functional sabotage, not a glyph."
+        },
+        {
+          "id": "syndicate_target_designator",
+          "name": "Target Designator",
+          "type": "order",
+          "effectKind": "mark",
+          "rulesText": "Mark one enemy permanent: it takes +1 incoming regular combat damage until its next offensive turn starts. Marks do not stack. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 7,
+            "batch": 2,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A tactical observer uses a compact laser designator to illuminate one exposed enemy armored unit across the avenue. Visible optics and a narrow gold beam identify deliberate target preparation; no floating target icon."
+        },
+        {
+          "id": "syndicate_field_link",
+          "name": "Field Link",
+          "type": "asset",
+          "effectKind": null,
+          "rulesText": "Immobile asset. Command — other allies here gain +1 Attack. Medic — at your offensive turn start, heal every ally here by 1. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 8,
+            "batch": 2,
+            "index": 4,
+            "row": 2,
+            "column": 2
+          },
+          "scene": "A combined communications and field-care station: clean armored relay mast, secured medical tools, power cartridges and a small protected service cradle. Show one functional tactical deployable asset, not a portrait."
+        },
+        {
+          "id": "syndicate_cover_protocol",
+          "name": "Cover Protocol",
+          "type": "order",
+          "effectKind": "reinforce",
+          "rulesText": "Reinforce — heal one friendly permanent by 1, then give it temporary Armor 1 until your next offensive turn starts. Does not stack with printed Armor. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 9,
+            "batch": 3,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A technician locks a sleek temporary armor module onto a damaged allied combat suit while the soldier takes cover. Professional fastening hardware and a small diagnostic light show a protective repair protocol."
+        }
+      ],
+      "unusedPanels": [
+        {
+          "globalIndex": 10,
+          "batch": 3,
+          "index": 2
+        },
+        {
+          "globalIndex": 11,
+          "batch": 3,
+          "index": 3
+        },
+        {
+          "globalIndex": 12,
+          "batch": 3,
+          "index": 4
+        }
+      ]
+    },
+    "nightwalker": {
+      "identity": "Stealth troops with dark graphite masks and hoods, narrow violet light accents, suppressed weapons, low-light smoke, reconnaissance and disruption technology.",
+      "layout": "Independent 2×2 square illustrated panel batches, each read in row-major order; no visible gutter text or labels. Do not put two runtime subjects in one cell.",
+      "batchCount": 3,
+      "cards": [
+        {
+          "id": "nightwalker_beacon",
+          "name": "Targeting Beacon",
+          "type": "asset",
+          "effectKind": null,
+          "rulesText": "Immobile. Command — other allies here gain +1 Attack. Holds Presence. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 1,
+            "batch": 1,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A low-profile targeting beacon planted on a rooftop ledge: three narrow prongs, a recessed violet sensor lens and compact battery housing amid dark smoke. Its physical deployable silhouette dominates."
+        },
+        {
+          "id": "nightwalker_ambush",
+          "name": "From the Dark",
+          "type": "order",
+          "effectKind": "ambush",
+          "rulesText": "Response: deal 4 damage to the attacker before combat. Costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 2,
+            "batch": 1,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "A masked operative fires from a deep shadowed doorway into the flank of an approaching attacker. A small suppressed muzzle flash, stealthy concealment and clear surprise angle depict the ambush without gore."
+        },
+        {
+          "id": "nightwalker_strike",
+          "name": "Surgical Strike",
+          "type": "order",
+          "effectKind": "damage",
+          "rulesText": "Deal 5 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 3,
+            "batch": 1,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A hooded precision operative takes one suppressed shot from a narrow rooftop opening toward a valuable enemy specialist. Weapon and target alignment tell the selective strike; restrained violet rim light and smoke."
+        },
+        {
+          "id": "nightwalker_withdraw",
+          "name": "Fade Away",
+          "type": "order",
+          "effectKind": "retreat",
+          "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage. Costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 4,
+            "batch": 1,
+            "index": 4,
+            "row": 2,
+            "column": 2
+          },
+          "scene": "An armored operative steps backward into a smoke-darkened passage just as incoming tracers cross the space they occupied. Show the evasive retreat and missed attack, without implying teleportation or healing."
+        },
+        {
+          "id": "nightwalker_recon",
+          "name": "Night Reconnaissance",
+          "type": "order",
+          "effectKind": "draw",
+          "rulesText": "Draw 2 cards. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 5,
+            "batch": 2,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A concealed rooftop scout guides a tiny low-light reconnaissance drone over the battlefield. Masked scout, sensor optics and the drone’s observation cone are readable; the scene depicts gathering information."
+        },
+        {
+          "id": "nightwalker_blackout",
+          "name": "Blackout Protocol",
+          "type": "order",
+          "effectKind": "sabotage",
+          "rulesText": "Sabotage — one enemy battlefield card loses all printed traits until its owner’s next offensive turn begins. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 6,
+            "batch": 2,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "A saboteur connects a compact disruption device to an enemy armored equipment junction while the unit’s illuminated optics and auxiliary modules go dark. Covert physical interference, dark violet lighting, no glyph substitute."
+        },
+        {
+          "id": "nightwalker_ghost_extraction",
+          "name": "Ghost Extraction",
+          "type": "order",
+          "effectKind": "reclaim",
+          "rulesText": "Return a friendly battlefield card to hand. Its committed Presence is freed; its wounds remain. Redeployment pays its printed Capacity and Command Action cost. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 7,
+            "batch": 2,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A wounded masked operative is pulled out of a threatened position on a discreet extraction line toward a dark rooftop. Damaged armor remains visible, and the action clearly depicts withdrawal for later redeployment rather than instant healing."
+        },
+        {
+          "id": "nightwalker_exposure_window",
+          "name": "Exposure Window",
+          "type": "order",
+          "effectKind": "mark",
+          "rulesText": "Mark one enemy permanent: it takes +1 incoming regular combat damage until its next offensive turn starts. Marks do not stack. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 8,
+            "batch": 2,
+            "index": 4,
+            "row": 2,
+            "column": 2
+          },
+          "scene": "A hidden scout opens a narrow shutter in the smoke and directs an infrared designator onto a briefly revealed enemy specialist. A physical optic and a vulnerable illuminated target show the opening."
+        },
+        {
+          "id": "nightwalker_false_route",
+          "name": "False Route",
+          "type": "order",
+          "effectKind": "disrupt",
+          "rulesText": "Add 3 temporary Presence spending to the opponent until their next offensive turn starts. Does not reduce Command Actions. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 9,
+            "batch": 3,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A covert operative sets a decoy sensor projector at a forked ruined alley, luring an enemy supply patrol toward the wrong route. A false moving silhouette and the real shadowed escape path convey calculated misdirection; no text signs."
+        }
+      ],
+      "unusedPanels": [
+        {
+          "globalIndex": 10,
+          "batch": 3,
+          "index": 2
+        },
+        {
+          "globalIndex": 11,
+          "batch": 3,
+          "index": 3
+        },
+        {
+          "globalIndex": 12,
+          "batch": 3,
+          "index": 4
+        }
+      ]
+    },
+    "rogue": {
+      "identity": "Adaptive field troops with mismatched functional patched armor, scavenged mechanical parts, asymmetric pouches and equipment, muted olive/green lights and improvised engineering.",
+      "layout": "Independent 2×2 square illustrated panel batches, each read in row-major order; no visible gutter text or labels. Do not put two runtime subjects in one cell.",
+      "batchCount": 2,
+      "cards": [
+        {
+          "id": "rogue_workshop",
+          "name": "Field Workshop",
+          "type": "asset",
+          "effectKind": null,
+          "rulesText": "Immobile. Medic — heal each ally here by 1 at your turn start. Holds Presence. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 1,
+            "batch": 1,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A patched portable field workshop fills the scene: mismatched welded bench, reclaimed power cells, practical hand tools and a partially repaired armored component. A small mechanic in the background supplies scale."
+        },
+        {
+          "id": "rogue_reclaim",
+          "name": "Pull Back",
+          "type": "order",
+          "effectKind": "reclaim",
+          "rulesText": "Return a friendly battlefield card to hand. Its committed Presence is freed; its wounds remain. Redeployment pays its printed Capacity and Command Action cost. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 2,
+            "batch": 1,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "A resourceful field soldier helps a wounded ally back behind a scrap-built rear barricade, carrying their damaged weapon and kit. Visible wounds in armor remain; this is a costly tactical withdrawal, not rejuvenation."
+        },
+        {
+          "id": "rogue_rally",
+          "name": "Keep Moving",
+          "type": "order",
+          "effectKind": "rally",
+          "rulesText": "Ready one exhausted friendly unit. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 3,
+            "batch": 1,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A fatigued scavenger soldier refastens a loose armor strap, collects their modified rifle and rises to move again. An improvised practical adjustment restores readiness amid a rough battlefield."
+        },
+        {
+          "id": "rogue_retreat",
+          "name": "Break Contact",
+          "type": "order",
+          "effectKind": "retreat",
+          "rulesText": "Response: move the defender one legal territory toward home. This attack deals no combat damage. Costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 4,
+            "batch": 1,
+            "index": 4,
+            "row": 2,
+            "column": 2
+          },
+          "scene": "A patched-armored skirmisher breaks contact through a jagged side alley while incoming rounds strike discarded scrap cover behind them. Readable retreat direction and evasive movement, without teleportation."
+        },
+        {
+          "id": "rogue_raid",
+          "name": "Hit and Run",
+          "type": "order",
+          "effectKind": "damage",
+          "rulesText": "Deal 3 damage to one enemy battlefield card. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 5,
+            "batch": 2,
+            "index": 1,
+            "row": 1,
+            "column": 1
+          },
+          "scene": "A scavenged-gear raider fires a short burst while already moving toward a side exit. A modified rifle, one struck enemy armor plate and a clear escape route show opportunistic hit-and-run tactics; no gore."
+        },
+        {
+          "id": "rogue_field_options",
+          "name": "Field Options",
+          "type": "order",
+          "effectKind": "adapt",
+          "rulesText": "Adapt — choose one: Repair (heal one ally by 3); Resupply (draw 2); Reposition (ready one exhausted ally). Every mode costs 1 Command Action. Costs 1 Command Action in addition to Capacity.",
+          "panel": {
+            "globalIndex": 6,
+            "batch": 2,
+            "index": 2,
+            "row": 1,
+            "column": 2
+          },
+          "scene": "An adaptable field operative at a scrap-built supply post chooses between a repair tool, a fresh ammunition bundle and an open flanking route. All three practical options are integrated into one active scene, not separate icons or panels."
+        },
+        {
+          "id": "rogue_rolling_cache",
+          "name": "Salvage Cache",
+          "type": "asset",
+          "effectKind": null,
+          "rulesText": "Immobile asset. Medic — at your offensive turn start, heal every ally here by 1. Scavenge — draw 1 when another ally here is destroyed, once per player per turn. Free Action — costs Capacity; no Command Action.",
+          "panel": {
+            "globalIndex": 7,
+            "batch": 2,
+            "index": 3,
+            "row": 2,
+            "column": 1
+          },
+          "scene": "A secured salvage cache behind cover: mismatched storage bins holding reclaimed armor plates, repaired medical tools and scavenged power cells. The stationary supply infrastructure is the hero subject; salvaged wreckage nearby explains its source."
+        }
+      ],
+      "unusedPanels": [
+        {
+          "globalIndex": 8,
+          "batch": 2,
+          "index": 4
+        }
+      ]
+    }
+  },
+  "spareCellRecommendations": {
+    "stonewall": [
+      "Armored field medic with a medical case and compact stabilizer; may serve the three coherent medical-support cards.",
+      "Military recovery technician helping an armored ally from rubble, practical treatment tools."
+    ],
+    "bruiser": [
+      "Scarred close-range hydraulic-gauntlet brawler with battered reinforcement.",
+      "Assault signal drummer using practical armored mechanical signal equipment."
+    ],
+    "syndicate": [
+      "Professional tactical recovery specialist with a compact medical case, recommended for the ninth Tactical Arsenal spare tile."
+    ],
+    "nightwalker": [
+      "Masked blade operative with a clear close-range weapon, recommended for the ninth Tactical Arsenal spare tile."
+    ],
+    "rogue": [
+      "Patched-armor lancer with an asymmetric custom long penetrating weapon.",
+      "A resourceful field medic with scavenged medical supplies; optional reserve art."
+    ]
+  },
+  "existingCropRemaps": [
+    {
+      "id": "stonewall_defender",
+      "faction": "stonewall",
+      "role": "heavy"
+    },
+    {
+      "id": "syndicate_eliminator",
+      "faction": "syndicate",
+      "role": "heavy"
+    },
+    {
+      "id": "nightwalker_marksman",
+      "faction": "nightwalker",
+      "role": "heavy"
+    }
+  ]
+}

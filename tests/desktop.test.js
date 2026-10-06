@@ -59,7 +59,7 @@ async function host(t, options = {}) {
   const electron = {app,BrowserWindow:Window,ipcMain:{handle:(channel,handler)=>handlers.set(channel,handler)},screen:{getPrimaryDisplay:()=>({workArea:options.area||{x:0,y:0,width:1920,height:1040}})},Menu:{buildFromTemplate:template=>template,setApplicationMenu:menu=>{applicationMenu=menu;}}};
   if (options.secondaryArea) electron.screen.getDisplayMatching = rectangle => {displayRequests.push(plain(rectangle));return {workArea:options.secondaryArea};};
   const context = vm.createContext({
-    require: id => id==='electron' ? electron : id==='electron-updater' ? {autoUpdater:updater} : id==='./shell-state.js' ? Shell : require(id),
+    require: id => id==='electron' ? electron : id==='electron-updater' ? {autoUpdater:updater} : id==='./shell-state.js' ? Shell : require(id.startsWith('./')?path.join(base,id):id),
     __dirname:base,__filename:path.join(base,'desktop.js'),process:{argv:['electron','desktop.js'],platform:'win32',pid:process.pid},
     URL,console:{log:(...items)=>logs.push(items.join(' ')),error:(...items)=>logs.push(items.join(' '))},setTimeout,clearTimeout
   });
@@ -73,7 +73,7 @@ async function host(t, options = {}) {
 
 test('desktop IPC accepts only a registered local main frame, including Arsenal and War Room', async t => {
   const h=await host(t);
-  assert.deepEqual([...h.handlers.keys()].sort(),['frontlines:check-update','frontlines:fullscreen','frontlines:match','frontlines:quit','frontlines:restart-update','frontlines:state'].sort());
+  assert.deepEqual([...h.handlers.keys()].sort(),['frontlines:check-update','frontlines:fullscreen','frontlines:match','frontlines:quit','frontlines:restart-update','frontlines:state','frontlines:multiplayer','frontlines:multiplayer-state'].sort());
   for(const page of ['index.html','deck-builder.html','simulator.html']) {
     h.win.webContents.mainFrame.url=pathToFileURL(path.join(base,page)).href+'?screen=play#panel';
     assert.equal((await h.invoke('frontlines:state')).version,'0.6.0');
@@ -190,7 +190,7 @@ test('the actual preload exposes only fixed desktop requests and removes event s
   let exposed;
   const context=vm.createContext({require:id=>{assert.equal(id,'electron');return {contextBridge:{exposeInMainWorld:(name,api)=>{assert.equal(name,'FrontlinesDesktop');exposed=api;}},ipcRenderer:renderer};}});
   vm.runInContext(fs.readFileSync(path.join(base,'preload.js'),'utf8'),context,{filename:path.join(base,'preload.js')});
-  assert.deepEqual(Object.keys(exposed).sort(),['checkUpdate','getState','onNavigate','onState','quit','restartUpdate','setFullscreen','setMatchActive'].sort());
+  assert.deepEqual(Object.keys(exposed).sort(),['checkUpdate','getState','onNavigate','onState','quit','restartUpdate','setFullscreen','setMatchActive','multiplayer','getMultiplayerState','onMultiplayer'].sort());
   exposed.getState();exposed.setFullscreen(true);exposed.setFullscreen('true');exposed.setMatchActive(true);exposed.checkUpdate();exposed.restartUpdate();exposed.quit();
   assert.deepEqual(calls,[['frontlines:state'],['frontlines:fullscreen',true],['frontlines:fullscreen',false],['frontlines:match',true],['frontlines:check-update'],['frontlines:restart-update'],['frontlines:quit']]);
   const states=[],routes=[],removeState=exposed.onState(state=>states.push(state)),removeNavigate=exposed.onNavigate(route=>routes.push(route));

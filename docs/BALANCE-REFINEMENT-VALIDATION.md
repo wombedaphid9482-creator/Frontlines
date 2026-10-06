@@ -1,0 +1,11 @@
+# Owner validation proposal — Sprint 12
+
+**Not executed.** No large autonomous simulations ran. The S12 directive supersedes old historical campaign authorization. Correctness cases and individual UI/native matches establish runtime behavior, not statistical balance.
+
+Use [the exact options JSON](balance/sprint12-validation-options.json) in War Room / Advanced Lab: `sprint12`, matrix, **12,250 matches**, all **35** built-in decks, mirrors enabled, both seats, deck-aware AI on both sides, seed **1209**, default configuration, **240 action-window** cutoff, **10,000 decisions**, invariant verification enabled. This is ten full 35×35 = 1,225-match schedule cycles, avoiding a partial matrix endpoint. Every ordered non-mirror cell receives ten samples; each mirror receives ten. Non-mirror paired seats reuse a seed. Ten samples per cell are a screening signal with broad uncertainty, not a balance verdict.
+
+For a matched policy comparison, run the same configuration under `sprint11` as a separate owner-authorized baseline. Cards, decks, Commanders and timing are identical, so differences principally test AI policy. Save both full JSON reports and matched-seed comparison; preserve cutoffs/errors as unfinished.
+
+Report faction, Commander, archetype, deck and matchup rates with exposure/uncertainty; first-seat effect; mean/median window length; cutoff/error frequency; Cover/Dodge/Smoke protection; Breach/Blast value; Suppression duration/use; Overwatch armed/fired/blocked/expired; Sacrifice costs and casualty-draw exclusion; Mark/Exposed setup/payoff; Pressure/Presence efficiency; territory progression and comeback signals. Separate twenty legacy lists, ten Commander foundations and five tactical showcases. Diagnose implementation, sequencing and policy before card-efficiency changes. Card-win correlation alone is not causal evidence.
+
+No new numeric nerfs/buffs are justified yet. Watch cheap protection/setup, clustered Blast, stationary preparation, Rogue recursion and Commander/initiative interaction. Diagnostic bands remain faction 45–55%, decks around 40–60%; persistent below 35%/above 65% or extreme matchups merit investigation with meaningful sample sizes and human counterplay review.

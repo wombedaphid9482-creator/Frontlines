@@ -6,9 +6,9 @@ function storage(){const records=new Map();return {records,getItem:key=>records.
 function fixture(options={}){const store=storage(),profile=Collection.createProfile({seed:options.seed??11});if(options.credits!==undefined)profile.credits=options.credits;if(options.supply!==undefined)profile.supply=options.supply;store.setItem(Collection.STORAGE_KEY,JSON.stringify(profile));return store;}
 function update(store,fn){const profile=Collection.load(store);fn(profile);store.setItem(Collection.STORAGE_KEY,JSON.stringify(profile));}
 function completed(id,overrides={}){return {id,completed:true,human:true,mode:'match',ownTurns:4,meaningfulActions:4,victory:false,deckCardIds:['stonewall_rifles'],cardStats:{stonewall_rifles:{deployments:1,attacks:1}},...overrides};}
-test('all 115 cards have explicit immutable collectible metadata without gameplay changes',()=>{
+test('all active cards have explicit immutable metadata while the 115-card historical pool stays exact',()=>{
   const before=JSON.stringify(Data),profile=Collection.createProfile({seed:7});
-  assert.equal(Object.keys(Collection.CARD_META).length,115);assert.equal(Object.keys(profile.cards).length,115);
+  assert.equal(Object.keys(Collection.CARD_META).length,Object.keys(Balance.dataFor(Balance.DEFAULT_PROFILE).CARDS).length);assert.equal(Object.keys(profile.cards).length,Object.keys(Balance.dataFor(Balance.DEFAULT_PROFILE).CARDS).length);
   for(const card of Object.values(Data.CARDS)){const meta=Collection.metadata(card);assert.ok(Collection.RARITIES.includes(meta.rarity));assert.equal(meta.faction,card.faction);assert.equal(meta.copyLimit,card.type==='leader'?2:4);assert.ok(meta.pools.includes(card.faction));assert.equal(meta.craftCost,Collection.ECONOMY.craftCosts[meta.rarity]);}
   for(const faction of Object.keys(Data.FACTIONS))for(const rarity of Collection.RARITIES)assert.ok(Object.values(Collection.CARD_META).some(meta=>meta.faction===faction&&meta.rarity===rarity));
   assert.equal(Object.isFrozen(Collection.CARD_META),true);assert.equal(Collection.metadata('__proto__'),null);assert.equal(JSON.stringify(Data),before);assert.equal(JSON.stringify(Balance.dataFor('sprint7')),before);

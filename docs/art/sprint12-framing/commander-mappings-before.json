@@ -1,0 +1,102 @@
+[
+  {
+    "id": "commander_stonewall_warden",
+    "name": "The Warden",
+    "faction": "stonewall",
+    "src": "assets/cards/commanders/commander_stonewall_warden-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 168936,
+    "sha256": "999dd73af37128c1fc5b2f0e72baa0d4985d1cbdc1d13cb75a5aabcdce67f6b3"
+  },
+  {
+    "id": "commander_stonewall_marshal",
+    "name": "The Marshal",
+    "faction": "stonewall",
+    "src": "assets/cards/commanders/commander_stonewall_marshal-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 146768,
+    "sha256": "a139131a78dae4b4c45bbd90c431027bb0d40a75206465cbf91ce276cb71e3ab"
+  },
+  {
+    "id": "commander_bruiser_breaker",
+    "name": "The Breaker",
+    "faction": "bruiser",
+    "src": "assets/cards/commanders/commander_bruiser_breaker-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 180610,
+    "sha256": "96126c87bfc240cf28a8e85d09923ed5c98ed262d5eed461bc132759a78579ae"
+  },
+  {
+    "id": "commander_bruiser_bloodhound",
+    "name": "The Bloodhound",
+    "faction": "bruiser",
+    "src": "assets/cards/commanders/commander_bruiser_bloodhound-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 151204,
+    "sha256": "dd6128143a8511b5fce1a861dfe5fe907cd789f6b32b39e750bcebff1274a173"
+  },
+  {
+    "id": "commander_syndicate_coordinator",
+    "name": "The Coordinator",
+    "faction": "syndicate",
+    "src": "assets/cards/commanders/commander_syndicate_coordinator-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 136806,
+    "sha256": "847f60b79e769c2962a8c93bafe414f6a71362caa949b7e9836c0f9bf0e1952d"
+  },
+  {
+    "id": "commander_syndicate_quartermaster",
+    "name": "The Quartermaster",
+    "faction": "syndicate",
+    "src": "assets/cards/commanders/commander_syndicate_quartermaster-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 140094,
+    "sha256": "2bf33d0ba42abba4746e2e79066748ae3fabefdb667b677eb9eb46a3bb86f0d6"
+  },
+  {
+    "id": "commander_nightwalker_ghost",
+    "name": "The Ghost",
+    "faction": "nightwalker",
+    "src": "assets/cards/commanders/commander_nightwalker_ghost-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 150198,
+    "sha256": "c5242a4f4501a67316a34deeb57f1356d7b8dfd437f0acc9bd32cd5feed0a01b"
+  },
+  {
+    "id": "commander_nightwalker_saboteur",
+    "name": "The Saboteur",
+    "faction": "nightwalker",
+    "src": "assets/cards/commanders/commander_nightwalker_saboteur-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 143224,
+    "sha256": "5c0f516aa03b72ad63ea4ba9ecb706f66c9932d1afb36665e798a352820ca46b"
+  },
+  {
+    "id": "commander_rogue_scavenger",
+    "name": "The Scavenger",
+    "faction": "rogue",
+    "src": "assets/cards/commanders/commander_rogue_scavenger-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 179648,
+    "sha256": "bd1078906314271199cfba750caff835b734bef41aa8542d89d3a9995d480650"
+  },
+  {
+    "id": "commander_rogue_drifter",
+    "name": "The Drifter",
+    "faction": "rogue",
+    "src": "assets/cards/commanders/commander_rogue_drifter-portrait-v2.webp",
+    "width": 768,
+    "height": 768,
+    "bytes": 149398,
+    "sha256": "9e3a3836818007cad53ab8a8adab6a9ba86e513ee8f7dcbbbb9b49a047f1bceb"
+  }
+]

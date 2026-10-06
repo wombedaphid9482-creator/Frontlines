@@ -10,8 +10,11 @@ $checkpointFiles=[System.Collections.Generic.List[string]]::new()
 foreach($checkpointItem in Get-ChildItem -LiteralPath $checkpointWorkspace -File) {
   if($checkpointItem.Extension -in @('.js','.html','.css','.json','.cmd','.md') -or $checkpointItem.Name -eq '.gitignore') {$checkpointFiles.Add($checkpointItem.FullName)}
 }
-foreach($checkpointDirectory in @('assets','balance','scripts','tests')) {
+foreach($checkpointDirectory in @('assets','balance','scripts','tests','network')) {
   foreach($checkpointItem in Get-ChildItem -LiteralPath (Join-Path $checkpointWorkspace $checkpointDirectory) -File -Recurse) {$checkpointFiles.Add($checkpointItem.FullName)}
+}
+foreach($checkpointItem in Get-ChildItem -LiteralPath (Join-Path $checkpointWorkspace 'backend') -File) {
+  if($checkpointItem.Name -in @('package.json','package-lock.json','wrangler.jsonc','README.md')) {$checkpointFiles.Add($checkpointItem.FullName)}
 }
 foreach($checkpointItem in Get-ChildItem -LiteralPath (Join-Path $checkpointWorkspace 'docs') -File -Recurse) {
   $checkpointRelative=[System.IO.Path]::GetRelativePath($checkpointWorkspace,$checkpointItem.FullName).Replace('\','/')
@@ -22,8 +25,11 @@ foreach($checkpointItem in Get-ChildItem -LiteralPath (Join-Path $checkpointWork
 }
 foreach($checkpointItem in Get-ChildItem -LiteralPath (Join-Path $checkpointWorkspace 'test-results') -File) {
   if($checkpointItem.Name -eq ($Sprint+'-checkpoint.log')) {continue}
+  # Active emulator stdout/stderr are development process handles, not test proof.
+  if($checkpointItem.Name -in @('sprint13-persistent-relay.log','sprint13-persistent-relay.err')) {continue}
   $checkpointSprint10Evidence=$Sprint -eq 'sprint10' -and $checkpointVersion -eq '1.0.3' -and $checkpointItem.Name -in @('viewport-hotfix-browser.json','viewport-hotfix-1366x768-dpr1.png','v102-browser-presentation.json','browser-tutorial-sprint9.json')
-  if($checkpointSprint10Evidence -or $checkpointItem.Name -match ('^'+$Sprint+'-|^browser-tutorial-'+$Sprint+'\.|^release-'+[regex]::Escape($checkpointVersion)+'-verification\.json$|^hotfix-'+[regex]::Escape($checkpointVersion)+'-|^v'+$checkpointVersion.Replace('.','')+'-')) {$checkpointFiles.Add($checkpointItem.FullName)}
+  $checkpointSprint11Evidence=$Sprint -eq 'sprint11' -and $checkpointItem.Name -in @('viewport-hotfix-browser.json','sprint10-action-presentation.json','browser-tutorial-sprint9.json','browser-sprint11-lab-migration.json','sprint11-node-final.log')
+  if($checkpointSprint10Evidence -or $checkpointSprint11Evidence -or $checkpointItem.Name -match ('^'+$Sprint+'-|^browser-tutorial-'+$Sprint+'\.|^release-'+[regex]::Escape($checkpointVersion)+'-verification\.json$|^hotfix-'+[regex]::Escape($checkpointVersion)+'-|^v'+$checkpointVersion.Replace('.','')+'-')) {$checkpointFiles.Add($checkpointItem.FullName)}
 }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $checkpointArchive=[System.IO.Compression.ZipFile]::Open($checkpointTarget,[System.IO.Compression.ZipArchiveMode]::Create)

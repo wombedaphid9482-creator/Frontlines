@@ -1,0 +1,259 @@
+[
+  {
+    "name": "stonewall-legacy-a",
+    "source": "assets/source/card-art-012/stonewall-legacy-a.png",
+    "grid": 2,
+    "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: A hardened forward medical shelter built into a bunker recess: armored stretcher bay, compact diagnostic equipment, secured medical supply crates and a cyan examination lamp. The infrastructure is the principal subject; a tiny medic gives scale.\nTOP RIGHT: A disciplined combat medic kneels beside a wounded but conscious armored ally behind a concrete barricade, applying a compact field stabilizer to damaged chest plating. Clear active treatment, careful hands, no gore.\nBOTTOM LEFT: A defensive soldier braces a broad layered shield as incoming rounds strike it with bright sparks. The shield, protected face and force of the impacts dominate; a bunker wall protects the flank.\nBOTTOM RIGHT: An exhausted defender rises from a kneeling position behind a reinforced barricade, gripping a rifle again while a nearby officer signals to hold the line. A renewed defensive stance, not a generic standing portrait.",
+    "cells": [
+      {
+        "cell": 0,
+        "cardIds": [
+          "stonewall_aid_station"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only asset art with the actual Forward Aid Station equipment/infrastructure scene.",
+        "scene": "A hardened forward medical shelter built into a bunker recess: armored stretcher bay, compact diagnostic equipment, secured medical supply crates and a cyan examination lamp. The infrastructure is the principal subject; a tiny medic gives scale."
+      },
+      {
+        "cell": 1,
+        "cardIds": [
+          "stonewall_triage"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Emergency Triage action/event scene.",
+        "scene": "A disciplined combat medic kneels beside a wounded but conscious armored ally behind a concrete barricade, applying a compact field stabilizer to damaged chest plating. Clear active treatment, careful hands, no gore."
+      },
+      {
+        "cell": 2,
+        "cardIds": [
+          "stonewall_brace"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Brace for Impact action/event scene.",
+        "scene": "A defensive soldier braces a broad layered shield as incoming rounds strike it with bright sparks. The shield, protected face and force of the impacts dominate; a bunker wall protects the flank."
+      },
+      {
+        "cell": 3,
+        "cardIds": [
+          "stonewall_rally"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Hold the Line action/event scene.",
+        "scene": "An exhausted defender rises from a kneeling position behind a reinforced barricade, gripping a rifle again while a nearby officer signals to hold the line. A renewed defensive stance, not a generic standing portrait."
+      }
+    ],
+    "unmappedCells": [],
+    "tool": "built-in image_gen",
+    "sourceGeneratedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-b07d9ce0-bda9-42e4-bb4d-8d1b4ca6e619.png",
+    "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-b07d9ce0-bda9-42e4-bb4d-8d1b4ca6e619.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "review": {
+      "status": "source accepted",
+      "grade": "A",
+      "reason": "Distinct illustrated faction scenes and readable role/action/equipment. No obvious rendering or equipment defects at source size; actual runtime crop remains to review."
+    }
+  },
+  {
+    "name": "stonewall-legacy-b",
+    "source": "assets/source/card-art-012/stonewall-legacy-b.png",
+    "grid": 2,
+    "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nSTONEWALL: disciplined gray reinforced armor, angular shields, cyan optics, military engineering, rain-slick concrete fortifications in a battered sci-fi city.\nTOP LEFT: An entrenched gunner fires a controlled burst through a bunker firing slit at an advancing enemy silhouette. A readable muzzle flash and tracer path communicate the action while the concrete emplacement communicates defense.\nTOP RIGHT: A compact angular field redoubt dominates a ruined avenue: overlapping armored firing ports, reinforced walls, a roof-mounted command antenna and protected cyan-lit observation bay. Fortification equipment, not a soldier portrait.\nBOTTOM LEFT: A military engineer fastens a replacement armor plate onto a worn allied shield while the defender holds the position. The installed plate and repaired suit clearly show reinforcement rather than a floating shield icon.\nBOTTOM RIGHT: A disciplined armored FIELD MEDIC behind fortified cover, with an unmistakable compact medical case, practical stabilizer and layered protective steel-blue plates. Readable compassionate treatment specialist with cyan equipment lights; a distinct medical role rather than the old tactical-tablet scout. Face and medical case occupy the central 70 percent of the painting.",
+    "cells": [
+      {
+        "cell": 0,
+        "cardIds": [
+          "stonewall_fire_support"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Defensive Fire action/event scene.",
+        "scene": "An entrenched gunner fires a controlled burst through a bunker firing slit at an advancing enemy silhouette. A readable muzzle flash and tracer path communicate the action while the concrete emplacement communicates defense."
+      },
+      {
+        "cell": 1,
+        "cardIds": [
+          "stonewall_redoubt"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only asset art with the actual Field Redoubt equipment/infrastructure scene.",
+        "scene": "A compact angular field redoubt dominates a ruined avenue: overlapping armored firing ports, reinforced walls, a roof-mounted command antenna and protected cyan-lit observation bay. Fortification equipment, not a soldier portrait."
+      },
+      {
+        "cell": 2,
+        "cardIds": [
+          "stonewall_line_reinforcement"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Line Reinforcement action/event scene.",
+        "scene": "A military engineer fastens a replacement armor plate onto a worn allied shield while the defender holds the position. The installed plate and repaired suit clearly show reinforcement rather than a floating shield icon."
+      },
+      {
+        "cell": 3,
+        "cardIds": [
+          "stonewall_medic",
+          "stonewall_plate_medic",
+          "stonewall_recovery_team"
+        ],
+        "position": "50% 30%",
+        "classificationBefore": "C",
+        "reason": "Repair the three legacy medical-support roles, previously mapped to an indistinct tactical-slate specialist. Shared approved medical-role art is a documented B reuse.",
+        "scene": "A disciplined armored FIELD MEDIC behind fortified cover, with an unmistakable compact medical case, practical stabilizer and layered protective steel-blue plates. Readable compassionate treatment specialist with cyan equipment lights; a distinct medical role rather than the old tactical-tablet scout. Face and medical case occupy the central 70 percent of the painting."
+      }
+    ],
+    "unmappedCells": [],
+    "tool": "built-in image_gen",
+    "sourceGeneratedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-c7b79205-fc0e-4d05-864e-e9641fac8f5b.png",
+    "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-c7b79205-fc0e-4d05-864e-e9641fac8f5b.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "review": {
+      "status": "source accepted",
+      "grade": "A",
+      "reason": "Distinct illustrated faction scenes and readable role/action/equipment. No obvious rendering or equipment defects at source size; actual runtime crop remains to review."
+    }
+  },
+  {
+    "name": "bruiser-legacy-a",
+    "source": "assets/source/card-art-012/bruiser-legacy-a.png",
+    "grid": 2,
+    "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: An oversized battered assault standard mounted in a powered steel brace amid a breached wall. Heavy orange fabric and welded signal lamps identify a rallying military asset; distant assault troops give scale without stealing focus.\nTOP RIGHT: A carefully planted directional demolition charge explodes against an armored barrier. Large slabs of concrete and a concentrated orange blast communicate a single prepared demolition strike; no gore.\nBOTTOM LEFT: A scarred assault trooper pulls a spent ammunition belt free and hauls themself back to a standing fighting position amid rubble. Tense renewed momentum after exhaustion, with practical heavy weapon equipment.\nBOTTOM RIGHT: A wounded shock trooper unexpectedly counterfires at an incoming attacker from behind broken cover. A close muzzle burst and fresh sparks on the attacker’s armor show an immediate violent reprisal without gore.",
+    "cells": [
+      {
+        "cell": 0,
+        "cardIds": [
+          "bruiser_banner"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only asset art with the actual Assault Standard equipment/infrastructure scene.",
+        "scene": "An oversized battered assault standard mounted in a powered steel brace amid a breached wall. Heavy orange fabric and welded signal lamps identify a rallying military asset; distant assault troops give scale without stealing focus."
+      },
+      {
+        "cell": 1,
+        "cardIds": [
+          "bruiser_bombard"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Demolition Charge action/event scene.",
+        "scene": "A carefully planted directional demolition charge explodes against an armored barrier. Large slabs of concrete and a concentrated orange blast communicate a single prepared demolition strike; no gore."
+      },
+      {
+        "cell": 2,
+        "cardIds": [
+          "bruiser_rally"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Second Wind action/event scene.",
+        "scene": "A scarred assault trooper pulls a spent ammunition belt free and hauls themself back to a standing fighting position amid rubble. Tense renewed momentum after exhaustion, with practical heavy weapon equipment."
+      },
+      {
+        "cell": 3,
+        "cardIds": [
+          "bruiser_ambush"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Violent Reprisal action/event scene.",
+        "scene": "A wounded shock trooper unexpectedly counterfires at an incoming attacker from behind broken cover. A close muzzle burst and fresh sparks on the attacker’s armor show an immediate violent reprisal without gore."
+      }
+    ],
+    "unmappedCells": [],
+    "tool": "built-in image_gen",
+    "sourceGeneratedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-142f582d-0516-4dcd-9579-7e7c0b7a013c.png",
+    "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-142f582d-0516-4dcd-9579-7e7c0b7a013c.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "review": {
+      "status": "source accepted",
+      "grade": "A",
+      "reason": "Distinct illustrated faction scenes and readable role/action/equipment. No obvious rendering or equipment defects at source size; actual runtime crop remains to review."
+    }
+  },
+  {
+    "name": "bruiser-legacy-b",
+    "source": "assets/source/card-art-012/bruiser-legacy-b.png",
+    "grid": 2,
+    "prompt": "Use case: stylized-concept. Create ONE production illustrated-science-fiction game-art atlas for Frontlines. Square 2048x2048 artwork with EXACTLY FOUR equal square full-bleed paintings in a precise 2-by-2 grid, no gutters, no margins, no frames, no captions, no text or numbers. Each painting stays inside its quadrant; do not blend scenes across the two midlines. Polished detailed painted graphic-novel military concept art, matching worn armor and cinematic lighting of a serious military strategy game. NOT a photograph, NOT flat vector art, NOT anime. Coherent equipment, convincing anatomy, controlled lighting, readable silhouettes. Center each primary face/helmet AND distinctive equipment/action in the central 70 percent of its tile; readable at card thumbnail size. Four intentionally different compositions, camera angles and tactical subjects. No excessive bloom, logos, badges or UI.\nBRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nTOP LEFT: An assault loader passes a fresh oversized ammunition belt and power canister to a waiting heavy gunner beside an opened combat supply crate. The transfer of usable supplies is unmistakable.\nTOP RIGHT: A massive armored assault trooper drives through a crumbling enemy barricade in a devastating frontal push. Heavy weapon discharge, falling debris and forward motion form one clear breakthrough action.\nBOTTOM LEFT: A field technician clamps a rugged emergency repair-and-stabilization rig onto a wounded assault soldier’s battered armor behind rubble. Heavy practical hydraulic and medical equipment, orange work lamps, no miraculous glow or gore.\nBOTTOM RIGHT: A SCARRED BRAWLER: imposing close-range shock fighter, scarred face, oversized practical hydraulic gauntlets, exposed reinforced bracing, battered charcoal/orange armor. A tense forward physical stance and compact armored equipment dominate; no standard rifle portrait, no fantasy monster, no gore. Face and gauntlets remain readable in a small card crop.",
+    "cells": [
+      {
+        "cell": 0,
+        "cardIds": [
+          "bruiser_resupply"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Combat Resupply action/event scene.",
+        "scene": "An assault loader passes a fresh oversized ammunition belt and power canister to a waiting heavy gunner beside an opened combat supply crate. The transfer of usable supplies is unmistakable."
+      },
+      {
+        "cell": 1,
+        "cardIds": [
+          "bruiser_overrun_charge"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Overrun Charge action/event scene.",
+        "scene": "A massive armored assault trooper drives through a crumbling enemy barricade in a devastating frontal push. Heavy weapon discharge, falling debris and forward motion form one clear breakthrough action."
+      },
+      {
+        "cell": 2,
+        "cardIds": [
+          "bruiser_triage_rig"
+        ],
+        "position": "50% 50%",
+        "classificationBefore": "D",
+        "reason": "Replace symbol-only order art with the actual Combat Triage Rig action/event scene.",
+        "scene": "A field technician clamps a rugged emergency repair-and-stabilization rig onto a wounded assault soldier’s battered armor behind rubble. Heavy practical hydraulic and medical equipment, orange work lamps, no miraculous glow or gore."
+      },
+      {
+        "cell": 3,
+        "cardIds": [
+          "bruiser_brawler"
+        ],
+        "position": "50% 30%",
+        "classificationBefore": "C",
+        "reason": "Replace the ordinary rifleman duplicate with a coherent close-range brawler silhouette and intimidating functional equipment.",
+        "scene": "A SCARRED BRAWLER: imposing close-range shock fighter, scarred face, oversized practical hydraulic gauntlets, exposed reinforced bracing, battered charcoal/orange armor. A tense forward physical stance and compact armored equipment dominate; no standard rifle portrait, no fantasy monster, no gore. Face and gauntlets remain readable in a small card crop."
+      }
+    ],
+    "unmappedCells": [],
+    "tool": "built-in image_gen",
+    "sourceGeneratedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-4637307f-089f-43e5-91d8-1036be0a3c58.png",
+    "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-4637307f-089f-43e5-91d8-1036be0a3c58.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "review": {
+      "status": "source accepted",
+      "grade": "A",
+      "reason": "Distinct illustrated faction scenes and readable resupply, breakthrough, emergency treatment and close-range brawler roles; coherent oversized equipment and no obvious source defects. Actual runtime crop remains to review."
+    }
+  },
+  {
+    "name": "bruiser-role-drummer",
+    "source": "assets/source/card-art-012/bruiser-role-drummer.png",
+    "grid": 1,
+    "prompt": "Create ONE finished square Frontlines military science-fiction illustration, NOT an atlas. Painted graphic-novel military science-fiction concept art matching the existing Frontlines infantry atlases and premium Commander material quality. Believable steel, fabric and practical equipment; stylized but structurally sound anatomy; strong silhouettes, restrained faction accents, atmospheric lighting. Each square panel is a finished independent illustration with an action/event for an Order or equipment/infrastructure for an Asset. Readable at a small card size. Keep the main subject and identifying equipment inside the central 80% with a generous top safe area. No text, letters, numbers, labels, UI, card frames, borders, logos, watermarks, generic glyphs, flat vector art or plastic 3D look. Do not stretch images. BRUISER: orange identification stripes and optics, battered oversized armor, aggressive shock troops, heavy weapons, demolition charges, industrial rubble and restrained orange firelight. Strong physical momentum.\nSURGE DRUMMERS: one armored Bruiser assault signal drummer with a compact rugged chest-mounted mechanical percussion/signal rig, practical steel impact mallets, orange signal lamps and exposed reinforced bracing. The soldier coordinates a distant advancing assault line through grounded military signal equipment. Show the face, hands and readable drum hardware centered; a purposeful professional battlefield role, no fantasy bard, no captions or icons.",
+    "cells": [
+      {
+        "cell": 0,
+        "cardIds": [
+          "bruiser_surge_drummers"
+        ],
+        "position": "50% 35%",
+        "classificationBefore": "C",
+        "reason": "Replace the generic officer duplicate with unmistakable practical assault signal equipment; a standalone square painting avoids squeezing two unrelated roles into one cell.",
+        "scene": "SURGE DRUMMERS: one armored Bruiser assault signal drummer with a compact rugged chest-mounted mechanical percussion/signal rig, practical steel impact mallets, orange signal lamps and exposed reinforced bracing. The soldier coordinates a distant advancing assault line through grounded military signal equipment. Show the face, hands and readable drum hardware centered; a purposeful professional battlefield role, no fantasy bard, no captions or icons."
+      }
+    ],
+    "unmappedCells": [],
+    "tool": "built-in image_gen",
+    "sourceGeneratedPath": "C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-d69a0a16-6b17-4f05-bf10-0c2be5f649a3.png",
+    "output_hint": "Generated images are saved to C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d as C:\\Users\\noaho\\.codex\\generated_images\\01a10829-6b30-7762-b67a-2f513ecafb5d\\exec-d69a0a16-6b17-4f05-bf10-0c2be5f649a3.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "review": {
+      "status": "source accepted",
+      "grade": "A",
+      "reason": "Distinct grounded military signal-drummer role; practical percussion rig and mallets replace the incorrect generic armor portrait. High-detail faction equipment and convincing anatomy. Check wide card focal point to retain face and drum rim."
+    }
+  }
+]

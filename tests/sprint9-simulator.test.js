@@ -38,7 +38,7 @@ test('Commander replay reproduces both fixture outcomes, signatures, telemetry a
 
 test('offline browser-script runtime reproduces the same two Commander fixtures exactly',()=>{
   const context=vm.createContext({console});context.globalThis=context;
-  for(const file of ['build-info.js','data.js','commanders.js','deck-rules.js','decks.js','engine.js','ai.js','arsenal.js','balance.js','telemetry.js','analytics.js','sim-core.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context,{filename:file});
+  for(const file of ['build-info.js','data.js','commanders.js','deck-rules.js','decks.js','tactical-rules.js','engine.js','ai.js','arsenal.js','tactical-arsenal.js','balance.js','telemetry.js','analytics.js','sim-core.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context,{filename:file});
   const run=context.FrontlinesSimulator.createRun(options);while(!run.done)run.step();assert.deepEqual(clone(run.result()),fixture());
 });
 
