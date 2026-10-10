@@ -10,8 +10,11 @@
   root.FrontlinesSimulator = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (Data, Engine, AI, Telemetry, Analytics) {
   'use strict';
-  const VERSION = '5.0.0';
-  const versionFor = runtime => runtime.data.RULES?.tacticalArsenal ? VERSION : '4.0.0';
+  const VERSION = '6.0.0';
+  const versionFor = runtime => runtime.data.RULES?.pairedTurns ? VERSION : runtime.data.RULES?.tacticalArsenal ? '5.0.0' : '4.0.0';
+  const isPaired = runtime => runtime.data.RULES?.pairedTurns===true;
+  const timingModel = runtime => isPaired(runtime)?'paired-turns-v2':'legacy-action-windows-v1';
+  const normalWindow = state => state.turnSystemVersion===2?state.windowIndex:state.turn;
   const AI_VERSION = AI.VERSION || 'frontlines-heuristic-sprint2-v1';
   const copy = value => JSON.parse(JSON.stringify(value));
   function gameVersion() {
@@ -113,7 +116,8 @@
       swapSeats: boolean(raw.swapSeats, true, 'Swap seats'),
       includeMirrors: boolean(raw.includeMirrors, false, 'Include mirrors'),
       seed: integer(raw.seed, 1009, 0, 4294967295, 'Seed'),
-      maxTurns: integer(raw.maxTurns, 240, 1, 2000, 'Turn limit'),
+      maxTurns: integer(raw.maxTurns, isPaired(runtime)?120:240, 1, 2000, isPaired(runtime)?'Paired Turn limit':'Action Window limit'),
+      ...(isPaired(runtime)||raw.maxActionWindows!==undefined?{maxActionWindows:integer(raw.maxActionWindows,240,1,4000,'Action Window limit')}: {}),
       maxDecisions: integer(raw.maxDecisions, 10000, 1, 100000, 'Decision limit'),
       verify: boolean(raw.verify, false, 'Verify invariants'),balanceProfile,aiProfiles:aiProfiles.slice(),thresholds,config
     };
@@ -182,6 +186,9 @@
       status, winner, winnerDeck: winner === null ? null : current.spec.deckIds[winner],
       winnerFaction: winner === null ? null : current.decks[current.spec.deckIds[winner]].faction,
       turns: state ? Math.min(state.turn, current.options.maxTurns) : 0,
+      ...(isPaired(current.runtime)?{timingModel:timingModel(current.runtime),actionWindows:state?Math.min(state.windowIndex,current.options.maxActionWindows,current.options.maxTurns*2):0,
+        actionWindowsCompleted:state?.lastCompletedWindow??0,pairedTurnsCompleted:state?.lastResolvedTurn??0,
+        timing:state?Telemetry.timingContext(state):null}: {}),
       decisions: current.decisions, captures: state ? state.stats.captures.slice() : [0,0],
       kills: state ? state.stats.kills.slice() : [0,0], damage: state ? state.stats.damage.slice() : [0,0],
       actions: { ...current.actions }, error: error || null,
@@ -204,6 +211,7 @@
     if (match.status === 'win') {
       row.decisive++; row.seats[seat].decisive++;
       row.turnSum+=match.turns;
+      if(match.actionWindows!==undefined)row.actionWindowSum=(row.actionWindowSum||0)+match.actionWindows;
       const key = match.winner === seat ? 'won' : 'lost';
       row[key]++; row.seats[seat][key]++;
     } else if (match.status === 'error') row.errors++;
@@ -214,6 +222,7 @@
     result.winRate = row.decisive ? row.won / row.decisive : null;
     result.winInterval = interval(row.won, row.decisive);
     result.meanTurns=row.decisive?row.turnSum/row.decisive:null;
+    if(row.actionWindowSum!==undefined)result.meanActionWindows=row.decisive?row.actionWindowSum/row.decisive:null;
     for (const seat of result.seats){seat.winRate=seat.decisive?seat.won/seat.decisive:null;seat.winInterval=interval(seat.won,seat.decisive);}
     return result;
   }
@@ -223,7 +232,7 @@
     const separated = D.RULES && D.RULES.actionEconomy === 'capacity-command';
     const retreat = D.RULES && D.RULES.frontlineIntegrity === true;
     const tactical=D.RULES?.tacticalArsenal?(typeof module==='object'&&module.exports?require('./tactical-rules.js'):globalThis.FrontlinesTacticalRules):null;
-    return { gameVersion:gameVersion(),rules:copy(D.RULES || {}),config:copy(options.config),factions:copy(D.FACTIONS),cards:copy(D.CARDS),decks:copy(Object.values(decks)),
+    return { gameVersion:gameVersion(),...(isPaired(runtime)?{timingModel:timingModel(runtime),turnSystemVersion:2,stateSchemaVersion:2,timingUnits:{turns:'paired-turns',actionWindows:'normal-action-windows'}}:{}),rules:copy(D.RULES || {}),config:copy(options.config),factions:copy(D.FACTIONS),cards:copy(D.CARDS),decks:copy(Object.values(decks)),
       ...(D.RULES?.commanders?{commanders:copy(E.commanders.COMMANDERS),commanderVersion:E.commanders.VERSION}:{}),
       ...(tactical?{tacticalVersion:tactical.VERSION,tacticalDefinitions:copy({...tactical.MECHANICS,Smoke:tactical.SMOKE}),tacticalFingerprint:fingerprint(String(tactical.create)+JSON.stringify(tactical.MECHANICS))}:{}),
       balanceProfile:copy(runtime.profile),aiProfiles:options.aiProfiles.slice(),telemetryVersion:Telemetry && (Telemetry.versionFor?Telemetry.versionFor(E):Telemetry.VERSION),
@@ -251,9 +260,16 @@
           sacrifice:'Voluntary allied destruction is explicitly cause sacrifice, frees commitment and pays the card-defined effect cost. It never triggers general Scavenge/Nothing Wasted casualty draws. Only explicit printed Sacrifice payoff resolves.',
           exposed:'Nonstacking Exposed strips Cover and Dodge, then adds 1 to the next eligible direct enemy hit and is consumed. Expires at the target owner’s next action-window start.',
           smoke:'A visible territory effect reduces direct damage to its owner’s cards there by 1 and blocks Overwatch in that territory. It expires at its owner’s next action-window start.',
-          tacticalAbilities:'Printed deployed abilities exhaust their source, pay one Command Action, obey deployment locks, legal targets and once-per-action-window use. Canonical ability IDs distinguish modes. Preview is public, deterministic and does not inspect concealed hand/order.'}:{})
+          tacticalAbilities:'Printed deployed abilities exhaust their source, pay one Command Action, obey deployment locks, legal targets and once-per-action-window use. Canonical ability IDs distinguish modes. Preview is public, deterministic and does not inspect concealed hand/order.'}:{}),
+        ...(isPaired(runtime)?{timing:'One Turn contains FIRST and SECOND normal Action Windows, followed by one atomic Turn-End resolution. Responses and Counters remain nested.',
+          economy:'At each owner Action Window Start, clear personal spending, refresh readiness and commands, draw and grow personal Capacity after the first window. The other seat is untouched.',
+          capture:'At Turn End snapshot both surviving pressures, add max(0, own pressure minus enemy pressure) once to each stored progress, and allow only the positive-pressure leader to cross threshold. At most one objective is captured per paired Turn.',
+          reserves:'Opening hands plus configured draws at each owner Action Window Start. Empty reserves recycle discarded cards; exhausted reserves safely stop.',
+          salvage:'Scavenge and Nothing Wasted share one eligible casualty draw per player per paired Turn. Sacrifice/allied/rules-resolution deaths are excluded and reclaimed wounds remain.',
+          arsenal:'Mark, Reinforce and Sabotage use owner-specific next Action Window Start cleanup. Window-bound boosts expire at the activating window end; Hold Fast pressure survives to true Turn End.',
+          tacticalTiming:'Statuses carry explicit window or paired-Turn duration metadata; no legacy numeric turn comparison stands in for a window.'}: {})
       },
-      rulesVersion:D.RULES?.tacticalArsenal?'sprint11-tactical-v1':D.RULES?.balanceRecovery?'sprint10-recovery-v1':D.RULES?.commanders?'sprint9-commanders-v1':D.RULES?.arsenalMechanics?'sprint7-arsenal-v1':separated || retreat?'sprint6-command-frontline-v1':'sprint4-territory-arsenal-v1',
+      rulesVersion:D.RULES?.pairedTurns?'sprint15-paired-turns-v1':D.RULES?.tacticalArsenal?'sprint11-tactical-v1':D.RULES?.balanceRecovery?'sprint10-recovery-v1':D.RULES?.commanders?'sprint9-commanders-v1':D.RULES?.arsenalMechanics?'sprint7-arsenal-v1':separated || retreat?'sprint6-command-frontline-v1':'sprint4-territory-arsenal-v1',
       engineVersion:E.VERSION || 'frontlines-territory-v1',aiVersion:A.VERSION || AI_VERSION,
       engineFingerprint:fingerprint(String(E.createGame)+String(E.dispatch)+String(E.legalActions)+String(E.validate)+String(E.actionCost)+String(E.retreatDestination)+(D.RULES?.commanders?String(E.commanderStatus):'')+(D.RULES?.arsenalMechanics?String(E.resolveEffect)+String(E.combatDamage):'')+(D.RULES?.tacticalArsenal?String(E.previewAction)+String(E.statusesFor):'')),
       aiFingerprint:fingerprint(String(A.chooseAction)),
@@ -275,7 +291,7 @@
     for (const deck of Object.values(decks)) {
       byDeck[deck.id] = entry(deck.id,deck.name,deck.faction);
       if(runtime.data.RULES?.tacticalArsenal){byDeck[deck.id].deckGroup=deck.deckGroup;const label={'legacy-baseline':'Legacy baseline','tactical-showcase':'Tactical showcase','commander-foundation':'Commander foundation','custom':'Custom deck'}[deck.deckGroup]||deck.deckGroup;byDeckGroup[deck.deckGroup]=byDeckGroup[deck.deckGroup]||entry(deck.deckGroup,label,null);}
-      if(runtime.data.RULES?.commanders){const c=E.commanders.get(deck.commanderId);byDeck[deck.id].commanderId=c.id;byCommander[c.id]=byCommander[c.id]||{...entry(c.id,c.name,c.faction),activeUses:0,passiveTriggers:0,passiveAmount:0,presenceSpent:0,commandActionsSpent:0,damageDealt:0,effectiveDamageDealt:0,healingDone:0,cardsRecovered:0,capacityRecovered:0,disruptionApplied:0,presenceSaved:0,commandActionsSaved:0,bonusPressure:0,passiveCardsDrawn:0,activationTurnSum:0};}
+      if(runtime.data.RULES?.commanders){const c=E.commanders.get(deck.commanderId);byDeck[deck.id].commanderId=c.id;byCommander[c.id]=byCommander[c.id]||{...entry(c.id,c.name,c.faction),activeUses:0,passiveTriggers:0,passiveAmount:0,presenceSpent:0,commandActionsSpent:0,damageDealt:0,effectiveDamageDealt:0,healingDone:0,cardsRecovered:0,capacityRecovered:0,disruptionApplied:0,presenceSaved:0,commandActionsSaved:0,bonusPressure:0,passiveCardsDrawn:0,activationTurnSum:0,...(isPaired(runtime)?{activationWindowSum:0}:{})};}
       byFaction[deck.faction] = entry(deck.faction,Data.FACTIONS[deck.faction].name,deck.faction);
       byFactionCross[deck.faction] = entry(deck.faction,Data.FACTIONS[deck.faction].name,deck.faction);
       const strategy=deck.faction+':'+(deck.archetype||'custom');byArchetype[strategy]=entry(strategy,deck.archetype||'custom',deck.faction);
@@ -301,7 +317,7 @@
       for (let seat = 0; seat < 2; seat++) {
         bumpEntry(byDeck[match.deckIds[seat]],match,seat);
         if(runtime.data.RULES?.tacticalArsenal)bumpEntry(byDeckGroup[decks[match.deckIds[seat]].deckGroup],match,seat);
-        if(match.commanderIds){const commander=byCommander[match.commanderIds[seat]],usage=metrics?.commanders?.[seat];bumpEntry(commander,match,seat);if(usage){for(const key of ['activeUses','passiveTriggers','passiveAmount','presenceSpent','commandActionsSpent','damageDealt','effectiveDamageDealt','healingDone','cardsRecovered','capacityRecovered','disruptionApplied','presenceSaved','commandActionsSaved','bonusPressure','passiveCardsDrawn'])commander[key]+=usage[key];if(usage.activeTurn!==null)commander.activationTurnSum+=usage.activeTurn;}}
+        if(match.commanderIds){const commander=byCommander[match.commanderIds[seat]],usage=metrics?.commanders?.[seat];bumpEntry(commander,match,seat);if(usage){for(const key of ['activeUses','passiveTriggers','passiveAmount','presenceSpent','commandActionsSpent','damageDealt','effectiveDamageDealt','healingDone','cardsRecovered','capacityRecovered','disruptionApplied','presenceSaved','commandActionsSaved','bonusPressure','passiveCardsDrawn'])commander[key]+=usage[key];if(usage.activeTurn!==null)commander.activationTurnSum+=usage.activeTurn;if(isPaired(runtime)&&usage.activeWindow!==null)commander.activationWindowSum+=usage.activeWindow;}}
         bumpEntry(byFaction[match.factions[seat]],match,seat);
         if(match.factions[0]!==match.factions[1])bumpEntry(byFactionCross[match.factions[seat]],match,seat);
         const deck=decks[match.deckIds[seat]],strategy=deck.faction+':'+(deck.archetype||'custom');bumpEntry(byArchetype[strategy],match,seat);
@@ -322,7 +338,7 @@
       // both appearances; the matchup remains a single game with one winner.
       const seatA = match.deckIds[0] === deckA ? 0 : 1; matchup.seatsA[seatA]++;
       matchup.seatStatsA[seatA].played++;
-      if(status==='win'){matchup.decisive++;matchup.turnSum+=match.turns;if(match.winner===0)matchup.firstPlayerWins++;
+      if(status==='win'){matchup.decisive++;matchup.turnSum+=match.turns;if(match.actionWindows!==undefined)matchup.actionWindowSum=(matchup.actionWindowSum||0)+match.actionWindows;if(match.winner===0)matchup.firstPlayerWins++;
         matchup.seatStatsA[seatA].decisive++;if(match.winner===seatA){matchup.winsA++;matchup.seatStatsA[seatA].won++;}else{matchup.winsB++;matchup.seatStatsA[seatA].lost++;}}
       else if (status === 'error') matchup.errors++; else matchup.unfinished++;
       current = null;
@@ -349,10 +365,10 @@
         byDeck:Object.values(byDeck).map(decorateEntry),byFaction:Object.values(byFaction).map(decorateEntry),byFactionCross:Object.values(byFactionCross).map(decorateEntry),
         byMatchup:Object.values(byMatchup).map(row=>({...row,seatsA:row.seatsA.slice(),seatStatsA:row.seatStatsA.map(seat=>({...seat,winRate:seat.decisive?seat.won/seat.decisive:null,winInterval:interval(seat.won,seat.decisive)})),
           winRateA:row.decisive?row.winsA/row.decisive:null,winIntervalA:interval(row.winsA,row.decisive),
-          meanTurns:row.decisive?row.turnSum/row.decisive:null,firstPlayerWinRate:row.decisive?row.firstPlayerWins/row.decisive:null})),
+          meanTurns:row.decisive?row.turnSum/row.decisive:null,...(isPaired(runtime)?{meanActionWindows:row.decisive?row.actionWindowSum/row.decisive:null}:{}),firstPlayerWinRate:row.decisive?row.firstPlayerWins/row.decisive:null})),
         byArchetype:Object.values(byArchetype).map(decorateEntry),
         ...(runtime.data.RULES?.tacticalArsenal?{byDeckGroup:Object.values(byDeckGroup).map(decorateEntry)}:{}),
-        ...(runtime.data.RULES?.commanders?{byCommander:Object.values(byCommander).map(row=>({...decorateEntry(row),activationRate:row.played?row.activeUses/row.played:null,meanActivationTurn:row.activeUses?row.activationTurnSum/row.activeUses:null}))}:{}),
+        ...(runtime.data.RULES?.commanders?{byCommander:Object.values(byCommander).map(row=>({...decorateEntry(row),activationRate:row.played?row.activeUses/row.played:null,meanActivationTurn:row.activeUses?row.activationTurnSum/row.activeUses:null,...(isPaired(runtime)?{meanActivationWindow:row.activeUses?row.activationWindowSum/row.activeUses:null}:{})}))}:{}),
         deckCompositions:Object.values(decks).map(d=>({id:d.id,name:d.name,archetype:d.archetype||'custom',...deckAPI(runtime.data).composition(d)})),
         synergies:Object.values(synergies).map(row=>({...row,winRate:row.wins/row.matches,winInterval:interval(row.wins,row.matches),averageFinalTerritorySwing:row.territorySwingSum/row.matches})).sort((a,b)=>b.matches-a.matches),cards:[]
       };
@@ -377,12 +393,13 @@
         }
         if (current.state.winner !== null) { finalize('win'); return true; }
         if (current.state.turn > options.maxTurns) { finalize('turnLimit'); return true; }
+        if(options.maxActionWindows!==undefined&&normalWindow(current.state)>options.maxActionWindows){finalize('actionWindowLimit');return true;}
         if (current.decisions >= options.maxDecisions) { finalize('decisionLimit'); return true; }
         try {
           const before = current.state;
           const actor=E.getActor(before);
           let legalActions;
-          if(!before.response&&current.opportunityTurn!==before.turn){legalActions=E.legalActions(before);current.opportunityTurn=before.turn;}
+          if(!before.response&&current.opportunityTurn!==normalWindow(before)){legalActions=E.legalActions(before);current.opportunityTurn=normalWindow(before);}
           let decision;
           const action=A.chooseAction(before,{profile:current.spec.aiProfiles[actor],legalActions,onDecision:value=>{decision=value;}});
           if (!action) throw new Error('AI did not return an action.');
@@ -398,11 +415,11 @@
       },
       snapshot() {
         return { options:copy(options),total:options.count,completed:matches.length,complete:run.done,
-          current:current&&current.state?{index:current.spec.index,seed:current.spec.seed,deckIds:current.spec.deckIds.slice(),aiProfiles:current.spec.aiProfiles.slice(),turn:current.state.turn,decisions:current.decisions}:null,
+          current:current&&current.state?{index:current.spec.index,seed:current.spec.seed,deckIds:current.spec.deckIds.slice(),aiProfiles:current.spec.aiProfiles.slice(),...Telemetry.timingContext(current.state),decisions:current.decisions}:null,
           recentMatches:copy(matches.slice(-50)),summary:summary() };
       },
       result() {
-        return {schemaVersion:1,gameVersion:gameVersion(),simulatorVersion:versionFor(runtime),aiVersion:A.VERSION||AI_VERSION,balanceVersion:runtime.profile.version,
+        return {schemaVersion:isPaired(runtime)?2:1,...(isPaired(runtime)?{timingModel:timingModel(runtime),timingUnits:{turns:'paired-turns',actionWindows:'normal-action-windows'}}:{}),gameVersion:gameVersion(),simulatorVersion:versionFor(runtime),aiVersion:A.VERSION||AI_VERSION,balanceVersion:runtime.profile.version,
           telemetryVersion:Telemetry.versionFor?Telemetry.versionFor(E):Telemetry.VERSION,options:copy(options),total:options.count,
           completed:matches.length,complete:run.done,rulesSnapshot:rulesSnapshot(options,decks,runtime),summary:summary(),matches:copy(matches),
           method:'Deterministic selected AI policies. Cutoffs and errors are excluded from decisive win rates. Card and pair metrics describe usage and winning-side association, not causal strength. Pair observations require both cards played in the same decisive player-game. Mirrors count two deck/faction appearances and one matchup game. Wilson 95% intervals are descriptive; paired deterministic trials are not independent human samples.',
@@ -414,10 +431,10 @@
 
   function compactDiagnostics(metrics){return {firstCaptureTurn:metrics.territory.firstCaptureTurn,winnerPermanentLeadTurn:metrics.territory.winnerPermanentLeadTurn,
     recaptures:metrics.territory.recaptures.slice(),comebackWon:metrics.comeback.map(side=>Object.keys(side).filter(key=>side[key].won)),
-    commandGenerated:metrics.economy.map(side=>side.generated),casualtyReleased:metrics.economy.map(side=>side.casualtyReleased)};}
+    commandGenerated:metrics.economy.map(side=>side.generated),casualtyReleased:metrics.economy.map(side=>side.casualtyReleased),...(metrics.timingMetrics?{timingMetrics:copy(metrics.timingMetrics),boundaryCounts:copy(metrics.boundaryCounts)}:{})};}
 
   function replayMatch(report,index,limit) {
-    if (!report || report.schemaVersion !== 1 || !Array.isArray(report.matches)) throw new Error('Choose a valid simulator report.');
+    if (!report || ![1,2].includes(report.schemaVersion) || !Array.isArray(report.matches)) throw new Error('Choose a valid simulator report.');
     if (!report.matches.length) throw new Error('There are no completed matches to replay.');
     const matchIndex = integer(index,0,0,report.matches.length-1,'Replay match index');
     const actionLimit = integer(limit,5000,1,5000,'Replay action limit');
@@ -427,6 +444,7 @@
     const currentRules=rulesSnapshot(options,decks,runtime);
     if (!report.rulesSnapshot || report.aiVersion !== (A.VERSION||AI_VERSION) || report.simulatorVersion !== versionFor(runtime)
       || report.rulesSnapshot.rulesVersion !== currentRules.rulesVersion
+      || isPaired(runtime)&&(report.schemaVersion!==2||report.timingModel!==timingModel(runtime))
       || ['engineFingerprint','aiFingerprint','dataFingerprint'].some(key => report.rulesSnapshot[key] !== currentRules[key])
       || currentRules.rules.tacticalArsenal&&report.rulesSnapshot.tacticalFingerprint!==currentRules.tacticalFingerprint
       || ['cards','decks','config','rules',...(currentRules.rules.commanders?['commanders']:[])].some(key => JSON.stringify(report.rulesSnapshot[key]) !== JSON.stringify(currentRules[key]))) {
@@ -440,6 +458,7 @@
     while (true) {
       if (current.state.winner !== null) { status = 'win'; break; }
       if (current.state.turn > options.maxTurns) { status = 'turnLimit'; break; }
+      if(options.maxActionWindows!==undefined&&normalWindow(current.state)>options.maxActionWindows){status='actionWindowLimit';break;}
       if (current.decisions >= options.maxDecisions) { status = 'decisionLimit'; break; }
       if (current.decisions >= actionLimit) { status = 'replayLimit'; break; }
       try {
@@ -450,7 +469,7 @@
         const item = current.state.players[actor].hand.find(entry => entry.uid === action.handUid)
           || current.state.units.find(unit => unit.uid === action.unitUid || unit.uid === action.guardUid);
         const target = current.state.units.find(unit => unit.uid === action.targetUid);
-        actions.push({decision:current.decisions+1,turn:current.state.turn,actor,action:copy(action),
+        actions.push({decision:current.decisions+1,sequence:current.decisions+1,...Telemetry.timingContext(current.state),actor,action:copy(action),
           cardId:item ? item.cardId : null,cardName:item ? runtime.data.CARDS[item.cardId].name : null,...(action.type==='commander'?{commanderId:current.state.players[actor].commander.id,commanderName:E.commanders.get(current.state.players[actor].commander.id).name}:{}),
           targetCardId:target ? target.cardId : null,targetName:target ? runtime.data.CARDS[target.cardId].name : null,
           territoryName:action.territory !== undefined ? current.state.territories[action.territory].name : target ? current.state.territories[target.territory].name : null});
@@ -459,12 +478,13 @@
         current.state = dispatched.state; current.decisions++;
         tracker.record(before,current.state,action,{events:dispatched.events,decision:decision&&{...decision,profile:spec.aiProfiles[actor]},legalActions});
         const entry=actions[actions.length-1];entry.presenceBefore=[E.presence(before,0),E.presence(before,1)];entry.presenceAfter=[E.presence(current.state,0),E.presence(current.state,1)];entry.events=dispatched.events;entry.decision=decision&&{profile:spec.aiProfiles[actor],score:decision.score,reason:decision.reason,evaluated:decision.evaluated,priorityMargin:decision.priorityMargin};
+        if(isPaired(runtime)){const protocol=typeof module==='object'&&module.exports?require('./multiplayer-protocol.js'):globalThis.FrontlinesMultiplayerProtocol;entry.stateHashBefore=protocol.hash(before);entry.stateHash=protocol.hash(current.state);entry.timingAfter=Telemetry.timingContext(current.state);}
         current.actions[action.type] = (current.actions[action.type] || 0) + 1;
       } catch (problem) { status='error';error=String(problem && problem.message || problem);break; }
     }
     const metrics=tracker.finish(current.state),match=matchSummary(current,status,error);match.diagnostics=compactDiagnostics(metrics);if(metrics.commanders)match.commanderUsage=copy(metrics.commanders);
-    return {match,metrics,trace:tracker.trace(),actions,log:copy(current.state.log),truncated:status==='replayLimit',
-      final:{turn:current.state.turn,contested:current.state.contested,winner:current.state.winner,response:copy(current.state.response),
+    return {schemaVersion:isPaired(runtime)?2:1,match,metrics,trace:tracker.trace(),actions,log:copy(current.state.log),truncated:status==='replayLimit',
+      final:{...Telemetry.timingContext(current.state),contested:current.state.contested,winner:current.state.winner,response:copy(current.state.response),
         territories:copy(current.state.territories),units:copy(current.state.units),
         ...(E.RULES?.tacticalArsenal?{effects:copy(current.state.effects||[])}:{}),
         players:current.state.players.map((player,seat) => ({id:player.id,faction:player.faction,deckCount:player.deck.length,hand:copy(player.hand),discard:copy(player.discard),presence:E.presence(current.state,seat),...(E.RULES?.commanders?{commander:copy(player.commander)}:{})}))} };
@@ -478,22 +498,23 @@
   }
   function csv(headers,rows) { return [headers.join(','),...rows.map(row => row.map(csvValue).join(','))].join('\r\n') + '\r\n'; }
   function matchesCSV(report) {
-    return csv(['index','seed','p1_deck','p2_deck','p1_faction','p2_faction','status','winner_seat','winner_deck','turns','decisions','p1_captures','p2_captures','p1_kills','p2_kills','p1_damage','p2_damage','p1_territories','p2_territories','error','game_version','p1_commander','p2_commander'],
-      report.matches.map(match => [match.index,match.seed,...match.deckIds,...match.factions,match.status,match.winner === null ? '' : match.winner+1,match.winnerDeck,match.turns,match.decisions,...match.captures,...match.kills,...match.damage,...match.finalTerritories,match.error,report.gameVersion||report.rulesSnapshot?.gameVersion||'',...(match.commanderIds||['',''])]));
+    const paired=report.rulesSnapshot?.rules?.pairedTurns===true;
+    return csv(['index','seed','p1_deck','p2_deck','p1_faction','p2_faction','status','winner_seat','winner_deck',paired?'paired_turns':'turns','decisions','p1_captures','p2_captures','p1_kills','p2_kills','p1_damage','p2_damage','p1_territories','p2_territories','error','game_version','p1_commander','p2_commander',...(paired?['action_windows','action_windows_completed','paired_turns_completed','timing_model']:[])],
+      report.matches.map(match => [match.index,match.seed,...match.deckIds,...match.factions,match.status,match.winner === null ? '' : match.winner+1,match.winnerDeck,match.turns,match.decisions,...match.captures,...match.kills,...match.damage,...match.finalTerritories,match.error,report.gameVersion||report.rulesSnapshot?.gameVersion||'',...(match.commanderIds||['','']),...(paired?[match.actionWindows,match.actionWindowsCompleted,match.pairedTurnsCompleted,match.timingModel]:[])]));
   }
   function cardsCSV(report) {
-    const metrics=report.rulesSnapshot?.rules?.tacticalArsenal?Telemetry.CARD_METRICS.concat(Telemetry.TACTICAL_METRICS||[]):Telemetry.CARD_METRICS;
+    const metrics=Telemetry.metricsFor?Telemetry.metricsFor({RULES:report.rulesSnapshot?.rules||{}}):Telemetry.CARD_METRICS;
     const headers=['deckId','cardId','name','faction','type','copiesPerDeck',...metrics,'drawnDecisiveMatches','playedDecisiveMatches',
       'earlyPlayedDecisiveMatches','latePlayedDecisiveMatches','playRate','averageTurnDrawn','averageTurnPlayed','averagePresencePaid','averageSurvival',
       'affordablePlayRate','strandedRate','pressurePerPresence','damagePerPresence','winRateDrawn','winRatePlayed','winRateEarly','winRateLate',
-      'notDrawnDecisiveMatches','multiplePlayedDecisiveMatches','winRateNotDrawn','winRateMultiplePlayed','averageAIPlayScore','averageAIPriorityMargin','averageDeploymentControlDelta','averageDeploymentCaptureDelta','game_version'];
+      'notDrawnDecisiveMatches','multiplePlayedDecisiveMatches','winRateNotDrawn','winRateMultiplePlayed','averageAIPlayScore','averageAIPriorityMargin','averageDeploymentControlDelta','averageDeploymentCaptureDelta',...(report.rulesSnapshot?.rules?.pairedTurns?['averageWindowDrawn','averageWindowPlayed','averageSurvivalWindows']:[]),'game_version'];
     return csv(headers,report.summary.cards.map(row => headers.map(key => key==='game_version'?report.gameVersion||report.rulesSnapshot?.gameVersion||'':row[key])));
   }
   function commandersCSV(report) {
     const headers=['id','name','faction','played','decisive','won','lost','winRate','meanTurns','p1WinRate','p2WinRate','activeUses','activationRate','meanActivationTurn','passiveTriggers','passiveAmount',
-      'presenceSpent','commandActionsSpent','damageDealt','effectiveDamageDealt','healingDone','cardsRecovered','capacityRecovered','disruptionApplied','presenceSaved','commandActionsSaved','bonusPressure','passiveCardsDrawn','game_version'];
+      'presenceSpent','commandActionsSpent','damageDealt','effectiveDamageDealt','healingDone','cardsRecovered','capacityRecovered','disruptionApplied','presenceSaved','commandActionsSaved','bonusPressure','passiveCardsDrawn',...(report.rulesSnapshot?.rules?.pairedTurns?['meanActionWindows','meanActivationWindow']:[]),'game_version'];
     return csv(headers,(report.summary.byCommander||[]).map(row=>headers.map(key=>key==='game_version'?report.gameVersion||report.rulesSnapshot?.gameVersion||'':key==='p1WinRate'?row.seats[0].winRate:key==='p2WinRate'?row.seats[1].winRate:row[key])));
   }
-  return {VERSION,AI_VERSION,DEFAULT_THRESHOLDS,getBalanceProfiles,getDecks,getDeckCatalog,normalizeOptions,createRun,replayMatch,matchesCSV,cardsCSV,commandersCSV,
+  return {VERSION,AI_VERSION,DEFAULT_THRESHOLDS,getBalanceProfiles,getDecks,getDeckCatalog,normalizeOptions,scheduleFor,scheduledMatch,createRun,replayMatch,matchesCSV,cardsCSV,commandersCSV,
     compareReports:Analytics.compareReports,reportHTML:Analytics.reportHTML};
 });

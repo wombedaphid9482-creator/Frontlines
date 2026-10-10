@@ -14,7 +14,9 @@ Usage: node scripts/simulate.js [options]
   --seed N              Reproducible unsigned 32-bit base seed (default 1009)
   --fixed-seats         Keep A as Player 1 in duel mode
   --mirrors             Include mirror matches in matrix mode
-  --max-turns N         Offensive-turn cutoff (default 240)
+  --max-turns N         Paired Turn cutoff for sprint15 (default 120);
+                        historical profiles count Action Windows (default 240)
+  --max-action-windows N  Explicit normal-window cutoff (paired default 240)
   --max-decisions N     AI-decision cutoff per match (default 10000)
   --verify              Check invariants and card conservation every decision
   --balance PROFILE     Centralized balance profile (default baseline)
@@ -37,7 +39,7 @@ matches; the current incomplete match is excluded. No animations or sleeps.
 function parseArgs(args) {
   const options = {}, result = {options,out:'test-results/simulator-report.json',csv:false,help:false,compare:null};
   let aiA,aiB;
-  const values = {'--count':'count','--a':'deckA','--b':'deckB','--mode':'mode','--seed':'seed','--max-turns':'maxTurns','--max-decisions':'maxDecisions','--balance':'balanceProfile','--ai':'ai'};
+  const values = {'--count':'count','--a':'deckA','--b':'deckB','--mode':'mode','--seed':'seed','--max-turns':'maxTurns','--max-action-windows':'maxActionWindows','--max-decisions':'maxDecisions','--balance':'balanceProfile','--ai':'ai'};
   for (let index = 0; index < args.length; index++) {
     const flag = args[index];
     if (flag === '--help' || flag === '-h') result.help = true;

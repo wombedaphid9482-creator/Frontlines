@@ -6,9 +6,19 @@
   root.FrontlinesTelemetry = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this,function(DefaultData,DefaultEngine) {
   'use strict';
-  const VERSION = 'frontlines-telemetry-v7-tactical';
+  const VERSION = 'frontlines-telemetry-v8-paired-turns';
+  const TACTICAL_VERSION = 'frontlines-telemetry-v7-tactical';
   const LEGACY_VERSION = 'frontlines-telemetry-v6-commanders';
-  const versionFor = engine => engine?.RULES?.tacticalArsenal ? VERSION : LEGACY_VERSION;
+  const versionFor = engine => engine?.RULES?.pairedTurns ? VERSION : engine?.RULES?.tacticalArsenal ? TACTICAL_VERSION : LEGACY_VERSION;
+  const timingModelFor = engine => engine?.RULES?.pairedTurns ? 'paired-turns-v2' : 'legacy-action-windows-v1';
+  const windowIndex = state => state.turnSystemVersion===2 ? state.windowIndex : state.turn;
+  function timingContext(state) {
+    const result={turn:state.turn};
+    if(state.turnSystemVersion===2)for(const key of ['window','windowIndex','activePlayer','initiativePlayer','phase','lastCompletedWindow','lastResolvedTurn'])result[key]=state[key];
+    if(state.response)result.responseContext={stage:state.response.stage,attackerUid:state.response.attackerUid,defenderUid:state.response.defenderUid,responder:state.response.responder};
+    return result;
+  }
+  const PAIRED_METRICS=['drawWindowSum','playWindowSum','survivalWindowSum','survivingWindowExposure','unitWindowObservations','handEndWindowObservations','affordableHandEndWindowObservations','affordableOpportunityWindows','playedOpportunityWindows'];
   const clone = value => JSON.parse(JSON.stringify(value));
   const CONDITIONS = ['territoryDeficit2','centerLost','enemyForward','committedDeficit','unitDeficit'];
   const CARD_METRICS = ['included','includedMatches','drawn','plays','deployments','orders','attacksInitiated','deaths',
@@ -28,13 +38,15 @@
     'breachUses','blastUses','blastTargetsHit','blastEffectiveDamage','dodgeApplied','dodgeConsumed','dodgeBypassed','dodgeBlastBypasses','dodgeExpired','dodgeDamagePrevented',
     'suppressionApplied','suppressionExpired','suppressedActionWindows','suppressedActionsObserved','overwatchSet','overwatchTriggered','overwatchExpired',
     'sacrifices','sacrificePresenceReleased','exposedApplied','exposedConsumed','exposedExpired','smokeApplied','smokeExpired'];
-  const metricsFor = engine => CARD_METRICS.concat(engine?.RULES?.tacticalArsenal ? TACTICAL_METRICS : []);
+  const metricsFor = engine => CARD_METRICS.concat(engine?.RULES?.tacticalArsenal ? TACTICAL_METRICS : [],engine?.RULES?.pairedTurns?PAIRED_METRICS:[]);
   const emptyTactical = () => ({...Object.fromEntries(TACTICAL_METRICS.map(key=>[key,0])),destructionCauses:{}});
   function createTracker(options) {
     options = options || {};
     const D = options.data || DefaultData, E = options.engine || DefaultEngine;
     const tacticalEnabled = E.RULES?.tacticalArsenal === true;
+    const paired = E.RULES?.pairedTurns === true;
     const tactical = [emptyTactical(),emptyTactical()];
+    const timingMetrics={turnEndCaptures:0,statusExpiry:{turnEnd:0,windowStart:0,windowEnd:0,other:0},casualtyDraws:[0,0],commanderTriggers:{}};
     const hasTrait=(unit,name)=>E.hasTrait?E.hasTrait(unit,name):!!unit&&!unit.suppressed&&(D.CARDS[unit.cardId].traits||[]).includes(name);
     const traceLimit = Math.max(0,Math.min(5000,options.traceLimit === undefined ? 1000 : options.traceLimit));
     const records = [],cards = [Object.create(null),Object.create(null)],lives = new Map();
@@ -62,21 +74,25 @@
       }
       return cards[seat][id];
     }
-    function observeDraw(seat,item,turn) { const card = row(seat,item.cardId);card.drawn++;card.drawTurnSum += turn; }
-    function sample(state,turn,opening) {
+    function observeDraw(seat,item,turn,window) { const card = row(seat,item.cardId);card.drawn++;card.drawTurnSum += turn;if(paired)card.drawWindowSum+=window; }
+    function sampleEconomy(state) {for(let seat=0;seat<2;seat++){const eco=economy[seat],p=E.presence(state,seat);eco.samples++;eco.commandSum+=p.command;eco.availableSum+=p.available;eco.committedSum+=p.committed;eco.unitCountSum+=state.units.filter(u=>u.owner===seat).length;}}
+    function matureDeploymentWindows(state) {
       for(let index=deploymentWindows.length-1;index>=0;index--){
         const observation=deploymentWindows[index];
-        if(state.turn<observation.turn+4)continue;
+        if(windowIndex(state)<observation.windowIndex+4)continue;
         const card=row(observation.seat,observation.cardId);
         card.deploymentWindowCount++;
         card.deploymentControlDeltaSum+=E.controlledCount(state,observation.seat)-observation.controlled;
         card.deploymentCaptureDeltaSum+=state.stats.captures[observation.seat]-observation.captures;
         deploymentWindows.splice(index,1);
       }
+    }
+    function sample(state,turn,opening,context) {
+      if(!paired)matureDeploymentWindows(state);
       const controlled = [E.controlledCount(state,0),E.controlledCount(state,1)],committed = [E.presence(state,0).committed,E.presence(state,1).committed];
       const units = [state.units.filter(unit => unit.owner === 0).length,state.units.filter(unit => unit.owner === 1).length];
       const enemyOccupancy = [0,1].map(seat => state.units.some(unit => unit.owner !== seat && (seat === 0 ? unit.territory <= 2 : unit.territory >= 4)));
-      const item = {turn,controlled,centerOwner:state.territories[3].owner,enemyOccupancy,committed,units};
+      const item = {turn,...(paired?{window:context?.window??state.window,windowIndex:state.lastCompletedWindow,activePlayer:context?.activePlayer??state.activePlayer,initiativePlayer:state.initiativePlayer,phase:opening?'TURN_START':'TURN_END'}:{}),controlled,centerOwner:state.territories[3].owner,enemyOccupancy,committed,units};
       timeline.push(item);
       if (options.trace || options.territoryHistory) territory.samples.push(item);
       for (let seat = 0; seat < 2; seat++) {
@@ -90,8 +106,6 @@
           const ownerSignature = state.territories.filter(zone => zone.owner === seat).map(zone => zone.id).join(',');
           holds[seat] = previousOwners.get(seat) === ownerSignature ? holds[seat]+1 : 1;
           previousOwners.set(seat,ownerSignature);territory.longestHold[seat] = Math.max(territory.longestHold[seat],holds[seat]);
-          const presence = E.presence(state,seat), eco = economy[seat];
-          eco.samples++;eco.commandSum += presence.command;eco.availableSum += presence.available;eco.committedSum += presence.committed;eco.unitCountSum += units[seat];
         }
         const bad = {territoryDeficit2:controlled[1-seat]-controlled[seat] >= 2,centerLost:item.centerOwner === 1-seat,
           enemyForward:enemyOccupancy[seat],committedDeficit:committed[1-seat]-committed[seat] >= 5,unitDeficit:units[1-seat]-units[seat] >= 2};
@@ -101,6 +115,7 @@
           if (!bad[condition] && record.experienced && turn > record.firstTurn) record.recovered = true;
         }
       }
+      if(!opening&&!paired)sampleEconomy(state);
       if (!opening && state.units.some(unit => unit.owner === 0 && unit.territory === state.contested)
         && state.units.some(unit => unit.owner === 1 && unit.territory === state.contested)) territory.contestedSamples++;
     }
@@ -109,12 +124,12 @@
       initial = state;last = state;
       for (let seat = 0; seat < 2; seat++) {
         const player = state.players[seat];
-        if(E.RULES?.commanders){const c=E.commanders.get(player.commander.id);commanders[seat]={player:seat,id:c.id,name:c.name,faction:c.faction,deckId:typeof deckIds[seat]==='string'?deckIds[seat]:player.deckMeta.id,activeTurn:null};for(const metric of COMMANDER_METRICS)commanders[seat][metric]=0;}
+        if(E.RULES?.commanders){const c=E.commanders.get(player.commander.id);commanders[seat]={player:seat,id:c.id,name:c.name,faction:c.faction,deckId:typeof deckIds[seat]==='string'?deckIds[seat]:player.deckMeta.id,activeTurn:null,...(paired?{activeWindow:null,timingUses:[]}: {})};for(const metric of COMMANDER_METRICS)commanders[seat][metric]=0;}
         const inventory = player.deck.concat(player.discard,player.hand.map(item => item.cardId),state.units.filter(unit => unit.owner === seat).map(unit => unit.cardId));
         for (const id of inventory) { const card = row(seat,id);card.included++;card.copiesPerDeck++;card.includedMatches = 1; }
-        for (const item of player.hand) observeDraw(seat,item,state.turn);
+        for (const item of player.hand) observeDraw(seat,item,state.turn,windowIndex(state));
         economy[seat].generated = player.command;
-        for (const unit of state.units.filter(unit => unit.owner === seat)) lives.set(unit.uid,{seat,cardId:unit.cardId,turn:unit.deployedTurn});
+        for (const unit of state.units.filter(unit => unit.owner === seat)) lives.set(unit.uid,{seat,cardId:unit.cardId,turn:unit.deployedTurn,windowIndex:unit.deployedWindow??unit.deployedTurn});
       }
       sample(state,0,true);
     }
@@ -132,18 +147,18 @@
       const unit = before.units.find(item => item.uid === action.unitUid || item.uid === action.guardUid);
       if (hand) {
         const card = row(actor,hand.cardId),cost = E.RULES?.commanders?actionCost.presence:D.CARDS[hand.cardId].presence;
-        card.plays++;card.playTurnSum += before.turn;card.presencePaid += cost;
+        card.plays++;card.playTurnSum += before.turn;if(paired)card.playWindowSum+=windowIndex(before);card.presencePaid += cost;
         card.commandActionsPaid += actionCost.commandActions;
         if(!actionCost.commandActions){card.freePlays++;economy[actor].freeCardPlays++;}
-        if (action.type === 'deploy') { card.deployments++;economy[actor].deploymentCommitment += cost;lives.set(hand.uid,{seat:actor,cardId:hand.cardId,turn:before.turn});
-          deploymentWindows.push({seat:actor,cardId:hand.cardId,turn:before.turn,controlled:E.controlledCount(before,actor),captures:before.stats.captures[actor]}); }
+        if (action.type === 'deploy') { card.deployments++;economy[actor].deploymentCommitment += cost;lives.set(hand.uid,{seat:actor,cardId:hand.cardId,turn:before.turn,windowIndex:windowIndex(before)});
+          deploymentWindows.push({seat:actor,cardId:hand.cardId,turn:before.turn,windowIndex:windowIndex(before),controlled:E.controlledCount(before,actor),captures:before.stats.captures[actor]}); }
         else {card.orders++;economy[actor].orderSpend += cost;}
-        if (before.turn <= 6) card._early = true; else card._late = true;
+        if (windowIndex(before) <= 6) card._early = true; else card._late = true;
         economy[actor].playedCostSum += cost;economy[actor].plays++;
         if(Number.isFinite(detail.decision?.score)){card.aiScoredPlays++;card.aiPlayScoreSum+=detail.decision.score;card.aiPriorityMarginSum+=detail.decision.priorityMargin||0;}
       }
       if(action.type==='attack'&&unit){const c=row(unit.owner,unit.cardId);c.attacksInitiated++;
-        if(unit.deployedTurn===before.turn&&hasTrait(unit,'rush'))c.rushAttacks++;
+        if((paired?unit.deployedWindow===before.windowIndex:unit.deployedTurn===before.turn)&&hasTrait(unit,'rush'))c.rushAttacks++;
         if(hasTrait(unit,'precision')&&before.units.some(guard=>guard.owner!==unit.owner&&guard.territory===unit.territory&&guard.ready&&guard.uid!==action.targetUid&&hasTrait(guard,'guard')))c.precisionBypasses++;}
       if(tacticalEnabled&&action.type==='ability'&&unit){const c=row(unit.owner,unit.cardId);c.tacticalAbilities++;tactical[unit.owner].tacticalAbilities++;c.abilityCapacityPaid+=actionCost.presence;c.abilityCommandActionsPaid+=actionCost.commandActions;tactical[unit.owner].abilityCapacityPaid+=actionCost.presence;tactical[unit.owner].abilityCommandActionsPaid+=actionCost.commandActions;}
       if(tacticalEnabled&&action.type==='overwatch'&&unit){row(unit.owner,unit.cardId).overwatchCommandActionsPaid+=actionCost.commandActions;tactical[unit.owner].overwatchCommandActionsPaid+=actionCost.commandActions;}
@@ -156,17 +171,23 @@
       const oldUnits = new Set(before.units.map(item => item.uid)),newUnits = new Set(after.units.map(item => item.uid));
       for (let seat = 0; seat < 2; seat++) {
         const returned = new Set(after.players[seat].hand.map(item => item.uid));
-        for (const item of after.players[seat].hand) if (!oldHand[seat].has(item.uid) && !oldUnits.has(item.uid) && !recoveredUids.has(item.uid)) observeDraw(seat,item,after.turn);
+        for (const item of after.players[seat].hand) if (!oldHand[seat].has(item.uid) && !oldUnits.has(item.uid) && !recoveredUids.has(item.uid)) observeDraw(seat,item,after.turn,windowIndex(after));
         for (const removed of before.units) if (removed.owner === seat && !newUnits.has(removed.uid)) {
           const life = lives.get(removed.uid);lives.delete(removed.uid);
           if (!returned.has(removed.uid)) {
-            const card = row(seat,removed.cardId);card.deaths++;card.completedLives++;card.survivalTurnSum += Math.max(0,before.turn-(life ? life.turn : removed.deployedTurn));
+            const card = row(seat,removed.cardId);card.deaths++;card.completedLives++;card.survivalTurnSum += Math.max(0,before.turn-(life ? life.turn : removed.deployedTurn));if(paired)card.survivalWindowSum+=Math.max(0,windowIndex(before)-(life?life.windowIndex:removed.deployedWindow));
             economy[seat].casualtyReleased += D.CARDS[removed.cardId].presence;
           } else economy[seat].reclaimedReleased += D.CARDS[removed.cardId].presence;
         }
         economy[seat].generated += Math.max(0,after.players[seat].command-before.players[seat].command);
       }
       for (const event of events) {
+        if(paired){
+          if(event.type==='capture'&&event.phase==='TURN_END')timingMetrics.turnEndCaptures++;
+          if(event.type==='statusExpired'){const expiry=event.expires?.timing||before.effects?.find(f=>f.id===event.id)?.expires?.timing||event.timing||(event.phase==='TURN_END'?'turnEnd':event.phase==='WINDOW_END'?'windowEnd':'windowStart');timingMetrics.statusExpiry[Object.hasOwn(timingMetrics.statusExpiry,expiry)?expiry:'other']++;}
+          if(event.type==='passive'&&event.trait==='scavenge')timingMetrics.casualtyDraws[event.player]+=event.amount||1;
+          if(event.type==='commanderPassive'){const key=event.commanderId||event.sourceCommanderId||E.commanders.get(before.players[event.player].commander.id).id;timingMetrics.commanderTriggers[key]=(timingMetrics.commanderTriggers[key]||0)+1;if(key==='commander_rogue_scavenger')timingMetrics.casualtyDraws[event.player]+=event.amount||1;}
+        }
         if(tacticalEnabled){
           const sourceSeat = Number.isInteger(event.sourcePlayer)?event.sourcePlayer:Number.isInteger(event.player)?event.player:null;
           const affected = Number.isInteger(event.targetOwner)?event.targetOwner:sourceSeat;
@@ -196,7 +217,8 @@
           }
         }
         const commander=Number.isInteger(event.player)?commanders[event.player]:null;
-        if(commander&&event.type==='commanderActivated'){commander.activeUses++;commander.activeTurn=before.turn;commander.presenceSpent+=event.presenceCost;commander.commandActionsSpent+=event.commandCost;}
+        if(commander&&event.type==='commanderActivated'){commander.activeUses++;commander.activeTurn=before.turn;if(paired)commander.activeWindow=windowIndex(before);commander.presenceSpent+=event.presenceCost;commander.commandActionsSpent+=event.commandCost;}
+        if(paired&&commander&&['commanderActivated','commanderPassive'].includes(event.type))commander.timingUses.push({type:event.type,...timingContext(before),sequence:decisions});
         if(commander&&event.type==='commanderPassive'){commander.passiveTriggers++;commander.passiveAmount+=event.amount;if(commander.id==='commander_syndicate_coordinator')commander.presenceSaved+=event.amount;if(['commander_syndicate_quartermaster','commander_rogue_drifter'].includes(commander.id))commander.commandActionsSaved+=event.amount;if(commander.id==='commander_bruiser_breaker')commander.bonusPressure+=event.amount;if(commander.id==='commander_rogue_scavenger')commander.passiveCardsDrawn+=event.amount;if(commander.id==='commander_nightwalker_saboteur')commander.disruptionApplied+=event.amount;}
         if(commander&&event.type==='commanderRecovery'){commander.cardsRecovered+=event.cardId?1:event.drawn||0;commander.capacityRecovered+=event.cardId?0:event.amount;}
         if(commander&&event.type==='commanderDisrupt')commander.disruptionApplied+=event.amount;
@@ -277,22 +299,23 @@
           if (D.CARDS[item.cardId].presence <= available) card.affordableHandEndTurnObservations++;
           else {card.costStrandedObservations++;eco.costStrandedObservations++;}
         }
-        sample(after,before.turn,false);
+        if(paired){sampleEconomy(after);matureDeploymentWindows(after);const complete=events.find(e=>e.type==='turnEndComplete');if(complete||after.lastResolvedTurn>before.lastResolvedTurn)sample(after,complete?.resolvedTurn??before.turn,false,complete||before);}
+        else sample(after,before.turn,false);
       }
       // Evaluate affordable meaningful opportunity once at the first decision
       // of each player's offensive turn, not on every animation/action update.
-      if (!before.response && (!opportunity || opportunity.key !== `${before.turn}:${actor}`)) {
+      if (!before.response && (!opportunity || opportunity.key !== `${windowIndex(before)}:${actor}`)) {
         const legal = detail.legalActions || E.legalActions(before);
         const playable = new Set(legal.filter(candidate => candidate.type === 'deploy' || candidate.type === 'order').map(candidate => candidate.handUid));
         economy[actor].meaningfulOpportunityTurns++;
         if (!playable.size) economy[actor].noMeaningfulAffordableTurns++;
         const available = E.presence(before,actor).available;
         const ids = new Set(before.players[actor].hand.filter(item => playable.has(item.uid)).map(item => item.cardId));
-        opportunity = {key:`${before.turn}:${actor}`,actor,ids,played:new Set()};
+        opportunity = {key:`${windowIndex(before)}:${actor}`,actor,ids,played:new Set()};
         for (const id of ids) row(actor,id).affordableOpportunityTurns++;
         for (const item of before.players[actor].hand) if (D.CARDS[item.cardId].presence > available) row(actor,item.cardId)._costSeen = true;
       }
-      if (hand && opportunity && opportunity.key === `${before.turn}:${actor}` && opportunity.ids.has(hand.cardId) && !opportunity.played.has(hand.cardId)) {
+      if (hand && opportunity && opportunity.key === `${windowIndex(before)}:${actor}` && opportunity.ids.has(hand.cardId) && !opportunity.played.has(hand.cardId)) {
         opportunity.played.add(hand.cardId);row(actor,hand.cardId).playedOpportunityTurns++;
       }
       if(before.response){
@@ -305,7 +328,8 @@
         const target = before.units.find(item => item.uid === action.targetUid),definition = hand ? D.CARDS[hand.cardId] : unit ? D.CARDS[unit.cardId] : null;
         const name = action.type==='ability'&&definition?.tactical?.ability?definition.name+' — '+definition.tactical.ability.name:definition ? definition.name : action.type==='commander'?E.commanders.get(before.players[actor].commander.id).active.name:action.pass ? 'Pass' : action.type;
         const destination = action.territory === undefined ? target && before.territories[target.territory].name : before.territories[action.territory].name;
-        records.push({turn:before.turn,actor,action:clone(action),cardId:definition && definition.id || null,
+        const protocol=paired?(typeof module==='object'&&module.exports?require('./multiplayer-protocol.js'):globalThis.FrontlinesMultiplayerProtocol):null;
+        records.push({...timingContext(before),sequence:decisions,...(paired?{stateHashBefore:protocol.hash(before),stateHash:protocol.hash(after),timingAfter:timingContext(after)}:{}),actor,action:clone(action),cardId:definition && definition.id || null,
           actionText:`${action.type}: ${name}${destination ? ` → ${destination}` : ''}${target ? ` (${D.CARDS[target.cardId].name})` : ''}`,
           presenceBefore:[E.presence(before,0),E.presence(before,1)],presenceAfter:[E.presence(after,0),E.presence(after,1)],
           territoryBefore:[E.controlledCount(before,0),E.controlledCount(before,1)],territoryAfter:[E.controlledCount(after,0),E.controlledCount(after,1)],
@@ -325,7 +349,8 @@
         if(final)item.deploymentWindowCensored+=deploymentWindows.filter(window=>window.seat===seat&&window.cardId===card.cardId).length;
         item.earlyPlayedMatches = card._early ? 1 : 0;item.earlyPlayedWins = card._early && winner === seat ? 1 : 0;
         item.latePlayedMatches = card._late ? 1 : 0;item.latePlayedWins = card._late && winner === seat ? 1 : 0;
-        if (final) for (const [uid,life] of lives) if (life.seat === seat && life.cardId === card.cardId) item.survivingTurnExposure += Math.max(0,state.turn-life.turn);
+        if (final) for (const [uid,life] of lives) if (life.seat === seat && life.cardId === card.cardId) {item.survivingTurnExposure += Math.max(0,state.turn-life.turn);if(paired)item.survivingWindowExposure+=Math.max(0,windowIndex(state)-life.windowIndex);}
+        if(paired)for(const [newKey,legacyKey]of Object.entries({unitWindowObservations:'unitTurnObservations',handEndWindowObservations:'handEndTurnObservations',affordableHandEndWindowObservations:'affordableHandEndTurnObservations',affordableOpportunityWindows:'affordableOpportunityTurns',playedOpportunityWindows:'playedOpportunityTurns'}))item[newKey]=item[legacyKey];
         return item;
       }));
       const flow = clone(territory),sampleCount = Math.max(0,timeline.length-1);
@@ -343,7 +368,7 @@
       const economies = clone(economy);
       for (let seat = 0; seat < 2; seat++) economies[seat].finalCommitted = E.presence(state,seat).committed;
       const gameVersion=typeof module==='object'&&module.exports?require('./package.json').version:globalThis.FrontlinesBuild&&globalThis.FrontlinesBuild.version||globalThis.FrontlinesShellState&&globalThis.FrontlinesShellState.VERSION||globalThis.FrontlinesRuntime&&globalThis.FrontlinesRuntime.version||null;
-      return {schemaVersion:1,gameVersion,telemetryVersion:versionFor(E),rulesVersion:E.VERSION || 'frontlines-territory-v1',rules:clone(E.RULES||{}),seed:initial.seed,
+      return {schemaVersion:paired?2:1,gameVersion,telemetryVersion:versionFor(E),...(paired?{timingModel:timingModelFor(E),timingUnits:{turns:'paired-turns',actionWindows:'normal-action-windows'},actionWindows:state.windowIndex,actionWindowsCompleted:state.lastCompletedWindow,pairedTurnsCompleted:state.lastResolvedTurn,timing:timingContext(state),timingMetrics:clone(timingMetrics),boundaryCounts:{windowEnds:actions.endTurn||0,turnEnds:flow.sampleCount}}:{}),rulesVersion:E.VERSION || 'frontlines-territory-v1',rules:clone(E.RULES||{}),seed:initial.seed,
         factions:initial.players.map(player => player.faction),aiProfiles:aiProfiles.slice(),winner,turns:state.turn,decisions,actions:{...actions},
         territory:flow,economy:economies,comeback:comebacks,cards:cardsOut,...(E.RULES?.commanders?{commanders:clone(commanders)}:{}),
         ...(tacticalEnabled?{tactical:clone(tactical),tacticalDefinitions:{counts:'Observed authoritative events, not inferred causal strength. Status ownership identifies the original source; destroyed target ownership identifies the casualty side.',damagePrevented:'Actual effective health protection reported by resolved Cover/Dodge events, excluding overkill. No invented counterfactual kills.',suppressedActionsObserved:'Own action decisions while a deployed unit was Suppressed; counts opportunities, not attacks or moves actually prevented.',suppressedActionWindows:'Own offensive end-window observations while Suppressed. Expiry is explicit engine timing.',destructionCauses:'Authoritative death causes. Sacrifice is voluntary and must not trigger general casualty recovery.'}}:{}),
@@ -358,12 +383,13 @@
           survival:'Offensive turns from deployment to destruction. Surviving exposure is censored and separate.',early:'Card played on offensive turn 6 or earlier.',
           associations:'When-drawn/played/multiple-play win rates are observational, not causal card power estimates. Command bonus-enabled counts do not double-count the attacking card damage.',
           deploymentWindow:'Net controlled-territory change and capture-event change over four offensive initiatives after deployment. Several cards share the same team result; these observations are not causal attribution. Windows truncated by match end are censored separately.',
-          aiPriority:'The chosen action score and margin over the next-highest legal action, from the exact policy evaluation used for that action. Human and legacy unobserved choices do not enter these averages.'}};
+          aiPriority:'The chosen action score and margin over the next-highest legal action, from the exact policy evaluation used for that action. Human and legacy unobserved choices do not enter these averages.',
+          ...(paired?{turn:'One paired Turn contains both normal Action Windows.',actionWindows:'Normal Action Window starts, including the current initialized window; completed windows are separately recorded.',territorySamples:'Authoritative post-Turn-End ownership; opening sample has Turn 0.',comeback:'Condition observed at Turn End; recovery is a later paired-Turn sample no longer meeting it.',opportunities:'Legal options at the first decision of each own Action Window. Legacy OpportunityTurns field names are retained window-count aliases.',survival:'Paired Turn distance from deployment to death; explicit survivalWindowSum preserves normal-window exposure.',early:'Played during normal Action Window 6 or earlier, preserving the original six-window exposure horizon.',deploymentWindow:'Net team control/capture change four normal Action Windows after deployment, with incomplete windows censored; this is not causal attribution.',pressure:'Team territorialPressure is actual net progress granted at Turn End. Card pressureContributed counts eligible printed contributor Presence on that net-pressure event, excluding bonuses; it is not allocated net progress or a causal capture estimate.',legacyAliases:'unitTurnObservations, handEndTurnObservations, affordableHandEndTurnObservations, affordableOpportunityTurns and playedOpportunityTurns retain per-window cadence and have explicit Window aliases.'}: {})}};
     }
     const tracker = {record,summary:() => last ? output(last,false) : null,trace:() => clone(records),
       finish(state) {if (!finished) {finished = output(state,true);if (options.trace) {finished.trace = clone(records);finished.traceTruncated = decisions > records.length;}}return clone(finished);}};
     if (options.state) initialize(options.state);
     return tracker;
   }
-  return {VERSION,LEGACY_VERSION,versionFor,CONDITIONS,CARD_METRICS,TACTICAL_METRICS,metricsFor,createTracker};
+  return {VERSION,LEGACY_VERSION,TACTICAL_VERSION,versionFor,timingModelFor,timingContext,CONDITIONS,CARD_METRICS,TACTICAL_METRICS,PAIRED_METRICS,metricsFor,createTracker};
 });

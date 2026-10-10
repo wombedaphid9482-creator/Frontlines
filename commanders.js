@@ -80,15 +80,22 @@
   const originalScavengerText='The first allied battlefield card destroyed in each offensive initiative draws you 1 card. This may also trigger alongside a surviving unit’s Scavenge ability; each has its own limit.';
   let historicalCatalog;
   function forRules(rules){
-    if(rules?.salvageRecovery)return api;
+    if(rules?.pairedTurns)return api;
+    if(rules?.salvageRecovery)return legacyApi;
     if(!historicalCatalog){
       const historical={...COMMANDERS,commander_rogue_scavenger:{...COMMANDERS.commander_rogue_scavenger,passive:{...COMMANDERS.commander_rogue_scavenger.passive,text:originalScavengerText}}};
       freeze(historical);
-      historicalCatalog=freeze({...api,COMMANDERS:historical,get:id=>typeof id==='string'&&Object.hasOwn(historical,id)?historical[id]:null,list:faction=>Object.values(historical).filter(c=>!faction||c.faction===faction)});
+      historicalCatalog=freeze({...legacyApi,COMMANDERS:historical,get:id=>typeof id==='string'&&Object.hasOwn(historical,id)?historical[id]:null,list:faction=>Object.values(historical).filter(c=>!faction||c.faction===faction)});
     }
     return historicalCatalog;
   }
   freeze(COMMANDERS);freeze(DEFAULTS);
-  const api=freeze({VERSION,COMMANDERS,DEFAULTS,list,get,defaultFor,synergy,forRules});
+  const legacyApi=freeze({VERSION,COMMANDERS,DEFAULTS,list,get,defaultFor,synergy,forRules});
+  const paired=JSON.parse(JSON.stringify(COMMANDERS));
+  for(const commander of Object.values(paired))for(const field of ['passive','active','hook'])commander[field].text=commander[field].text.replaceAll('offensive turn','Action Window').replaceAll('global turn','paired Turn').replaceAll('Deployment-turn','Deployment-window').replaceAll('deployment-turn','deployment-window');
+  paired.commander_bruiser_breaker.passive.text='At Turn End, your surviving Rush or Mobile allied unit on the contested objective supplies 2 extra capture pressure. Both players act before this resolution. This is territorial pressure, not spendable Capacity.';
+  freeze(paired);
+  const pairedGet=id=>typeof id==='string'&&Object.hasOwn(paired,id)?paired[id]:null;
+  const api=freeze({...legacyApi,VERSION:'frontlines-commanders-v2-paired',COMMANDERS:paired,get:pairedGet,list:faction=>Object.values(paired).filter(c=>!faction||c.faction===faction),synergy:(card,id)=>{const result=synergy(card,id);return {...result,reasons:result.reasons.map(t=>t.replaceAll('each turn','each Action Window')),reason:result.reason.replaceAll('each turn','each Action Window')};}});
   return api;
 });

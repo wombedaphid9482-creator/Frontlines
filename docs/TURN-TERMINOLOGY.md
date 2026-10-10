@@ -1,9 +1,26 @@
-# Action windows and the future paired turn
+# Turn and Action Window terminology — v1.3.0
 
-The current `state.turn` counts **global offensive action windows**. P1 window 1 → P2 window 2 → P1 window 3. A combat Response or Counter belongs to the attacker's window and does not increment this counter. Capture and forced displacement resolve at each window end; readiness, Order refresh, draws, growth, Medic/Commander start triggers and most status expiry occur at the next owner's window start.
+The approved Turn System 2.0 specification defines **one Turn as both players' normal Action Windows**, followed by one Turn-End resolution. The first actor is fixed for the match; it does not alternate between Turns. Multiplayer rematches retain their existing between-match seat swap.
 
-v1.0.5 safely labels the live HUD, capture forecast, End window control, victory counter, log prefixes, tutorial and advanced practice with action-window wording. Field Leaders are deployable cards; Commanders are the separate off-lane choice. Legacy printed “turn” text and serialized `turn`/`endTurn` intent IDs remain compatible. Exported historical `turns` metrics count windows.
+```
+TURN 1 — FIRST ACTION WINDOW
+TURN 1 — SECOND ACTION WINDOW
+END OF TURN 1 — territory and Turn-bound effects resolve
+TURN 2 — FIRST ACTION WINDOW
+```
 
-Ryken's intended future model is Turn 6 → P1 action window → P2 action window → end-of-turn resolution. Moving capture or growth to a paired resolution would change initiative, capture race, displacement, status duration, salvage budgets, Commander passives and AI planning. Merely halving the display would misleadingly label first-window captures as end-of-turn events.
+**End Action Window** ends the current player's normal opportunity. It cannot promise a capture after FIRST: the opponent still acts before the surviving battlefield is evaluated. SECOND's forecast is a final-current projection, rather than a guarantee against changes before ending the window. Turn-End progress uses the net-pressure formula in [TURN-SYSTEM-2-RULES.md](TURN-SYSTEM-2-RULES.md).
 
-The next timing sprint must introduce separate turn/window counters and specify initiative order; migration for start/end expiries and deployed/moved/attacked/defended/passive fields; once-per-window versus once-per-paired-turn casualty budgets; simultaneous/ordered capture resolution; reserve/readiness/growth timing; tutorial fixtures; replay schema and explicit rules-version negotiation; simulator cutoffs and telemetry labels. Compare the frozen rules with paired timing using owner-authorized data before switching competitive defaults. This timing rewrite is deferred.
+**Response** and **Counter** are nested combat decisions. They retain the initiating normal window's Turn, index and active-player context. They do not increment either clock or trigger normal draws, Capacity growth or refresh.
+
+Player-specific systems occur at **your Action Window Start**: normal draw, Capacity growth after your first personal window, temporary Order spending reset, Command Actions reset, readiness and appropriate Commander/status hooks. They are not simultaneous global Turn-Start refreshes. **Until your next Action Window** is distinct from **until Turn End**. Shared Scavenge / Nothing Wasted casualty draws are once per player **per paired Turn**, with the existing Sacrifice and provenance exclusions.
+
+The canonical state separately serializes `turn`, `window`, `windowIndex`, `activePlayer`, `initiativePlayer`, `phase`, `lastCompletedWindow` and `lastResolvedTurn`. `players[].turns` remains a legacy alias for that player's personal window-start count; it still supports resource cadence and reward eligibility. The internal action ID `endTurn` is retained as an API spelling for End Action Window and does not define the user-facing rule.
+
+## Historical data
+
+Profiles through `sprint12`, including the released v1.2.0 rules, use **legacy action-window timing**. Their `state.turn` and schema-1 report `turns` count normal windows. Capture occurs after the acting player's window. Existing reports are labeled Action Windows; they are never silently divided by two or reinterpreted as paired Turns.
+
+New paired reports use schema 2, `timingModel: "paired-turns-v2"`, explicit timing units and separate `turns` / `actionWindows` / completed-boundary counters. Match-history records without the new timing model retain their legacy length label. Active states and replays must match their timing version and rules fingerprint; old active matches cannot be converted by arithmetic.
+
+The beginner tutorial retains its fourteen lessons and Commander onboarding. Its capture lesson demonstrates FIRST and SECOND on the same Turn before Turn End. Tactical Training labels ordinary opponent commands as an Action Window, reserving Response/Counter for actual nested combat phases.

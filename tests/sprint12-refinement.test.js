@@ -10,7 +10,7 @@ function conceal(s){const p=clone(s),actor=E.getActor(p);for(const row of p.play
 function choose(s,predicate){const legal=E.legalActions(s).filter(a=>a.type==='endTurn'||predicate(a)),before=JSON.stringify(s),options={profile:'deck',difficulty:'normal',legalActions:legal};const decision=A.explainAction(s,options);assert.equal(E.validate(s,decision.action),null);assert.deepEqual(A.explainAction(conceal(s),options),decision);assert.equal(JSON.stringify(s),before);return decision;}
 test('refinement preserves all 155 printed cards, 35 deck lists and ten Commanders',()=>{
   const previous=B.createRuntime('sprint11'),frozen=JSON.parse(fs.readFileSync('docs/balance/sprint12-v1.0.4-baseline/rules-and-decks.json'));
-  assert.equal(B.DEFAULT_PROFILE,'sprint12');assert.equal(A.VERSION,'frontlines-ai-sprint12-v1');
+  assert.equal(B.DEFAULT_PROFILE,'sprint15');assert.equal(A.VERSION,'frontlines-ai-sprint12-v1');
   assert.deepEqual(D.CARDS,previous.data.CARDS);assert.deepEqual(D.CARDS,frozen.cards);assert.equal(Object.keys(D.CARDS).length,155);
   assert.deepEqual(Decks.forData(D).getDecks(),Decks.forData(previous.data).getDecks());assert.equal(Decks.forData(D).getDecks().length,35);
   assert.deepEqual(E.commanders.COMMANDERS,previous.engine.commanders.COMMANDERS);assert.deepEqual(D.DEFAULT_CONFIG,previous.data.DEFAULT_CONFIG);

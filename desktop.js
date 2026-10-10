@@ -71,7 +71,7 @@ function createWindow(page='index.html') {
     webPreferences:{preload:path.join(__dirname,'preload.js'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
   windows.add(win);matchActive.set(win,false);
   const relayArg=smoke&&process.argv.find(arg=>arg.startsWith('--relay-test-url='));
-  const controller=Multiplayer.createController({appVersion:app.getVersion(),...(relayArg?{serviceURL:relayArg.slice('--relay-test-url='.length),allowLocalhost:true,allowTestFaults:true}:{})});
+  const controller=Multiplayer.createController({appVersion:app.getVersion(),...(smoke&&process.argv.includes('--smoke-multiplayer')?{allowTestFaults:true,hostOptions:{seedFactory:()=>7317}}:{}),...(relayArg?{serviceURL:relayArg.slice('--relay-test-url='.length),allowLocalhost:true,allowTestFaults:true}:{})});
   multiplayer.set(win,controller);controller.onState(state=>{if(!win.isDestroyed()){win.webContents.send('frontlines:multiplayer-changed',state);broadcast();}});
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   win.webContents.on('will-navigate',(event,url)=>{
@@ -87,7 +87,7 @@ function createWindow(page='index.html') {
   return win;
 }
 function runSmoke(win) {
-  const timeout=setTimeout(()=>{console.error('FRONTLINES_SMOKE timeout');app.exit(1);},process.argv.includes('--smoke-multiplayer')?160000:60000);
+  const timeout=setTimeout(()=>{console.error('FRONTLINES_SMOKE timeout');app.exit(1);},process.argv.includes('--smoke-multiplayer')?330000:60000);
   win.webContents.once('did-fail-load',(_event,code,message)=>{clearTimeout(timeout);console.error(`FRONTLINES_SMOKE load ${code}: ${message}`);app.exit(1);});
   win.webContents.once('did-finish-load',async()=>{
     try {

@@ -21,7 +21,7 @@
  const uidNumber=u=>Number(/(\d+)$/.exec(u.uid)?.[1]||0);
  function compare(a,b){return uidNumber(a)-uidNumber(b)||(a.uid<b.uid?-1:a.uid>b.uid?1:0);}
  function create(h){
-  const {card,trait,unitsAt,unitById,event,log,draw,dealDamage,destroy,baseCombatDamage,attackValue,direction,retreatDestination}=h;
+  const {card,trait,unitsAt,unitById,event,log,draw,dealDamage,destroy,baseCombatDamage,attackValue,direction,retreatDestination,pairedTurns=false,windowStamp=state=>state.turn,nextOwnerWindow,deployedNow=(state,u)=>u.deployedTurn===state.turn,stamp=(state,u,kind)=>{u[kind+'Turn']=state.turn;}}=h;
   const all=state=>state.effects||[];
   const statusesFor=(state,uid)=>all(state).filter(f=>f.targetUid===uid);
   const get=(state,uid,kind)=>statusesFor(state,uid).find(f=>f.kind===kind);
@@ -30,8 +30,8 @@
   function record(state,kind,target,source={},amount=1,meta={}){
    const owner=target.owner,territory=target.territory,targetUid=target.uid||null;
    return {id:'pending-'+kind+'-'+(targetUid||territory)+'-'+owner,kind,owner,targetUid,territory,sourcePlayer:source.player??owner,sourceCardId:source.sourceCardId||null,sourceUid:source.sourceUid||null,
-    startedTurn:state.turn,amount,stack:'refresh',consume:{cover:'directEnemyHit',dodge:'directEnemyHit',exposed:'directEnemyHit',overwatch:'enemyVoluntaryEntry'}[kind]||'expiry',
-    expires:{timing:kind==='suppression'||kind==='pressure'?'windowEnd':'windowStart',player:owner,afterTurn:kind==='pressure'?state.turn-1:state.turn},metadata:{...meta}};
+    startedTurn:state.turn,...(pairedTurns?{startedWindow:state.windowIndex}:{}),amount,stack:'refresh',consume:{cover:'directEnemyHit',dodge:'directEnemyHit',exposed:'directEnemyHit',overwatch:'enemyVoluntaryEntry'}[kind]||'expiry',
+    expires:pairedTurns?(kind==='pressure'?{timing:'turnEnd',player:owner,turn:state.turn}:{timing:kind==='suppression'?'windowEnd':'windowStart',player:owner,windowIndex:nextOwnerWindow(state,owner)}):{timing:kind==='suppression'||kind==='pressure'?'windowEnd':'windowStart',player:owner,afterTurn:kind==='pressure'?state.turn-1:state.turn},metadata:{...meta}};
   }
   function detail(state,f){const unit=f.targetUid&&unitById(state,f.targetUid);return {status:f.kind,kind:f.kind,id:f.id,player:f.sourcePlayer,sourcePlayer:f.sourcePlayer,owner:f.owner,targetOwner:f.owner,targetUid:f.targetUid,targetCardId:unit?.cardId||null,uid:f.targetUid,territory:f.territory,sourceCardId:f.sourceCardId,sourceUid:f.sourceUid,amount:f.amount};}
   function remove(state,f,reason='consumed',extra={}){
@@ -46,11 +46,11 @@
    if(kind==='overwatch')event(state,'overwatchSet',{...detail(state,f),automatic:!!meta.automatic});
    log(state,`${labels[kind]} applied${target.uid?' to '+card(target).name:' in '+state.territories[target.territory].name}.`,'tactical');return f;
   }
-  function expire(state,player,timing){for(const f of all(state).slice())if(f.expires.player===player&&f.expires.timing===timing&&state.turn>f.expires.afterTurn)remove(state,f,'expired');}
+  function expire(state,player,timing){for(const f of all(state).slice()){const due=pairedTurns?(timing==='turnEnd'?state.turn>=f.expires.turn:state.windowIndex>=f.expires.windowIndex):state.turn>f.expires.afterTurn;if(f.expires.player===player&&f.expires.timing===timing&&due)remove(state,f,'expired',pairedTurns?{expiryBasis:timing==='turnEnd'?'turn':'actionWindow'}:{});}}
   function clearUnit(state,uid){for(const f of statusesFor(state,uid).slice())remove(state,f,'expired',{reason:'leftBattlefield'});}
   function statusDetails(state,target){
    const effects=typeof target==='string'?statusesFor(state,target):typeof target==='number'?territoryStatuses(state,target):target?.uid?statusesFor(state,target.uid):territoryStatuses(state,target?.id??target?.territory);
-   return effects.map(f=>{const duration=f.kind==='pressure'?'Until the end of this action window':'Until P'+(f.owner+1)+'’s '+(f.expires.timing==='windowEnd'?'next action-window end':'next action-window start');const key={suppression:'Suppression',overwatch:'Overwatch',cover:'Cover',dodge:'Dodge',exposed:'Exposed',smoke:'Smoke'}[f.kind];return {...f,label:labels[f.kind],duration,expiryText:duration,text:key?(MECHANICS[key]||SMOKE).definition:labels[f.kind]+' until this action window ends.'};});
+   return effects.map(f=>{const duration=f.kind==='pressure'?(pairedTurns?'Until Turn End':'Until the end of this action window'):'Until P'+(f.owner+1)+'’s '+(f.expires.timing==='windowEnd'?'next action-window end':'next action-window start');const key={suppression:'Suppression',overwatch:'Overwatch',cover:'Cover',dodge:'Dodge',exposed:'Exposed',smoke:'Smoke'}[f.kind];return {...f,label:labels[f.kind],duration,expiryText:duration,text:key?(MECHANICS[key]||SMOKE).definition:labels[f.kind]+' until this action window ends.'};});
   }
   function hitInfo(state,target,amount,context={}){
    const direct=!!context.direct&&context.player!==undefined&&context.player!==target.owner&&amount>0&&!context.blast;
@@ -76,10 +76,10 @@
    if(['cover','dodge','assault','cleanExit'].includes(effect.kind)){
     if(!own(target))return 'Choose a friendly battlefield card.';
     if(effect.excludeSelf&&target.uid===sourceUnit?.uid)return 'Choose another allied card here.';
-    if(effect.kind==='assault'&&(card(target).type==='asset'||!target.ready||target.deployedTurn===state.turn&&!trait(target,'rush')))return 'Choose a ready unit able to attack this action window.';
+    if(effect.kind==='assault'&&(card(target).type==='asset'||!target.ready||deployedNow(state,target)&&!trait(target,'rush')))return 'Choose a ready unit able to attack this action window.';
     if(effect.kind==='cleanExit'){
      if(get(state,target.uid,'suppression'))return 'Suppression prevents this voluntary withdrawal.';
-     if(!target.damage&&target.attackedTurn!==state.turn)return 'Clean Exit requires a wounded unit or one that attacked this window.';
+     if(!target.damage&&(pairedTurns?target.attackedWindow:target.attackedTurn)!==windowStamp(state))return 'Clean Exit requires a wounded unit or one that attacked this window.';
      if(retreatDestination(state,target).to===null)return 'No legal adjacent friendly rear territory has room.';
     }
    }
@@ -95,7 +95,7 @@
     if(['blast','salvageBlast','breakPosition'].includes(effect.kind)&&!enemies.length)return 'This territory contains no enemy targets.';
     if(['smoke','interlockingFire','holdFast','contingency'].includes(effect.kind)&&territory.id!==state.contested&&territory.owner!==player)return 'Choose controlled ground or the contested territory.';
     if(effect.minimumAllies&&allies.length<effect.minimumAllies)return 'Requires '+effect.minimumAllies+' allied units in that territory.';
-    if(effect.kind==='holdFast'&&!allies.some(u=>u.defendedTurn===state.turn-1))return 'Requires an ally that survived defending combat in the previous enemy action window.';
+    if(effect.kind==='holdFast'&&!allies.some(u=>(pairedTurns?u.defendedWindow:u.defendedTurn)===(pairedTurns?state.windowIndex-1:state.turn-1)))return 'Requires an ally that survived defending combat in the previous enemy action window.';
     if(effect.kind==='contingency'&&new Set(allies.map(u=>card(u).artRole||card(u).type)).size<2)return 'Requires at least two different friendly unit classes here.';
     if(effect.kind==='breakPosition'&&(!allies.length||!enemies.some(u=>u.damage||get(state,u.uid,'cover')||card(u).type==='asset')))return 'Requires your unit and a wounded, Covered or Asset enemy in this territory.';
    }
@@ -128,7 +128,7 @@
    }
    switch(effect.kind){
     case 'cover':case 'dodge':case 'suppression':case 'exposed':
-     if(effect.mark){target.marked=1;event(state,'mark',{...source,targetOwner:target.owner,targetUid:target.uid,uid:target.uid,cardId:target.cardId,amount:1});}
+     if(effect.mark){target.marked=1;if(pairedTurns)target.markedUntilWindow=nextOwnerWindow(state,target.owner);event(state,'mark',{...source,targetOwner:target.owner,targetUid:target.uid,uid:target.uid,cardId:target.cardId,amount:1});}
      apply(state,effect.kind,target,source,amount);break;
     case 'smoke':apply(state,'smoke',{owner:player,territory},source,1);break;
     case 'blast':case 'salvageBlast':{
@@ -155,11 +155,11 @@
      const candidates=unitsAt(state,territory,1-player).slice().sort(compare),enemy=candidates.find(u=>u.damage||get(state,u.uid,'cover')||card(u).type==='asset');
      for(const u of unitsAt(state,territory,1-player))for(const f of statusesFor(state,u.uid).filter(f=>f.kind==='cover'))remove(state,f,'bypassed',{counter:'Break the Position'});
      if(enemy)apply(state,'suppression',enemy,source,1);
-     const ally=unitsAt(state,territory,player).slice().sort(compare).find(u=>card(u).type!=='asset'&&!u.ready&&u.attackedTurn!==state.turn&&!(u.deployedTurn===state.turn&&!trait(u,'rush')));
+     const ally=unitsAt(state,territory,player).slice().sort(compare).find(u=>card(u).type!=='asset'&&!u.ready&&(pairedTurns?u.attackedWindow:u.attackedTurn)!==windowStamp(state)&&!(deployedNow(state,u)&&!trait(u,'rush')));
      if(ally){ally.ready=true;event(state,'rally',{...source,uid:ally.uid,cardId:ally.cardId});}break;
     }
     case 'cleanExit':{
-     const from=target.territory,to=retreatDestination(state,target).to;target.territory=to;target.ready=false;target.movedTurn=state.turn;
+     const from=target.territory,to=retreatDestination(state,target).to;target.territory=to;target.ready=false;stamp(state,target,'moved');
      event(state,'move',{...source,uid:target.uid,cardId:target.cardId,from,to,reason:'cleanExit'});moved(state,target);apply(state,'dodge',target,source,1);entry(state,target,'voluntary');break;
     }
     case 'sacrificeRepair':heal(state,target,amount,source);break;
@@ -186,22 +186,22 @@
     if(f.metadata.consumeSelf&&unitById(state,unit.uid))destroy(state,unit,unit.owner,{cause:'rulesResolution',sourceKind:'spentTrap',sourceCardId:unit.cardId,sourceUid:unit.uid});
    }
   }
-  function overwatchError(state,unit){if(!unit)return 'Choose a surviving unit.';if(!card(unit).tactical?.overwatch||card(unit).tactical.overwatch.automatic)return 'This card cannot voluntarily set Overwatch.';if(unit.suppressed)return 'Sabotage disables this printed ability.';if(!unit.ready)return 'Overwatch requires a ready unit.';if(unit.deployedTurn===state.turn&&!trait(unit,'rush'))return 'New deployments must wait for their next action window before preparing Overwatch.';if(get(state,unit.uid,'overwatch'))return 'Already watching this territory.';if(unit.attackedTurn===state.turn)return 'A unit that attacked cannot also enter Overwatch this window.';return null;}
+  function overwatchError(state,unit){if(!unit)return 'Choose a surviving unit.';if(!card(unit).tactical?.overwatch||card(unit).tactical.overwatch.automatic)return 'This card cannot voluntarily set Overwatch.';if(unit.suppressed)return 'Sabotage disables this printed ability.';if(!unit.ready)return 'Overwatch requires a ready unit.';if(deployedNow(state,unit)&&!trait(unit,'rush'))return 'New deployments must wait for their next action window before preparing Overwatch.';if(get(state,unit.uid,'overwatch'))return 'Already watching this territory.';if((pairedTurns?unit.attackedWindow:unit.attackedTurn)===windowStamp(state))return 'A unit that attacked cannot also enter Overwatch this window.';return null;}
   function abilityError(state,player,unit,action){
    const ability=unit&&card(unit).tactical?.ability;if(!unit||unit.owner!==player||!ability||ability.id!==action.abilityId)return 'Choose a valid friendly unit ability.';
    if(unit.suppressed)return 'Sabotage disables this printed ability.';if(!unit.ready)return 'This ability exhausts a ready card.';
-   if(unit.abilityTurn===state.turn)return 'This ability was used this action window.';
-   if(unit.deployedTurn===state.turn&&!trait(unit,'rush'))return 'Newly deployed cards cannot use this ability until their next action window.';
+   if((pairedTurns?unit.abilityWindow:unit.abilityTurn)===windowStamp(state))return 'This ability was used this action window.';
+   if(deployedNow(state,unit)&&!trait(unit,'rush'))return 'Newly deployed cards cannot use this ability until their next action window.';
    if(ability.effect.kind==='heal'){const u=unitById(state,action.targetUid);if(!u||u.owner!==player||!u.damage)return 'Choose a damaged friendly card here.';if(u.territory!==unit.territory)return 'Repair targets only this territory.';return null;}
    return error(state,player,ability.effect,action,unit);
   }
   function actionCost(state,action){const unit=unitById(state,action.unitUid),spec=action.type==='ability'?card(unit)?.tactical?.ability?.cost:card(unit)?.tactical?.overwatch;return {presence:spec?.presence||0,commandActions:spec?.commandActions??1};}
-  function executeAbility(state,player,action){const u=unitById(state,action.unitUid),ability=card(u).tactical.ability,cost=actionCost(state,action);u.ready=false;u.abilityTurn=state.turn;clearKind(state,u.uid,'overwatch');state.actionsLeft-=cost.commandActions;state.players[player].spent+=cost.presence;event(state,'ability',{player,uid:u.uid,cardId:u.cardId,abilityId:ability.id,cost,effect:ability.effect.kind});if(ability.effect.kind==='heal')heal(state,unitById(state,action.targetUid),ability.effect.amount,{player,sourceCardId:u.cardId,sourceUid:u.uid});else resolve(state,player,card(u),action,ability.effect,u);}
+  function executeAbility(state,player,action){const u=unitById(state,action.unitUid),ability=card(u).tactical.ability,cost=actionCost(state,action);u.ready=false;stamp(state,u,'ability');clearKind(state,u.uid,'overwatch');state.actionsLeft-=cost.commandActions;state.players[player].spent+=cost.presence;event(state,'ability',{player,uid:u.uid,cardId:u.cardId,abilityId:ability.id,cost,effect:ability.effect.kind});if(ability.effect.kind==='heal')heal(state,unitById(state,action.targetUid),ability.effect.amount,{player,sourceCardId:u.cardId,sourceUid:u.uid});else resolve(state,player,card(u),action,ability.effect,u);}
   function setOverwatch(state,unit){const spec=card(unit).tactical.overwatch,cost=actionCost(state,{type:'overwatch',unitUid:unit.uid});state.actionsLeft-=cost.commandActions;state.players[unit.owner].spent+=cost.presence;unit.ready=false;apply(state,'overwatch',unit,{player:unit.owner,sourceCardId:unit.cardId,sourceUid:unit.uid},spec.damage||2,spec);}
   function actionCandidates(state,player){const list=[];for(const u of state.units.filter(u=>u.owner===player)){if(card(u).tactical?.overwatch)list.push({type:'overwatch',unitUid:u.uid});const a=card(u).tactical?.ability;if(a){const action={type:'ability',unitUid:u.uid,abilityId:a.id};list.push(...targets(state,player,a.effect,action));}}return list;}
   function assertStatuses(state,fail){
    if(!Array.isArray(state.effects)||!Number.isInteger(state.nextEffectId)||state.nextEffectId<0)fail('invalid tactical effect container');const ids=new Set(),stacks=new Set();
-   for(const f of state.effects){if(!f||!KINDS.includes(f.kind)||!f.id||ids.has(f.id)||![0,1].includes(f.owner)||![0,1].includes(f.sourcePlayer)||!Number.isInteger(f.startedTurn)||f.startedTurn>state.turn||!Number.isInteger(f.amount)||f.amount<1||f.stack!=='refresh'||!['windowStart','windowEnd'].includes(f.expires?.timing)||f.expires.player!==f.owner||!Number.isInteger(f.expires.afterTurn)||!Number.isInteger(f.territory)||!state.territories[f.territory])fail('invalid tactical effect record');ids.add(f.id);const key=f.kind+':'+f.owner+':'+(f.targetUid||f.territory);if(stacks.has(key))fail('stacked tactical charges');stacks.add(key);if(f.targetUid){const u=unitById(state,f.targetUid);if(!u||u.owner!==f.owner)fail('effect on missing/foreign target');}if(f.sourceCardId&&!card(f.sourceCardId))fail('unknown tactical source');}
+   for(const f of state.effects){if(!f||!KINDS.includes(f.kind)||!f.id||ids.has(f.id)||![0,1].includes(f.owner)||![0,1].includes(f.sourcePlayer)||!Number.isInteger(f.startedTurn)||f.startedTurn>state.turn||!Number.isInteger(f.amount)||f.amount<1||f.stack!=='refresh'||!(pairedTurns?['windowStart','windowEnd','turnEnd']:['windowStart','windowEnd']).includes(f.expires?.timing)||f.expires.player!==f.owner||(pairedTurns?(!Number.isInteger(f.startedWindow)||f.startedWindow<1||f.startedWindow>state.windowIndex||(f.expires.timing==='turnEnd'? !Number.isInteger(f.expires.turn)||f.expires.turn< f.startedTurn : !Number.isInteger(f.expires.windowIndex)||f.expires.windowIndex<f.startedWindow)):!Number.isInteger(f.expires.afterTurn))||!Number.isInteger(f.territory)||!state.territories[f.territory])fail('invalid tactical effect record');ids.add(f.id);const key=f.kind+':'+f.owner+':'+(f.targetUid||f.territory);if(stacks.has(key))fail('stacked tactical charges');stacks.add(key);if(f.targetUid){const u=unitById(state,f.targetUid);if(!u||u.owner!==f.owner)fail('effect on missing/foreign target');}if(f.sourceCardId&&!card(f.sourceCardId))fail('unknown tactical source');}
   }
   return {statusesFor,territoryStatuses,statusDetails,get,apply,record,remove,expire,clearUnit,clearKind,moved,hitInfo,consumeHit,error,targets,resolve,hooks,entry,overwatchError,abilityError,actionCost,executeAbility,setOverwatch,actionCandidates,assertStatuses,selected,victims};
  }

@@ -1,8 +1,8 @@
 # Project Faction: Frontlines
 
-**Frontlines v1.2.0 — Arsenal Prestige candidate.**
+**Frontlines v1.3.0 — Turn System 2.0 & Design Polish.**
 
-Legendary cards now have faction-specific frame construction; rarity, premium finish and earned wear stack independently. Collection adds actual-use history, favorites, milestone explanations and separate finish/wear controls. The reviewed artwork, competitive catalog and economy remain intact. [Release status](docs/RELEASE-1.2.0.md) · [Rarity presentation](docs/RARITY-PRESENTATION.md) · [Card mastery](docs/CARD-MASTERY.md).
+Legendary cards now have faction-specific frame construction; rarity, premium finish and earned wear stack independently. Collection adds actual-use history, favorites, milestone explanations and separate finish/wear controls. The reviewed artwork, competitive catalog and economy remain intact. [Release status](docs/RELEASE-1.3.0.md) · [Rarity presentation](docs/RARITY-PRESENTATION.md) · [Card mastery](docs/CARD-MASTERY.md).
 
 Private Internet multiplayer is ready for playtesting. The owner-authorized public Cloudflare relay and two separate final packaged clients pass through the ordinary configured route, including a complete territorial match and rematch. Host/join with a short code; no relay app, provider account or endpoint setup is needed. **Different-home player testing and Wyatt's physical display/scaling remain unverified.** [Historical multiplayer sprint](docs/SPRINT-013.md) · [Player instructions](docs/MULTIPLAYER-PLAYTEST.md). Offline modes continue without Internet.
 
@@ -24,7 +24,7 @@ npm start
 
 Open `http://127.0.0.1:4173`. The server binds only to this computer. Native development launch uses `npm run electron` with the installed dependencies.
 
-The [v1.2.0 release guide](docs/RELEASE-1.2.0.md) records current packaging status and validation. Ten off-lane Commanders and ten linked foundations are available immediately. The [v1.1.0 private-match checkpoint](docs/RELEASE-1.1.0.md), [v1.0.5 illustrated arsenal](docs/RELEASE-1.0.5.md), [v1.0.2 illustrated Commanders](docs/RELEASE-1.0.2.md), [v1.0.2 viewport hotfix](docs/HOTFIX-1.0.2-VIEWPORT.md), [v1.0.1 art restoration](docs/RELEASE-1.0.1.md), [v1.0.0 Commander Update](docs/RELEASE-1.0.0.md) and [v0.9.0 pre-Commander checkpoint](docs/RELEASE-0.9.0.md) remain preserved. Keep an unpacked application folder together when using it. Releases do not publish or install over the owner's copy automatically.
+The [v1.3.0 release guide](docs/RELEASE-1.3.0.md) records current packaging status and validation. Ten off-lane Commanders and ten linked foundations are available immediately. The [v1.1.0 private-match checkpoint](docs/RELEASE-1.1.0.md), [v1.0.5 illustrated arsenal](docs/RELEASE-1.0.5.md), [v1.0.2 illustrated Commanders](docs/RELEASE-1.0.2.md), [v1.0.2 viewport hotfix](docs/HOTFIX-1.0.2-VIEWPORT.md), [v1.0.1 art restoration](docs/RELEASE-1.0.1.md), [v1.0.0 Commander Update](docs/RELEASE-1.0.0.md) and [v0.9.0 pre-Commander checkpoint](docs/RELEASE-0.9.0.md) remain preserved. Keep an unpacked application folder together when using it. Releases do not publish or install over the owner's copy automatically.
 
 ## Learn and play
 
@@ -32,7 +32,7 @@ The [v1.2.0 release guide](docs/RELEASE-1.2.0.md) records current packaging stat
 2. Perform real deployments, movement, combat, capture, retreat and Orders. Highlights, short objectives and progressive hints explain the purpose of each interaction.
 3. Complete a short operation against Learning AI, then choose **Play** for an ordinary match.
 4. Select faction, Commander, actual starter/foundation/preset/saved deck and AI difficulty. **Easy — Learning** is intended for first matches; Normal, Hard and Expert improve tactical decision quality without hidden resource or stat bonuses.
-5. Inspect costs and legal targets, build Presence on the orange objective, and end your offensive turn to earn capture progress. Push toward enemy home to win.
+5. Inspect costs and legal targets, build Presence on the orange objective, and end your Action Window. After both players act, true Turn-End resolution applies net surviving pressure and can advance the frontline.
 
 Tutorial supports Restart lesson, Restart tutorial, Skip, Continue and Replay. Local progress resumes at the current lesson boundary. Known hands and declared shortened scenarios make the first encounters predictable; the final training lesson is an actual legal match. Tutorial scenarios are identified separately from competitive evidence.
 
@@ -54,9 +54,9 @@ Settings offers independent **Master / Music / UI / Card Effects / Battlefield**
 Available Capacity = total Capacity − committed Presence − temporary spending
 ```
 
-Default Capacity starts at 20, grows by 10 on later own offensive turns and caps at 80. Deployed cards keep their printed Presence committed. Destruction or recall frees it. Orders spend Presence temporarily until their owner's next offensive turn.
+Default Capacity starts at 20, grows by 10 on later own Action Windows and caps at 80. Deployed cards keep their printed Presence committed. Destruction or recall frees it. Orders spend Presence temporarily until their owner's next Action Window.
 
-Each offensive turn still has **three Command Actions**, now reserved for major battlefield decisions.
+Each player's Action Window has **three Command Actions**, reserved for major battlefield decisions.
 
 | Action | Command Actions |
 | --- | ---: |
@@ -65,13 +65,13 @@ Each offensive turn still has **three Command Actions**, now reserved for major 
 | Leaders; explicitly marked Heavy units/command assets; tactical damage/Rally/disruption/Sabotage Orders | 1 |
 | Responses, counters, Guard, forced retreat and Breakthrough | 0 |
 
-Every card shows its explicit cost. Zero-command deployment remains possible after all three commands are spent if Capacity, timing, owned territory and slots permit. Free Action means free of command spending; it still requires Capacity. [Sprint 6 rules](docs/SPRINT-006.md) document the action-economy foundation. The `sprint10` profile retains the Sprint 7 printed costs: Silencer Team requires one Command Action to deploy, and Field Options requires one for every Adapt mode. [Sprint 7](docs/SPRINT-007.md) explains the narrow correction and expanded card pool. Reclaim frees commitment but retains wounds; Scavenge and Nothing Wasted share one casualty draw per player/global turn.
+Every card shows its explicit cost. Zero-command deployment remains possible after all three commands are spent if Capacity, timing, owned territory and slots permit. Free Action means free of command spending; it still requires Capacity. [Sprint 6 rules](docs/SPRINT-006.md) document the action-economy foundation. The `sprint10` profile retains the Sprint 7 printed costs: Silencer Team requires one Command Action to deploy, and Field Options requires one for every Adapt mode. [Sprint 7](docs/SPRINT-007.md) explains the narrow correction and expanded card pool. Reclaim frees commitment but retains wounds; Scavenge and Nothing Wasted share one eligible casualty draw per player per paired Turn.
 
-New units may move but normally cannot attack on their deployment turn without Rush. Movement normally exhausts; Mobile preserves readiness on the first move while still consuming a command. Same-territory combat deals damage simultaneously after defender response and optional counter. Wounds persist and dead cards enter discard. Empty reserves recycle discard; there is no fatigue damage.
+New units may move but normally cannot attack during their deployment Action Window without Rush. Movement normally exhausts; Mobile preserves readiness on the first move while still consuming a command. Same-territory combat deals damage simultaneously after defender response and optional counter. Wounds persist and dead cards enter discard. Empty reserves recycle discard; there is no fatigue damage.
 
 ## Territory and forced retreat
 
-The battlefield has seven connected territories, each with five friendly permanent-card positions by default. The orange objective begins at neutral Downtown. At offensive turn end, your surviving objective forces add printed Presence to capture progress, even with defenders present. Default threshold is 25.
+The battlefield has seven connected territories, each with five friendly permanent-card positions by default. The orange objective begins at neutral Downtown. At true Turn End, after both players have acted, surviving objective forces resolve simultaneous net pressure: only the excess Presence over the opponent adds capture progress. Default threshold remains 25.
 
 On capture, surviving enemy units immediately retreat one adjacent territory toward their own home, into friendly-owned ground with a free slot. Retreat positions resolve in stable numeric UID order. Immobile assets and units without a legal retreat are eliminated, releasing commitment. Enemies never remain stranded behind the new frontline.
 
@@ -109,7 +109,7 @@ See [deckbuilding](docs/DECKBUILDING.md), [card design/counterplay](docs/arsenal
 
 Quick Matchup, Tournament, Faction Overview and Advanced Lab provide saved-deck selection, exact requested counts, paired seats, fixed Run/Pause/Resume/Stop commands and bounded results. Advanced retains seeds, explicit profiles/policies, rule overrides, confidence intervals, diagnostics, replay, comparisons and JSON/HTML/CSV export. Live rules and saved decks are not changed by an experiment.
 
-AI-versus-AI uses the same authoritative engine without battlefield animation. HTTP launch uses a worker; direct offline launch yields cooperatively to keep controls responsive. The current game profile is `sprint10`; changing an Advanced profile refreshes the catalog from that profile's actual cards and templates. Simulator **4.0.0** reports snapshot rules, command costs and exact deck lists, identify originating game version and keep errors/cutoffs separate from victories. Telemetry **`frontlines-telemetry-v6-commanders`** adds Commander activations, passive triggers, cost savings, recovery, disruption and healing/damage alongside Mark, Reinforce, Adapt and Armor counters to economy, territory, free-play and retreat metrics. Incompatible replay versions are refused. [Sprint 10](docs/SPRINT-010.md) records the interim baseline and exact owner-run validation recommendation; no large post-patch campaign has been run.
+AI-versus-AI uses the same authoritative engine without battlefield animation. HTTP launch uses a worker; direct offline launch yields cooperatively to keep controls responsive. The current game profile is `sprint15`; changing an Advanced profile refreshes the catalog from that profile's actual cards and templates. Simulator **4.0.0** reports snapshot rules, command costs and exact deck lists, identify originating game version and keep errors/cutoffs separate from victories. Telemetry **`frontlines-telemetry-v6-commanders`** adds Commander activations, passive triggers, cost savings, recovery, disruption and healing/damage alongside Mark, Reinforce, Adapt and Armor counters to economy, territory, free-play and retreat metrics. Incompatible replay versions are refused. [Sprint 10](docs/SPRINT-010.md) records the interim baseline and exact owner-run validation recommendation; no large post-patch campaign has been run.
 
 **Ryken runs balance simulations unless explicitly authorizing Codex to run them.** The explicitly authorized v0.7.0 batch completed 10,000 decisive games with no errors or cutoffs. Its severe faction/deck and first-seat disparity is documented in the [archived Sprint 6 baseline](docs/balance/SPRINT6-BASELINE.md). Those results describe the preserved v0.7.0 rules and pool; they do not certify the expanded candidate. The earlier Sprint 5 competitive gate was not completed. The standing target remains 45–55% cross-faction rates and preferred spread ≤5 percentage points, with archetypes and extreme matchups reviewed separately.
 
@@ -121,7 +121,7 @@ The [Sprint 9 simulation proposal](docs/SPRINT-009.md) specifies a separate owne
 npm test
 ```
 
-The v1.2.0 candidate passes **590 Node tests**, its 35-example prestige matrix, Collection/Arsenal and scaled-window browser checks, fourteen-lesson tutorial regression, local relay privacy/cosmetic checks and fifteen War Room card inspections. All six packaged offline modes pass; a complete match and rematch also pass between two separate packaged applications through the deployed public relay without an endpoint override. Packaging verifies all 242 runtime files against source and preserves accepted artwork. The [current release guide](docs/RELEASE-1.2.0.md) records evidence, installer hash and practical limits. Correctness tests do not establish win rates or replace human playtesting.
+The v1.3.0 release passes **672 Node tests**, its 35-example prestige matrix, Collection/Arsenal and scaled-window browser checks, fourteen-lesson tutorial regression, local relay privacy/cosmetic checks and fifteen War Room card inspections. All six packaged offline modes pass; a complete match and rematch also pass between two separate packaged applications through the deployed public relay without an endpoint override. Packaging verifies all 242 runtime files against source and preserves accepted artwork. The [current release guide](docs/RELEASE-1.3.0.md) records evidence, installer hash and practical limits. Correctness tests do not establish win rates or replace human playtesting.
 
 The [v0.7.0 entry source checkpoint](docs/checkpoints/sprint7-entry-v0.7.0.zip) and archived baseline preserve the prior build. Historical [Arsenal](docs/screenshots/arsenal-sprint-7.png) and [battlefield](docs/screenshots/battlefield-sprint-7.png) screenshots show the earlier interface; the [Sprint 6 tutorial](docs/screenshots/tutorial-sprint-6.png) remains the onboarding foundation.
 

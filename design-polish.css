@@ -1,0 +1,53 @@
+/* v1.3.0: shared command language; existing card geometry and artwork are intact. */
+:root{--frontlines-focus:#ffd39e;--frontlines-panel-edge:#415866;--frontlines-muted:#bdcbd3;--frontlines-radius:3px}
+button,a,input,select,textarea,summary,[tabindex]{outline-offset:3px}
+:is(button,a,input,select,textarea,summary,[tabindex]):focus-visible{outline:2px solid var(--frontlines-focus)!important;box-shadow:0 0 0 4px #101922!important}
+:is(button,.btn,.command,.home-command){border-radius:var(--frontlines-radius)}
+:is(input,select,textarea){border-radius:var(--frontlines-radius);caret-color:var(--frontlines-focus)}
+button:not(:disabled),a,summary{touch-action:manipulation}
+button:disabled{cursor:not-allowed}
+button:disabled,.btn:disabled{filter:none}
+.header-actions .btn,.builder-header .btn{font-size:12px;letter-spacing:.2px;min-height:40px}
+.app-header [data-game-version]{color:#a8bdca;letter-spacing:.5px}
+.home-command{border-color:#3b5361;transition:border-color .12s,background-color .12s,transform .12s}
+.home-command:hover:not(:disabled){border-color:#edb77a;background-color:#22333f}
+.home-command.primary:hover:not(:disabled){background-color:#ffc17e;color:#111a21}
+.home-command small{color:#c2d1d9;line-height:1.45}
+.home-command.primary small{color:#20313d}
+.home-command.selected,.home-command[aria-current=page]{border-color:#f1b575}
+.setup-deck-summary,.setup-deck-edit{line-height:1.6}
+.setup-commander-focus{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;color:#c7d6df;font-size:11px;line-height:1.4}
+.setup-commander-rules{margin-top:8px;border-top:1px solid #354b59;padding-top:7px}
+.setup-commander-rules summary{cursor:pointer;color:#edc29a;font-size:11px;min-height:24px;line-height:24px}
+.setup-commander-rules p{color:#c4d0d7;font-size:11px;line-height:1.45}
+.setup-readiness{color:#c4d6dd;font-size:12px;line-height:1.5;border-left:2px solid #a3c880;padding-left:9px;margin:10px 0}
+.faction-choice{scrollbar-width:thin;scrollbar-color:#8197a5 #101b24;scrollbar-gutter:stable}
+.setup .launch-panel .btn.primary{min-height:52px;font-weight:800}
+.setup .launch-panel .small,.setup-deck-summary.invalid{color:#ebc196}
+.mp-warning,.mp-error{line-height:1.5}
+.mp-connection,.mp-ready,.mp-notice{font-weight:700;letter-spacing:.6px}
+.mp-notice{color:#c4dfb0;border-left:3px solid #a7cf82;padding:8px 12px;background:#1b2c24}
+.mp-invite strong{font-variant-numeric:tabular-nums;user-select:all}
+.mp-actions .btn.primary{min-height:48px;padding-inline:24px}
+.mp-public-choice p,.mp-deck-summary{line-height:1.5}
+.mp-reconnect .btn{min-height:44px}
+.mp-result .victory-stats small{display:block;font-size:10px;color:#c3d0d7;margin-top:4px;letter-spacing:.3px}
+.builder-footer .btn,.deck-actions .btn{min-height:46px}
+.builder-footer .btn.primary,.deck-actions .btn.primary{font-weight:800}
+.deck-message,.validation-message,.collection-notice{line-height:1.5}
+.deck-list button:focus-visible,.collection-card:focus-visible,.catalog-card:focus-visible{outline-offset:-3px}
+.collection-grid,.catalog-grid,.deck-list,.manual-scroll{scrollbar-width:thin;scrollbar-color:#78909f #101923}
+.collection-filter-options summary,.builder-filter-options summary{color:#d3dde3}
+.collection-card.unowned{opacity:.8}
+.collection-card.unowned:hover,.collection-card.unowned:focus-visible{opacity:1}
+.collection-toolbar label,.builder-filter label{color:#c1d2de}
+.collection-detail .muted,.card-briefing .muted{color:var(--frontlines-muted)}
+.collection-detail select,.collection-detail button,.collection-modal select,.collection-modal button{min-height:40px}
+.shell-settings nav .command{border-radius:var(--frontlines-radius)}
+.shell-settings nav .command.selected{background:#2b3941;border-left:3px solid #f3a052;color:#ffd2a1}
+.shell-settings-content .shell-help{color:#c3d0d8}
+.shell-update-notice{border-radius:var(--frontlines-radius)}
+@media(max-height:650px){.header-actions .btn,.builder-header .btn{min-height:34px}.builder-footer .btn,.deck-actions .btn{min-height:40px}.collection-detail select,.collection-detail button{min-height:34px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.home-command,.btn,.command{transition:none!important}.home-command:hover{transform:none!important}}
+.reduce-effects .home-command,.reduce-effects .btn,.reduce-effects .command,.presentation-minimal .home-command,.presentation-reduced .home-command{transition:none!important}
+.reduce-effects .home-command:hover,.presentation-minimal .home-command:hover,.presentation-reduced .home-command:hover{transform:none!important}

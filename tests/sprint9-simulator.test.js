@@ -22,7 +22,7 @@ test('two complete deterministic seat-paired fixtures conserve cards and report 
   assert.equal(r.summary.byCommander.length,2);assert.equal(r.summary.byCommander.reduce((n,c)=>n+c.played,0),4);assert.equal(r.summary.byCommander.reduce((n,c)=>n+c.won,0),2);
   assert.equal(r.summary.byCommander.reduce((n,c)=>n+c.activeUses,0),r.summary.actions.commander||0);
   for(const c of r.summary.byCommander){assert.equal(c.played,2);assert.deepEqual(c.seats.map(s=>s.played),[1,1]);assert.ok(c.activeUses<=c.played);assert.ok(c.passiveTriggers>=0);assert.ok(Number.isFinite(c.healingDone));}
-  assert.equal(r.rulesSnapshot.commanderVersion,C.VERSION);assert.deepEqual(r.rulesSnapshot.commanders,C.forRules(R.data.RULES).COMMANDERS);
+  assert.equal(r.rulesSnapshot.commanderVersion,C.forRules(R.data.RULES).VERSION);assert.deepEqual(r.rulesSnapshot.commanders,C.forRules(R.data.RULES).COMMANDERS);
   assert.equal(r.rulesSnapshot.rulesVersion,'sprint9-commanders-v1');assert.equal(r.summary.cards.some(c=>c.type==='commander'),false);
 });
 

@@ -216,3 +216,35 @@
 .commander-active:has(.commander-state) b{font-size:11px;line-height:12px;white-space:nowrap}
 .commander-active:has(.commander-state) small{font-size:8px;line-height:10px}
 .commander-active .commander-state{font-size:9px;line-height:10px;white-space:nowrap}
+
+/* Sprint 15: both clock units share the established fixed-height HUD. */
+.game .turn-hud .turn-number{display:block!important;font-weight:800;font-size:12px;line-height:13px;color:#f1e4cb;letter-spacing:.6px}
+.game .turn-hud .window-number{font-size:8px;line-height:10px;letter-spacing:.25px;color:#dcc5a7;white-space:nowrap}
+.objective-label small{display:block;font-size:8px;line-height:12px;letter-spacing:0;color:#d4d8cf}
+.objective-side strong{white-space:nowrap}
+.game .unit.selected{outline:2px solid #f3c68b;outline-offset:1px}
+.game .unit.valid-target{border-style:dashed;border-width:2px}
+.game .unit[data-target-state="invalid"]{cursor:help}
+.game .territory.legal-zone{border-style:dashed}
+.game .territory.captured .ground-line{color:#d6efd0;font-weight:700}
+.game .unit-tactical-statuses{max-width:50%;gap:2px}
+.game .unit-tactical-statuses .tactical-status{padding:0 2px;line-height:10px;font-size:7px;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.game .unit-tactical-statuses .tactical-status b{margin-right:2px}
+.tactical-status.status-mark{color:#f3c6a0;border-color:#aa7251}
+.tactical-status.status-reinforce{color:#c8e2b8;border-color:#6f9567}
+.tactical-status.status-sabotage{color:#dac3e5;border-color:#8c749b}
+.tactical-status.status-concealed{color:#c4d5e6;border-color:#64849a}
+.game .orders-bar [data-action="end-turn"]{min-height:40px;border-width:2px;font-weight:750}
+@media(min-width:761px) and (max-width:1000px){
+  .game>.command-row .turn-hud{gap:5px}
+  .game>.command-row .turn-hud .turn-number{font-size:10px;line-height:12px}
+  .game>.command-row .turn-hud .window-number{font-size:7px;line-height:10px}
+}
+@media(min-width:761px){
+  .game>.command-row .turn-hud{gap:1px!important}
+  .game .turn-hud .command-count{font-size:19px;line-height:19px}
+  .game .turn-hud .eyebrow:not(.turn-number):not(.window-number){font-size:7px;line-height:8px}
+  .game .turn-hud .turn-owner{font-size:8px;line-height:9px}
+}
+@media(prefers-reduced-motion:reduce){.game .territory.captured{animation:none;outline:2px solid #b9dba7;outline-offset:-2px}}
+.reduce-effects .game .territory.captured{animation:none;outline:2px solid #b9dba7;outline-offset:-2px}

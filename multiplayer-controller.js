@@ -46,7 +46,7 @@ function createController(options={}){
       if(result.code==='STALE_SNAPSHOT')return;
       clearPending();
       error={code:safeCode(result.code),message:result.reason||'The action was rejected.'};
-      if(role==='guest'&&!lastSnapshot&&['VERSION_MISMATCH','PROTOCOL_MISMATCH','RULESET_MISMATCH','INVITE_EXPIRED','SESSION_EXPIRED','MATCH_FULL','MATCH_CLOSED'].includes(result.code)){
+      if(role==='guest'&&!lastSnapshot&&['VERSION_MISMATCH','PROTOCOL_MISMATCH','RULESET_MISMATCH','TIMING_MISMATCH','INVITE_EXPIRED','SESSION_EXPIRED','MATCH_FULL','MATCH_CLOSED'].includes(result.code)){
         const rejected={...error};leave().then(()=>fail(rejected.code,rejected.message));return;
       }
       if(result.resync){counters.resyncs++;if(lastSnapshot)lastSnapshot={...lastSnapshot,status:'synchronizing',legalActions:[]};queueMicrotask(()=>requestSync());}
@@ -55,7 +55,7 @@ function createController(options={}){
       const rawLobby=client.getLobby();
       if(rawLobby)lobby=normalizeLobby(rawLobby);
       lastSnapshot=client.getSnapshot();
-      if(lastSnapshot?.result)completedResult={matchId:lastSnapshot.matchId,winner:lastSnapshot.result.winner,reason:lastSnapshot.result.reason,seed:lastSnapshot.result.seed,windows:lastSnapshot.result.windows};
+      if(lastSnapshot?.result)completedResult={matchId:lastSnapshot.matchId,winner:lastSnapshot.result.winner,reason:lastSnapshot.result.reason,seed:lastSnapshot.result.seed,turns:lastSnapshot.result.turns,actionWindows:lastSnapshot.result.actionWindows,windows:lastSnapshot.result.windows,timingModel:lastSnapshot.result.timingModel};
       if(lastSnapshot?.state){phase=lastSnapshot.state.winner!==null?'results':'match';error=null;}
       else if(lobby){phase=lobby.status==='closed'?'closed':'lobby';ackMatch=null;}
       if(lastSnapshot?.status==='starting'&&ackMatch!==lastSnapshot.matchId){const pendingMatch=lastSnapshot.matchId;ackMatch=pendingMatch;queueMicrotask(()=>{if(lastSnapshot?.matchId===pendingMatch)route(envelope('startAck'));});}
@@ -130,7 +130,7 @@ function createController(options={}){
     const h=host?.diagnostics?.()||{},t=transport?.diagnostics?.()||{};
     // Build this explicitly: provider diagnostics include session identifiers and
     // invite codes that must never appear in a shareable match report.
-    return clone({format:'frontlines-private-diagnostics-v1',version:appVersion,protocolVersion:compatibility.protocolVersion||1,
+    return clone({format:compatibility.turnSystemVersion===2?'frontlines-private-diagnostics-v2':'frontlines-private-diagnostics-v1',version:appVersion,protocolVersion:compatibility.protocolVersion||1,turnSystemVersion:compatibility.turnSystemVersion,stateSchemaVersion:compatibility.stateSchemaVersion,timingModel:compatibility.timingModel,timing:lastSnapshot?.state?Protocol.timingContext(lastSnapshot.state):null,
       rulesetHash:compatibility.rulesetHash,contentHash:compatibility.contentHash,transport:t.transportVersion||Transport.VERSION,
       sessionId:identity?.sessionId||null,matchId:lastSnapshot?.matchId||null,route:connection.route,role,connection:{state:connection.state,latencyMs:connection.latencyMs||null},
       sequence:lastSnapshot?.sequence??0,sharedHash:lastSnapshot?.sharedHash||null,viewHash:lastSnapshot?.stateHash||null,
@@ -138,7 +138,7 @@ function createController(options={}){
       counters:{...counters,messagesSent:t.messagesSent||0,messagesReceived:t.messagesReceived||0,reconnections:t.reconnections||0},
       providerErrors:(t.providerErrors||[]).map(row=>({code:safeCode(row.code),time:row.time})),
       completedMatch:completedResult,canonicalHash:lastSnapshot?.state?.winner!==null&&typeof h.canonicalHash==='string'?h.canonicalHash:null,
-      events:(h.events||[]).map(row=>Object.fromEntries(['type','at','sequence','actionId','actionType','code'].filter(key=>row[key]!==undefined).map(key=>[key,row[key]]))),
+      events:(h.events||[]).map(row=>Object.fromEntries(['type','at','sequence','actionId','actionType','code','turn','window','windowIndex','activePlayer','initiativePlayer','phase','lastResolvedTurn','lastCompletedWindow'].filter(key=>row[key]!==undefined).map(key=>[key,row[key]]))),
       limitations:['Host authority is suitable for private friend play, not ranked anti-cheat.','Application restart does not migrate a match.'],
       excludes:['invite code','reconnect capability','socket ticket','IP address','private hands','reserve order','private deck lists']});
   }

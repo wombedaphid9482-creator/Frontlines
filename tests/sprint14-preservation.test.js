@@ -3,7 +3,9 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const root=path.resolve(__dirname,'..'),baseline=path.join(root,'docs/balance/sprint14-v1.1.0-baseline');
 const checkpoint=JSON.parse(fs.readFileSync(path.join(baseline,'checkpoint-hashes.json'),'utf8'));
 const frozen=JSON.parse(fs.readFileSync(path.join(baseline,'rules-and-economy.json'),'utf8'));
-const B=require('../balance'),R=B.createRuntime(B.DEFAULT_PROFILE),E=R.engine,D=require('../decks').forData(R.data),C=require('../collection'),A=require('../art');
+// Sprint 14's historical contract is checked under its original rules profile.
+// Sprint 15 separately protects printed values while intentionally migrating timing.
+const B=require('../balance'),R=B.createRuntime('sprint12'),E=R.engine,D=require('../decks').forData(R.data),C=require('../collection'),A=require('../art');
 const P=require('../multiplayer-protocol'),S=require('../multiplayer-session'),Build=require('../build-info');
 const FrozenB=require('../docs/balance/sprint14-v1.1.0-baseline/source/balance');
 const FrozenC=require('../docs/balance/sprint14-v1.1.0-baseline/source/collection');
@@ -13,12 +15,13 @@ function storage(profile){const data=new Map();return {getItem:key=>data.get(key
 function protectedFile(file,expected=checkpoint.sourceHashes[file]){assert.ok(expected,'Frozen file recorded: '+file);assert.equal(sha(fs.readFileSync(path.join(root,file))),expected,file+' preserved bytes');}
 function oldFields(actual,expected,label){for(const [key,value]of Object.entries(expected))assert.deepEqual(actual[key],value,label+' '+key);}
 
-test('Arsenal Prestige preserves canonical engine, AI, deckbuilding, Commander and tactical sources byte for byte',()=>{
+test('Arsenal Prestige frozen checkpoint preserves canonical engine, AI and tactical sources byte for byte',()=>{
   const required=['engine.js','ai.js','data.js','balance.js','decks.js','deck-rules.js','commanders.js','tactical-rules.js','tactical-arsenal.js','sim-core.js','simulator-worker.js','live-runtime.js'];
-  for(const file of required)protectedFile(file);
+  for(const file of required)assert.equal(sha(fs.readFileSync(path.join(baseline,'source',file))),checkpoint.sourceHashes[file],file+' immutable Sprint 14 checkpoint');
+  for(const file of ['data.js','decks.js','deck-rules.js','tactical-arsenal.js','live-runtime.js'])protectedFile(file);
   const profiles=Object.keys(checkpoint.sourceHashes).filter(file=>file.startsWith('balance/')&&file.endsWith('.json'));assert.ok(profiles.length>=10);
   for(const file of profiles)protectedFile(file);
-  assert.equal(Build.gameplaySourceHash,require('../docs/balance/sprint14-v1.1.0-baseline/source/build-info').gameplaySourceHash);
+  assert.equal(sha(fs.readFileSync(path.join(baseline,'source/build-info.js'))),checkpoint.sourceHashes['build-info.js'],'historical implementation fingerprint remains frozen');
 });
 
 test('all 155 printed cards, 35 preset decks, ten Commanders and exact timing/configuration remain frozen',()=>{
@@ -39,8 +42,9 @@ test('every approved runtime artwork file and all card mappings remain byte-iden
   for(const commander of E.commanders.list())assert.deepEqual(A.commanderGet(commander),FrozenA.commanderGet(commander),commander.id+' portrait');
 });
 
-test('network authority, privacy projection, reconnect, transport and prepared backend remain unchanged',()=>{
-  for(const file of ['multiplayer-protocol.js','multiplayer-session.js','multiplayer-controller.js','network-transport.js'])protectedFile(file);
+test('historical network authority remains frozen while transport and prepared backend stay unchanged',()=>{
+  for(const file of ['multiplayer-protocol.js','multiplayer-session.js','multiplayer-controller.js'])assert.equal(sha(fs.readFileSync(path.join(baseline,'source',file))),checkpoint.sourceHashes[file],file+' historical authority');
+  protectedFile('network-transport.js');
   // The owner explicitly authorized activating the prepared service. Only its
   // public origin/status differ; authority, protocol and private economy do not.
   const current=require('../multiplayer-config'),prior=require('../docs/balance/sprint14-v1.1.0-baseline/source/multiplayer-config');
@@ -118,7 +122,7 @@ test('different cosmetic selections join and start one match without sending inv
 });
 
 test('small deterministic action fixture proves unchanged gameplay and AI outputs without a balance simulation',()=>{
-  const priorRuntime=FrozenB.createRuntime(B.DEFAULT_PROFILE),previousEngine=priorRuntime.engine,decks=D.starters().slice(0,2);
+  const priorRuntime=FrozenB.createRuntime('sprint12'),previousEngine=priorRuntime.engine,decks=D.starters().slice(0,2);
   let a=E.createGame({seed:1417,factions:decks.map(deck=>deck.faction),decks}),b=previousEngine.createGame({seed:1417,factions:decks.map(deck=>deck.faction),decks});
   for(let i=0;i<16;i++){
     assert.deepEqual(a,b);assert.deepEqual(E.legalActions(a),previousEngine.legalActions(b));

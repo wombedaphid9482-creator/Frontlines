@@ -22,7 +22,9 @@
   const motionQuery = hasDOM && root.matchMedia ? root.matchMedia('(prefers-reduced-motion: reduce)') : null;
   const definition = item => D && D.CARDS[item && (item.cardId || item.id)];
   const actor = state => state.response && state.response.stage === 'response' ? state.response.responder : state.attacker;
-  const phaseName = state => state.response ? state.response.stage : 'attack';
+  const phaseName = state => state.response ? state.response.stage : state.phase || 'attack';
+  const windowStamp = state => state.turnSystemVersion === 2 ? state.windowIndex : state.turn;
+  const clockLabel = state => state.turnSystemVersion === 2 ? 'TURN ' + state.turn + ' / ' + (state.window === 0 ? 'FIRST' : 'SECOND') + ' ACTION WINDOW' : 'ACTION WINDOW ' + state.turn;
   const role = unit => {
     const c = definition(unit) || {};
     const art = root.FrontlinesArt || (typeof require === 'function' ? require('./art.js') : null);
@@ -104,8 +106,9 @@
       }
     }
     if (before.contested !== after.contested) events.push({ type: 'frontline', from: before.contested, to: after.contested });
-    if (actor(before) !== actor(after) || phaseName(before) !== phaseName(after) || before.turn !== after.turn) {
-      events.push({ type: 'phase', actor: actor(after), stage: phaseName(after), turn: after.turn });
+    for (const event of engineEvents || []) if (event.type === 'turnEndBegin') events.push({ ...event, type: 'turnResolution' });
+    if (actor(before) !== actor(after) || phaseName(before) !== phaseName(after) || before.turn !== after.turn || windowStamp(before) !== windowStamp(after)) {
+      events.push({ type: 'phase', actor: actor(after), stage: phaseName(after), turn: after.turn, ...(after.turnSystemVersion===2?{window:after.window,windowIndex:windowStamp(after)}:{}) });
     }
     if (before.winner == null && after.winner != null) events.push({ type: 'victory', player: after.winner });
     for(const event of engineEvents||[])if(event.type==='commanderActivated')events.push({type:'commander',player:event.player,commanderId:event.commanderId,targetUid:event.targetUid,territory:event.territory,ability:event.ability});
@@ -355,7 +358,7 @@
     if (!state || blocked() || options?.privacy) return;
     if (deferredPublic) {
       const pending = deferredPublic; deferredPublic = null;
-      if (pending.seed === state.seed && pending.turn === state.turn) {
+      if (pending.seed === state.seed && pending.turn === state.turn && pending.windowIndex === windowStamp(state)) {
         // Opening a hand can change page height or scroll position. Re-anchor public
         // casualty copies to their territory so delayed deaths never float elsewhere.
         for (const record of Object.values(pending.snapshot?.units || {})) {
@@ -376,11 +379,11 @@
         }
       }
     }
-    const player = actor(state), title = state.response ? state.response.stage === 'counter' ? 'COUNTER WINDOW' : 'RESPONSE PHASE' : options?.handPlayer != null && options.handPlayer !== player ? 'ENEMY TURN' : 'YOUR TURN';
+    const player = actor(state), title = state.response ? state.response.stage === 'counter' ? 'COUNTER WINDOW' : 'RESPONSE WINDOW' : options?.handPlayer != null && options.handPlayer !== player ? 'ENEMY ACTION WINDOW' : 'YOUR ACTION WINDOW';
     const n = element('fx-phase', null, color(state, player));
     if (!n) return;
     const label = doc.createElement('strong'); label.textContent = options?.phaseTitle || title; n.appendChild(label);
-    const sub = doc.createElement('small'); sub.textContent = options?.phaseSubtitle || (D?.FACTIONS[state.players[player].faction]?.name || 'Commander') + ' / ACTION WINDOW ' + state.turn; n.appendChild(sub);
+    const sub = doc.createElement('small'); sub.textContent = options?.phaseSubtitle || (D?.FACTIONS[state.players[player].faction]?.name || 'Commander') + ' / ' + clockLabel(state); n.appendChild(sub);
     animate(n, reduced() ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 0, transform: 'translate(-50%,-5px)' }, { opacity: 1, transform: 'translate(-50%,0)', offset: .2 }, { opacity: 1, offset: .7, transform: 'translate(-50%,0)' }, { opacity: 0, transform: 'translate(-50%,-5px)' }], 650, 0, () => n.remove());
   }
   function victory(e, state) {
@@ -398,7 +401,7 @@
       // Keep only public facts for reveal. No hand text, art, rectangles, draw UIDs,
       // or complete before/after state can survive a hot-seat command transfer.
       deferredPublic = {
-        seed: after.seed, turn: after.turn,
+        seed: after.seed, turn: after.turn, windowIndex: windowStamp(after),
         drawCounts: [0, 1].map(player => events.filter(e => e.type === 'draw' && e.player === player).length),
         events: events.filter(e => !['draw', 'phase'].includes(e.type)),
         snapshot: snapshot ? { units: snapshot.units, territories: snapshot.territories, hand: {}, epoch } : null
@@ -424,6 +427,17 @@
   function runEvents(events, after, snapshot, options) {
     const combatEvent = events.find(e => e.type === 'combat');
     const combatDelay=combatEvent?combat(combatEvent,snapshot,after):0;
+    const resolution = events.find(e => e.type === 'turnResolution');
+    if (resolution && !blocked()) {
+      if(!events.some(e=>e.type==='capture'||e.type==='victory'))cue('turnEnd',{channel:'ui'});
+      const cueNode = element('fx-phase fx-turn-resolution', null, '#dfd3b8');
+      if (cueNode) {
+        const title = doc.createElement('strong'); title.textContent = 'RESOLVING TURN ' + resolution.turn;
+        const detail = doc.createElement('small'); detail.textContent = 'BOTH ACTION WINDOWS COMPLETE / SURVIVING FORCES SCORE';
+        cueNode.append(title, detail);
+        animate(cueNode, [{ opacity: 1 }, { opacity: 1, offset: .7 }, { opacity: 0 }], 460, 0, () => cueNode.remove());
+      }
+    }
     let gained = false;
     for (const e of events) {
       switch (e.type) {
@@ -446,7 +460,7 @@
         case 'tactical': {
           const uid=e.targetUid||e.uid||e.unitUid,n=unitNode(uid),r=rect(n)||snapshot?.units[uid]?.rect||rect(territoryNode(e.territory));
           const kind=e.kind||e.status||'',expired=e.tacticalType==='statusExpired',consumed=['statusConsumed','statusBypassed'].includes(e.tacticalType);
-          const label=e.tacticalType==='overwatchTriggered'?'OVERWATCH REACTION':/blast/i.test(e.tacticalType)?'BLAST':expired?String(kind).toUpperCase()+' EXPIRED':consumed?String(kind).toUpperCase()+' BROKEN':String(kind).toUpperCase();
+          const label=e.tacticalType==='overwatchTriggered'?'OVERWATCH REACTION':/blast/i.test(e.tacticalType)?'BLAST':expired?String(kind).toUpperCase()+' EXPIRED':consumed?String(kind).toUpperCase()+(e.tacticalType==='statusConsumed'?' CONSUMED':' BYPASSED'):String(kind).toUpperCase();
           const tint=kind==='cover'?'#ccddb6':kind==='dodge'?'#b4d9e6':kind==='smoke'?'#bfc8d8':'#e8ba91';
           if(!expired){flash(n,tint,consumed?160:240);ring(r,tint,'tactical-'+kind);}
           floatText(r,label,tint,'fx-caption');
@@ -473,7 +487,7 @@
         case 'resource': resource(e); if (e.key === 'available' && e.to > e.from) gained = true; break;
         case 'capture': captureZone(e, after); break;
         case 'frontline': if(events.some(item=>item.type==='retreat'||item.type==='rout'))schedule(()=>frontier(e,after),480);else frontier(e, after); break;
-        case 'phase': if (!options?.suppressPhase && after.winner == null) phase(after, options); break;
+        case 'phase': if (!options?.suppressPhase && after.winner == null) { if (resolution) schedule(() => phase(after, options), duration(340)); else phase(after, options); } break;
         case 'victory': victory(e, after); break;
       }
     }
@@ -574,6 +588,7 @@
         case 'death': hit(210,1300);note(180,180,'sawtooth',0,45);break;
         case 'capture': [330,440,660].forEach((f,i)=>note(f,130,'triangle',i*.08));break;
         case 'presence': note(610,70,'sine');note(860,90,'sine',.08);break;
+        case 'turnEnd': note(390,65,'sine');note(520,75,'sine',.065);break;
         case 'victory': [261.6,329.6,392,523.2].forEach((f,i)=>note(f,330,'triangle',i*.12));break;
       }
       for(let i=0;i<layers;i++)tone(t.faction.accent[i%3]*(i===3?2:1),110+i*35,t.faction.tone,.025+i*.035,null,channel,.045/Math.sqrt(layers));

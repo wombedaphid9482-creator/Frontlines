@@ -11,7 +11,7 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(Base,Engine,AI,Arsenal,Decks,Tactical,TacticalRules){
   'use strict';
   const VERSION='frontlines-balance-registry-v8-refinement';
-  const DEFAULT_PROFILE='sprint12';
+  const DEFAULT_PROFILE='sprint15';
   const REGISTRY=[
     {id:'baseline',name:'Sprint 3 frozen baseline',version:'sprint2-original',description:'Original cards, starter decks and Presence/territory rules, preserved for historical comparison.',changes:{cards:{},decks:{},config:{}}},
     {id:'iteration01',name:'Iteration 01 — exposed breakthrough',version:'sprint3-iteration01-v1',description:'Reduce Bruiser attrition after a failed push; strengthen selected Nightwalker timing tools and occupation anchors. Original economy and decks retained.',changes:{cards:{
@@ -97,6 +97,8 @@
     description:'Illustrated art quality pass, tactical rules audit and public-information AI refinement. All v1.0.4 printed stats, costs, Commander definitions and 35 deck lists remain unchanged. Statistical balance validation awaits an owner-run campaign.',
     changes:JSON.parse(JSON.stringify(sprint11.changes)),rules:{...sprint11.rules,arsenalRefinement:true}};
   REGISTRY.push(sprint12);
+  const sprint15={...JSON.parse(JSON.stringify(sprint12)),id:'sprint15',name:'Sprint 15 — Turn System 2.0',version:'sprint15-paired-turns-v1',description:'Paired fixed-initiative Turns: each player acts before one surviving-board net-pressure territorial resolution. Printed card numbers, costs, decks, economy and artwork remain unchanged. Competitive validation awaits an owner-run campaign.',rules:{...sprint12.rules,pairedTurns:true}};
+  REGISTRY.push(sprint15);
   const clone=value=>JSON.parse(JSON.stringify(value));
   const allowedCardFields=['presence','attack','health','traits','effect','rulesText','unique','commandCost'];
   const traits=new Set(['fortify','guard','medic','mobile','command','rush','berserk','precision','retaliate','scavenge','armor']);
@@ -177,6 +179,29 @@
       data.GLOSSARY['Field Leader']='A deployable Leader card in your deck and battlefield. Its Presence is committed like other units. It is separate from your off-lane Commander, who occupies no card slot and cannot be targeted.';
       data.GLOSSARY.Commander='Choose one faction Commander outside your 26-card deck. Its passive follows printed conditions; its active costs the displayed resources and can be used once per match.';
       data.GLOSSARY.Scavenge='When another ally here dies from enemy combat, an enemy effect or enemy capture displacement, a surviving unsuppressed Scavenge source draws 1. All sources and Nothing Wasted share one casualty draw per player per global action window. Sacrifice, allied effects and rules-resolution destruction grant no casualty draw; wounds remain after Reclaim and redeployment.';
+    }
+    if(profile.rules?.pairedTurns){
+      for(const definition of Object.values(data.CARDS)){
+        let text=definition.rulesText;
+        text=text.replaceAll('at the start of your turn','at the start of your Action Window').replaceAll('at your turn start','at the start of your Action Window').replaceAll('at your offensive turn start','at the start of your Action Window').replaceAll('first move each turn','first move each Action Window').replaceAll('next offensive turn','next Action Window').replaceAll('on the turn it is deployed','during the Action Window it is deployed').replaceAll('on its deployment turn','during its deployment Action Window').replaceAll('once per player per turn; sources do not stack','once per player per paired Turn, shared with Nothing Wasted; sources do not stack').replaceAll('once per player per turn.','once per player per paired Turn, shared with Nothing Wasted.');
+        if(definition.id==='stonewall_hold_fast')text=text.replace('until this action window ends','until Turn End');
+        definition.rulesText=text;
+      }
+      data.GLOSSARY={...data.GLOSSARY,
+        Turn:'A complete pair: the first player takes an Action Window, the second player takes an Action Window, then Turn-End territory and effects resolve. Fixed match initiative does not alternate between Turns.',
+        'Action Window':'One player’s normal opportunity to act within a paired Turn. Responses and Counters nest inside it. Ending the FIRST window passes control on the same Turn; ending SECOND resolves Turn End.',
+        'Response Window':'A nested reaction to an initiated attack. Response and Counter do not advance the Turn or normal Action Window and do not refresh resources.',
+        Command:'Total Capacity, not Command Actions. After your first personal Action Window, your own Window Start grows Capacity to the configured cap and clears temporary spending.',
+        'Command Actions':'Three per own Action Window by default. Attacks, moves, tactical Orders and explicit major deployments spend Command Actions. Responses and Counters never reset or consume this normal-window budget.',
+        Capture:'At Turn End, after both Action Windows, evaluate the surviving objective: each player gains max(0, own pressure − enemy pressure). Only the positive-pressure leader may capture at threshold. Equal pressure adds zero; stored progress remains. One objective resolves per Turn, followed by forced retreat and Breakthrough.',
+        Scavenge:'When another ally here dies from enemy combat, an enemy effect or enemy capture displacement, a surviving unsuppressed Scavenge source draws 1. All sources and Nothing Wasted share ONE eligible draw per player per paired Turn, across both windows and Turn End. Sacrifice, allied effects and rules-resolution destruction grant none; Reclaim retains wounds.',
+        Medic:'At the start of your Action Window, heal each ally in this territory by 1 per surviving unsuppressed Medic source.',
+        Mobile:'The first normal move each own Action Window does not exhaust this unit. Movement still pays its normal command cost; later movement exhausts it.',
+        Rush:'May attack during the Action Window it is deployed if ready; it may also use its paid printed ability or Overwatch without waiting for the next own Action Window.',
+        'Forced Retreat':'After Turn-End capture, displaced defenders resolve in ascending card UID order. Retreat one territory toward home into friendly-owned ground with a free slot; keep wounds and exhaust. Immobile Assets or no legal rear slot are eliminated.',
+        'Once per Turn':'Once across the complete paired Turn, including both normal Action Windows and Turn-End effects.',
+        'Once per Action Window':'Once in the appropriate player’s normal opportunity to act; nested responses do not create another Action Window.',
+        'Until Turn End':'Persists through the remaining normal Action Windows and expires after the current Turn-End resolution.'};
     }
     return validate(data);
   }

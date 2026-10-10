@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict');
 const B=require('../balance.js'),Decks=require('../decks.js'),S=require('../sim-core.js');
 const old=B.dataFor('sprint9'),current=B.dataFor('sprint10');
 test('recovery profile keeps all 115 combat values and the complete opening economy unchanged',()=>{
-  assert.equal(B.DEFAULT_PROFILE,'sprint12');assert.equal(current.RULES.salvageRecovery,true);assert.equal(current.RULES.balanceRecovery,true);
+  assert.equal(B.DEFAULT_PROFILE,'sprint15');assert.equal(current.RULES.salvageRecovery,true);assert.equal(current.RULES.balanceRecovery,true);
   assert.deepEqual(current.DEFAULT_CONFIG,old.DEFAULT_CONFIG);assert.deepEqual(current.DECKS,old.DECKS);
   const changed=[];for(const id of Object.keys(old.CARDS)){
     for(const key of ['presence','attack','health','traits','effect','commandCost','unique','type','faction'])assert.deepEqual(current.CARDS[id][key],old.CARDS[id][key],id+' '+key);

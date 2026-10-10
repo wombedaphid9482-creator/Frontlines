@@ -2,6 +2,8 @@
 (function(root,factory) {const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;root.FrontlinesAnalytics=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
   const copy=value=>JSON.parse(JSON.stringify(value));
+  const timingModel=report=>report.timingModel||report.rulesSnapshot?.timingModel||(report.rulesSnapshot?.rules?.pairedTurns?'paired-turns-v2':'legacy-action-windows-v1');
+  const lengthLabel=report=>timingModel(report)==='paired-turns-v2'?'paired Turns':'Action Windows';
   function distribution(){return {count:0,sum:0,squares:0,min:Infinity,max:0,hist:new Map()};}
   function addValue(d,value){if(value===null||value===undefined||!Number.isFinite(value))return;d.count++;d.sum+=value;d.squares+=value*value;d.min=Math.min(d.min,value);d.max=Math.max(d.max,value);d.hist.set(value,(d.hist.get(value)||0)+1);}
   function stats(d){
@@ -12,13 +14,20 @@
       std:Math.sqrt(Math.max(0,d.squares/d.count-(d.sum/d.count)**2)),p75:rank(Math.ceil(d.count*.75)),p90:rank(Math.ceil(d.count*.90)),p95:rank(Math.ceil(d.count*.95))};
   }
   function createAccumulator(options){
-    const faction={},matchup={},winner={},seat={},decks={},globalLength=distribution(),cards={},cardMatchups={};
-    const tacticalGroups={faction:{},deck:{},seat:{}},tacticalTotals={};
+    const faction={},matchup={},winner={},seat={},decks={},globalLength=distribution(),globalWindows=distribution(),cards={},cardMatchups={};
+    const tacticalGroups={faction:{},deck:{},seat:{}},tacticalTotals={};let pairedTiming=null;
     const thresholds=options.thresholds;
-    function group(map,id){if(!map[id])map[id]={id,games:0,turns:distribution(),wonTurns:distribution(),lostTurns:distribution()};return map[id];}
+    function group(map,id){if(!map[id])map[id]={id,games:0,turns:distribution(),wonTurns:distribution(),lostTurns:distribution(),actionWindows:distribution()};return map[id];}
     function add(match,telemetry){
       if(!telemetry)return;
       const decisive=match.status==='win';
+      if(telemetry.timingMetrics){
+        if(!pairedTiming)pairedTiming={matches:0,windowEnds:0,turnEnds:0,turnEndCaptures:0,statusExpiry:{turnEnd:0,windowStart:0,windowEnd:0,other:0},casualtyDraws:[0,0],commanderTriggers:{}};
+        pairedTiming.matches++;pairedTiming.windowEnds+=telemetry.boundaryCounts.windowEnds;pairedTiming.turnEnds+=telemetry.boundaryCounts.turnEnds;pairedTiming.turnEndCaptures+=telemetry.timingMetrics.turnEndCaptures;
+        for(const [key,count]of Object.entries(telemetry.timingMetrics.statusExpiry))pairedTiming.statusExpiry[key]+=count;
+        for(let p=0;p<2;p++)pairedTiming.casualtyDraws[p]+=telemetry.timingMetrics.casualtyDraws[p];
+        for(const [id,count]of Object.entries(telemetry.timingMetrics.commanderTriggers))pairedTiming.commanderTriggers[id]=(pairedTiming.commanderTriggers[id]||0)+count;
+      }
       if(telemetry.tactical)for(let player=0;player<2;player++){
         const observation=telemetry.tactical[player];
         const contexts=[['faction',match.factions[player]],['deck',match.deckIds[player]],['seat',String(player)]];
@@ -26,13 +35,14 @@
         for(const [key,value]of Object.entries(observation))if(typeof value==='number')tacticalTotals[key]=(tacticalTotals[key]||0)+value;else if(key==='destructionCauses'){tacticalTotals.destructionCauses=tacticalTotals.destructionCauses||{};for(const [cause,count]of Object.entries(value))tacticalTotals.destructionCauses[cause]=(tacticalTotals.destructionCauses[cause]||0)+count;}
       }
       if(decisive)addValue(globalLength,match.turns);
+      if(decisive&&match.actionWindows!==undefined)addValue(globalWindows,match.actionWindows);
       const pair=match.deckIds.slice().sort().join(':');
-      const pairRow=group(matchup,pair);pairRow.games++;if(decisive)addValue(pairRow.turns,match.turns);
+      const pairRow=group(matchup,pair);pairRow.games++;if(decisive){addValue(pairRow.turns,match.turns);if(match.actionWindows!==undefined)addValue(pairRow.actionWindows,match.actionWindows);}
       if(decisive){const row=group(winner,match.winnerFaction);row.games++;addValue(row.turns,match.turns);}
       for(let player=0;player<2;player++){
         const id=match.factions[player],row=group(faction,id),deck=group(decks,match.deckIds[player]),s=group(seat,String(player));
         row.games++;deck.games++;s.games++;
-        if(decisive){for(const entry of[row,deck,s]){addValue(entry.turns,match.turns);addValue(match.winner===player?entry.wonTurns:entry.lostTurns,match.turns);}}
+        if(decisive){for(const entry of[row,deck,s]){addValue(entry.turns,match.turns);addValue(match.winner===player?entry.wonTurns:entry.lostTurns,match.turns);if(match.actionWindows!==undefined)addValue(entry.actionWindows,match.actionWindows);}}
         if(!row.economy)row.economy={};
         for(const [key,value]of Object.entries(telemetry.economy[player]))row.economy[key]=(row.economy[key]||0)+value;
         if(!row.territory)row.territory={samples:0,controlWeighted:0,leadWeighted:0,captures:0,recaptures:0,ownershipRecaptures:0,timeCenter:0,timeEnemyTerritory:0,longestHoldSum:0,maxLeadSum:0,firstCapture:distribution(),firstLead:distribution(),permanentLead:distribution()};
@@ -69,6 +79,7 @@
       const cardRows=Object.values(cards).map(row=>({...row,playRate:row.drawn?row.plays/row.drawn:null,
         averageTurnDrawn:row.drawn?row.drawTurnSum/row.drawn:null,averageTurnPlayed:row.plays?row.playTurnSum/row.plays:null,
         averagePresencePaid:row.plays?row.presencePaid/row.plays:null,averageSurvival:row.completedLives?row.survivalTurnSum/row.completedLives:null,
+        ...(row.drawWindowSum!==undefined?{averageWindowDrawn:row.drawn?row.drawWindowSum/row.drawn:null,averageWindowPlayed:row.plays?row.playWindowSum/row.plays:null,averageSurvivalWindows:row.completedLives?row.survivalWindowSum/row.completedLives:null}:{}),
         affordablePlayRate:row.affordableOpportunityTurns+row.affordableReactionWindows?(row.playedOpportunityTurns+row.playedReactionWindows)/(row.affordableOpportunityTurns+row.affordableReactionWindows):null,
         strandedRate:row.handEndTurnObservations?row.costStrandedObservations/row.handEndTurnObservations:null,
         pressurePerPresence:row.presencePaid?row.pressureContributed/row.presencePaid:null,damagePerPresence:row.presencePaid?row.damageDealt/row.presencePaid:null,
@@ -106,24 +117,25 @@
       }
       for(const row of base.byMatchup){flag('matchup',`${row.deckA} vs ${row.deckB}`,row.winRateA,row.decisive,thresholds.matchupLow,thresholds.matchupHigh);}
       flag('turnOrder','Player 1',base.firstPlayerWinRate,base.decisive,thresholds.seatLow,thresholds.seatHigh);
-      for(const row of Object.values(matchup))if(row.turns.count>=thresholds.minSamples&&(stats(row.turns).mean<thresholds.shortTurns||stats(row.turns).mean>thresholds.longTurns))diagnostics.flags.push({kind:'duration',id:row.id,severity:'watch',message:`Mean length ${stats(row.turns).mean.toFixed(1)} offensive turns.`});
+      for(const row of Object.values(matchup)){const duration=row.actionWindows.count?row.actionWindows:row.turns;if(duration.count>=thresholds.minSamples&&(stats(duration).mean<thresholds.shortTurns||stats(duration).mean>thresholds.longTurns))diagnostics.flags.push({kind:'duration',id:row.id,severity:'watch',message:`Mean length ${stats(duration).mean.toFixed(1)} Action Windows.`});}
       for(const card of cardRows){
         const labels=[];
         if(card.drawn>=thresholds.minSamples&&card.playRate<thresholds.rarelyPlayedRate)labels.push(['Rarely Played',`${card.plays}/${card.drawn} drawn copies played; conditional tools may be underused by this AI.`]);
-        if(card.handEndTurnObservations>=thresholds.minSamples&&card.strandedRate>thresholds.strandedRate)labels.push(['Frequently Stranded',`${(card.strandedRate*100).toFixed(1)}% of end-turn hand observations exceeded available Presence.`]);
-        if(card.plays>=thresholds.minSamples&&card.pressurePerPresence>thresholds.efficientPressure)labels.push(['Extremely Efficient',`${card.pressurePerPresence.toFixed(2)} territorial pressure per printed Presence committed/paid over repeated turns; survival matters.`]);
+        if(card.handEndTurnObservations>=thresholds.minSamples&&card.strandedRate>thresholds.strandedRate)labels.push(['Frequently Stranded',`${(card.strandedRate*100).toFixed(1)}% of own end-window hand observations exceeded available Presence.`]);
+        if(card.plays>=thresholds.minSamples&&card.pressurePerPresence>thresholds.efficientPressure)labels.push(['Extremely Efficient',`${card.pressurePerPresence.toFixed(2)} eligible printed pressure per Presence committed/paid across territory samples; this is not net progress or causal strength.`]);
         if(card.playedDecisiveMatches>=thresholds.minSamples&&(card.winRatePlayed<thresholds.criticalLow||card.winRatePlayed>thresholds.criticalHigh))labels.push([card.winRatePlayed>thresholds.criticalHigh?'Potentially Overperforming':'Potentially Underperforming','When-played win association inherits faction, sequencing and winning-position bias; not a causal nerf/buff signal.']);
         for(const [classification,reason]of labels)diagnostics.cardOutliers.push({deckId:card.deckId,cardId:card.cardId,name:card.name,classification,reason});
       }
-      const groups=map=>Object.values(map).map(row=>({id:row.id,games:row.games,turns:stats(row.turns),wonTurns:stats(row.wonTurns),lostTurns:stats(row.lostTurns)}));
-      return {turns:stats(globalLength),ties:0,cards:cardRows,cardMatchups:Object.values(cardMatchups).map(row=>({...row,winRateDrawn:row.drawnMatches?row.drawnWins/row.drawnMatches:null,winRatePlayed:row.playedMatches?row.playedWins/row.playedMatches:null,winRateMultiplePlayed:row.multiplePlayedMatches?row.multiplePlayedWins/row.multiplePlayedMatches:null})),diagnostics,lengths:{byFaction:groups(faction),byDeck:groups(decks),byMatchup:groups(matchup),byWinner:groups(winner),bySeat:groups(seat)},
+      const groups=map=>Object.values(map).map(row=>({id:row.id,games:row.games,turns:stats(row.turns),wonTurns:stats(row.wonTurns),lostTurns:stats(row.lostTurns),...(pairedTiming?{actionWindows:stats(row.actionWindows)}:{})}));
+      return {turns:stats(globalLength),...(pairedTiming?{actionWindows:stats(globalWindows),timingMetrics:copy(pairedTiming)}:{}),ties:0,cards:cardRows,cardMatchups:Object.values(cardMatchups).map(row=>({...row,winRateDrawn:row.drawnMatches?row.drawnWins/row.drawnMatches:null,winRatePlayed:row.playedMatches?row.playedWins/row.playedMatches:null,winRateMultiplePlayed:row.multiplePlayedMatches?row.multiplePlayedWins/row.multiplePlayedMatches:null})),diagnostics,lengths:{byFaction:groups(faction),byDeck:groups(decks),byMatchup:groups(matchup),byWinner:groups(winner),bySeat:groups(seat)},
         ...(Object.keys(tacticalTotals).length?{tactical:{totals:copy(tacticalTotals),byFaction:Object.values(tacticalGroups.faction),byDeck:Object.values(tacticalGroups.deck),bySeat:Object.values(tacticalGroups.seat),method:'Authoritative tactical event totals including cutoffs; appearances and decisive appearances are separate. Counts, protected health and source-card usage are descriptive diagnostics, not causal strength estimates.'}}:{})};
     }
     return {add,summary};
   }
   function compareReports(before,after){
     if(!before||!after||!before.summary||!after.summary||!Array.isArray(before.matches)||!Array.isArray(after.matches))throw new Error('Choose two complete simulator JSON reports.');
-    const notes=[],a=before.options||{},b=after.options||{};
+    const notes=[],a=before.options||{},b=after.options||{},beforeTiming=timingModel(before),afterTiming=timingModel(after),sameTiming=beforeTiming===afterTiming;
+    if(!sameTiming)notes.push('Timing model changed: historical turns count Action Windows, while paired turns contain both players. Turn-length deltas are omitted; compare normal Action Windows separately.');
     if(JSON.stringify(a.aiProfiles||['baseline','baseline'])!==JSON.stringify(b.aiProfiles||['baseline','baseline']))notes.push('AI profiles changed; faction changes cannot be attributed to card balance alone.');
     if(JSON.stringify(a.config)!==JSON.stringify(b.config))notes.push('Rule configuration changed; this is not a controlled card-only comparison.');
     if(a.seed!==b.seed||a.count!==b.count||a.mode!==b.mode)notes.push('Batch schedules differ; matched seeds are reported separately from overall deltas.');
@@ -139,10 +151,12 @@
     const paired={matched:0,decisivePairs:0,changedWinners:0,beforeFirstPlayerWins:0,afterFirstPlayerWins:0,factions:{}};
     for(const match of after.matches){const old=previous.get(key(match));if(!old)continue;paired.matched++;if(match.status!=='win'||old.status!=='win')continue;paired.decisivePairs++;if(old.winner!==match.winner)paired.changedWinners++;if(old.winner===0)paired.beforeFirstPlayerWins++;if(match.winner===0)paired.afterFirstPlayerWins++;
       for(const id of new Set(match.factions)){if(!paired.factions[id])paired.factions[id]={beforeWins:0,afterWins:0};if(old.winnerFaction===id)paired.factions[id].beforeWins++;if(match.winnerFaction===id)paired.factions[id].afterWins++;}}
-    return {compatible:paired.matched>0,controlledBalanceComparison:paired.matched>0&&!notes.some(note=>note.startsWith('AI')||note.startsWith('Rule')||note.startsWith('Deck')),
+    const windowMean=report=>timingModel(report)==='paired-turns-v2'?report.summary.actionWindows?.mean:report.summary.turns.mean;
+    return {compatible:paired.matched>0,timingCompatible:sameTiming,controlledBalanceComparison:paired.matched>0&&sameTiming&&!notes.some(note=>note.startsWith('AI')||note.startsWith('Rule')||note.startsWith('Deck')),
       notes,paired,factions,decks,firstPlayerDelta:before.summary.firstPlayerWinRate!==null&&after.summary.firstPlayerWinRate!==null?after.summary.firstPlayerWinRate-before.summary.firstPlayerWinRate:null,
-      meanTurnsDelta:before.summary.turns.mean!==null&&after.summary.turns.mean!==null?after.summary.turns.mean-before.summary.turns.mean:null,
-      before:{balance:a.balanceProfile||'baseline',ai:a.aiProfiles||['baseline','baseline'],completed:before.completed},after:{balance:b.balanceProfile||'baseline',ai:b.aiProfiles||['baseline','baseline'],completed:after.completed}};
+      meanTurnsDelta:sameTiming&&before.summary.turns.mean!==null&&after.summary.turns.mean!==null?after.summary.turns.mean-before.summary.turns.mean:null,
+      meanActionWindowsDelta:Number.isFinite(windowMean(before))&&Number.isFinite(windowMean(after))?windowMean(after)-windowMean(before):null,
+      before:{balance:a.balanceProfile||'baseline',ai:a.aiProfiles||['baseline','baseline'],completed:before.completed,timingModel:beforeTiming,lengthUnit:lengthLabel(before)},after:{balance:b.balanceProfile||'baseline',ai:b.aiProfiles||['baseline','baseline'],completed:after.completed,timingModel:afterTiming,lengthUnit:lengthLabel(after)}};
   }
   const escape=value=>String(value===null||value===undefined?'—':value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const number=value=>value===null||value===undefined?'—':Number(value).toFixed(2),percent=value=>value===null||value===undefined?'—':`${(value*100).toFixed(1)}%`;
@@ -171,13 +185,13 @@
   }
   function reportHTML(report,comparison){
     const s=report.summary,d=s.diagnostics||{},opt=report.options||{};const cross=s.byFactionCross?.some(r=>r.played);const factions=cross?s.byFactionCross:s.byFaction;
-    const gameVersion=report.gameVersion||report.rulesSnapshot?.gameVersion||null;
+    const gameVersion=report.gameVersion||report.rulesSnapshot?.gameVersion||null,paired=timingModel(report)==='paired-turns-v2',unit=lengthLabel(report);
     function table(headers,rows){return `<div class="scroll"><table><thead><tr>${headers.map(h=>`<th>${escape(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map(v=>`<td>${escape(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
     const interval=ci=>ci?`${percent(ci.low)}–${percent(ci.high)}`:'—';
     return `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frontlines Balance Report</title><style>body{margin:0;background:#10191e;color:#e8e5dc;font:15px/1.6 system-ui,sans-serif}main{max-width:1280px;margin:auto;padding:40px 24px}h1,h2{color:#ebb777}h2{margin-top:38px}.muted{color:#aab7bf}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:9px;border-bottom:1px solid #33434c}th{background:#1c2b32}details{margin:18px 0}li{margin:7px 0}.badge{display:inline-block;background:#283d43;padding:8px 13px;margin:3px}code{color:#ebc789}</style><main>
     <h1>Frontlines Balance Lab</h1><p class="muted">Originating game: ${gameVersion?'Frontlines v'+escape(gameVersion):'version not recorded in this archived report'} • Offline diagnostic report • Simulator ${escape(report.simulatorVersion)} • Balance ${escape(opt.balanceProfile||'baseline')} • AI ${escape((opt.aiProfiles||['baseline','baseline']).join(' / '))} • Seed ${escape(opt.seed)}</p>
     <p><span class="badge">${report.completed}/${report.total} matches</span><span class="badge">${s.decisive} decisive</span><span class="badge">${s.unfinished} cutoffs</span><span class="badge">${s.errors} errors</span><span class="badge">0 rule ties</span></p>
-    <p>${escape(report.method)}</p><p>Results measure these AI policies under these rules. They do not establish human balance. Win intervals are descriptive Wilson 95%; paired deterministic trials are not independent random human samples.</p>
+    <p>${escape(report.method)}</p><p>Length unit: <b>${escape(unit)}</b>. ${paired?'A Turn contains both normal Action Windows. Explicit normal-window lengths are reported separately.':'This archived timing model counts one player Action Window per historical turn. Its values are not paired Turns.'}</p><p>Results measure these AI policies under these rules. They do not establish human balance. Win intervals are descriptive Wilson 95%; paired deterministic trials are not independent random human samples.</p>
     <h2>Executive diagnostics</h2><ul>${(d.flags||[]).map(flag=>`<li><strong>${escape(flag.severity)}</strong>: ${escape(flag.message)}</li>`).join('')||'<li>No configured warning crossed, or samples are too small.</li>'}</ul>
     <h2>Faction overview and initiative${cross?' — cross-faction games':''}</h2>${table(['Faction','Decisive appearances','Wins','Losses','Win rate','95% interval','As Player 1','As Player 2'],factions.map(row=>[row.name,row.decisive,row.won,row.lost,percent(row.winRate),interval(row.winInterval),percent(row.seats[0].winRate),percent(row.seats[1].winRate)]))}
     <p>Global Player 1: ${s.firstPlayerWins}/${s.decisive} (${percent(s.firstPlayerWinRate)}). ${cross?'Same-faction games are excluded from this faction table; deck and global initiative totals retain them.':'Same-faction games count one winner and one loser appearance; see deck results for their strategic differences.'}</p>
@@ -191,12 +205,14 @@
     <h2>Played card pairs</h2>${table(['Deck','Card A','Card B','Decisive player-games together','Wins','Win association','95% interval','Mean final control change'],(s.synergies||[]).slice(0,100).map(row=>[row.deckId,report.rulesSnapshot?.cards[row.cardA]?.name||row.cardA,report.rulesSnapshot?.cards[row.cardB]?.name||row.cardB,row.matches,row.wins,percent(row.winRate),interval(row.winInterval),number(row.averageFinalTerritorySwing)]))}
     <p>Both cards must have been played in the same decisive player-game. These correlations inherit deck strength, game duration and winning-position bias. Final control change is measured from the opening three territories; it does not identify the pair as the cause. JSON contains all observed pairs.</p>
     <h2>Complete matchup matrix</h2>${table(['A vs B','Games','Decisive','A wins','B wins','Cutoffs','Errors','A win rate','95% interval','A seats P1 / P2'],s.byMatchup.map(row=>[`${row.nameA} vs ${row.nameB}`,row.played,row.decisive,row.winsA,row.winsB,row.unfinished,row.errors,percent(row.winRateA),interval(row.winIntervalA),row.seatsA.join(' / ')]))}
-    <h2>Match length</h2>${table(['Count','Mean','Median','Min','Max','Population SD','P75','P90','P95'],[[s.turns.count||s.decisive,number(s.turns.mean),s.turns.median,s.turns.min,s.turns.max,number(s.turns.std),s.turns.p75,s.turns.p90,s.turns.p95]])}
+    <h2>Match length — ${escape(unit)}</h2>${table(['Count','Mean','Median','Min','Max','Population SD','P75','P90','P95'],[[s.turns.count||s.decisive,number(s.turns.mean),s.turns.median,s.turns.min,s.turns.max,number(s.turns.std),s.turns.p75,s.turns.p90,s.turns.p95]])}
+    ${paired&&s.actionWindows?`<h2>Normal Action Window length</h2>${table(['Count','Mean','Median','Min','Max','P95'],[[s.actionWindows.count,number(s.actionWindows.mean),s.actionWindows.median,s.actionWindows.min,s.actionWindows.max,s.actionWindows.p95]])}`:''}
     <details><summary>Length by faction, winning and losing</summary>${table(['Faction','Mean all','Mean wins','Mean losses','P95'],((s.lengths||{}).byFaction||[]).map(row=>[row.id,number(row.turns.mean),number(row.wonTurns.mean),number(row.lostTurns.mean),row.turns.p95]))}</details>
     <h2>Territory flow</h2>${table(['Faction','Mean control','Mean lead','Capture mean','Resecure mean','Center time','Enemy-ground time','Longest hold mean','Winner permanent lead turn'],(d.territoryByFaction||[]).map(row=>[row.faction,number(row.meanControlled),number(row.meanLead),number(row.averageCaptures),number(row.averageRecaptures),percent(row.centerTimeShare),percent(row.enemyTerritoryTimeShare),number(row.averageLongestHold),number(row.winnerPermanentLeadTurns.mean)]))}
-    <p>Territory samples follow offensive end turns. Resecures hold already-owned contested ground; ownership recaptures are separately available in JSON. Permanent lead is the first sample after which the eventual winner never ties or trails again.</p>
-    <h2>Presence economy</h2>${table(['Faction','Command generated mean','Committed mean','Available mean','Unused end turn','Deployment commitment mean','Casualty commitment released','No legal card play','Pressure / commitment'],(d.economyByFaction||[]).map(row=>[row.faction,number(row.averageGenerated),number(row.meanCommitted),number(row.meanAvailable),number(row.meanUnusedEndTurn),number(row.averageDeploymentCommitment),number(row.averageCasualtyReleased),percent(row.noMeaningfulAffordableRate),number(row.pressurePerCommitment)]))}
-    <p>Generated is opening Command plus actual capped capacity growth. Death frees committed Presence; it does not destroy currency. Territorial pressure is a separate objective contribution. Opportunity samples check legal deployment/action Orders at the first decision of an offensive turn.</p>
+    <p>Territory samples follow ${paired?'true Turn End after both normal Action Windows':'historical offensive-window ends'}. Resecures hold already-owned contested ground; ownership recaptures are separately available in JSON. Permanent lead is the first sample after which the eventual winner never ties or trails again.</p>
+    <h2>Presence economy</h2>${table(['Faction','Command generated mean','Committed mean','Available mean','Unused own window end','Deployment commitment mean','Casualty commitment released','No legal card play',paired?'Net pressure / commitment':'Pressure / commitment'],(d.economyByFaction||[]).map(row=>[row.faction,number(row.averageGenerated),number(row.meanCommitted),number(row.meanAvailable),number(row.meanUnusedEndTurn),number(row.averageDeploymentCommitment),number(row.averageCasualtyReleased),percent(row.noMeaningfulAffordableRate),number(row.pressurePerCommitment)]))}
+    ${s.timingMetrics?`<h2>Timing boundary diagnostics</h2>${table(['Finalized matches','Normal window ends','True Turn Ends','Turn End captures','Expiry at Turn End','Expiry at window start','Expiry at window end','Casualty draws / first seat','Casualty draws / second seat'],[[s.timingMetrics.matches,s.timingMetrics.windowEnds,s.timingMetrics.turnEnds,s.timingMetrics.turnEndCaptures,s.timingMetrics.statusExpiry.turnEnd,s.timingMetrics.statusExpiry.windowStart,s.timingMetrics.statusExpiry.windowEnd,...s.timingMetrics.casualtyDraws]])}<p>Authoritative boundary/event counts include finalized cutoff and error activity. Casualty draws share one eligible budget per player per paired Turn. Commander trigger counts and each match's timing ledger are retained in JSON; these are descriptive counts.</p>`:''}
+    <p>Generated is opening Command plus actual capped capacity growth. Death frees committed Presence; it does not destroy currency. Territorial pressure is a separate objective contribution. Economy and unused-Presence observations retain Action Window cadence. Opportunity samples check legal deployment/action Orders at the first decision of each own Action Window.</p>
     <h2>Comebacks</h2>${table(['Faction','Deficit condition','Exposed','Decisive exposed','Recovered','Won','Recovery observed','Win after exposure'],(d.comebackByFaction||[]).map(row=>[row.faction,row.condition,row.attempts,row.decisiveAttempts,row.recoveries,row.wins,percent(row.recoveryRate),percent(row.winRate)]))}
     <p>Definitions: territory deficit ≥2; opponent owns center; enemy unit occupies original forward/rear ground; committed Presence deficit ≥5; deployed-card count deficit ≥2. Recovery means a later sample escapes the condition. Winning rates exclude cutoffs; observed recovery rates include censored cutoff matches.</p>
     <h2>Card review flags</h2>${table(['Card','Classification','Reason'],(d.cardOutliers||[]).map(row=>[row.name,row.classification,row.reason]))}
@@ -207,5 +223,5 @@
     ${comparison?`<h2>Comparison to previous run</h2><ul>${comparison.notes.map(note=>`<li>${escape(note)}</li>`).join('')}</ul><p>${comparison.paired.matched} matched seed/deck trials; ${comparison.paired.decisivePairs} decisive pairs; ${comparison.paired.changedWinners} changed winners.</p>${table(['Faction','Before','After','Delta points'],comparison.factions.map(row=>[row.name,percent(row.before),percent(row.after),row.delta===null?'—':number(row.delta*100)]))}${table(['Deck','Before','After','Delta points'],(comparison.decks||[]).map(row=>[row.name,percent(row.before),percent(row.after),row.delta===null?'—':number(row.delta*100)]))}`:''}
     <details><summary>Provenance and configuration</summary><pre>${escape(JSON.stringify({gameVersion,schemaVersion:report.schemaVersion,simulatorVersion:report.simulatorVersion,aiVersion:report.aiVersion,options:opt,rules:report.rulesSnapshot&&{rulesVersion:report.rulesSnapshot.rulesVersion,engineVersion:report.rulesSnapshot.engineVersion,dataFingerprint:report.rulesSnapshot.dataFingerprint,balanceProfile:report.rulesSnapshot.balanceProfile}},null,2))}</pre></details></main></html>`;
   }
-  return {distribution,addValue,stats,createAccumulator,compareReports,reportHTML,balanceGate};
+  return {distribution,addValue,stats,createAccumulator,compareReports,reportHTML,balanceGate,timingModel,lengthLabel};
 });
